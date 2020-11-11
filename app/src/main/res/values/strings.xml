@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Just Money</string>
+
+    <string name="available">Available</string>
+    <string name="in_progress">In Progress</string>
+    <string name="my_wallet">My Wallet</string>
+
+    <string name="daily_rewards">Daily Rewards</string>
+    <string name="popular">Popular</string>
+    <string name="quick_deals">Quick Deals</string>
+    <string name="flash_offer">Flash Offer</string>
+
+    <string name="semi_column">:</string>
+    <string name="i_have_question">I Have A Question</string>
+
+    <string name="earn">Earn</string>
+    <string name="okay">Okay!</string>
+
+    <string name="min">min</string>
+    <string name="sec">sec</string>
+
+</resources>

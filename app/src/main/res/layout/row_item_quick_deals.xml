@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10ssp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:elevation="@dimen/_2sdp"
+        android:background="@drawable/top_left_bottom_left_curve_white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clImageHolder"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@drawable/ic_logo"
+            app:layout_constraintEnd_toStartOf="@+id/txtTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:cropToPadding="false"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:text="Nike"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtTakeActionMessage"
+            app:layout_constraintStart_toEndOf="@+id/clImageHolder"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtTakeActionMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/curve_white"
+            android:elevation="@dimen/_5sdp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="Get Crypto"
+            android:textAllCaps="true"
+            android:textColor="@color/pink_600"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtTitle"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
