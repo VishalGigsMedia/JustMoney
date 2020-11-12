@@ -19,4 +19,17 @@
     <string name="min">min</string>
     <string name="sec">sec</string>
 
+    <string name="wallet">Wallet</string>
+    <string name="current_balance">Current Balance</string>
+    <string name="completed">Completed</string>
+    <string name="withdrawn">Withdrawn</string>
+    <string name="request_payout">Request Payout</string>
+    <string name="payout">Payout</string>
+    <string name="question">Questions</string>
+    <string name="earn_more_reward">Earn more rewards</string>
+    <string name="try_enjoy">Try &amp; Enjoy</string>
+    <string name="follow_us_on">Follow us on :</string>
+    <string name="like_us_on_facebook">Like us on facebook</string>
+    <string name="follow_us_on_twitter">Follow us on twitter</string>
+
 </resources>

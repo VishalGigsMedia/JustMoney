@@ -1,32 +1,23 @@
-package com.app.justmoney.available.adapter
+package com.app.justmoney.in_progress.adapter
 
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.justmoney.R
-import com.app.justmoney.databinding.RowItemPopularDealBinding
-import com.bumptech.glide.Glide
+import com.app.justmoney.databinding.RowItemInProgressBinding
 
-class PopularDealsAdapter(
+class InProgressAdapter(
     private val context: FragmentActivity,
     private val popularList: List<String>,
-) : RecyclerView.Adapter<PopularDealsAdapter.ViewHolder>() {
-    // holds this device's screen width,
-    private var screenWidth = 0
+) : RecyclerView.Adapter<InProgressAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        val displayMetrics = DisplayMetrics()
-        context.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        screenWidth = displayMetrics.widthPixels
-        /*  val layoutInflater = LayoutInflater.from(parent.context)
-          val cellForRow = layoutInflater.inflate(R.layout.row_item_popular_deal, parent, false)
-          return ViewHolder(cellForRow)*/
         return ViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.row_item_popular_deal, parent, false)
+            LayoutInflater.from(context).inflate(R.layout.row_item_in_progress, parent, false)
         )
     }
 
@@ -35,23 +26,15 @@ class PopularDealsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itemWidth = screenWidth / 1.5
-
-        val lp = holder.mBinding?.clBestDeal?.layoutParams
-        lp!!.height = lp.height
-        lp.width = itemWidth.toInt()
-        holder.mBinding.clBestDeal.layoutParams = lp
 
         if (position == 1) {
-            val imageUrl =
-                "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"
-            Glide.with(context)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_logo)
-                .error(R.drawable.ic_logo)
-                .into(holder.mBinding.ivLogo)
+            holder.mBinding?.clBestDealHolder?.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.white
+                )
+            )
         }
-
         /* val eachListData = blogList[position]
          holder.mBinding?.data = eachListData
          //holder.mBinding?.handler = OnClickHandler(context)
@@ -78,6 +61,6 @@ class PopularDealsAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mBinding: RowItemPopularDealBinding? = DataBindingUtil.bind(itemView)
+        val mBinding: RowItemInProgressBinding? = DataBindingUtil.bind(itemView)
     }
 }
