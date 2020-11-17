@@ -27,14 +27,14 @@ class InProgressAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (position == 1) {
+       /* if (position == 1) {
             holder.mBinding?.clBestDealHolder?.setBackgroundColor(
                 ContextCompat.getColor(
                     context,
                     R.color.white
                 )
             )
-        }
+        }*/
         /* val eachListData = blogList[position]
          holder.mBinding?.data = eachListData
          //holder.mBinding?.handler = OnClickHandler(context)

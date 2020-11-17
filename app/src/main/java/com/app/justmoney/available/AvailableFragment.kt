@@ -42,7 +42,7 @@ class AvailableFragment : Fragment() {
         setAdapter()
 
         mBinding.clDailyRewardValue.setOnClickListener {
-            showCollectAmountDialog()
+          //  showCollectAmountDialog()
         }
     }
 
@@ -58,35 +58,6 @@ class AvailableFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mBinding.rvQuickDeals.adapter = quickDealsAdapter
         quickDealsAdapter.notifyDataSetChanged()
-    }
-
-    private fun showCollectAmountDialog() {
-        val dialog = Dialog(context!!)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.dialog_collect_amount)
-        dialog.window?.setGravity(Gravity.CENTER)
-        val width = ViewGroup.LayoutParams.MATCH_PARENT
-        val height = ViewGroup.LayoutParams.WRAP_CONTENT
-        dialog.window!!.setLayout(width, height)
-        val clOkay = dialog.findViewById<ConstraintLayout>(R.id.clOkay)
-        clOkay.setOnClickListener {
-            vibrateDevice()
-            dialog.dismiss()
-        }
-
-        dialog.show()
-
-    }
-
-    private fun vibrateDevice() {
-        val v = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v!!.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            v!!.vibrate(500)
-        }
     }
 
     private fun setTimer() {

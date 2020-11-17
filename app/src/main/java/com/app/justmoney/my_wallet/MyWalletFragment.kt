@@ -1,15 +1,21 @@
 package com.app.justmoney.my_wallet
 
+import android.app.Dialog
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.app.justmoney.MainActivity
 import com.app.justmoney.R
 import com.app.justmoney.databinding.FragmentMyWalletBinding
-import com.app.justmoney.setting.SettingFragment
+import com.app.justmoney.my_wallet.completed.CompletedFragment
+import com.app.justmoney.my_wallet.payouts.MyPayoutFragment
+import com.app.justmoney.my_wallet.setting.SettingFragment
 
 class MyWalletFragment : Fragment() {
 
@@ -30,6 +36,9 @@ class MyWalletFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        manageClickEvents()
+
     }
 
     private fun manageClickEvents() {
@@ -46,14 +55,20 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickSetting() {
-        openFragment(SettingFragment(), false)
+        openFragment(SettingFragment(), true)
     }
 
-    private fun onClickRequestPayout() {}
+    private fun onClickRequestPayout() {
+        showCollectAmountDialog()
+    }
 
-    private fun onClickPayout() {}
+    private fun onClickPayout() {
+        openFragment(MyPayoutFragment(), true)
+    }
 
-    private fun onClickCompleted() {}
+    private fun onClickCompleted() {
+        openFragment(CompletedFragment(), true)
+    }
 
     private fun onClickQuestion() {}
 
@@ -77,4 +92,34 @@ class MyWalletFragment : Fragment() {
                 .commit()
         }
     }
+
+    private fun showCollectAmountDialog() {
+        val dialog = Dialog(context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_collect_amount)
+        dialog.window?.setGravity(Gravity.CENTER)
+        val width = ViewGroup.LayoutParams.MATCH_PARENT
+        val height = ViewGroup.LayoutParams.WRAP_CONTENT
+        dialog.window!!.setLayout(width, height)
+        val clOkay = dialog.findViewById<ConstraintLayout>(R.id.clOkay)
+        clOkay.setOnClickListener {
+            vibrateDevice()
+            dialog.dismiss()
+        }
+        dialog.show()
+
+    }
+
+    private fun vibrateDevice() {
+        val v = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v!!.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            @Suppress("DEPRECATION")
+            v!!.vibrate(500)
+        }
+    }
+
 }

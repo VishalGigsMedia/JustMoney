@@ -31,5 +31,18 @@
     <string name="follow_us_on">Follow us on :</string>
     <string name="like_us_on_facebook">Like us on facebook</string>
     <string name="follow_us_on_twitter">Follow us on twitter</string>
+    <string name="setting">settings</string>
+
+    <string name="get_ans_abt_ques">Get answer about the app</string>
+    <string name="questions">Questions ?</string>
+    <string name="love_the_app">Love the app?</string>
+    <string name="your_opinion_matters">Your opinion matters</string>
+    <string name="have_a_feedback">Have a feedback?</string>
+    <string name="send_us_a_msg">Send us a message</string>
+
+    <string name="terms_of_service">Terms of service</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <string name="my_payouts">My Payouts</string>
 
 </resources>
