@@ -39,6 +39,7 @@ class InProgressFragment : Fragment() {
     }
 
     private fun setAdapter() {
+        blogList.indexOf(0)
         inProgressAdapter = InProgressAdapter(activity!!, blogList)
         mBinding.rvInProgressDeals.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

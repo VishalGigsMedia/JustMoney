@@ -8,12 +8,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey_100">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:fillViewport="true"
             android:overScrollMode="never"
             android:scrollbars="none">
@@ -47,16 +47,18 @@
 
                 <TextView
                     android:id="@+id/txtInProgress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
                     android:fontFamily="@font/montserrat_extra_bold"
+                    android:gravity="start"
                     android:text="@string/completed"
                     android:textAllCaps="true"
                     android:textColor="@color/color_primary"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 

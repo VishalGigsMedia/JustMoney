@@ -45,4 +45,7 @@
 
     <string name="my_payouts">My Payouts</string>
 
+    <string name="request_payout_to_appear">Request a payout to appear in the list.</string>
+    <string name="start_one_of_the_available_reward">Start one of the available rewards and track your progress on this screen</string>
+
 </resources>

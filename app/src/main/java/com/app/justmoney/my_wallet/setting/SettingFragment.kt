@@ -28,6 +28,14 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        manageClickEvents()
     }
+
+    private fun manageClickEvents() {
+        mBinding.ivClose.setOnClickListener {
+            activity!!.supportFragmentManager.popBackStack()
+        }
+    }
+
 
 }
