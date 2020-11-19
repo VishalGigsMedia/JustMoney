@@ -9,40 +9,71 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.justmoney.R
 import com.app.justmoney.databinding.RowItemPopularDealBinding
-import com.bumptech.glide.Glide
+import com.app.justmoney.databinding.RowItemPopularDealsTypeSecondBinding
 
 class PopularDealsAdapter(
     private val context: FragmentActivity,
     private val popularList: List<String>,
-) : RecyclerView.Adapter<PopularDealsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    //) : RecyclerView.Adapter<BaseViewHolder<*>>() {
     // holds this device's screen width,
     private var screenWidth = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
+    companion object {
+        private const val first = 0
+        private const val second = 1
+    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val displayMetrics = DisplayMetrics()
         context.windowManager.defaultDisplay.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
-        /*  val layoutInflater = LayoutInflater.from(parent.context)
-          val cellForRow = layoutInflater.inflate(R.layout.row_item_popular_deal, parent, false)
-          return ViewHolder(cellForRow)*/
-        return ViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.row_item_popular_deal, parent, false)
-        )
+        if (viewType == 0) {
+            return TypeFirstViewHolder(
+                LayoutInflater.from(context).inflate(
+                    R.layout.row_item_popular_deal,
+                    parent,
+                    false
+                )
+            )
+        } else {
+            return TypeSecondViewHolder(
+                LayoutInflater.from(context).inflate(
+                    R.layout.row_item_popular_deals_type_second,
+                    parent,
+                    false
+                )
+            )
+        }
     }
+
 
     override fun getItemCount(): Int {
-        return 2//popularList.size
+        return 5//popularList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itemWidth = screenWidth / 1.5
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val lp = holder.mBinding?.clBestDeal?.layoutParams
-        lp!!.height = lp.height
-        lp.width = itemWidth.toInt()
-        holder.mBinding.clBestDeal.layoutParams = lp
+        if (holder is TypeFirstViewHolder) {
+            /*val eachListData = popularList[position]
+            holder.mBinding?.data = eachListData*/
 
-        if (position == 1) {
+            val itemWidth = screenWidth / 1.5
+            val lp = holder.mBindingPopularDeals?.clBestDeal?.layoutParams
+            lp!!.height = lp.height
+            lp.width = itemWidth.toInt()
+            holder.mBindingPopularDeals.clBestDeal.layoutParams = lp
+
+        } else if (holder is TypeSecondViewHolder) {
+            val itemWidth = screenWidth / 1.5
+            val lp = holder.mBindingPopularDealsSecond?.clBestDeal?.layoutParams
+            lp!!.height = lp.height
+            lp.width = itemWidth.toInt()
+            holder.mBindingPopularDealsSecond.clBestDeal.layoutParams = lp
+        }
+
+        /*if (position == 1) {
             val imageUrl =
                 "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"
             Glide.with(context)
@@ -50,23 +81,7 @@ class PopularDealsAdapter(
                 .placeholder(R.drawable.ic_logo)
                 .error(R.drawable.ic_logo)
                 .into(holder.mBinding.ivLogo)
-        }
-
-        /* val eachListData = blogList[position]
-         holder.mBinding?.data = eachListData
-         //holder.mBinding?.handler = OnClickHandler(context)
-         val title = holder.mBinding?.data?.title.toString()
-         val banner = holder.mBinding?.data?.banner.toString()
-         val description = holder.mBinding?.data?.description
-         holder.mBinding?.txtTitle?.text = title
-         if (banner.isNotEmpty()) {
-             Glide.with(context)
-                 .load(banner)
-                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                 .skipMemoryCache(true)
-                 .into(holder.mBinding?.ivBlog!!)
-         }*/
-
+        }*/
     }
 
     override fun getItemId(position: Int): Long {
@@ -74,10 +89,35 @@ class PopularDealsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        return if (position % 2 == 0) {
+            0
+        } else {
+            1
+        }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mBinding: RowItemPopularDealBinding? = DataBindingUtil.bind(itemView)
+    /* class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+         val mBinding: RowItemPopularDealBinding? = DataBindingUtil.bind(itemView)
+     }*/
+
+    /*class TypeFirstViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val mBindingPopularDeals: RowItemPopularDealBinding? = DataBindingUtil.bind(itemView)
     }
+
+    class TypeSecondViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val mBindingPopularDealsSecond: RowItemPopularDealsTypeSecondBinding? =
+            DataBindingUtil.bind(itemView)
+    }
+*/
+    class TypeFirstViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val mBindingPopularDeals: RowItemPopularDealBinding? =
+            DataBindingUtil.bind(itemView)
+    }
+
+    class TypeSecondViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val mBindingPopularDealsSecond: RowItemPopularDealsTypeSecondBinding? =
+            DataBindingUtil.bind(itemView)
+    }
+
+
 }

@@ -23,19 +23,19 @@ class InProgressAdapter(
             first -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.row_item_in_progress, parent, false)
-                FamilyViewHolder(view)
+                TypeSecondViewHolder(view)
             }
             second -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.row_item_in_progress_type_second, parent, false)
-                FriendViewHolder(view)
+                TypeFirstViewHolder(view)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
     override fun getItemCount(): Int {
-        return 6//popularList.size
+        return 4//popularList.size
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
@@ -51,25 +51,21 @@ class InProgressAdapter(
 
     override fun getItemViewType(position: Int): Int {
         //val comparable = data[position]
-
-        if (position % 2 == 0) {
-            return 0
-
+        return if (position % 2 == 0) {
+            0
         } else {
-            return 1
+            1
         }
-
     }
 
 
-    inner class FamilyViewHolder(itemView: View) : BaseViewHolder<String>(itemView) {
-
+    inner class TypeSecondViewHolder(itemView: View) : BaseViewHolder<String>(itemView) {
         override fun bind(item: String) {
             //Do your view assignment here from the data model
         }
     }
 
-    inner class FriendViewHolder(itemView: View) : BaseViewHolder<String>(itemView) {
+    inner class TypeFirstViewHolder(itemView: View) : BaseViewHolder<String>(itemView) {
         override fun bind(item: String) {
             //Do your view assignment here from the data model
         }

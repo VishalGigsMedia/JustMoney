@@ -51,13 +51,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_30sdp"
-                    android:fontFamily="@font/montserrat_extra_bold"
+                    android:fontFamily="@font/metropolis_extra_bold_italic"
                     android:gravity="start"
                     android:text="@string/my_payouts"
                     android:textAllCaps="true"
                     android:textColor="@color/color_primary"
                     android:textSize="@dimen/_16ssp"
-                    android:textStyle="italic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -72,7 +71,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_100sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:fontFamily="@font/montserrat_medium"
+                    android:fontFamily="@font/metropolis_medium"
                     android:text="@string/request_payout_to_appear"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
@@ -86,14 +85,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/no_data_background"
                     android:scaleType="fitCenter"
+                    android:src="@drawable/no_data_background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
                 </ImageView>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

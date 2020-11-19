@@ -129,6 +129,4 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
     }
-
-
 }
