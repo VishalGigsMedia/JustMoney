@@ -33,8 +33,32 @@ android {
         jvmTarget = '1.8'
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        development {
+            dimension "version"
+            applicationId 'com.app.justmoney'
+            minSdkVersion 23
+            targetSdkVersion 30
+            versionCode 1
+            multiDexEnabled true
+            versionName "1.0"
+        }
+
+        production {
+            dimension "version"
+            applicationId 'com.app.justmoney'
+            minSdkVersion 23
+            targetSdkVersion 30
+            versionCode 1
+            multiDexEnabled true
+            versionName "1.0"
+            testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        }
     }
 
 }
@@ -45,7 +69,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     implementation 'com.intuit.sdp:sdp-android:1.0.6' //Responsive UI
     implementation 'com.intuit.ssp:ssp-android:1.0.6'  // Responsive Font
@@ -74,8 +98,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 
 

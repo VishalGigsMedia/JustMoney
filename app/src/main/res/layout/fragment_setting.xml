@@ -115,25 +115,27 @@
 
                         </TextView>
 
-                        <ImageView
-                            android:id="@+id/ivQuestion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:fitsSystemWindows="true"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_questions"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                        <!--
+                                                <ImageView
+                                                    android:id="@+id/ivQuestion"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="match_parent"
+                                                    android:fitsSystemWindows="true"
+                                                    android:scaleType="fitXY"
+                                                    android:src="@drawable/ic_questions"
+                                                    app:layout_constraintBottom_toBottomOf="parent"
+                                                    app:layout_constraintEnd_toEndOf="parent"
+                                                    app:layout_constraintTop_toTopOf="parent">
 
-                        </ImageView>
+                                                </ImageView>
+                        -->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ckloveApp"
+                    android:id="@+id/clLoveApp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_80sdp"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -189,7 +191,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ckHaveFeedback"
+                    android:id="@+id/cLHaveFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_80sdp"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -199,7 +201,7 @@
                     android:elevation="@dimen/_5sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ckloveApp">
+                    app:layout_constraintTop_toBottomOf="@+id/clLoveApp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -258,7 +260,7 @@
                     android:textColor="@color/pink_600"
                     android:textSize="@dimen/_14ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ckHaveFeedback">
+                    app:layout_constraintTop_toBottomOf="@+id/cLHaveFeedback">
 
                 </TextView>
 
@@ -269,7 +271,7 @@
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
-                    android:fontFamily="@font/metropolis_semi_bold"
+                    android:fontFamily="@font/metropolis_extra_bold"
                     android:gravity="start"
                     android:text="@string/privacy_policy"
                     android:textAllCaps="true"

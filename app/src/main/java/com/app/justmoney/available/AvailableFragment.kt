@@ -1,22 +1,34 @@
 package com.app.justmoney.available
 
-import android.app.Dialog
 import android.content.Context
-import android.graphics.Paint
-import android.os.*
-import android.view.*
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.justmoney.R
 import com.app.justmoney.available.adapter.PopularDealsAdapter
 import com.app.justmoney.available.adapter.QuickDealsAdapter
+import com.app.justmoney.dagger.API
+import com.app.justmoney.dagger.InputParams
+import com.app.justmoney.dagger.MyApplication
 import com.app.justmoney.databinding.FragmentAvailableBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 class AvailableFragment : Fragment() {
+
+    @Inject
+    lateinit var api: API
 
     private val blogList: List<String> = ArrayList()
     private lateinit var quickDealsAdapter: QuickDealsAdapter
@@ -27,7 +39,7 @@ class AvailableFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
         return mBinding.root
     }
@@ -35,15 +47,11 @@ class AvailableFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-     /*   mBinding.txtDealActualAmount.paintFlags =
-            mBinding.txtDealActualAmount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG*/
-
+        MyApplication.instance.getNetComponent()?.inject(this)
+        getFaq(context!!, api)
         setTimer()
         setAdapter()
 
-        mBinding.clDailyRewardValue.setOnClickListener {
-          //  showCollectAmountDialog()
-        }
     }
 
     private fun setAdapter() {
@@ -82,7 +90,7 @@ class AvailableFragment : Fragment() {
         //val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
         val seconds = milliseconds / 1000 % 60
 
-        println("Milliseconds = $minutes : $seconds")
+        // println("Milliseconds = $minutes : $seconds")
 
         var minVal: String = ""
         var secVal: String = ""
@@ -98,8 +106,6 @@ class AvailableFragment : Fragment() {
             seconds.toString()
         }
 
-        /*  val minutesValue = "$minVal\nmin"
-          val secondValue = "$secVal\nsec"*/
         mBinding.txtMinute.text = minVal
         mBinding.txtSeconds.text = secVal
     }
@@ -113,4 +119,37 @@ class AvailableFragment : Fragment() {
         super.onStop()
         (timer as CountDownTimer)
     }
+
+    private fun getFaq(activity: Context, api: API): MutableLiveData<FAQResponse> {
+        val mutableLiveData: MutableLiveData<FAQResponse> = MutableLiveData()
+        val aboutParams = InputParams()
+        aboutParams.lang_code = "en"
+        api.getFaq(aboutParams).enqueue(object : Callback<FAQResponse> {
+            override fun onResponse(call: Call<FAQResponse>, response: Response<FAQResponse>) {
+
+                if (response.body() != null && response.isSuccessful && response.code() == 200) {
+                    println("onResponse:  " + response.body()!!.message.toString())
+                    //Log.d("onResponse: ", response.body()!!.message.toString())
+                    /* //update token
+                     val header = response.headers().get(activity.getString(R.string.token))
+                     if (header != null) {
+                         UtilsDefault.updateSharedPreferenceString(Constants.JWT_TOKEN, header)
+                     } else {
+                         UtilsDefault.updateSharedPreferenceString(Constants.JWT_TOKEN, UtilsDefault.getSharedPreferenceString(Constants.JWT_TOKEN).toString())
+                     }
+
+                     faqResponse = response.body()
+                     mutableLiveData.value = faqResponse*/
+                } else {
+                    Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<FAQResponse>, error: Throwable) {
+                println("onFailure: $error")
+            }
+        })
+        return mutableLiveData
+    }
+
 }

@@ -98,7 +98,7 @@ class MyWalletFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(true)
-        dialog.setContentView(R.layout.dialog_collect_amount)
+        dialog.setContentView(R.layout.dialog_request_payout)
         dialog.window?.setGravity(Gravity.CENTER)
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.WRAP_CONTENT

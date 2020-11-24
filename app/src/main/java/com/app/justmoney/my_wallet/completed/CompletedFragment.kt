@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.justmoney.R
 import com.app.justmoney.databinding.FragmentCompletedBinding
-import com.app.justmoney.in_progress.adapter.InProgressAdapter
+import com.app.justmoney.my_wallet.completed.adapter.CompletedAdapter
 
 class CompletedFragment : Fragment() {
 
     private val blogList: List<String> = ArrayList()
-    private lateinit var inProgressAdapter: InProgressAdapter
+    private lateinit var completedAdapter: CompletedAdapter
     private lateinit var mBinding: FragmentCompletedBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +36,11 @@ class CompletedFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        inProgressAdapter = InProgressAdapter(activity!!, blogList)
+        completedAdapter = CompletedAdapter(activity!!, blogList)
         mBinding.rvInProgressDeals.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mBinding.rvInProgressDeals.adapter = inProgressAdapter
-        inProgressAdapter.notifyDataSetChanged()
+        mBinding.rvInProgressDeals.adapter = completedAdapter
+        completedAdapter.notifyDataSetChanged()
     }
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="server_url">http://65.0.151.206/dev/public/api/v2/signup</string>
+    <string name="tracking_url"> </string>
+
+</resources>

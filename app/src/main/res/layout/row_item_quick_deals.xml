@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clImageHolder"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             app:layout_constraintEnd_toStartOf="@+id/txtTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/metropolis_bold_italic"
-            android:gravity="center"
+            android:gravity="start"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="0dp"
             android:text="Nike"
             android:textAllCaps="true"
             android:textColor="@color/black"

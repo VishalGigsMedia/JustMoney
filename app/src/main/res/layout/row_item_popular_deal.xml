@@ -10,7 +10,8 @@
         android:id="@+id/clBestDeal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_5sdp">
+        android:layout_marginStart="@dimen/_5sdp"
+        android:elevation="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clBestDealHolder"
@@ -112,23 +113,69 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDescription">
 
-                <TextView
-                    android:id="@+id/txtRedeemOfferAmount"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/metropolis_bold"
-                    android:gravity="center"
-                    android:text="45000"
-                    android:textColor="@color/indigo_900"
-                    android:textSize="@dimen/_10ssp"
-                    app:drawableEndCompat="@drawable/ic_coins_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                </TextView>
+                    <TextView
+                        android:id="@+id/txtEarn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:fontFamily="@font/metropolis_bold"
+                        android:gravity="center"
+                        android:text="@string/earn"
+                        android:textColor="@color/indigo_900"
+                        android:textSize="@dimen/_8ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/txtRedeemOfferAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:drawablePadding="0dp"
+                        android:fontFamily="@font/metropolis_bold"
+                        android:gravity="center"
+                        android:text="45000"
+                        android:textColor="@color/indigo_900"
+                        android:textSize="@dimen/_10ssp"
+                        app:drawableEndCompat="@drawable/ic_coins_blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txtEarn"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!--
+                                <TextView
+                                    android:id="@+id/txtRedeemOfferAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:fontFamily="@font/metropolis_bold"
+                                    android:gravity="center"
+                                    android:text="45000"
+                                    android:textColor="@color/indigo_900"
+                                    android:textSize="@dimen/_10ssp"
+                                    app:drawableEndCompat="@drawable/ic_coins_blue"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/txtEarn"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                </TextView>
+                -->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
