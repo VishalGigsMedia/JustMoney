@@ -10,6 +10,7 @@ import com.app.justmoney.available.AvailableFragment
 import com.app.justmoney.databinding.ActivityMainBinding
 import com.app.justmoney.in_progress.InProgressFragment
 import com.app.justmoney.my_wallet.MyWalletFragment
+import com.app.login.LoginFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         manageClickEvents()
 
         //open available fragment
-        openFragment(AvailableFragment(), false)
+        openFragment(LoginFragment(), false)
+        // openFragment(AvailableFragment(), false)
 
     }
 

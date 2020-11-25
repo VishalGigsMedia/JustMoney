@@ -48,4 +48,17 @@
     <string name="request_payout_to_appear">Request a payout to appear in the list.</string>
     <string name="start_one_of_the_available_reward">Start one of the available rewards and track your progress on this screen</string>
 
+    <string name="welcome_to">Welcome To</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="country">Country</string>
+    <string name="agree_to_terms_condition">I agree to JustMoney’s</string>
+    <string name="terms_condition">Terms and Conditions.</string>
+    <string name="by_tapping">By tapping Verify Phone Number an SMS may be sent.</string>
+    <string name="we_have_sent_phone_number">We have sent you an SMS with a code to the</string>
+    <string name="didnt_receive_code">If you didn’t receive code? </string>
+    <string name="resend">Resend</string>
+    <string name="otp_time_remaining">OTP TIME REMANING</string>
+    <string name="verify_phone_number">Verify Phone Number</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="otp_verification">OTP Verification</string>
 </resources>
