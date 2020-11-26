@@ -61,4 +61,11 @@
     <string name="verify_phone_number">Verify Phone Number</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="otp_verification">OTP Verification</string>
+
+    <string name="no_internet">No internet Connection</string>
+
+    <!--error-->
+    <string name="err_ent_phone_number">Enter phone number</string>
+    <string name="err_ent_otp">Enter OTP</string>
+
 </resources>
