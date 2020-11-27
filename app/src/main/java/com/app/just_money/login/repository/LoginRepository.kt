@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.login.model.GetOtpModel
@@ -34,12 +35,12 @@ class LoginRepository {
             requestKeyHelper.mobile = DefaultHelper.encrypt(mobile)
             requestKeyHelper.package_id = DefaultHelper.getPackageId(context)
             requestKeyHelper.country_code = DefaultHelper.encrypt(countryCode)
-            println(
+            /*println(
                 "RequestHelper :" +
                         " ${requestKeyHelper.mobile} :" +
                         " ${requestKeyHelper.package_id} " +
                         ": ${requestKeyHelper.country_code}"
-            )
+            )*/
             api.getOTP(requestKeyHelper).enqueue(object : Callback<GetOtpModel> {
                 override fun onResponse(call: Call<GetOtpModel>, response: Response<GetOtpModel>) {
                     gson = gsonBuilder.create()
@@ -86,27 +87,32 @@ class LoginRepository {
             requestKeyHelper.android_version = DefaultHelper.getBuildVersion()
             requestKeyHelper.country_code = DefaultHelper.encrypt(countryCode)
             requestKeyHelper.token = DefaultHelper.encrypt(otp)
-            println(
-                "RequestHelper :" +
-                        "mobile:${requestKeyHelper.mobile}" +
-                        "\ncarrier_name :${requestKeyHelper.carrier_name} " +
-                        "\ncpu : ${requestKeyHelper.cpu} " +
-                        "\nversion_name : ${requestKeyHelper.version_name} " +
-                        "\nversion_code : ${requestKeyHelper.version_code} " +
-                        "\ndevice_type : ${requestKeyHelper.device_type} " +
-                        "\ndisplay : ${requestKeyHelper.display} " +
-                        "\ndevice : ${requestKeyHelper.device} " +
-                        "\ndevice_id : ${requestKeyHelper.device_id} " +
-                        "\nandroid_version : ${requestKeyHelper.android_version} " +
-                        "\ncountry_code : ${requestKeyHelper.country_code} " +
-                        "\ntoken : ${requestKeyHelper.token}"
-            )
+            /* println(
+                 "RequestHelper :" +
+                         "mobile:${requestKeyHelper.mobile}" +
+                         "\ncarrier_name :${requestKeyHelper.carrier_name} " +
+                         "\ncpu : ${requestKeyHelper.cpu} " +
+                         "\nversion_name : ${requestKeyHelper.version_name} " +
+                         "\nversion_code : ${requestKeyHelper.version_code} " +
+                         "\ndevice_type : ${requestKeyHelper.device_type} " +
+                         "\ndisplay : ${requestKeyHelper.display} " +
+                         "\ndevice : ${requestKeyHelper.device} " +
+                         "\ndevice_id : ${requestKeyHelper.device_id} " +
+                         "\nandroid_version : ${requestKeyHelper.android_version} " +
+                         "\ncountry_code : ${requestKeyHelper.country_code} " +
+                         "\ntoken : ${requestKeyHelper.token}"
+             )*/
             api.login(requestKeyHelper).enqueue(object : Callback<LoginModel> {
                 override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
+                    val header = response.headers()["Authorization"].toString()
+                    println("Header: $header")
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())
                     loginModel = gson?.fromJson(json, LoginModel::class.java)
                     println("$TAG : $json")
+                    if (loginModel != null && header.isNotEmpty()) {
+                        setPreferenceValue(context, loginModel!!, header)
+                    }
                     mutableLiveData.value = loginModel
                 }
 
@@ -123,4 +129,14 @@ class LoginRepository {
         return mutableLiveData
     }
 
+    private fun setPreferenceValue(context: Context, loginModel: LoginModel, header: String) {
+        val preferenceHelper = PreferenceHelper(context)
+        if (header.isNotEmpty()) {
+            preferenceHelper.setJwtToken("Bearer $header")
+        }
+        if (loginModel.data?.userId.toString().isNotEmpty()) {
+            preferenceHelper.setUserId(loginModel.data?.userId.toString())
+        }
+        preferenceHelper.setUserLoggedIn(true)
+    }
 }

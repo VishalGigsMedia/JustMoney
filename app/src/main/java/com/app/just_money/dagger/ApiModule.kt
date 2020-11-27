@@ -1,6 +1,7 @@
 package com.app.just_money.dagger
 
 import android.app.Application
+import com.app.just_money.BuildConfig
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -8,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -43,6 +45,16 @@ class ApiModule(val mBaseUrl: String) {
     fun provideOkhttpClient(cache: Cache?): OkHttpClient? {
         val client = OkHttpClient.Builder()
         client.cache(cache)
+
+        if (BuildConfig.DEBUG) {
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            client.interceptors().add(logging)
+        } else {
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            client.interceptors().add(logging)
+        }
         return client.build()
     }
 

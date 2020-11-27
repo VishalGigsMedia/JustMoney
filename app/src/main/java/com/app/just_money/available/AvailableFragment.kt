@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.just_money.R
 import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.available.adapter.QuickDealsAdapter
+import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentAvailableBinding
@@ -42,6 +43,9 @@ class AvailableFragment : Fragment() {
         MyApplication.instance.getNetComponent()?.inject(this)
         setTimer()
         setAdapter()
+        val preferenceHelper = PreferenceHelper(context!!)
+        val jwtToken = preferenceHelper.getJwtToken()
+        println("JWT: $jwtToken")
     }
 
     private fun setAdapter() {

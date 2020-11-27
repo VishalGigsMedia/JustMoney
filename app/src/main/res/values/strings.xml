@@ -64,6 +64,12 @@
 
     <string name="no_internet">No internet Connection</string>
 
+    <string name="hint_questions">Questions</string>
+    <string name="faq">FAQ</string>
+    <string name="history">History</string>
+    <string name="payouts">Payouts</string>
+    <string name="balance">Balance</string>
+
     <!--error-->
     <string name="err_ent_phone_number">Enter phone number</string>
     <string name="err_ent_otp">Enter OTP</string>

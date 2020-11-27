@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.databinding.FragmentMyWalletBinding
+import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingFragment
@@ -70,7 +71,9 @@ class MyWalletFragment : Fragment() {
         openFragment(CompletedFragment(), true)
     }
 
-    private fun onClickQuestion() {}
+    private fun onClickQuestion() {
+        openFragment(FaqFragment(), true)
+    }
 
     private fun onClickTryEnjoy() {}
 

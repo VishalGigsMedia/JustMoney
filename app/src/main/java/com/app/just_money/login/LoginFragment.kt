@@ -160,5 +160,4 @@ class LoginFragment : Fragment() {
         mBinding.squareField.setText(DefaultHelper.decrypt(otp))
     }
 
-
 }
