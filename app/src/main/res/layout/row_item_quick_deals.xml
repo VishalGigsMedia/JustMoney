@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.app.just_money.available.model.AvailableOffer" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

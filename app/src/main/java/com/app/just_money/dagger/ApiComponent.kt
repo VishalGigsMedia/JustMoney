@@ -2,6 +2,7 @@ package com.app.just_money.dagger
 
 import com.app.just_money.available.AvailableFragment
 import com.app.just_money.login.LoginFragment
+import com.app.just_money.my_wallet.faq.FaqFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,7 +11,9 @@ import javax.inject.Singleton
 public interface ApiComponent {
 
     //public fun retrofit(): Retrofit
-    public fun inject(application: MyApplication)
-    public fun inject(loginFragment: LoginFragment)
-    public fun inject(availableFragment: AvailableFragment)
+    fun inject(application: MyApplication)
+    fun inject(loginFragment: LoginFragment)
+    fun inject(availableFragment: AvailableFragment)
+    fun inject(faqFragment: FaqFragment)
+
 }

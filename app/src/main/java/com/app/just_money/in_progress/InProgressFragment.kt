@@ -46,11 +46,11 @@ class InProgressFragment : Fragment() {
         mBinding.rvInProgressDeals.adapter = inProgressAdapter
         inProgressAdapter.notifyDataSetChanged()
 
-        quickDealsAdapter = QuickDealsAdapter(activity!!, blogList)
-        mBinding.rvQuickDeals.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mBinding.rvQuickDeals.adapter = quickDealsAdapter
-        quickDealsAdapter.notifyDataSetChanged()
+        /* quickDealsAdapter = QuickDealsAdapter(activity!!, blogList)
+         mBinding.rvQuickDeals.layoutManager =
+             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+         mBinding.rvQuickDeals.adapter = quickDealsAdapter
+         quickDealsAdapter.notifyDataSetChanged()*/
     }
 
 }

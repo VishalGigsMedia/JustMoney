@@ -108,7 +108,12 @@ dependencies {
     //for Base64 encryption/decryption
     implementation 'commons-codec:commons-codec:1.10'
 
-    def lottieVersion = "3.4.0"
+
+    //location
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+
+    def lottieVersion = "3.4.1"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
     testImplementation 'junit:junit:4.13.1'

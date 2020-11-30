@@ -7,12 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.R
+import com.app.just_money.available.model.AvailableOffer
+import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.RowItemQuickDealsBinding
+import com.bumptech.glide.Glide
 
 
 class QuickDealsAdapter(
     private val context: FragmentActivity,
-    private val blogList: List<String>,
+    private val quickDealsList: List<AvailableOffer>,
 ) : RecyclerView.Adapter<QuickDealsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -22,24 +25,32 @@ class QuickDealsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 10//blogList.size
+        return quickDealsList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        /* val eachListData = blogList[position]
-         holder.mBinding?.data = eachListData
-         //holder.mBinding?.handler = OnClickHandler(context)
-         val title = holder.mBinding?.data?.title.toString()
-         val banner = holder.mBinding?.data?.banner.toString()
-         val description = holder.mBinding?.data?.description
-         holder.mBinding?.txtTitle?.text = title
-         if (banner.isNotEmpty()) {
-             Glide.with(context)
-                 .load(banner)
-                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                 .skipMemoryCache(true)
-                 .into(holder.mBinding?.ivBlog!!)
-         }*/
+
+        val eachListData = quickDealsList[position]
+        holder.mBinding?.data = eachListData
+
+        val title = quickDealsList[position].name.toString()
+        val imageUrl = quickDealsList[position].image.toString()
+        val buttonText = quickDealsList[position].buttonText.toString()
+
+        if (title.isNotEmpty()) {
+            holder.mBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
+        }
+        if (buttonText.isNotEmpty()) {
+            holder.mBinding?.txtTakeActionMessage?.text = DefaultHelper.decrypt(buttonText)
+        }
+
+        if (imageUrl.isNotEmpty()) {
+            Glide.with(context)
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_logo)
+                .error(R.drawable.ic_logo)
+                .into(holder.mBinding?.ivLogo!!)
+        }
 
     }
 

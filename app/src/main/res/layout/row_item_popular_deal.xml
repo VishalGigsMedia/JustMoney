@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.app.just_money.available.model.AvailableOffer" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +35,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:fontFamily="@font/metropolis_bold_italic"
-                android:text="ADIDAS"
+                android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10ssp"
@@ -47,7 +51,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/metropolis_bold"
-                android:text="45000"
+                android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/yellow_a400"
                 android:textSize="@dimen/_14ssp"
@@ -66,7 +70,7 @@
                 android:background="@drawable/strike_through"
                 android:fontFamily="@font/metropolis_bold"
                 android:gravity="center"
-                android:text="80000"
+                android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10ssp"
@@ -87,7 +91,7 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:lines="3"
                 android:maxLines="3"
-                android:text="Entrepreneur-speaker Hamza Khan is all about turning ideas into action. In this blog, he offers tips to craft a perfect request—so when you finally ask teammates for help, they know exactly where to start."
+                android:text="@null"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_8ssp"
@@ -145,7 +149,7 @@
                         android:drawablePadding="0dp"
                         android:fontFamily="@font/metropolis_bold"
                         android:gravity="center"
-                        android:text="45000"
+                        android:text="@null"
                         android:textColor="@color/indigo_900"
                         android:textSize="@dimen/_10ssp"
                         app:drawableEndCompat="@drawable/ic_coins_blue"
@@ -156,26 +160,6 @@
                     </TextView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <!--
-                                <TextView
-                                    android:id="@+id/txtRedeemOfferAmount"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/_5sdp"
-                                    android:fontFamily="@font/metropolis_bold"
-                                    android:gravity="center"
-                                    android:text="45000"
-                                    android:textColor="@color/indigo_900"
-                                    android:textSize="@dimen/_10ssp"
-                                    app:drawableEndCompat="@drawable/ic_coins_blue"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/txtEarn"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                </TextView>
-                -->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,5 +12,6 @@ object DefaultKeyHelper {
     //server response code
     const val successCode: Int = 200
     const val failureCode: Int = 500
+    const val forceLogoutCode: Int = 100
 
 }

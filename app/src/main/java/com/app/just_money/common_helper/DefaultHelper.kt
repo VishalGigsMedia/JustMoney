@@ -2,6 +2,7 @@ package com.app.just_money.common_helper
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -9,7 +10,9 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.app.just_money.BuildConfig
+import com.app.just_money.LoginActivity
 import com.app.just_money.dagger.MyApplication
 import org.apache.commons.codec.binary.Base64
 import java.nio.charset.StandardCharsets
@@ -179,6 +182,12 @@ object DefaultHelper {
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, initializeVectorKey)
         val encryptedCipherBytes = base64.encode(cipher.doFinal(plainText.toByteArray()))
         return String(encryptedCipherBytes)
+    }
+
+    fun forceLogout(context: FragmentActivity) {
+        val intent = Intent(context, LoginActivity::class.java)
+        context.startActivity(intent)
+        context.finish()
     }
 
 }

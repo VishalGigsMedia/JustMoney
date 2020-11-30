@@ -87,6 +87,8 @@ class LoginRepository {
             requestKeyHelper.android_version = DefaultHelper.getBuildVersion()
             requestKeyHelper.country_code = DefaultHelper.encrypt(countryCode)
             requestKeyHelper.token = DefaultHelper.encrypt(otp)
+            //requestKeyHelper.trackier_user_id  = DefaultHelper.encrypt(otp) //compulsary send the trackier_user_id
+
             /* println(
                  "RequestHelper :" +
                          "mobile:${requestKeyHelper.mobile}" +

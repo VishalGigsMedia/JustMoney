@@ -17,6 +17,11 @@ class PreferenceHelper(context: Context) {
         AuthorizationKey,
         UserLogIn,
         UserId,
+        UserState,
+        UserCity,
+        totalCoins,
+        completed,
+        withdrawn,
     }
 
     /*fun setString(key: String, value: String) {
@@ -86,6 +91,47 @@ class PreferenceHelper(context: Context) {
     fun getUserId(): String {
         return this.sharedPreferences.getString(Key.UserId.name, "").toString()
     }
+
+    fun setUserState(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserState.name, value).apply()
+    }
+
+    fun getUserState(): String {
+        return this.sharedPreferences.getString(Key.UserState.name, "").toString()
+    }
+
+    fun setUserCity(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserCity.name, value).apply()
+    }
+
+    fun getUserCity(): String {
+        return this.sharedPreferences.getString(Key.UserCity.name, "").toString()
+    }
+
+    fun setTotalCoins(value: String) {
+        this.sharedPreferences.edit().putString(Key.totalCoins.name, value).apply()
+    }
+
+    fun getTotalCoins(): String {
+        return this.sharedPreferences.getString(Key.totalCoins.name, "").toString()
+    }
+
+    fun setCompleted(value: String) {
+        this.sharedPreferences.edit().putString(Key.completed.name, value).apply()
+    }
+
+    fun getCompleted(): String {
+        return this.sharedPreferences.getString(Key.completed.name, "").toString()
+    }
+
+    fun setWithdrawn(value: String) {
+        this.sharedPreferences.edit().putString(Key.withdrawn.name, value).apply()
+    }
+
+    fun getWithdrawn(): String {
+        return this.sharedPreferences.getString(Key.withdrawn.name, "").toString()
+    }
+
 
     fun setClear() {
         this.sharedPreferences.edit().clear().apply()
