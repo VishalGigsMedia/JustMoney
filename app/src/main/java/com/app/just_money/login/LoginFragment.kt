@@ -131,11 +131,10 @@ class LoginFragment : Fragment() {
                                 context!!,
                                 DefaultHelper.decrypt(loginModel.message.toString())
                             )
-
-                            val intent = Intent(context, MainActivity::class.java)
-                            startActivity(intent)
-                            activity!!.finish()
-
+                            trackLogin()
+                            /* val intent = Intent(context, MainActivity::class.java)
+                             startActivity(intent)
+                             activity!!.finish()*/
                         }
                         DefaultKeyHelper.failureCode -> {
                             DefaultHelper.showToast(
@@ -160,4 +159,41 @@ class LoginFragment : Fragment() {
         mBinding.squareField.setText(DefaultHelper.decrypt(otp))
     }
 
+    private fun trackLogin() {
+
+        viewModel.trackLogin(
+            activity!!,
+            getMobileNumber(),
+            getMobileNumber()
+        ).observe(viewLifecycleOwner, { trackLogin ->
+            if (trackLogin != null) {
+                if (trackLogin.success == false) {
+                    trackSignUp()
+                } else {
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
+                    activity!!.finish()
+                }
+            } else {
+                trackSignUp()
+            }
+        })
+    }
+
+    private fun trackSignUp() {
+        viewModel.trackSignUp(
+            activity!!,
+            getMobileNumber(),
+            getMobileNumber(),
+            getMobileNumber(),
+            getMobileNumber(),
+            "active"
+        ).observe(viewLifecycleOwner, { trackSignUp ->
+            if (trackSignUp != null) {
+                if (trackSignUp.success) {
+                    trackLogin()
+                }
+            }
+        })
+    }
 }

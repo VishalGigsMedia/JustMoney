@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 class QuickDealsAdapter(
     private val context: FragmentActivity,
     private val quickDealsList: List<AvailableOffer>,
+    private val onClickedQuickDeals: OnClickedQuickDeals
 ) : RecyclerView.Adapter<QuickDealsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -51,7 +52,9 @@ class QuickDealsAdapter(
                 .error(R.drawable.ic_logo)
                 .into(holder.mBinding?.ivLogo!!)
         }
-
+        holder.mBinding?.txtTakeActionMessage?.setOnClickListener {
+            onClickedQuickDeals.getOffers("")
+        }
     }
 
     override fun getItemId(position: Int): Long {
@@ -64,5 +67,9 @@ class QuickDealsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBinding: RowItemQuickDealsBinding? = DataBindingUtil.bind(itemView)
+    }
+
+    interface OnClickedQuickDeals {
+        fun getOffers(appId: String)
     }
 }

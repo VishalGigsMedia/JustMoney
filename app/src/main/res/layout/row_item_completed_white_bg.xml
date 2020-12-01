@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.app.just_money.my_wallet.completed.model.CompletedOfferData" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +34,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:fontFamily="@font/metropolis_bold_italic"
-                android:text="ADIDAS"
+                android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/indigo_900"
                 android:textSize="@dimen/_10ssp"
@@ -50,7 +54,7 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:lines="3"
                 android:maxLines="3"
-                android:text="Entrepreneur-speaker Hamza Khan is all about turning ideas into action. In this blog, he offers tips to craft a perfect request—so when you finally ask teammates for help, they know exactly where to start."
+                android:text="@null"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_8ssp"
@@ -69,7 +73,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/metropolis_bold"
                 android:gravity="center"
-                android:text="Started 9 hours ago"
+                android:text="@null"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10ssp"
@@ -87,7 +91,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/metropolis_bold"
                 android:gravity="center"
-                android:text="RewardsEarned"
+                android:text="@null"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_10ssp"
@@ -105,7 +109,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/metropolis_bold"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="45000"
+                android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/pink_600"
                 android:textSize="@dimen/_14ssp"

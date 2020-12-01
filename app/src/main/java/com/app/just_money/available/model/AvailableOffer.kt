@@ -16,8 +16,8 @@ data class AvailableOffer(
     val isPopular: String?,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("offer_id")
-    val offerId: String?,
+    @SerializedName("trackier_offer_id")
+    val trackierOfferId: String?,
     @SerializedName("offer_type")
     val offerType: Any?,
     @SerializedName("original_track_link")

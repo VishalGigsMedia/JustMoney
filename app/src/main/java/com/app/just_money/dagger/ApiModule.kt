@@ -18,16 +18,10 @@ import javax.inject.Singleton
 @Module
 class ApiModule(val mBaseUrl: String) {
 
-    //var mBaseUrl: String? = null
-
-    /*fun ApiModule(mBaseUrl: String?) {
-        this.mBaseUrl = mBaseUrl
-    }*/
-
 
     @Provides
     @Singleton
-    fun provideHttpCache(application: Application): Cache? {
+    fun provideHttpCache(application: Application): Cache {
         val cacheSize = 10 * 1024 * 1024
         return Cache(application.cacheDir, cacheSize.toLong())
     }
@@ -42,7 +36,7 @@ class ApiModule(val mBaseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(cache: Cache?): OkHttpClient? {
+    fun provideOkhttpClient(cache: Cache?): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.cache(cache)
 

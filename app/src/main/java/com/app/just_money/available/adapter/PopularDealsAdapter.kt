@@ -1,5 +1,6 @@
 package com.app.just_money.available.adapter
 
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -7,16 +8,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOffer
+import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.RowItemPopularDealBinding
 import com.app.just_money.databinding.RowItemPopularDealsTypeSecondBinding
+import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
 class PopularDealsAdapter(
     private val context: FragmentActivity,
     private val availableOfferList: List<AvailableOffer>,
+    private val onClicked: OnClickedPopularDeals
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var screenWidth = 0
 
@@ -60,6 +65,7 @@ class PopularDealsAdapter(
             val eachListData = availableOfferList[position]
             holder.mBindingPopularDeals?.data = eachListData
 
+            val offerId = availableOfferList[position].id.toString()
             val title = availableOfferList[position].name.toString()
             val description = availableOfferList[position].shortDescription.toString()
             val imageUrl = availableOfferList[position].image.toString()
@@ -94,6 +100,21 @@ class PopularDealsAdapter(
                     DefaultHelper.decrypt(offerCoins)
             }
 
+            holder.mBindingPopularDeals?.clBestDeal?.setOnClickListener {
+                val offerDetails = OfferDetailsFragment()
+                val bundle = Bundle()
+                bundle.putString(BundleHelper.offerId, offerId)
+                bundle.putString(BundleHelper.displayId, offerId)
+                offerDetails.arguments = bundle
+                context.supportFragmentManager.beginTransaction()
+                    .replace(R.id.flMain, offerDetails)
+                    .addToBackStack(MainActivity::class.java.simpleName)
+                    .commit()
+            }
+
+            holder.mBindingPopularDeals?.clEarn?.setOnClickListener {
+                onClicked.claimOffers(offerId)
+            }
 
             val itemWidth = screenWidth / 1.5
             val lp = holder.mBindingPopularDeals?.clBestDeal?.layoutParams
@@ -105,6 +126,7 @@ class PopularDealsAdapter(
             val eachListData = availableOfferList[position]
             holder.mBindingPopularDealsSecond?.data = eachListData
 
+            val offerId = availableOfferList[position].id.toString()
             val title = availableOfferList[position].name.toString()
             val description = availableOfferList[position].shortDescription.toString()
             val imageUrl = availableOfferList[position].image.toString()
@@ -138,12 +160,28 @@ class PopularDealsAdapter(
                     DefaultHelper.decrypt(offerCoins)
             }
 
+            holder.mBindingPopularDealsSecond?.clBestDeal?.setOnClickListener {
+                val offerDetails = OfferDetailsFragment()
+                val bundle = Bundle()
+                bundle.putString(BundleHelper.offerId, offerId)
+                bundle.putString(BundleHelper.displayId, offerId)
+                offerDetails.arguments = bundle
+                context.supportFragmentManager.beginTransaction()
+                    .replace(R.id.flMain, offerDetails)
+                    .addToBackStack(MainActivity::class.java.simpleName)
+                    .commit()
+            }
+
             val itemWidth = screenWidth / 1.5
             val lp = holder.mBindingPopularDealsSecond?.clBestDeal?.layoutParams
             lp!!.height = lp.height
             lp.width = itemWidth.toInt()
             holder.mBindingPopularDealsSecond.clBestDeal.layoutParams = lp
         }
+    }
+
+    interface OnClickedPopularDeals {
+        fun claimOffers(appId: String)
     }
 
     override fun getItemId(position: Int): Long {

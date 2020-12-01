@@ -14,4 +14,8 @@ object DefaultKeyHelper {
     const val failureCode: Int = 500
     const val forceLogoutCode: Int = 100
 
+    val xApiKey = "5e020255c70c3bde6bcf1f1c1275e020255c7151"
+
+    val GIGSNATIVEURL = "gigs.vnative.com"
+
 }

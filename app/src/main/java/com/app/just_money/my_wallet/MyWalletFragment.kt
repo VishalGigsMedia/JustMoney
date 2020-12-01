@@ -12,9 +12,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.FragmentMyWalletBinding
-import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.completed.CompletedFragment
+import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingFragment
 
@@ -37,8 +39,28 @@ class MyWalletFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setData()
         manageClickEvents()
+    }
+
+    private fun setData() {
+        val preferenceHelper = PreferenceHelper(context!!)
+        val currentBalance = preferenceHelper.getTotalCoins()
+        val completedCoins = preferenceHelper.getCompleted()
+        val withdrawnCoins = preferenceHelper.getWithdrawn()
+
+        if (currentBalance.isNotEmpty()) {
+            mBinding.txtCurrentBalanceValue.text = DefaultHelper.decrypt(currentBalance)
+        }
+
+        if (completedCoins.isNotEmpty()) {
+            mBinding.txtCompletedCoinsValue.text = DefaultHelper.decrypt(completedCoins)
+        }
+
+        if (withdrawnCoins.isNotEmpty()) {
+            mBinding.txtWithdrawnValue.text = DefaultHelper.decrypt(withdrawnCoins)
+        }
+
 
     }
 

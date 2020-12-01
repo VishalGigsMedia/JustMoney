@@ -2,7 +2,7 @@
 <resources>
 
     <string name="server_url">http://65.0.151.206/dev/public/api/v2/</string>
-    <string name="tracking_url"> </string>
+    <string name="tracking_url">https://api.trackier.com/v2/</string>
     <string name="terms_condition_url">http://65.0.151.206/dev/public/api/v2/terms-and-conditions</string>
     <string name="privacy_policy_url">http://65.0.151.206/dev/public/api/v2/privacy-policy</string>
 

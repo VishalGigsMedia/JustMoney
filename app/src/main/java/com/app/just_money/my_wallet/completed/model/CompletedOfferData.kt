@@ -1,9 +1,15 @@
-package com.app.just_money.available.model
+package com.app.just_money.my_wallet.completed.model
 
 
 import com.google.gson.annotations.SerializedName
 
-data class FlashOffer(
+data class CompletedOfferData(
+    @SerializedName("actual_coins")
+    val actualCoins: String?,
+    @SerializedName("button_text")
+    val buttonText: String?,
+    @SerializedName("ch_status")
+    val chStatus: String?,
     @SerializedName("download_end_date")
     val downloadEndDate: String?,
     @SerializedName("download_start_date")
@@ -12,10 +18,12 @@ data class FlashOffer(
     val id: String?,
     @SerializedName("image")
     val image: String?,
+    @SerializedName("is_popular")
+    val isPopular: String?,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("trackier_offer_id")
-    val trackierOfferId: String?,
+    @SerializedName("offer_coins")
+    val offerCoins: String?,
     @SerializedName("offer_type")
     val offerType: Any?,
     @SerializedName("original_track_link")
@@ -24,16 +32,8 @@ data class FlashOffer(
     val points: String?,
     @SerializedName("short_description")
     val shortDescription: String?,
-    @SerializedName("time_remaining")
-    val timeRemaining: String?,
+    @SerializedName("trackier_offer_id")
+    val trackierOfferId: String?,
     @SerializedName("type")
-    val type: String?,
-    @SerializedName("url")
-    val url: String?,
-    @SerializedName("web_points")
-    val webPoints: Any?,
-    @SerializedName("actual_coins")
-    val actualCoins: String?,
-    @SerializedName("offer_coins")
-    val offerCoins: String?
+    val type: String?
 )

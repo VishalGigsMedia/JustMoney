@@ -16,8 +16,18 @@ class RequestKeyHelper {
     var android_version: String? = null
     var token: String? = null
     var device_id: String? = null
-    var trackier_user_id : String? = null
-    var state : String? = null
-    var city : String? = null
-    var display_id : String? = null
+    var trackier_user_id: String? = null
+    var state: String? = null
+    var city: String? = null
+    var display_id: String? = null
+    var offer_id: String? = null
+
+    //trackier
+    var name: String? = null
+    var email: String? = null
+    var password: String? = null
+    var phone: String? = null
+    var status: String? = null
+    var networkUrl: String? = null
+    var appId: String? = null
 }

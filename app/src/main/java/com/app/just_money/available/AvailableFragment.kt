@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.just_money.R
@@ -26,7 +27,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-class AvailableFragment : Fragment() {
+class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
+    QuickDealsAdapter.OnClickedQuickDeals {
 
     @Inject
     lateinit var api: API
@@ -35,7 +37,8 @@ class AvailableFragment : Fragment() {
     private lateinit var viewModel: AvailableOfferViewModel
     private lateinit var mBinding: FragmentAvailableBinding
     private var timer: CountDownTimer? = null
-
+    private var onClicked: PopularDealsAdapter.OnClickedPopularDeals? = null
+    private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,10 +51,15 @@ class AvailableFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
+        getOffers()
+    }
+
+    private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
-
-        getOffers()
+        onClicked = this
+        onClickedQuickDeals = this
 
         val preferenceHelper = PreferenceHelper(context!!)
         val jwtToken = preferenceHelper.getJwtToken()
@@ -130,11 +138,26 @@ class AvailableFragment : Fragment() {
                                 val withdrawn = availableOfferModel.withdrawn.toString()
                                 val completed = availableOfferModel.completed.toString()
                                 setDailyReward(dailyReward, totalCoins, withdrawn, completed)
-                                setFlashOffer(availableOfferModel.availableOfferData?.flashOffer)
-                                setAdapter(
-                                    availableOfferModel.availableOfferData?.quickDeals!!,
-                                    availableOfferModel.availableOfferData.popular!!
-                                )
+
+                                if (availableOfferModel.availableOfferData?.popular != null) {
+                                    popularDealsAdapter(availableOfferModel.availableOfferData.popular)
+                                } else {
+                                    mBinding.txtPopular.visibility = View.GONE
+                                    mBinding.rvPopular.visibility = View.GONE
+                                }
+                                if (availableOfferModel.availableOfferData?.quickDeals != null) {
+                                    setAdapter(availableOfferModel.availableOfferData.quickDeals)
+                                } else {
+                                    mBinding.txtQuickDeals.visibility = View.GONE
+                                    mBinding.rvQuickDeals.visibility = View.GONE
+                                }
+                                if (availableOfferModel.availableOfferData?.flashOffer != null) {
+                                    setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
+                                } else {
+                                    mBinding.clBestDeal.visibility = View.GONE
+                                    mBinding.txtFlashOffer.visibility = View.GONE
+                                }
+
                             }
                             DefaultKeyHelper.failureCode -> {
                                 DefaultHelper.showToast(
@@ -152,11 +175,29 @@ class AvailableFragment : Fragment() {
                                 )
                             }
                         }
-
                     }
                 }
             })
     }
+
+    private fun popularDealsAdapter(popularList: List<AvailableOffer>) {
+        if (popularList.isNotEmpty()) {
+            mBinding.txtPopular.visibility = View.VISIBLE
+            mBinding.rvPopular.visibility = View.VISIBLE
+
+            //popularDealsAdapter = PopularDealsAdapter(activity!!, popularList, onClicked!!)
+            popularDealsAdapter = PopularDealsAdapter(activity!!, popularList, onClicked!!)
+            mBinding.rvPopular.layoutManager =
+                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            mBinding.rvPopular.adapter = popularDealsAdapter
+            popularDealsAdapter.notifyDataSetChanged()
+
+        } else {
+            mBinding.txtPopular.visibility = View.GONE
+            mBinding.rvPopular.visibility = View.GONE
+        }
+    }
+
 
     private fun setDailyReward(
         dailyReward: String,
@@ -181,14 +222,17 @@ class AvailableFragment : Fragment() {
 
     private fun setFlashOffer(flashOffer: List<FlashOffer>?) {
         if (flashOffer != null) {
+            mBinding.clBestDeal.visibility = View.VISIBLE
+            mBinding.txtFlashOffer.visibility = View.VISIBLE
+
             val flashOfferName = DefaultHelper.decrypt(flashOffer[0].name.toString())
             val description = DefaultHelper.decrypt(flashOffer[0].shortDescription.toString())
-            val startDate = DefaultHelper.decrypt(flashOffer[0].downloadStartDate.toString())
             val endDate = DefaultHelper.decrypt(flashOffer[0].downloadEndDate.toString())
-            val offerId = DefaultHelper.decrypt(flashOffer[0].offerId.toString())
-            val offerType = DefaultHelper.decrypt(flashOffer[0].offerType.toString())
-            val url = DefaultHelper.decrypt(flashOffer[0].url.toString())
-            val trackingLink = DefaultHelper.decrypt(flashOffer[0].originalTrackLink.toString())
+            /*   val startDate = DefaultHelper.decrypt(flashOffer[0].downloadStartDate.toString())
+               val offerId = DefaultHelper.decrypt(flashOffer[0].offerId.toString())
+               val offerType = DefaultHelper.decrypt(flashOffer[0].offerType.toString())
+               val url = DefaultHelper.decrypt(flashOffer[0].url.toString())
+               val trackingLink = DefaultHelper.decrypt(flashOffer[0].originalTrackLink.toString())*/
             val image = DefaultHelper.decrypt(flashOffer[0].image.toString())
             val actualCoins = DefaultHelper.decrypt(flashOffer[0].actualCoins.toString())
             val offerCoins = DefaultHelper.decrypt(flashOffer[0].offerCoins.toString())
@@ -209,7 +253,6 @@ class AvailableFragment : Fragment() {
             mBinding.txtDealOfferAmount.text = offerCoins
             mBinding.txtRedeemOfferAmount.text = offerCoins
 
-
             if (image.isNotEmpty()) {
                 Glide.with(context!!)
                     .load(image)
@@ -225,25 +268,56 @@ class AvailableFragment : Fragment() {
             val time = convertMinute + convertSecond
             //println("timeTotal : $time")
             setTimer(time)
+        } else {
+            mBinding.clBestDeal.visibility = View.GONE
+            mBinding.txtFlashOffer.visibility = View.GONE
         }
 
     }
 
-    private fun setAdapter(quickDeals: List<AvailableOffer>, popularList: List<AvailableOffer>) {
+    private fun setAdapter(quickDeals: List<AvailableOffer>) {
+
+
         if (quickDeals.isNotEmpty()) {
-            quickDealsAdapter = QuickDealsAdapter(activity!!, quickDeals)
+            mBinding.txtQuickDeals.visibility = View.VISIBLE
+            mBinding.rvQuickDeals.visibility = View.VISIBLE
+
+            quickDealsAdapter = QuickDealsAdapter(activity!!, quickDeals, onClickedQuickDeals!!)
             mBinding.rvQuickDeals.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             mBinding.rvQuickDeals.adapter = quickDealsAdapter
             quickDealsAdapter.notifyDataSetChanged()
+        } else {
+            mBinding.txtQuickDeals.visibility = View.GONE
+            mBinding.rvQuickDeals.visibility = View.GONE
         }
-        if (popularList.isNotEmpty()) {
-            popularDealsAdapter = PopularDealsAdapter(activity!!, popularList)
-            mBinding.rvPopular.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            mBinding.rvPopular.adapter = popularDealsAdapter
-            popularDealsAdapter.notifyDataSetChanged()
-        }
+    }
 
+    override fun claimOffers(appId: String) {
+        //DefaultHelper.showToast(context!!, "Clicked")
+        claimOffer(appId)
+    }
+
+    override fun getOffers(appId: String) {
+        claimOffer(appId)
+    }
+
+    private fun claimOffer(appId: String) {
+        viewModel.claimOffer(context!!, api, appId)
+            .observe(viewLifecycleOwner, Observer { claimOfferModel ->
+                if (claimOfferModel != null) {
+                    if (claimOfferModel.status == DefaultKeyHelper.successCode) {
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(claimOfferModel.message.toString())
+                        )
+                    } else {
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(claimOfferModel.message.toString())
+                        )
+                    }
+                }
+            })
     }
 }
