@@ -8,9 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.available.adapter.QuickDealsAdapter
 import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentInProgressBinding
@@ -22,6 +24,7 @@ class InProgressFragment : Fragment() {
     @Inject
     lateinit var api: API
 
+    private var callback: OnCurrentFragmentVisibleListener? = null
     private val blogList: List<String> = ArrayList()
     private lateinit var quickDealsAdapter: QuickDealsAdapter
     private lateinit var inProgressAdapter: InProgressAdapter
@@ -44,12 +47,15 @@ class InProgressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callback?.onShowHideBottomNav(true)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(InProgressViewModel::class.java)
         getInProgressOffers()
     }
 
-
+    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
+        callback = activity
+    }
     private fun getInProgressOffers() {
         viewModel.getInProgressOffers(context!!, api)
             .observe(viewLifecycleOwner, { inProgressOffers ->
@@ -57,7 +63,10 @@ class InProgressFragment : Fragment() {
                     when (inProgressOffers.status) {
                         DefaultKeyHelper.successCode -> {
                             if (inProgressOffers.completedOfferData != null) {
+                                mBinding.rvInProgressDeals.visibility = View.VISIBLE
                                 setAdapter(inProgressOffers.completedOfferData)
+                            } else {
+                                mBinding.rvInProgressDeals.visibility = View.GONE
                             }
                         }
                         DefaultKeyHelper.failureCode -> {

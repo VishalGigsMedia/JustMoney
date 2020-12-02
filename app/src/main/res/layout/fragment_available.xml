@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_100">
+        android:background="@color/gray_100">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -25,17 +25,40 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <!--
+                                <ImageView
+                                    android:layout_width="@dimen/_180sdp"
+                                    android:layout_height="@dimen/_200sdp"
+                                    android:fitsSystemWindows="true"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/blue_patch"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:layout_width="@dimen/_180sdp"
-                    android:layout_height="@dimen/_200sdp"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/blue_patch"
+                                </ImageView>-->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clClose"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:background="@drawable/curve_top_left_bottom_left_indigo_600"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                </ImageView>
+                    <ImageView
+                        android:id="@+id/ivClose"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:src="@drawable/ic_close"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </ImageView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/txtAvailable"

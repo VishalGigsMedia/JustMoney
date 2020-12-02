@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="@dimen/_210sdp"
                     android:layout_height="@dimen/_200sdp"
                     android:fitsSystemWindows="true"
@@ -31,8 +31,30 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                </ImageView>
+                </ImageView>-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clClose"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:background="@drawable/curve_top_left_bottom_left_indigo_600"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
+                    <ImageView
+                        android:id="@+id/ivClose"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:src="@drawable/ic_close"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </ImageView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--
                 <ImageView
                     android:id="@+id/ivClose"
                     android:layout_width="wrap_content"
@@ -44,6 +66,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                 </ImageView>
+-->
 
                 <TextView
                     android:id="@+id/txtSetting"

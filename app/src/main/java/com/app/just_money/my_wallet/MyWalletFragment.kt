@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.FragmentMyWalletBinding
 import com.app.just_money.my_wallet.completed.CompletedFragment
@@ -22,6 +23,7 @@ import com.app.just_money.my_wallet.setting.SettingFragment
 
 class MyWalletFragment : Fragment() {
 
+    private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentMyWalletBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,10 +41,14 @@ class MyWalletFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callback?.onShowHideBottomNav(true)
         setData()
         manageClickEvents()
     }
 
+    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
+        callback = activity
+    }
     private fun setData() {
         val preferenceHelper = PreferenceHelper(context!!)
         val currentBalance = preferenceHelper.getTotalCoins()

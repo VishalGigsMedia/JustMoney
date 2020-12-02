@@ -21,9 +21,9 @@
 
     <color name="indigo_900">#001A55</color>
 
-    <color name="blue_grey_50">#ECEFF1</color>
+    <color name="blue_gray_50">#ECEFF1</color>
 
-    <color name="grey_100">#F2F2F2</color>
+    <color name="gray_100">#F2F2F2</color>
 
     <color name="yellow_a400">#FFF300</color>
 
@@ -32,6 +32,10 @@
     <color name="blue_300">#55ACEE</color>
 
     <color name="grey_500">#989898</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
 
 
 </resources>

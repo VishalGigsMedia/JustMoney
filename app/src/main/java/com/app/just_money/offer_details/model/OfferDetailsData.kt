@@ -41,5 +41,9 @@ data class OfferDetailsData(
     @SerializedName("video_title")
     val videoTitle: String?,
     @SerializedName("video_url")
-    val videoUrl: Any?
+    val videoUrl: Any?,
+    @SerializedName("actual_coins")
+    val actualCoins: String?,
+    @SerializedName("offer_coins")
+    val offerCoins: String?
 )

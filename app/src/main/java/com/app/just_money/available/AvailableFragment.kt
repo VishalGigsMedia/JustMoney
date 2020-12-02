@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.available.adapter.QuickDealsAdapter
@@ -17,6 +18,7 @@ import com.app.just_money.available.model.AvailableOffer
 import com.app.just_money.available.model.FlashOffer
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -32,6 +34,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     @Inject
     lateinit var api: API
+
+    private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var quickDealsAdapter: QuickDealsAdapter
     private lateinit var popularDealsAdapter: PopularDealsAdapter
     private lateinit var viewModel: AvailableOfferViewModel
@@ -51,8 +55,13 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callback?.onShowHideBottomNav(true)
         init()
         getOffers()
+    }
+
+    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
+        callback = activity
     }
 
     private fun init() {
@@ -121,7 +130,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         if (timer != null) {
             (timer as CountDownTimer)
         }
-
     }
 
     private fun getOffers() {
@@ -276,8 +284,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun setAdapter(quickDeals: List<AvailableOffer>) {
-
-
         if (quickDeals.isNotEmpty()) {
             mBinding.txtQuickDeals.visibility = View.VISIBLE
             mBinding.rvQuickDeals.visibility = View.VISIBLE

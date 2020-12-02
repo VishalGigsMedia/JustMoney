@@ -61,12 +61,14 @@ interface API {
 
     @POST("get_completed_offers")
     fun getCompletedOffers(
-        @Header("Authorization") authorizationToken: String
+        @Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper
     ): Call<CompletedOfferModel>
 
     @POST("get_pending_offers")
     fun getInProgressOffers(
-        @Header("Authorization") authorizationToken: String
+        @Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper
     ): Call<CompletedOfferModel>
 
 }

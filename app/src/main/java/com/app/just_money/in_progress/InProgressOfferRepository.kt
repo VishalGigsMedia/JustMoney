@@ -6,6 +6,7 @@ import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
+import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -26,7 +27,9 @@ class InProgressOfferRepository {
         val mutableLiveData: MutableLiveData<CompletedOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            api.getInProgressOffers(preferenceHelper.getJwtToken())
+            val requestHelper = RequestKeyHelper()
+            requestHelper.state = preferenceHelper.getUserState()
+            api.getInProgressOffers(preferenceHelper.getJwtToken(), requestHelper)
                 .enqueue(object : Callback<CompletedOfferModel> {
                     override fun onResponse(
                         call: Call<CompletedOfferModel>,

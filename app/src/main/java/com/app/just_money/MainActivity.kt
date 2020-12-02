@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,10 +23,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.app.just_money.available.AvailableFragment
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.ActivityMainBinding
 import com.app.just_money.in_progress.InProgressFragment
 import com.app.just_money.my_wallet.MyWalletFragment
+import com.app.just_money.my_wallet.completed.CompletedFragment
+import com.app.just_money.my_wallet.faq.FaqFragment
+import com.app.just_money.my_wallet.payouts.MyPayoutFragment
+import com.app.just_money.my_wallet.setting.SettingFragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
@@ -36,7 +42,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
-    LocationListener {
+    LocationListener, OnCurrentFragmentVisibleListener {
 
     private var addressList: List<Address>? = null
     private var service: LocationManager? = null
@@ -79,7 +85,9 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     private fun manageClickEvents() {
         mBinding.txtAvailable.setOnClickListener { onClickAvailable() }
         mBinding.txtInProgress.setOnClickListener { onClickInProgress() }
-        mBinding.txtMyWallet.setOnClickListener { onClickMyWallet() }
+        mBinding.txtMyWallet.setOnClickListener {
+            onClickMyWallet()
+        }
     }
 
     private fun onClickAvailable() {
@@ -428,5 +436,25 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             )
         }
     }
+
+    override fun onAttachFragment(fragment: Fragment) {
+        if (fragment is AvailableFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is InProgressFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is CompletedFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is MyWalletFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is SettingFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is FaqFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is MyPayoutFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+    }
+
+    override fun onShowHideBottomNav(show: Boolean) {
+        //println("show:  $show")
+        if (show) {
+            mBinding.bottomNav.visibility = View.VISIBLE
+        } else {
+            mBinding.bottomNav.visibility = View.GONE
+        }
+    }
+
 
 }
