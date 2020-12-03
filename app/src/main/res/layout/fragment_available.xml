@@ -25,17 +25,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <!--
-                                <ImageView
-                                    android:layout_width="@dimen/_180sdp"
-                                    android:layout_height="@dimen/_200sdp"
-                                    android:fitsSystemWindows="true"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/blue_patch"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                </ImageView>-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clClose"
@@ -162,6 +151,7 @@
                     android:textColor="@color/pink_600"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="italic"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cvDailyRewards">
@@ -176,6 +166,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:elevation="@dimen/_5sdp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtFlashOffer">
@@ -502,6 +493,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/rvPopular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -516,6 +508,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@+id/txtQuickDeals"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -537,6 +530,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="italic"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/rvQuickDeals"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -551,6 +545,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:clipToPadding="false"
                     android:paddingBottom="@dimen/_20sdp"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

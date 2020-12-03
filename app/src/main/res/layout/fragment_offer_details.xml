@@ -60,6 +60,7 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:src="@drawable/ic_close"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -74,7 +75,7 @@
                     android:layout_height="@dimen/_100sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:src="@mipmap/ic_sample"
+                    android:src="@drawable/ic_upload_place_holder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtTitle">
 
@@ -114,7 +115,7 @@
                         android:drawablePadding="0dp"
                         android:fontFamily="@font/metropolis_bold"
                         android:gravity="bottom"
-                        android:text="450000"
+                        android:text="@null"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_16ssp"
                         app:drawableEndCompat="@drawable/ic_coins_blue"
@@ -160,7 +161,7 @@
                         android:drawablePadding="0dp"
                         android:fontFamily="@font/metropolis_medium"
                         android:gravity="center"
-                        android:text="80000"
+                        android:text="@null"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10ssp"
                         app:drawableStartCompat="@drawable/ic_coins_blue"
@@ -177,7 +178,7 @@
                         android:drawablePadding="0dp"
                         android:fontFamily="@font/metropolis_medium_italic"
                         android:gravity="center"
-                        android:text="SAVE 35000"
+                        android:text="@null"
                         android:textColor="@color/pink_600"
                         android:textSize="@dimen/_10ssp"
                         app:drawableEndCompat="@drawable/ic_coins_pink"
@@ -319,7 +320,7 @@
                         android:drawablePadding="0dp"
                         android:fontFamily="@font/metropolis_bold"
                         android:gravity="center"
-                        android:text="EARN 450000"
+                        android:text="@null"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp"
                         app:drawableEndCompat="@drawable/ic_coins_white"

@@ -60,6 +60,7 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:src="@drawable/ic_close"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -311,12 +312,13 @@
                             android:id="@+id/ivUploadImage"
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="@dimen/_50sdp"
-                            android:scaleType="fitCenter"
+                            android:scaleType="fitXY"
                             android:src="@drawable/ic_upload_place_holder"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
                         </ImageView>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView

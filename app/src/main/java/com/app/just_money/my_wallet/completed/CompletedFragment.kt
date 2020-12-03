@@ -16,7 +16,7 @@ import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentCompletedBinding
 import com.app.just_money.my_wallet.completed.adapter.CompletedAdapter
-import com.app.just_money.my_wallet.completed.model.CompletedOfferData
+import com.app.just_money.my_wallet.completed.model.CompletedList
 import javax.inject.Inject
 
 class CompletedFragment : Fragment() {
@@ -57,8 +57,12 @@ class CompletedFragment : Fragment() {
                 if (completedOffers != null) {
                     when (completedOffers.status) {
                         DefaultKeyHelper.successCode -> {
-                            if (completedOffers.completedOfferData != null) {
-                                setAdapter(completedOffers.completedOfferData)
+
+                            if (completedOffers.data?.completedList != null) {
+                                mBinding.rvCompleted.visibility = View.VISIBLE
+                                setAdapter(completedOffers.data.completedList)
+                            } else {
+                                mBinding.rvCompleted.visibility = View.GONE
                             }
                         }
                         DefaultKeyHelper.failureCode -> {
@@ -73,11 +77,11 @@ class CompletedFragment : Fragment() {
     }
 
 
-    private fun setAdapter(completedOfferData: List<CompletedOfferData>) {
+    private fun setAdapter(completedOfferData: List<CompletedList>) {
         completedAdapter = CompletedAdapter(activity!!, completedOfferData)
-        mBinding.rvInProgressDeals.layoutManager =
+        mBinding.rvCompleted.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        mBinding.rvInProgressDeals.adapter = completedAdapter
+        mBinding.rvCompleted.adapter = completedAdapter
         completedAdapter.notifyDataSetChanged()
     }
 

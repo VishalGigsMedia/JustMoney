@@ -70,6 +70,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         onClicked = this
         onClickedQuickDeals = this
 
+        mBinding.txtDailyRewardValue.text = "0"
         val preferenceHelper = PreferenceHelper(context!!)
         val jwtToken = preferenceHelper.getJwtToken()
         println("JWT: $jwtToken")
@@ -139,7 +140,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                     if (availableOfferModel != null) {
                         when (availableOfferModel.status) {
                             DefaultKeyHelper.successCode -> {
-
                                 val dailyReward =
                                     availableOfferModel.availableOfferData?.dailyRewards.toString()
                                 val totalCoins = availableOfferModel.totalCoins.toString()
@@ -160,6 +160,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                                     mBinding.rvQuickDeals.visibility = View.GONE
                                 }
                                 if (availableOfferModel.availableOfferData?.flashOffer != null) {
+                                    mBinding.clBestDeal.visibility = View.VISIBLE
+                                    mBinding.txtFlashOffer.visibility = View.VISIBLE
                                     setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
                                 } else {
                                     mBinding.clBestDeal.visibility = View.GONE

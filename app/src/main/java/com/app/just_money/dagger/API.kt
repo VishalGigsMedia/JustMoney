@@ -1,15 +1,16 @@
 package com.app.just_money.dagger
 
 import com.app.just_money.available.model.AvailableOfferModel
+import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
+import com.app.just_money.my_wallet.setting.model.SendFeedbackModel
 import com.app.just_money.offer_details.model.OfferDetailsModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.HeaderMap
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.util.*
 
 interface API {
@@ -69,6 +70,24 @@ interface API {
     fun getInProgressOffers(
         @Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper
-    ): Call<CompletedOfferModel>
+    ): Call<InProgressModel>
+
+    @Multipart
+    @POST("help_form")
+    fun sendFeedback(
+        @Header("Authorization") authKey: String?,
+        @Part fileImage: MultipartBody.Part?,
+        @Part("name") firstname: RequestBody?,
+        @Part("email") mobile: RequestBody?,
+        @Part("subject") lastname: RequestBody?,
+        @Part("message") email: RequestBody?
+    ): Call<SendFeedbackModel>
+
+
+    @GET("get_user_data")
+    fun getUserData(
+        @Header("Authorization") authorizationToken: String
+    ): Call<InProgressModel>
+
 
 }

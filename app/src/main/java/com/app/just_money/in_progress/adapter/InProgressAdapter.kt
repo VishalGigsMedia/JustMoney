@@ -14,13 +14,14 @@ import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.RowItemInProgressBinding
 import com.app.just_money.databinding.RowItemInProgressTypeSecondBinding
+import com.app.just_money.in_progress.model.PendingList
 import com.app.just_money.my_wallet.completed.model.CompletedOfferData
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
 class InProgressAdapter(
     private val context: FragmentActivity,
-    private val inProgressList: List<CompletedOfferData>,
+    private val inProgressList: List<PendingList>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
