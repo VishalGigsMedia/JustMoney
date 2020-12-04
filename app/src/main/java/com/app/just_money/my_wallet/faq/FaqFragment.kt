@@ -53,7 +53,7 @@ class FaqFragment : Fragment() {
     }
 
     private fun getFaq() {
-        viewModel.getFaq(context!!, api).observe(viewLifecycleOwner, Observer { faqDetails ->
+        viewModel.getFaq(context!!, api).observe(viewLifecycleOwner, { faqDetails ->
             if (faqDetails != null) {
                 when (faqDetails.status) {
                     DefaultKeyHelper.successCode -> {

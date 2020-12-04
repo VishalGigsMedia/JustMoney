@@ -52,7 +52,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="country">Country</string>
     <string name="agree_to_terms_condition">I agree to JustMoney’s</string>
-    <string name="terms_condition">Terms and Conditions.</string>
+    <string name="terms_condition">Terms and Conditions</string>
     <string name="by_tapping">By tapping Verify Phone Number an SMS may be sent.</string>
     <string name="we_have_sent_phone_number">We have sent you an SMS with a code to the</string>
     <string name="didnt_receive_code">If you didn’t receive code? </string>
@@ -100,6 +100,19 @@
 
     <string name="note">*Note</string>
     <string name="step_earn_reward">Steps to Earn reward</string>
+
+    <string name="account">Account</string>
+    <string name="others">Others</string>
+    <string name="my_profile">My Profile</string>
+    <string name="feedback">Feedback</string>
+    <string name="logout">Logout</string>
+    <string name="social">Social</string>
+    <string name="profile">Profile</string>
+    <string name="rewards">Rewards</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="birth_date">Birthdate</string>
+    <string name="gender">Gender</string>
 
 
     <!--error-->

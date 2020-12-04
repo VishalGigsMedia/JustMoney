@@ -54,7 +54,7 @@
                     android:fontFamily="@font/metropolis_extra_bold_italic"
                     android:gravity="start"
                     android:text="@string/completed"
-                    android:drawableStart="@drawable/ic_baseline_arrow_back_24"
+                    android:drawableStart="@drawable/ic_arrow_back_black"
                     android:textAllCaps="true"
                     android:textColor="@color/color_primary"
                     android:textSize="@dimen/_16ssp"

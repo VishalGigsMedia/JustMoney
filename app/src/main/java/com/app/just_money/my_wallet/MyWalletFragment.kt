@@ -19,7 +19,7 @@ import com.app.just_money.databinding.FragmentMyWalletBinding
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
-import com.app.just_money.my_wallet.setting.SettingFragment
+import com.app.just_money.my_wallet.setting.SettingsNewFragment
 
 class MyWalletFragment : Fragment() {
 
@@ -49,6 +49,7 @@ class MyWalletFragment : Fragment() {
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
     }
+
     private fun setData() {
         val preferenceHelper = PreferenceHelper(context!!)
         val currentBalance = preferenceHelper.getTotalCoins()
@@ -84,7 +85,7 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickSetting() {
-        openFragment(SettingFragment(), true)
+        openFragment(SettingsNewFragment(), true)
     }
 
     private fun onClickRequestPayout() {

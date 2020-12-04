@@ -32,6 +32,7 @@ import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingFragment
+import com.app.just_money.my_wallet.setting.SettingsNewFragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     private val fastestInterval: Long = 2000 /* 2 sec */
     private val requestLocationCode = 1
     private val requestCheckSetting = 2
-    private val REQUEST_PERMISSION_ALLOWED = 1
+    private val requestPermissionAllowed = 1
 
     private lateinit var mBinding: ActivityMainBinding
 
@@ -433,7 +434,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
                     permission.ACCESS_FINE_LOCATION,
                     permission.ACCESS_COARSE_LOCATION
                 ),
-                REQUEST_PERMISSION_ALLOWED
+                requestPermissionAllowed
             )
         }
     }
@@ -446,6 +447,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         if (fragment is SettingFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is FaqFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is MyPayoutFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is SettingsNewFragment) fragment.setOnCurrentFragmentVisibleListener(this)
     }
 
     override fun onShowHideBottomNav(show: Boolean) {
