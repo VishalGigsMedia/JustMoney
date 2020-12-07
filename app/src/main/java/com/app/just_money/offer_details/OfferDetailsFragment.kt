@@ -50,6 +50,28 @@ class OfferDetailsFragment : Fragment() {
         mBinding.txtStepToAvailOffer.setOnClickListener {
             showIdentityProof()
         }
+        mBinding.clOfferAmount.setOnClickListener {
+            claimOffer(offerId)
+        }
+    }
+
+    private fun claimOffer(appId: String) {
+        viewModel.claimOffer(context!!, api, appId)
+            .observe(viewLifecycleOwner, { claimOfferModel ->
+                if (claimOfferModel != null) {
+                    if (claimOfferModel.status == DefaultKeyHelper.successCode) {
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(claimOfferModel.message.toString())
+                        )
+                    } else {
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(claimOfferModel.message.toString())
+                        )
+                    }
+                }
+            })
     }
 
     private fun showIdentityProof() {
@@ -74,6 +96,10 @@ class OfferDetailsFragment : Fragment() {
             //displayId = bundle.getString(BundleHelper.offerId).toString()
         }
 
+        getOfferDetails()
+    }
+
+    private fun getOfferDetails() {
         viewModel.getOfferDetails(context!!, api, offerId)
             .observe(viewLifecycleOwner, { offerDetails ->
                 if (offerDetails != null) {

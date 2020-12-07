@@ -199,20 +199,20 @@ class HelpUsFragment : Fragment() {
             .observe(viewLifecycleOwner,
                 { sendFeedbackModel ->
                     if (sendFeedbackModel != null) {
-                        when (sendFeedbackModel.status) {
-                            DefaultKeyHelper.successCode -> {
+                        when {
+                            sendFeedbackModel.status == DefaultKeyHelper.successCode -> {
                                 DefaultHelper.showToast(
                                     context!!,
                                     DefaultHelper.decrypt(sendFeedbackModel.message.toString())
                                 )
                             }
-                            DefaultKeyHelper.failureCode -> {
+                            sendFeedbackModel.status == DefaultKeyHelper.failureCode -> {
                                 DefaultHelper.showToast(
                                     context!!,
                                     DefaultHelper.decrypt(sendFeedbackModel.message.toString())
                                 )
                             }
-                            DefaultKeyHelper.forceLogoutCode -> {
+                            sendFeedbackModel.forceLogout != 0 -> {
                                 DefaultHelper.showToast(
                                     context!!,
                                     DefaultHelper.decrypt(sendFeedbackModel.message.toString())

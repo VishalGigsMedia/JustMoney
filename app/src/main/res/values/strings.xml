@@ -113,6 +113,12 @@
     <string name="update_profile">Update Profile</string>
     <string name="birth_date">Birthdate</string>
     <string name="gender">Gender</string>
+    <string name="last_name">Last Name</string>
+
+    <string name="sel_gender">Select Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="get_otp">Get OTP</string>
 
 
     <!--error-->

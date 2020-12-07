@@ -3,6 +3,7 @@ package com.app.just_money.available.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
+import com.app.just_money.available.model.VersionModel
 import com.app.just_money.available.model.AvailableOfferModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
@@ -19,6 +20,7 @@ class AvailableOfferRepository {
     private val TAG = javaClass.simpleName
     private var availableOfferModel: AvailableOfferModel? = null
     private var claimOfferModel: ClaimOfferModel? = null
+    private var versionModel: VersionModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
@@ -108,4 +110,41 @@ class AvailableOfferRepository {
         }
         return mutableLiveData
     }
+
+    fun checkVersion(
+        context: Context,
+        api: API,
+        appVersionCode: String
+    ): MutableLiveData<VersionModel> {
+        val mutableLiveData: MutableLiveData<VersionModel> = MutableLiveData()
+        if (DefaultHelper.isOnline()) {
+            val preferenceHelper = PreferenceHelper(context)
+            val requestKeyHelper = RequestKeyHelper()
+            requestKeyHelper.app_version_code = appVersionCode
+            api.checkVersion(preferenceHelper.getJwtToken(), requestKeyHelper)
+                .enqueue(object : Callback<VersionModel> {
+                    override fun onResponse(
+                        call: Call<VersionModel>,
+                        response: Response<VersionModel>
+                    ) {
+                        gson = gsonBuilder.create()
+                        val json = Gson().toJson(response.body())
+                        versionModel = gson?.fromJson(json, VersionModel::class.java)
+                        println("$TAG : $json")
+                        mutableLiveData.value = versionModel
+                    }
+
+                    override fun onFailure(call: Call<VersionModel>, t: Throwable) {
+                        println("TAG : ${t.printStackTrace()}")
+                    }
+                })
+        } else {
+            DefaultHelper.showToast(
+                context,
+                context.getString(R.string.no_internet)
+            )
+        }
+        return mutableLiveData
+    }
+
 }

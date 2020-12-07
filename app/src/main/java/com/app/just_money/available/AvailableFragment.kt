@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.just_money.MainActivity
@@ -16,13 +16,11 @@ import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.available.adapter.QuickDealsAdapter
 import com.app.just_money.available.model.AvailableOffer
 import com.app.just_money.available.model.FlashOffer
-import com.app.just_money.common_helper.DefaultHelper
-import com.app.just_money.common_helper.DefaultKeyHelper
-import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
-import com.app.just_money.common_helper.PreferenceHelper
+import com.app.just_money.common_helper.*
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentAvailableBinding
+import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.util.concurrent.TimeUnit
@@ -57,6 +55,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
         init()
+        checkVersion()
         getOffers()
     }
 
@@ -306,26 +305,82 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         claimOffer(appId)
     }
 
+    override fun showOfferDetails(offerId: String, displayId: String) {
+        val offerDetailFragment = OfferDetailsFragment()
+        val bundle = Bundle()
+        bundle.putString(BundleHelper.offerId, offerId)
+        bundle.putString(BundleHelper.displayId, displayId)
+        offerDetailFragment.arguments = bundle
+        openFragment(offerDetailFragment, true)
+        /*  activity!!.supportFragmentManager.beginTransaction()
+              .replace(R.id.flMain, offerDetails)
+              .addToBackStack(MainActivity::class.java.simpleName)
+              .commit()*/
+
+    }
+
     override fun getOffers(appId: String) {
         claimOffer(appId)
     }
 
+    private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
+        if (addToBackStack) {
+            activity!!.supportFragmentManager.popBackStack(
+                null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.flMain, fragment)
+                .addToBackStack(MainActivity::class.java.simpleName)
+                .commit()
+        } else {
+            activity!!.supportFragmentManager.popBackStack(
+                null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.flMain, fragment)
+                .commit()
+        }
+    }
+
     private fun claimOffer(appId: String) {
         viewModel.claimOffer(context!!, api, appId)
-            .observe(viewLifecycleOwner, Observer { claimOfferModel ->
+            .observe(viewLifecycleOwner, { claimOfferModel ->
                 if (claimOfferModel != null) {
                     if (claimOfferModel.status == DefaultKeyHelper.successCode) {
-                        DefaultHelper.showToast(
+                        /*DefaultHelper.showToast(
                             context!!,
                             DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )
+                        )*/
                     } else {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )
+                        /* DefaultHelper.showToast(
+                             context!!,
+                             DefaultHelper.decrypt(claimOfferModel.message.toString())
+                         )*/
                     }
                 }
             })
+    }
+
+    private fun checkVersion() {
+        viewModel.checkVersion(context!!, api, "").observe(viewLifecycleOwner, { versionModel ->
+            if (versionModel != null) {
+                when (versionModel.status) {
+                    DefaultKeyHelper.successCode -> {
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(versionModel.message.toString())
+                        )
+                    }
+                    DefaultKeyHelper.failureCode -> {
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(versionModel.message.toString())
+                        )
+                    }
+                }
+            }
+        })
     }
 }

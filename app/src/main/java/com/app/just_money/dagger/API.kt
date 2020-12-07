@@ -1,11 +1,12 @@
 package com.app.just_money.dagger
 
+import com.app.just_money.available.model.VersionModel
 import com.app.just_money.available.model.AvailableOfferModel
 import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
-import com.app.just_money.my_wallet.setting.model.SendFeedbackModel
+import com.app.just_money.my_wallet.setting.model.*
 import com.app.just_money.offer_details.model.OfferDetailsModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -85,9 +86,44 @@ interface API {
 
 
     @GET("get_user_data")
-    fun getUserData(
+    fun getUserProfileData(
         @Header("Authorization") authorizationToken: String
-    ): Call<InProgressModel>
+    ): Call<GetUserProfileModel>
 
+    @Multipart
+    @POST("update_profile")
+    fun updateProfile(
+        @Header("Authorization") authKey: String?,
+        @Part fileImage: MultipartBody.Part?,
+        @Part("first_name") firstName: RequestBody?,
+        @Part("last_name") lastName: RequestBody?,
+        @Part("gender") gender: RequestBody?,
+        @Part("dob") dob: RequestBody?,
+        @Part("email") email: RequestBody?
+    ): Call<UpdateProfileModel>
+
+    @GET("logout")
+    fun logout(
+        @Header("Authorization") authorizationToken: String
+    ): Call<LogoutModel>
+
+
+    @GET("send_email_verification_otp")
+    fun sendEmailVerificationOtp(
+        @Header("Authorization") authorizationToken: String
+    ): Call<SendEmailOtpModel>
+
+
+    @POST("verify_email_otp")
+    fun verifyEmailOtp(
+        @Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper
+    ): Call<VerifyEmailOtpModel>
+
+    @POST("check_version")
+    fun checkVersion(
+        @Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper
+    ): Call<VersionModel>
 
 }

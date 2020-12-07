@@ -182,6 +182,7 @@ class PopularDealsAdapter(
 
     interface OnClickedPopularDeals {
         fun claimOffers(appId: String)
+        fun showOfferDetails(offerId: String, displayId: String)
     }
 
     override fun getItemId(position: Int): Long {

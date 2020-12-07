@@ -30,4 +30,9 @@ class RequestKeyHelper {
     var status: String? = null
     var networkUrl: String? = null
     var appId: String? = null
+    var dob: String? = null
+    var gender: String? = null
+    var profile_pic: String? = null
+    var app_version_code: String? = null
+    var otp: String? = null
 }
