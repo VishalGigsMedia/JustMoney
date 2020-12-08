@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOffer
@@ -87,7 +88,9 @@ class PopularDealsAdapter(
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.ic_logo)
                     .into(holder.mBindingPopularDeals?.ivLogo!!)
+               // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
             }
+
 
             if (actualCoins.isNotEmpty()) {
                 holder.mBindingPopularDeals?.txtDealActualAmount?.text =
