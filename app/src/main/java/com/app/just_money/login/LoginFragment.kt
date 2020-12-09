@@ -2,6 +2,7 @@ package com.app.just_money.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,9 @@ import com.app.just_money.common_helper.DefaultValidationHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentLoginBinding
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.poovam.pinedittextfield.PinField
 import org.jetbrains.annotations.NotNull
 import javax.inject.Inject
@@ -55,7 +59,10 @@ class LoginFragment : Fragment() {
 
 
         mBinding.txtVerifyPhoneNumber.setOnClickListener { onClickVerifyPhoneNumber() }
-        mBinding.txtVerifyOtp.setOnClickListener { onVerify() }
+        mBinding.txtVerifyOtp.setOnClickListener {
+
+            onVerify()
+        }
         mBinding.txtResend.setOnClickListener { onClickVerifyPhoneNumber() }
     }
 
@@ -68,13 +75,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun onVerify() {
-        println("OTP: " + getOTP())
+        // println("OTP: " + getOTP())
         if (!DefaultValidationHelper.isValidMobileNumber(getMobileNumber())) {
             DefaultHelper.showToast(context!!, context!!.getString(R.string.err_ent_phone_number))
         } else if (!DefaultValidationHelper.isValidString(getOTP())) {
             DefaultHelper.showToast(context!!, context!!.getString(R.string.err_ent_otp))
         } else {
-            verifyLogin()
+            //verifyLogin(token)
+            getToken()
         }
     }
 
@@ -119,40 +127,6 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun verifyLogin() {
-        mBinding.clLoader.visibility = View.VISIBLE
-        viewModel.login(activity!!, api, getMobileNumber(), getOTP(), countryCode)
-            .observe(viewLifecycleOwner, { loginModel ->
-                mBinding.clLoader.visibility = View.GONE
-                if (loginModel != null) {
-                    when (loginModel.status) {
-                        DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(
-                                context!!,
-                                DefaultHelper.decrypt(loginModel.message.toString())
-                            )
-                            trackLogin()
-                            /* val intent = Intent(context, MainActivity::class.java)
-                             startActivity(intent)
-                             activity!!.finish()*/
-                        }
-                        DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(
-                                context!!,
-                                DefaultHelper.decrypt(loginModel.message.toString())
-                            )
-                        }
-                        else -> {
-                            DefaultHelper.showToast(
-                                context!!,
-                                DefaultHelper.decrypt(loginModel.message.toString())
-                            )
-                        }
-                    }
-                }
-            })
-    }
-
     private fun setOTP(otp: String) {
         mBinding.clVerifyMobileNumber.visibility = View.GONE
         mBinding.clOtpHolder.visibility = View.VISIBLE
@@ -196,4 +170,81 @@ class LoginFragment : Fragment() {
             }
         })
     }
+
+
+    private fun getToken(): String {
+        var token = ""
+        // Get token
+        // [START log_reg_token]
+        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            token = task.result
+
+            // Log and toast
+            val msg = getString(R.string.msg_token_fmt, token)
+            //Log.d(TAG, msg)
+            Log.d("fcmToken: ", token)
+
+            verifyLogin(token)
+            // Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        })
+
+
+        return token
+    }
+
+
+    private fun verifyLogin(token: String) {
+        mBinding.clLoader.visibility = View.VISIBLE
+        viewModel.login(activity!!, api, getMobileNumber(), getOTP(), countryCode, token)
+            .observe(viewLifecycleOwner, { loginModel ->
+                mBinding.clLoader.visibility = View.GONE
+                if (loginModel != null) {
+                    when (loginModel.status) {
+                        DefaultKeyHelper.successCode -> {
+                            DefaultHelper.showToast(
+                                context!!,
+                                DefaultHelper.decrypt(loginModel.message.toString())
+                            )
+                            trackLogin()
+                            /* val intent = Intent(context, MainActivity::class.java)
+                             startActivity(intent)
+                             activity!!.finish()*/
+                        }
+                        DefaultKeyHelper.failureCode -> {
+                            DefaultHelper.showToast(
+                                context!!,
+                                DefaultHelper.decrypt(loginModel.message.toString())
+                            )
+                        }
+                        else -> {
+                            DefaultHelper.showToast(
+                                context!!,
+                                DefaultHelper.decrypt(loginModel.message.toString())
+                            )
+                        }
+                    }
+                }
+            })
+    }
+
+    private fun subscribeToTopic() {
+        // [START subscribe_topics]
+        Firebase.messaging.subscribeToTopic("weather")
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed)
+                }
+                Log.d(TAG, msg)
+                //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+        // [END subscribe_topics]
+    }
+
 }

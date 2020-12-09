@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOffer
@@ -84,11 +83,11 @@ class PopularDealsAdapter(
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
                 Glide.with(context)
-                    .load(imageUrl)
+                    .load(DefaultHelper.decrypt(imageUrl))
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.ic_logo)
                     .into(holder.mBindingPopularDeals?.ivLogo!!)
-               // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
+                // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
             }
 
 
@@ -146,7 +145,7 @@ class PopularDealsAdapter(
 
             if (imageUrl.isNotEmpty()) {
                 Glide.with(context)
-                    .load(imageUrl)
+                    .load(DefaultHelper.decrypt(imageUrl))
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.ic_logo)
                     .into(holder.mBindingPopularDealsSecond?.ivLogo!!)

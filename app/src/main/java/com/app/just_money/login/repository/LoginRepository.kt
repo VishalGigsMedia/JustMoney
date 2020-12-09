@@ -81,13 +81,14 @@ class LoginRepository {
         api: API,
         mobile: String,
         otp: String,
-        countryCode: String
+        countryCode: String,
+        fcmKey: String
     ): MutableLiveData<LoginModel> {
         val mutableLiveData: MutableLiveData<LoginModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.mobile = DefaultHelper.encrypt(mobile)
-            requestKeyHelper.fcm_key = ""
+            requestKeyHelper.fcm_key = fcmKey
             requestKeyHelper.carrier_name = DefaultHelper.getCarrierName(context)
             requestKeyHelper.cpu = DefaultHelper.getCpu()
             requestKeyHelper.version_name = DefaultHelper.getVersionName()

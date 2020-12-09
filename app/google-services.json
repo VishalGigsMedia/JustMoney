@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "832717899257",
+    "project_id": "just-money-a3d66",
+    "storage_bucket": "just-money-a3d66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832717899257:android:341f8431642fca92d7a928",
+        "android_client_info": {
+          "package_name": "com.app.justmoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832717899257-3joutdh570fo26397grlmsabt74bj6at.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC19-fh11avoBsBsqPw3ryqTvy_S2emTfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832717899257-3joutdh570fo26397grlmsabt74bj6at.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

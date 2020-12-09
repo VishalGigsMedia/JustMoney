@@ -13,7 +13,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -39,12 +41,17 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import java.util.*
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
     LocationListener, OnCurrentFragmentVisibleListener {
-
+    companion object {
+        private const val TAG = "MainActivity"
+    }
     private var addressList: List<Address>? = null
     private var service: LocationManager? = null
     private var enabled: Boolean? = null
@@ -62,6 +69,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        getToken()
         init()
         manageClickEvents()
         //open available fragment
@@ -82,6 +90,28 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             //e.printStackTrace()
         }
     }
+
+    private fun getToken(){
+        // Get token
+        // [START log_reg_token]
+        Firebase.messaging.getToken().addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            val msg = getString(R.string.msg_token_fmt, token)
+            //Log.d(TAG, msg)
+            Log.d("fcmToken: ", token)
+
+            //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
+    }
+
 
     private fun manageClickEvents() {
         mBinding.txtAvailable.setOnClickListener { onClickAvailable() }

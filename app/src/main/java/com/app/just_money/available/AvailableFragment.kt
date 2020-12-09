@@ -56,6 +56,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         callback?.onShowHideBottomNav(true)
         init()
         checkVersion()
+        //mBinding.shimmerViewContainer.startShimmer()
         getOffers()
     }
 
@@ -133,8 +134,12 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun getOffers() {
+        mBinding.shimmerViewContainer.startShimmer()
         viewModel.getOffers(context!!, api)
             .observe(viewLifecycleOwner, { availableOfferModel ->
+                mBinding.shimmerViewContainer.stopShimmer()
+                mBinding.shimmerViewContainer.visibility = View.GONE
+                mBinding.nsv.visibility = View.VISIBLE
                 run {
                     if (availableOfferModel != null) {
                         when (availableOfferModel.status) {
@@ -306,6 +311,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     override fun showOfferDetails(offerId: String, displayId: String) {
+
         val offerDetailFragment = OfferDetailsFragment()
         val bundle = Bundle()
         bundle.putString(BundleHelper.offerId, offerId)
@@ -349,15 +355,15 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             .observe(viewLifecycleOwner, { claimOfferModel ->
                 if (claimOfferModel != null) {
                     if (claimOfferModel.status == DefaultKeyHelper.successCode) {
-                        /*DefaultHelper.showToast(
+                        DefaultHelper.showToast(
                             context!!,
                             DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )*/
+                        )
                     } else {
-                        /* DefaultHelper.showToast(
-                             context!!,
-                             DefaultHelper.decrypt(claimOfferModel.message.toString())
-                         )*/
+                        DefaultHelper.showToast(
+                            context!!,
+                            DefaultHelper.decrypt(claimOfferModel.message.toString())
+                        )
                     }
                 }
             })
@@ -368,19 +374,27 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             if (versionModel != null) {
                 when (versionModel.status) {
                     DefaultKeyHelper.successCode -> {
-                        DefaultHelper.showToast(
+                        /*DefaultHelper.showToast(
                             context!!,
                             DefaultHelper.decrypt(versionModel.message.toString())
-                        )
+                        )*/
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(
+                        /* DefaultHelper.showToast(
                             context!!,
                             DefaultHelper.decrypt(versionModel.message.toString())
-                        )
+                        )*/
                     }
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 }

@@ -35,10 +35,11 @@ class LoginViewModel : ViewModel() {
         api: API,
         mobile: String,
         otp: String,
-        countryCode: String
+        countryCode: String,
+        fcmKey: String
     ): LiveData<LoginModel> {
         if (loginModel == null || loginModel != null) {
-            loginModel = loginRepository.login(activity, api, mobile, otp, countryCode)
+            loginModel = loginRepository.login(activity, api, mobile, otp, countryCode, fcmKey)
         }
         return loginModel!!
     }
