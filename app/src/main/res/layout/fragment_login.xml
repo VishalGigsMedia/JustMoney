@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.app.just_money.login.LoginViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_bg">
+
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:fontFamily="@font/metropolis_regular"
+            android:gravity="center"
+            android:text="@string/welcome_to"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/metropolis_extra_bold"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            android:textColor="@color/pink_600"
+            android:textSize="@dimen/_25ssp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtWelcome">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:fontFamily="@font/metropolis_regular"
+            android:gravity="center"
+            android:text="@string/phone_number"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAppName">
+
+        </TextView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/high_curve_outline_pink_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPhoneNumber">
+
+            <TextView
+                android:id="@+id/txtCountry"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_country"
+                android:drawableEnd="@drawable/ic_drop_down"
+                android:drawablePadding="0dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="center"
+                android:hint="@string/country"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:text="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@color/grey_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edtMobileNumber"
+                app:layout_constraintStart_toEndOf="@+id/txtCountry"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </View>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtMobileNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="center"
+                android:hint="@string/phone_number"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:text="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey_500"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.appcompat.widget.AppCompatEditText>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTermsCondition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clPhoneNumber">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:buttonTint="@color/grey_500"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="center"
+                android:text="@string/agree_to_terms_condition"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.appcompat.widget.AppCompatCheckBox>
+
+            <TextView
+                android:id="@+id/txtTermsCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/metropolis_medium"
+                android:gravity="center"
+                android:text="@string/terms_condition"
+                android:textAllCaps="false"
+                android:textColor="@color/pink_600"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkbox"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clOtpHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTermsCondition">
+
+            <TextView
+                android:id="@+id/txtOtpVerification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/metropolis_medium"
+                android:gravity="center"
+                android:text="@string/otp_verification"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <com.poovam.pinedittextfield.SquarePinField
+                android:id="@+id/squareField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/metropolis_medium"
+                android:inputType="number"
+                android:text="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@color/white"
+                android:textSelectHandle="@drawable/text_handle"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:visibility="visible"
+                app:cornerRadius="@dimen/_50sdp"
+                app:fieldBgColor="@color/pink_600"
+                app:fieldColor="@color/pink_600"
+                app:fillerColor="@color/pink_600"
+                app:highlightType="allFields"
+                app:isCursorEnabled="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtOtpVerification"
+                app:noOfFields="4" />
+
+            <TextView
+                android:id="@+id/txtSentCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="center"
+                android:text="@string/we_have_sent_phone_number"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/squareField">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtMobileNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="center"
+                android:text="9930629894"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtSentCode">
+
+            </TextView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clResend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber">
+
+                <TextView
+                    android:id="@+id/txtReceiveCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:fontFamily="@font/metropolis_regular"
+                    android:gravity="center"
+                    android:text="@string/didnt_receive_code"
+                    android:textAllCaps="false"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txtResend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:gravity="center"
+                    android:text="@string/resend"
+                    android:textAllCaps="false"
+                    android:textColor="@color/pink_600"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toEndOf="@+id/txtReceiveCode"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/txtOtpTimeRemaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="center"
+                android:text="@string/otp_time_remaining"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clResend">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtVerifyOtp"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/curve_pink_600"
+                android:fontFamily="@font/metropolis_bold"
+                android:gravity="center"
+                android:text="@string/verify_otp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtOtpTimeRemaining">
+
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clVerifyMobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_40sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTermsCondition">
+
+            <TextView
+                android:id="@+id/txtByTapping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/metropolis_medium"
+                android:gravity="center"
+                android:text="@string/by_tapping"
+                android:textAllCaps="false"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtVerifyPhoneNumber"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/curve_pink_600"
+                android:fontFamily="@font/metropolis_bold"
+                android:gravity="center"
+                android:text="@string/verify_phone_number"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtByTapping">
+
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!--<include
+            android:id="@+id/clLoader"
+            layout="@layout/custom_app_loader">
+
+        </include>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clLoader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/app_loader" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
