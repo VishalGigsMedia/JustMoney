@@ -130,9 +130,8 @@ class LoginRepository {
                     }
                     mutableLiveData.value = loginModel
                 }
-
                 override fun onFailure(call: Call<LoginModel>, t: Throwable) {
-                    println("TAG : ${t.printStackTrace()}")
+                    //println("TAG : ${t.printStackTrace()}")
                 }
             })
         } else {
@@ -204,8 +203,7 @@ class LoginRepository {
         }
         return mutableLiveData
     }
-
-
+    
     fun trackLogin(
         context: Context,
         email: String,

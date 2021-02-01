@@ -34,7 +34,7 @@ class MyWalletFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_wallet, container, false)
         return mBinding.root
     }

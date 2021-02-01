@@ -69,12 +69,12 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        subscribeToTopic()
         getToken()
         init()
         manageClickEvents()
         //open available fragment
         openFragment(AvailableFragment(), false)
-
     }
 
     private fun init() {
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     private fun getToken(){
         // Get token
         // [START log_reg_token]
-        Firebase.messaging.getToken().addOnCompleteListener(OnCompleteListener { task ->
+        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
@@ -111,8 +111,19 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
     }
-
-
+    private fun subscribeToTopic() {
+        // [START subscribe_topics]
+        Firebase.messaging.unsubscribeFromTopic("GENERAL")
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed)
+                }
+                Log.d(TAG, msg)
+                //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            }
+        // [END subscribe_topics]
+    }
     private fun manageClickEvents() {
         mBinding.txtAvailable.setOnClickListener { onClickAvailable() }
         mBinding.txtInProgress.setOnClickListener { onClickInProgress() }
