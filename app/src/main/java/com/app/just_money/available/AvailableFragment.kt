@@ -42,11 +42,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private var onClicked: PopularDealsAdapter.OnClickedPopularDeals? = null
     private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
         return mBinding.root
     }
@@ -135,63 +131,56 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun getOffers() {
         mBinding.shimmerViewContainer.startShimmer()
-        viewModel.getOffers(context!!, api)
-            .observe(viewLifecycleOwner, { availableOfferModel ->
-                mBinding.shimmerViewContainer.stopShimmer()
-                mBinding.shimmerViewContainer.visibility = View.GONE
-                mBinding.nsv.visibility = View.VISIBLE
-                run {
-                    if (availableOfferModel != null) {
-                        when (availableOfferModel.status) {
-                            DefaultKeyHelper.successCode -> {
-                                val dailyReward =
-                                    availableOfferModel.availableOfferData?.dailyRewards.toString()
-                                val totalCoins = availableOfferModel.totalCoins.toString()
-                                val withdrawn = availableOfferModel.withdrawn.toString()
-                                val completed = availableOfferModel.completed.toString()
-                                setDailyReward(dailyReward, totalCoins, withdrawn, completed)
+        viewModel.getOffers(context!!, api).observe(viewLifecycleOwner, { availableOfferModel ->
+            mBinding.shimmerViewContainer.stopShimmer()
+            mBinding.shimmerViewContainer.visibility = View.GONE
+            mBinding.nsv.visibility = View.VISIBLE
+            run {
+                if (availableOfferModel != null) {
+                    when (availableOfferModel.status) {
+                        DefaultKeyHelper.successCode -> {
+                            val dailyReward =
+                                availableOfferModel.availableOfferData?.dailyRewards.toString()
+                            val totalCoins = availableOfferModel.totalCoins.toString()
+                            val withdrawn = availableOfferModel.withdrawn.toString()
+                            val completed = availableOfferModel.completed.toString()
+                            setDailyReward(dailyReward, totalCoins, withdrawn, completed)
 
-                                if (availableOfferModel.availableOfferData?.popular != null) {
-                                    popularDealsAdapter(availableOfferModel.availableOfferData.popular)
-                                } else {
-                                    mBinding.txtPopular.visibility = View.GONE
-                                    mBinding.rvPopular.visibility = View.GONE
-                                }
-                                if (availableOfferModel.availableOfferData?.quickDeals != null) {
-                                    setAdapter(availableOfferModel.availableOfferData.quickDeals)
-                                } else {
-                                    mBinding.txtQuickDeals.visibility = View.GONE
-                                    mBinding.rvQuickDeals.visibility = View.GONE
-                                }
-                                if (availableOfferModel.availableOfferData?.flashOffer != null) {
-                                    mBinding.clBestDeal.visibility = View.VISIBLE
-                                    mBinding.txtFlashOffer.visibility = View.VISIBLE
-                                    setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
-                                } else {
-                                    mBinding.clBestDeal.visibility = View.GONE
-                                    mBinding.txtFlashOffer.visibility = View.GONE
-                                }
+                            if (availableOfferModel.availableOfferData?.popular != null) {
+                                popularDealsAdapter(availableOfferModel.availableOfferData.popular)
+                            } else {
+                                mBinding.txtPopular.visibility = View.GONE
+                                mBinding.rvPopular.visibility = View.GONE
+                            }
+                            if (availableOfferModel.availableOfferData?.quickDeals != null) {
+                                setAdapter(availableOfferModel.availableOfferData.quickDeals)
+                            } else {
+                                mBinding.txtQuickDeals.visibility = View.GONE
+                                mBinding.rvQuickDeals.visibility = View.GONE
+                            }
+                            if (availableOfferModel.availableOfferData?.flashOffer != null) {
+                                mBinding.clBestDeal.visibility = View.VISIBLE
+                                mBinding.txtFlashOffer.visibility = View.VISIBLE
+                                setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
+                            } else {
+                                mBinding.clBestDeal.visibility = View.GONE
+                                mBinding.txtFlashOffer.visibility = View.GONE
+                            }
 
-                            }
-                            DefaultKeyHelper.failureCode -> {
-                                DefaultHelper.showToast(
-                                    context!!,
-                                    DefaultHelper.decrypt(availableOfferModel.message.toString())
-                                )
-                            }
-                            DefaultKeyHelper.forceLogoutCode -> {
-                                DefaultHelper.forceLogout(activity!!)
-                            }
-                            else -> {
-                                DefaultHelper.showToast(
-                                    context!!,
-                                    DefaultHelper.decrypt(availableOfferModel.message.toString())
-                                )
-                            }
+                        }
+                        DefaultKeyHelper.failureCode -> {
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        }
+                        DefaultKeyHelper.forceLogoutCode -> {
+                            DefaultHelper.forceLogout(activity!!)
+                        }
+                        else -> {
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
                         }
                     }
                 }
-            })
+            }
+        })
     }
 
     private fun popularDealsAdapter(popularList: List<AvailableOffer>) {
@@ -213,12 +202,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
 
-    private fun setDailyReward(
-        dailyReward: String,
-        totalCoins: String,
-        withdrawn: String,
-        completed: String
-    ) {
+    private fun setDailyReward(dailyReward: String, totalCoins: String, withdrawn: String, completed: String) {
         val preferenceHelper = PreferenceHelper(context!!)
         if (dailyReward.isNotEmpty()) {
             mBinding.txtDailyRewardValue.text = DefaultHelper.decrypt(dailyReward)
@@ -268,11 +252,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.txtRedeemOfferAmount.text = offerCoins
 
             if (image.isNotEmpty()) {
-                Glide.with(context!!)
-                    .load(image)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(mBinding.ivLogo)
+                Glide.with(context!!).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).into(mBinding.ivLogo)
             }
 
             val minute = timeValue[1].toLong()
@@ -331,42 +312,26 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
-            activity!!.supportFragmentManager.popBackStack(
-                null,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-            )
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .addToBackStack(MainActivity::class.java.simpleName)
-                .commit()
+            activity!!.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            activity!!.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
+                .addToBackStack(MainActivity::class.java.simpleName).commit()
         } else {
-            activity!!.supportFragmentManager.popBackStack(
-                null,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-            )
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
+            activity!!.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            activity!!.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
                 .commit()
         }
     }
 
     private fun claimOffer(appId: String) {
-        viewModel.claimOffer(context!!, api, appId)
-            .observe(viewLifecycleOwner, { claimOfferModel ->
-                if (claimOfferModel != null) {
-                    if (claimOfferModel.status == DefaultKeyHelper.successCode) {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )
-                    } else {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )
-                    }
+        viewModel.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
+            if (claimOfferModel != null) {
+                if (claimOfferModel.status == DefaultKeyHelper.successCode) {
+                    DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
+                } else {
+                    DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
                 }
-            })
+            }
+        })
     }
 
     private fun checkVersion() {

@@ -16,12 +16,7 @@ class PrivacyPolicyFragment : Fragment() {
 
     private lateinit var mBinding: FragmentTermsConditionBinding
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_terms_condition, container, false)
         return mBinding.root

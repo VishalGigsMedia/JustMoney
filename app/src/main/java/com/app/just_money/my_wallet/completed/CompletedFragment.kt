@@ -24,7 +24,6 @@ class CompletedFragment : Fragment() {
     lateinit var api: API
 
     private var callback: OnCurrentFragmentVisibleListener? = null
-    private val blogList: List<String> = ArrayList()
     private lateinit var completedAdapter: CompletedAdapter
     private lateinit var viewModel: CompletedOfferViewModel
     private lateinit var mBinding: FragmentCompletedBinding
