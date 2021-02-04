@@ -18,11 +18,8 @@ import com.app.just_money.databinding.RowItemPopularDealsTypeSecondBinding
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
-class PopularDealsAdapter(
-    private val context: FragmentActivity,
-    private val availableOfferList: List<AvailableOffer>,
-    private val onClicked: OnClickedPopularDeals
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PopularDealsAdapter(private val context: FragmentActivity, private val availableOfferList: List<AvailableOffer>, private val onClicked: OnClickedPopularDeals) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var screenWidth = 0
 
     companion object {
@@ -35,25 +32,12 @@ class PopularDealsAdapter(
         val displayMetrics = DisplayMetrics()
         context.windowManager.defaultDisplay.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
-        if (viewType == 0) {
-            return PopularDealsViewHolder(
-                LayoutInflater.from(context).inflate(
-                    R.layout.row_item_popular_deal,
-                    parent,
-                    false
-                )
-            )
+        return if (viewType == 0) {
+            PopularDealsViewHolder(LayoutInflater.from(context).inflate(R.layout.row_item_popular_deal, parent, false))
         } else {
-            return PopularDealsWhiteViewHolder(
-                LayoutInflater.from(context).inflate(
-                    R.layout.row_item_popular_deals_type_second,
-                    parent,
-                    false
-                )
-            )
+            PopularDealsWhiteViewHolder(LayoutInflater.from(context).inflate(R.layout.row_item_popular_deals_type_second, parent, false))
         }
     }
-
 
     override fun getItemCount(): Int {
         return availableOfferList.size
@@ -82,10 +66,8 @@ class PopularDealsAdapter(
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context)
-                    .load(DefaultHelper.decrypt(imageUrl))
-                    .placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
+                Glide.with(context).load(DefaultHelper.decrypt(imageUrl))
+                    .placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
                     .into(holder.mBindingPopularDeals?.ivLogo!!)
                 // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
             }
@@ -108,10 +90,8 @@ class PopularDealsAdapter(
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName)
-                    .commit()
+                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
+                    .addToBackStack(MainActivity::class.java.simpleName).commit()
             }
 
             holder.mBindingPopularDeals?.clEarn?.setOnClickListener {
@@ -120,9 +100,9 @@ class PopularDealsAdapter(
 
             val itemWidth = screenWidth / 1.5
             val lp = holder.mBindingPopularDeals?.clBestDeal?.layoutParams
-            lp!!.height = lp.height
-            lp.width = itemWidth.toInt()
-            holder.mBindingPopularDeals.clBestDeal.layoutParams = lp
+            lp?.height = lp?.height
+            lp?.width = itemWidth.toInt()
+            holder.mBindingPopularDeals?.clBestDeal?.layoutParams = lp
 
         } else if (holder is PopularDealsWhiteViewHolder) {
             val eachListData = availableOfferList[position]
@@ -139,15 +119,12 @@ class PopularDealsAdapter(
                 holder.mBindingPopularDealsSecond?.txtTitle?.text = DefaultHelper.decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtDescription?.text =
-                    DefaultHelper.decrypt(description)
+                holder.mBindingPopularDealsSecond?.txtDescription?.text = DefaultHelper.decrypt(description)
             }
 
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context)
-                    .load(DefaultHelper.decrypt(imageUrl))
-                    .placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
+                Glide.with(context).load(DefaultHelper.decrypt(imageUrl))
+                    .placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
                     .into(holder.mBindingPopularDealsSecond?.ivLogo!!)
             }
 
@@ -168,10 +145,8 @@ class PopularDealsAdapter(
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName)
-                    .commit()
+                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
+                    .addToBackStack(MainActivity::class.java.simpleName).commit()
             }
 
             val itemWidth = screenWidth / 1.5
@@ -200,13 +175,11 @@ class PopularDealsAdapter(
     }
 
     class PopularDealsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mBindingPopularDeals: RowItemPopularDealBinding? =
-            DataBindingUtil.bind(itemView)
+        val mBindingPopularDeals: RowItemPopularDealBinding? = DataBindingUtil.bind(itemView)
     }
 
     class PopularDealsWhiteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mBindingPopularDealsSecond: RowItemPopularDealsTypeSecondBinding? =
-            DataBindingUtil.bind(itemView)
+        val mBindingPopularDealsSecond: RowItemPopularDealsTypeSecondBinding? = DataBindingUtil.bind(itemView)
     }
 
 }

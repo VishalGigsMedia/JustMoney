@@ -5,6 +5,7 @@ import com.app.just_money.BuildConfig
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.itkacher.okhttpprofiler.OkHttpProfilerInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -44,6 +45,7 @@ class ApiModule(val mBaseUrl: String) {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             client.interceptors().add(logging)
+            client.addInterceptor(OkHttpProfilerInterceptor())
         } else {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
@@ -55,10 +57,7 @@ class ApiModule(val mBaseUrl: String) {
     @Provides
     @Singleton
     fun provideRetrofit(gson: Gson?, okHttpClient: OkHttpClient?): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(mBaseUrl)
-            .client(okHttpClient)
-            .build()
+        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl(mBaseUrl).client(okHttpClient).build()
     }
 }

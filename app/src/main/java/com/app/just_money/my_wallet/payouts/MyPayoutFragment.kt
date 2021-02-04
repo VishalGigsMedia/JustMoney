@@ -23,15 +23,7 @@ class MyPayoutFragment : Fragment() {
     private lateinit var historyAdapter: HistoryAdapter
     private lateinit var mBinding: FragmentMyPayoutBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_payout, container, false)
         return mBinding.root
     }
@@ -43,9 +35,11 @@ class MyPayoutFragment : Fragment() {
         mBinding.txtPayouts.setOnClickListener { setPayoutAdapter() }
         mBinding.txtHistory.setOnClickListener { setHistoryAdapter() }
     }
+
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
     }
+
     private fun setPayoutAdapter() {
         mBinding.viewPayouts.background =
             (ContextCompat.getDrawable(context!!, R.drawable.curve_top_right_bottom_right_pink_600))
@@ -60,10 +54,8 @@ class MyPayoutFragment : Fragment() {
     }
 
     private fun setHistoryAdapter() {
-        mBinding.viewHistory.background = (ContextCompat.getDrawable(
-            context!!,
-            R.drawable.curve_top_left_bottom_right_pink_600
-        ))
+        mBinding.viewHistory.background =
+            (ContextCompat.getDrawable(context!!, R.drawable.curve_top_left_bottom_right_pink_600))
         mBinding.viewPayouts.setBackgroundColor(ContextCompat.getColor(context!!, R.color.grey_500))
         mBinding.txtHistory.setTextColor(ContextCompat.getColor(context!!, R.color.pink_600))
         mBinding.txtPayouts.setTextColor(ContextCompat.getColor(context!!, R.color.black))

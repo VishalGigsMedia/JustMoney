@@ -8,13 +8,11 @@
         <variable
             name="viewModel"
             type="com.app.just_money.available.AvailableOfferViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
@@ -25,7 +23,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            shimmer:duration="800">
+            shimmer:duration="800"
+            shimmer:visibility="gone">
 
             <!-- Adding 7 rows of placeholders -->
             <LinearLayout
@@ -47,7 +46,8 @@
             android:fillViewport="true"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:visibility="gone">
+            android:visibility="gone"
+            shimmer:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clClose"
                     android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_120sdp"
+                    android:layout_height="@dimen/_160sdp"
                     android:background="@drawable/curve_top_left_bottom_left_indigo_600"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -80,14 +80,14 @@
                     android:id="@+id/txtAvailable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_40sdp"
                     android:fontFamily="@font/metropolis_extra_bold"
                     android:gravity="start"
                     android:text="@string/available"
                     android:textAllCaps="true"
                     android:textColor="@color/color_primary"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="@dimen/_22ssp"
                     android:textStyle="italic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,14 +99,14 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvDailyRewards"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_50sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:visibility="visible"
                     app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="@dimen/_5sdp"
-                    app:cardElevation="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_2sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtAvailable">
@@ -114,17 +114,22 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="@dimen/_5sdp">
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_8sdp">
 
                         <TextView
                             android:id="@+id/txtDailyReward"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:fontFamily="@font/metropolis_semi_bold"
                             android:text="@string/daily_rewards"
                             android:textAllCaps="false"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/clDailyRewardValue"
                             app:layout_constraintStart_toStartOf="parent"
@@ -137,10 +142,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/curve_pink_600"
-                            android:padding="@dimen/_5sdp"
+                            android:paddingStart="@dimen/_20sdp"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:paddingEnd="@dimen/_20sdp"
+                            android:paddingBottom="@dimen/_5sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/txtDailyReward"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
@@ -149,15 +156,16 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/metropolis_bold"
                                 android:gravity="center"
-                                android:text="@null"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_12ssp"
+                                android:textSize="@dimen/_14sdp"
+                                android:textStyle="bold"
                                 app:drawableStartCompat="@drawable/ic_coins_white"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent"
+                                shimmer:text="10000">
 
                             </TextView>
 
@@ -167,26 +175,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/txtFlashOffer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:fontFamily="@font/metropolis_bold"
-                    android:gravity="start"
-                    android:text="@string/flash_offer"
-                    android:textAllCaps="true"
-                    android:textColor="@color/pink_600"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="italic"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cvDailyRewards">
-
-                </TextView>
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clBestDeal"
                     android:layout_width="match_parent"
@@ -195,10 +183,10 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:elevation="@dimen/_5sdp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtFlashOffer">
+                    app:layout_constraintTop_toBottomOf="@+id/cvDailyRewards">
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -216,6 +204,8 @@
                             android:id="@+id/clTimeHolder"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -289,7 +279,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_5sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
                                 android:background="@drawable/light_curve_white"
                                 android:paddingStart="@dimen/_8sdp"
@@ -338,15 +327,16 @@
                             android:id="@+id/txtTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:fontFamily="@font/metropolis_bold_italic"
-                            android:text="@null"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_10ssp"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/clTimeHolder">
+                            app:layout_constraintTop_toBottomOf="@+id/clTimeHolder"
+                            shimmer:text="Adidas">
 
                         </TextView>
 
@@ -354,16 +344,17 @@
                             android:id="@+id/txtDealOfferAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:fontFamily="@font/metropolis_bold"
-                            android:text="@null"
                             android:textAllCaps="true"
                             android:textColor="@color/yellow_a400"
-                            android:textSize="@dimen/_14ssp"
+                            android:textSize="@dimen/_20ssp"
+                            android:textStyle="bold"
                             app:drawableStartCompat="@drawable/ic_coins_yellow"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtTitle">
+                            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                            shimmer:text="45000">
 
                         </TextView>
 
@@ -371,18 +362,17 @@
                             android:id="@+id/txtDealActualAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
                             android:background="@drawable/strike_through"
                             android:fontFamily="@font/metropolis_bold"
                             android:gravity="center"
-                            android:text="@null"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_10ssp"
+                            android:textSize="@dimen/_12ssp"
                             app:drawableStartCompat="@drawable/ic_coins_white"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtDealOfferAmount">
+                            app:layout_constraintTop_toBottomOf="@+id/txtDealOfferAmount"
+                            shimmer:text="30000">
 
                         </TextView>
 
@@ -390,25 +380,27 @@
                             android:id="@+id/txtDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:fontFamily="@font/metropolis_regular"
-                            android:text="@null"
+                            android:lineSpacingExtra="@dimen/_4sdp"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_8ssp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtDealActualAmount">
+                            app:layout_constraintTop_toBottomOf="@+id/txtDealActualAmount"
+                            shimmer:text="Dummy text Dummy text Dummy textDummy textDummy textDummy textDummy textDummy text">
 
                         </TextView>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
                             android:layout_marginBottom="@dimen/_20sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -419,7 +411,7 @@
                                 android:id="@+id/clRedeemOfferAmount"
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/_30sdp"
-                                android:layout_marginEnd="@dimen/_2sdp"
+                                android:layout_marginEnd="@dimen/_4sdp"
                                 android:background="@drawable/curve_white"
                                 android:paddingStart="@dimen/_10sdp"
                                 android:paddingEnd="@dimen/_10sdp"
@@ -443,6 +435,7 @@
                                         android:fontFamily="@font/metropolis_bold"
                                         android:gravity="center"
                                         android:text="@string/earn"
+                                        android:textAllCaps="true"
                                         android:textColor="@color/indigo_900"
                                         android:textSize="@dimen/_8ssp"
                                         app:layout_constraintStart_toStartOf="parent"
@@ -458,12 +451,12 @@
                                         android:drawablePadding="0dp"
                                         android:fontFamily="@font/metropolis_bold"
                                         android:gravity="center"
-                                        android:text="@null"
                                         android:textColor="@color/indigo_900"
-                                        android:textSize="@dimen/_10ssp"
+                                        android:textSize="@dimen/_15ssp"
                                         app:drawableEndCompat="@drawable/ic_coins_blue"
                                         app:layout_constraintStart_toEndOf="@+id/txtEarn"
-                                        app:layout_constraintTop_toTopOf="parent">
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        shimmer:text="45000">
 
                                     </TextView>
 
@@ -476,8 +469,7 @@
                                 android:id="@+id/txtHaveAQuestion"
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/_30sdp"
-                                android:layout_marginStart="@dimen/_2sdp"
-                                android:layout_marginEnd="@dimen/_10ssp"
+                                android:layout_marginStart="@dimen/_4sdp"
                                 android:background="@drawable/high_curve_outline_white"
                                 android:fontFamily="@font/metropolis_bold"
                                 android:gravity="center"
@@ -502,9 +494,9 @@
                         android:layout_height="@dimen/_75sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:src="@mipmap/ic_sample"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        shimmer:src="@mipmap/ic_sample">
 
                     </ImageView>
 
@@ -522,7 +514,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toTopOf="@+id/rvPopular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -534,15 +526,17 @@
                     android:id="@+id/rvPopular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@+id/txtQuickDeals"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtPopular">
+                    app:layout_constraintTop_toBottomOf="@+id/txtPopular"
+                    shimmer:itemCount="3"
+                    shimmer:listitem="@layout/row_item_popular_deal">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -559,7 +553,6 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="italic"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/rvQuickDeals"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -574,12 +567,13 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:clipToPadding="false"
                     android:paddingBottom="@dimen/_20sdp"
-                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtQuickDeals">
+                    app:layout_constraintTop_toBottomOf="@+id/txtQuickDeals"
+                    shimmer:itemCount="3"
+                    shimmer:listitem="@layout/row_item_quick_deals">
 
                 </androidx.recyclerview.widget.RecyclerView>
 

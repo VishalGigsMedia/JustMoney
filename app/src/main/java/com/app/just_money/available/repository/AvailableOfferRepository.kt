@@ -3,8 +3,8 @@ package com.app.just_money.available.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
-import com.app.just_money.available.model.VersionModel
 import com.app.just_money.available.model.AvailableOfferModel
+import com.app.just_money.available.model.VersionModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
@@ -24,10 +24,7 @@ class AvailableOfferRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getOffers(
-        context: Context,
-        api: API
-    ): MutableLiveData<AvailableOfferModel> {
+    fun getOffers(context: Context, api: API): MutableLiveData<AvailableOfferModel> {
         val mutableLiveData: MutableLiveData<AvailableOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -43,10 +40,7 @@ class AvailableOfferRepository {
             )*/
             api.getOffers(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<AvailableOfferModel> {
-                    override fun onResponse(
-                        call: Call<AvailableOfferModel>,
-                        response: Response<AvailableOfferModel>
-                    ) {
+                    override fun onResponse(call: Call<AvailableOfferModel>, response: Response<AvailableOfferModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         availableOfferModel = gson?.fromJson(json, AvailableOfferModel::class.java)
@@ -59,20 +53,13 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
 
-    fun claimOffer(
-        context: Context,
-        api: API,
-        appId: String
-    ): MutableLiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context, api: API, appId: String): MutableLiveData<ClaimOfferModel> {
         val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -87,10 +74,7 @@ class AvailableOfferRepository {
             )*/
             api.claimOffer(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {
-                    override fun onResponse(
-                        call: Call<ClaimOfferModel>,
-                        response: Response<ClaimOfferModel>
-                    ) {
+                    override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
@@ -103,19 +87,12 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
-    fun checkVersion(
-        context: Context,
-        api: API,
-        appVersionCode: String
-    ): MutableLiveData<VersionModel> {
+    fun checkVersion(context: Context, api: API, appVersionCode: String): MutableLiveData<VersionModel> {
         val mutableLiveData: MutableLiveData<VersionModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -123,10 +100,7 @@ class AvailableOfferRepository {
             requestKeyHelper.app_version_code = appVersionCode
             api.checkVersion(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<VersionModel> {
-                    override fun onResponse(
-                        call: Call<VersionModel>,
-                        response: Response<VersionModel>
-                    ) {
+                    override fun onResponse(call: Call<VersionModel>, response: Response<VersionModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         versionModel = gson?.fromJson(json, VersionModel::class.java)
@@ -139,10 +113,7 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

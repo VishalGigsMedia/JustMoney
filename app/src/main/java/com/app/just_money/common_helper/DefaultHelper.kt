@@ -134,7 +134,7 @@ object DefaultHelper {
         return null
     }
 
-    fun showToast(context: Context, message: String, duration: Int = Toast.LENGTH_LONG) {
+    fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_LONG) {
         var mToast: Toast? = null
         if (message.isNotEmpty()) {
             mToast?.cancel()

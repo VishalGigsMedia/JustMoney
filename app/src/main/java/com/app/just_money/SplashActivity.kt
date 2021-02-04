@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-        Timer().schedule(5000) {
+        Timer().schedule(2500) {
             openMainScreen()
         }
     }

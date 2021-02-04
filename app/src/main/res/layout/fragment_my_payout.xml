@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -28,7 +29,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_30sdp"
-                    android:drawableStart="@drawable/ic_arrow_back_black"
                     android:fontFamily="@font/metropolis_extra_bold_italic"
                     android:gravity="start"
                     android:text="@string/payout"
@@ -37,7 +37,8 @@
                     android:textSize="@dimen/_16ssp"
                     app:layout_constraintEnd_toStartOf="@+id/clClose"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:drawableStartCompat="@drawable/ic_arrow_back_black">
 
                 </TextView>
 
@@ -58,7 +59,8 @@
                         android:src="@drawable/ic_close"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO">
 
                     </ImageView>
 
@@ -98,15 +100,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:drawableEnd="@drawable/ic_coins_yellow"
                         android:fontFamily="@font/metropolis_extra_bold"
                         android:gravity="start"
-                        android:text="₹25,000/-"
+                        tools:text="₹25,000/-"
                         android:textAllCaps="false"
                         android:textColor="@color/yellow_a400"
                         android:textSize="@dimen/_16ssp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtBalance">
+                        app:layout_constraintTop_toBottomOf="@+id/txtBalance"
+                        app:drawableEndCompat="@drawable/ic_coins_yellow">
 
                     </TextView>
 

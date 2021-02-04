@@ -217,10 +217,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .addToBackStack(MainActivity::class.java.simpleName)
-                .commit()
+            supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
+                .addToBackStack(MainActivity::class.java.simpleName).commit()
         } else {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction()

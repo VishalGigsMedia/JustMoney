@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -17,7 +18,7 @@
         android:layout_marginTop="@dimen/_10ssp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:background="@drawable/top_left_bottom_left_curve_white"
-        android:elevation="@dimen/_2sdp">
+        android:elevation="@dimen/_1sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clImageHolder"
@@ -34,7 +35,7 @@
                 android:cropToPadding="true"
                 android:fitsSystemWindows="true"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_sample"
+                tools:src="@mipmap/ic_sample"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -48,9 +49,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/metropolis_bold_italic"
             android:gravity="start"
-            android:paddingStart="@dimen/_10sdp"
+            android:paddingStart="@dimen/_12sdp"
             android:paddingEnd="0dp"
-            android:text="Nike"
+            tools:text="Nike"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
@@ -65,19 +66,22 @@
             android:id="@+id/txtTakeActionMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:background="@drawable/curve_white"
-            android:elevation="@dimen/_5sdp"
+            android:elevation="@dimen/_2sdp"
             android:fontFamily="@font/metropolis_bold"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:text="Get Crypto"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            tools:text="Get Crypto"
             android:textAllCaps="true"
             android:textColor="@color/pink_600"
-            android:textSize="@dimen/_8ssp"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtTitle"
             app:layout_constraintTop_toTopOf="parent">
 
         </TextView>

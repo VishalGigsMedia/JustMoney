@@ -11,7 +11,7 @@ data class AvailableOfferModel(
     @SerializedName("message")
     val message: String?,
     @SerializedName("status")
-    val status: Int?,
+    var status: Int?,
     @SerializedName("total_coins")
     val totalCoins: String?,
     @SerializedName("withdrawn")

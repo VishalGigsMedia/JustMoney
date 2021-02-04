@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
-
         <variable
             name="data"
             type="com.app.just_money.available.model.AvailableOffer" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clBestDeal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:elevation="@dimen/_5sdp">
+        android:layout_marginStart="@dimen/_10sdp"
+        android:elevation="@dimen/_2sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clBestDealHolder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_50sdp"
-            android:background="@drawable/light_curve_white"
+            android:background="@drawable/light_curve_white_with_stroke"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,9 +36,11 @@
                 android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/indigo_900"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="adidas">
 
             </TextView>
 
@@ -54,7 +54,9 @@
                 android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/pink_600"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                tools:text="45000"
                 app:drawableStartCompat="@drawable/ic_coins_pink"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitle">
@@ -66,14 +68,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/strike_through"
+                android:background="@drawable/strike_through_red"
                 android:fontFamily="@font/metropolis_bold"
                 android:gravity="center"
-                android:text="@null"
+                tools:text="30000"
                 android:textAllCaps="true"
                 android:textColor="@color/indigo_900"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_12ssp"
                 app:drawableStartCompat="@drawable/ic_coins_blue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDealOfferAmount">
@@ -91,10 +92,11 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:lines="3"
                 android:maxLines="3"
-                android:text="@null"
+                android:lineSpacingExtra="@dimen/_4sdp"
+                tools:text="Dummy text Dummy text Dummy textDummy textDummy textDummy textDummy textDummy text"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8ssp"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDealActualAmount">
@@ -102,20 +104,19 @@
             </TextView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/curve_white"
-                android:elevation="@dimen/_5sdp"
-                android:paddingStart="@dimen/_15sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_15sdp"
-                android:paddingBottom="@dimen/_5sdp"
+                android:elevation="@dimen/_2sdp"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_30sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtDescription">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -134,6 +135,7 @@
                         android:fontFamily="@font/metropolis_bold"
                         android:gravity="center"
                         android:text="@string/earn"
+                        android:textAllCaps="true"
                         android:textColor="@color/indigo_900"
                         android:textSize="@dimen/_8ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -150,9 +152,9 @@
                         android:drawablePadding="0dp"
                         android:fontFamily="@font/metropolis_bold"
                         android:gravity="center"
-                        android:text="@null"
+                        tools:text="45000"
                         android:textColor="@color/indigo_900"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_15ssp"
                         app:drawableEndCompat="@drawable/ic_coins_blue"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txtEarn"
