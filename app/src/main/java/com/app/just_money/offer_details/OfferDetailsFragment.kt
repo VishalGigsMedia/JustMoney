@@ -1,10 +1,13 @@
 package com.app.just_money.offer_details
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
@@ -12,6 +15,7 @@ import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentOfferDetailsBinding
+import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.offer_details.model.OfferDetailsData
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -28,11 +32,7 @@ class OfferDetailsFragment : Fragment() {
     private lateinit var viewModel: OfferDetailsViewModel
     private lateinit var mBinding: FragmentOfferDetailsBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_offer_details, container, false)
         return mBinding.root
@@ -42,7 +42,10 @@ class OfferDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(OfferDetailsViewModel::class.java)
-        getData()
+        offerId = arguments?.getString(BundleHelper.offerId).toString()
+        //displayId = bundle.getString(BundleHelper.offerId).toString()
+
+        getOfferDetails()
         setOnClickListener()
     }
 
@@ -50,28 +53,27 @@ class OfferDetailsFragment : Fragment() {
         mBinding.txtStepToAvailOffer.setOnClickListener {
             showIdentityProof()
         }
-        mBinding.clOfferAmount.setOnClickListener {
-            claimOffer(offerId)
+        mBinding.txtTitle.setOnClickListener {
+            activity?.onBackPressed()
+        }
+        mBinding.txtHaveAQuestion.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.flMain, FaqFragment())
+                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         }
     }
 
-    private fun claimOffer(appId: String) {
-        viewModel.claimOffer(context!!, api, appId)
-            .observe(viewLifecycleOwner, { claimOfferModel ->
-                if (claimOfferModel != null) {
-                    if (claimOfferModel.status == DefaultKeyHelper.successCode) {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )
-                    } else {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(claimOfferModel.message.toString())
-                        )
-                    }
-                }
-            })
+    private fun claimOffer(appId: String, url: String) {
+        viewModel.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
+            if (claimOfferModel != null) {
+                if (claimOfferModel.status == DefaultKeyHelper.successCode) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                } else DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
+
+            }
+        })
     }
 
     private fun showIdentityProof() {
@@ -84,24 +86,18 @@ class OfferDetailsFragment : Fragment() {
         dialog.window?.setGravity(Gravity.BOTTOM)
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.WRAP_CONTENT
-        dialog.window!!.setLayout(width, height)
+        dialog.window?.setLayout(width, height)
         dialog.txtStepToEarnValue.text = steps
         dialog.show()
     }
 
-    private fun getData() {
-        val bundle = arguments
-        if (bundle != null) {
-            offerId = bundle.getString(BundleHelper.offerId).toString()
-            //displayId = bundle.getString(BundleHelper.offerId).toString()
-        }
-
-        getOfferDetails()
-    }
-
     private fun getOfferDetails() {
-        viewModel.getOfferDetails(context!!, api, offerId)
+        mBinding.shimmer.startShimmer()
+        viewModel.getOfferDetails(context, api, offerId)
             .observe(viewLifecycleOwner, { offerDetails ->
+                mBinding.shimmer.stopShimmer()
+                mBinding.shimmer.visibility = View.GONE
+                mBinding.nsv.visibility = View.VISIBLE
                 if (offerDetails != null) {
                     when (offerDetails.status) {
                         DefaultKeyHelper.successCode -> {
@@ -110,21 +106,24 @@ class OfferDetailsFragment : Fragment() {
                             }
                         }
                         DefaultKeyHelper.failureCode -> {
-
+                            showErrorScreen()
                         }
                         DefaultKeyHelper.forceLogoutCode -> {
-
+                            DefaultHelper.forceLogout(activity)
                         }
                         else -> {
-
+                            showErrorScreen()
                         }
                     }
+                } else {
+                    showErrorScreen()
                 }
             })
     }
 
     private fun setData(offerDetailsData: OfferDetailsData) {
-        val offerId = DefaultHelper.decrypt(offerDetailsData.id.toString())
+        //val offerId = DefaultHelper.decrypt(offerDetailsData.id.toString())
+        val url = DefaultHelper.decrypt(offerDetailsData.url.toString())
         val title = DefaultHelper.decrypt(offerDetailsData.name.toString())
         steps = DefaultHelper.decrypt(offerDetailsData.description.toString())
         val description = DefaultHelper.decrypt(offerDetailsData.shortDescription.toString())
@@ -137,7 +136,7 @@ class OfferDetailsFragment : Fragment() {
 
         //println("actualCoins : $actualCoins offerCoins : $offerCoins")
         if (title.isNotEmpty()) {
-            mBinding.txtTitle.text = title
+            mBinding.txtTitle.text = "  $title"
         }
 
         if (description.isNotEmpty()) {
@@ -145,11 +144,8 @@ class OfferDetailsFragment : Fragment() {
         }
 
         if (imageUrl.isNotEmpty()) {
-            Glide.with(context!!)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_logo)
-                .error(R.drawable.ic_logo)
-                .into(mBinding.ivOfferImage)
+            Glide.with(context!!).load(imageUrl).placeholder(R.drawable.ic_logo)
+                .error(R.drawable.ic_logo).into(mBinding.ivOfferImage)
         }
 
         if (actualCoins.isNotEmpty()) {
@@ -169,6 +165,14 @@ class OfferDetailsFragment : Fragment() {
         if (note.isNotEmpty()) {
             mBinding.txtNoteValue.text = note
         }
+        mBinding.clOfferAmount.setOnClickListener {
+            claimOffer(offerId, url)
+        }
+    }
+
+    private fun showErrorScreen() {
+        mBinding.clData.visibility = View.GONE
+        mBinding.llError.visibility = View.VISIBLE
     }
 
 

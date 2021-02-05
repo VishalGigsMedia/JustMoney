@@ -184,10 +184,10 @@ object DefaultHelper {
         return String(encryptedCipherBytes)
     }
 
-    fun forceLogout(context: FragmentActivity) {
+    fun forceLogout(context: FragmentActivity?) {
         val intent = Intent(context, LoginActivity::class.java)
-        context.startActivity(intent)
-        context.finish()
+        context?.startActivity(intent)
+        context?.finish()
     }
 
 }

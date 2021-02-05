@@ -9,5 +9,5 @@ data class OfferDetailsModel(
     @SerializedName("data")
     val offerDetailsData: OfferDetailsData?,
     @SerializedName("status")
-    val status: Int?
+    var status: Int?
 )

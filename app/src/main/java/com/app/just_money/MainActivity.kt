@@ -15,7 +15,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -47,11 +46,11 @@ import com.google.firebase.messaging.ktx.messaging
 import java.util.*
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener,
-    LocationListener, OnCurrentFragmentVisibleListener {
+    GoogleApiClient.OnConnectionFailedListener, LocationListener, OnCurrentFragmentVisibleListener {
     companion object {
         private const val TAG = "MainActivity"
     }
+
     private var addressList: List<Address>? = null
     private var service: LocationManager? = null
     private var enabled: Boolean? = null
@@ -91,7 +90,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         }
     }
 
-    private fun getToken(){
+    private fun getToken() {
         // Get token
         // [START log_reg_token]
         Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
@@ -111,10 +110,10 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
     }
+
     private fun subscribeToTopic() {
         // [START subscribe_topics]
-        Firebase.messaging.unsubscribeFromTopic("GENERAL")
-            .addOnCompleteListener { task ->
+        Firebase.messaging.unsubscribeFromTopic("GENERAL").addOnCompleteListener { task ->
                 var msg = getString(R.string.msg_subscribed)
                 if (!task.isSuccessful) {
                     msg = getString(R.string.msg_subscribe_failed)
@@ -124,6 +123,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             }
         // [END subscribe_topics]
     }
+
     private fun manageClickEvents() {
         mBinding.txtAvailable.setOnClickListener { onClickAvailable() }
         mBinding.txtInProgress.setOnClickListener { onClickInProgress() }
@@ -137,24 +137,9 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             ContextCompat.getDrawable(this, R.drawable.curve_blue_grey_900)
         mBinding.clInProgress.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_900))
         mBinding.clMyWallet.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_900))
-        mBinding.txtAvailable.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_active_available
-            ), null, null, null
-        )
-        mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_inactive_wallet
-            ), null, null, null
-        )
-        mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_inactive_inprogress
-            ), null, null, null
-        )
+        mBinding.txtAvailable.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_active_available), null, null, null)
+        mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_inactive_wallet), null, null, null)
+        mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_inactive_inprogress), null, null, null)
         openFragment(AvailableFragment(), false)
     }
 
@@ -163,67 +148,35 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             ContextCompat.getDrawable(this, R.drawable.curve_blue_grey_900)
         mBinding.clAvailable.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_900))
         mBinding.clMyWallet.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_900))
-        mBinding.txtAvailable.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_inactive_available
-            ), null, null, null
-        )
-        mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_inactive_wallet
-            ), null, null, null
-        )
-        mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_active_inprogress
-            ), null, null, null
-        )
+        mBinding.txtAvailable.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_inactive_available), null, null, null)
+        mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_inactive_wallet), null, null, null)
+        mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_active_inprogress), null, null, null)
 
         openFragment(InProgressFragment(), false)
     }
 
-    private fun onClickMyWallet() {
+    fun onClickMyWallet() {
         mBinding.clMyWallet.background =
             ContextCompat.getDrawable(this, R.drawable.curve_blue_grey_900)
         mBinding.clAvailable.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_900))
         mBinding.clInProgress.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_900))
-        mBinding.txtAvailable.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_inactive_available
-            ), null, null, null
-        )
+        mBinding.txtAvailable.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_inactive_available), null, null, null)
 
-        mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_inactive_inprogress
-            ), null, null, null
-        )
+        mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_inactive_inprogress), null, null, null)
 
-        mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.ic_active_wallet
-            ), null, null, null
-        )
+        mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(this, R.drawable.ic_active_wallet), null, null, null)
 
         openFragment(MyWalletFragment(), false)
     }
 
-    private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
+    fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
                 .addToBackStack(MainActivity::class.java.simpleName).commit()
         } else {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .commit()
+            supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment).commit()
         }
     }
 
@@ -241,27 +194,16 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     override fun onConnected(p0: Bundle?) {
         mLocationRequest = LocationRequest()
         locationGet()
-        if (ContextCompat.checkSelfPermission(
-                this,
-                permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this
-            )
+        if (ContextCompat.checkSelfPermission(this, permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
         }
 
     }
 
     @Synchronized
     fun buildGoogleApiClient() {
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .addApi(LocationServices.API)
-            .build()
+        mGoogleApiClient = GoogleApiClient.Builder(this).addConnectionCallbacks(this)
+            .addOnConnectionFailedListener(this).addApi(LocationServices.API).build()
         mGoogleApiClient!!.connect()
     }
 
@@ -298,12 +240,10 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun showAlert() {
-        mLocationRequest = LocationRequest.create()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(updateInterval)
-            .setFastestInterval(fastestInterval)
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(mLocationRequest!!)
+        mLocationRequest =
+            LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(updateInterval).setFastestInterval(fastestInterval)
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest!!)
         val client = LocationServices.getSettingsClient(this)
         val task = client.checkLocationSettings(builder.build())
 
@@ -315,44 +255,20 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    permission.ACCESS_FINE_LOCATION
-                )
-            ) {
+        if (ContextCompat.checkSelfPermission(this, permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog.Builder(this)
                     .setTitle(getString(R.string.hint_location_permission_needed))
                     .setMessage(getString(R.string.hint_local_permission_message))
-                    .setPositiveButton(
-                        getString(R.string.hint_ok)
-                    ) { dialog, which ->
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(permission.ACCESS_FINE_LOCATION),
-                            requestLocationCode
-                        )
-                    }
-                    .create()
-                    .show()
+                    .setPositiveButton(getString(R.string.hint_ok)) { dialog, which ->
+                        ActivityCompat.requestPermissions(this, arrayOf(permission.ACCESS_FINE_LOCATION), requestLocationCode)
+                    }.create().show()
 
-            } else ActivityCompat.requestPermissions(
-                this,
-                arrayOf(permission.ACCESS_FINE_LOCATION),
-                requestLocationCode
-            )
+            } else ActivityCompat.requestPermissions(this, arrayOf(permission.ACCESS_FINE_LOCATION), requestLocationCode)
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             requestLocationCode -> {
@@ -386,11 +302,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
                 showAlert()
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
+                    if (ContextCompat.checkSelfPermission(this, permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         //Location Permission already granted
                         getLocation()
                     } else {
@@ -409,14 +321,11 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
     private fun isLocationEnabled(): Boolean {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     private fun checkGPSEnabled(): Boolean {
-        if (!isLocationEnabled())
-            showAlert()
+        if (!isLocationEnabled()) showAlert()
         return isLocationEnabled()
     }
 
@@ -445,17 +354,14 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun checkAllPermission(): Boolean {
-        return checkCallingOrSelfPermission(permission.ACCESS_FINE_LOCATION) !== PackageManager.PERMISSION_GRANTED
-                || checkCallingOrSelfPermission(permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED
+        return checkCallingOrSelfPermission(permission.ACCESS_FINE_LOCATION) !== PackageManager.PERMISSION_GRANTED || checkCallingOrSelfPermission(permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED
     }
 
     private fun displayNeverAskAgainDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setMessage(getString(R.string.dialogMessage))
         builder.setCancelable(false)
-        builder.setPositiveButton(
-            "Permit Manually"
-        ) { dialog, which ->
+        builder.setPositiveButton("Permit Manually") { dialog, which ->
             dialog.dismiss()
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -468,13 +374,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
     private fun checkRuntimePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(
-                    permission.ACCESS_FINE_LOCATION,
-                    permission.ACCESS_COARSE_LOCATION
-                ),
-                requestPermissionAllowed
-            )
+            ActivityCompat.requestPermissions(this, arrayOf(permission.ACCESS_FINE_LOCATION, permission.ACCESS_COARSE_LOCATION), requestPermissionAllowed)
         }
     }
 

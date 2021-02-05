@@ -3,13 +3,13 @@ package com.app.just_money.common_helper
 import android.content.Context
 import android.content.SharedPreferences
 
-class PreferenceHelper(context: Context) {
+class PreferenceHelper(context: Context?) {
 
     private val sharedPreferences: SharedPreferences
 
     init {
         val preference = DefaultKeyHelper.preferenceName
-        this.sharedPreferences = context.getSharedPreferences(preference, Context.MODE_PRIVATE)
+        this.sharedPreferences = context!!.getSharedPreferences(preference, Context.MODE_PRIVATE)
     }
 
 

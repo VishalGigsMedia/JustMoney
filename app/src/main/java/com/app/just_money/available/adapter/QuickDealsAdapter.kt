@@ -34,9 +34,11 @@ class QuickDealsAdapter(
         val eachListData = quickDealsList[position]
         holder.mBinding?.data = eachListData
 
+        val id = DefaultHelper.decrypt(quickDealsList[position].id.toString())
         val title = quickDealsList[position].name.toString()
         val imageUrl = quickDealsList[position].image.toString()
         val buttonText = quickDealsList[position].buttonText.toString()
+        val url = DefaultHelper.decrypt(quickDealsList[position].buttonText.toString())
 
         if (title.isNotEmpty()) {
             holder.mBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
@@ -53,7 +55,7 @@ class QuickDealsAdapter(
                 .into(holder.mBinding?.ivLogo!!)
         }
         holder.mBinding?.txtTakeActionMessage?.setOnClickListener {
-            onClickedQuickDeals.getOffers("")
+            onClickedQuickDeals.getOffers(id,url)
         }
     }
 
@@ -70,6 +72,6 @@ class QuickDealsAdapter(
     }
 
     interface OnClickedQuickDeals {
-        fun getOffers(appId: String)
+        fun getOffers(appId: String, url: String)
     }
 }

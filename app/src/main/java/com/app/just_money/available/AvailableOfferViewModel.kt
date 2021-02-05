@@ -20,7 +20,7 @@ class AvailableOfferViewModel : ViewModel() {
         if (availableOfferModel != null || availableOfferModel == null) {
             availableOfferModel = availableOfferRepository.getOffers(context, api)
         }
-        return availableOfferModel!!
+        return availableOfferModel as LiveData<AvailableOfferModel>
     }
 
     fun claimOffer(context: Context, api: API, appId: String): LiveData<ClaimOfferModel> {

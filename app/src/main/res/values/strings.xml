@@ -98,7 +98,7 @@
     <string name="save">Save</string>
     <string name="step_to_avail_offer">Steps to avail offer</string>
 
-    <string name="note">*Note</string>
+    <string name="note">*Note :</string>
     <string name="step_earn_reward">Steps to Earn reward</string>
 
     <string name="account">Account</string>
@@ -143,5 +143,7 @@
     <!--error-->
     <string name="err_ent_phone_number">Enter phone number</string>
     <string name="err_ent_otp">Enter OTP</string>
+    <string name="error_available">No Offers available currently, Stay tuned! We will come up with new exciting offers soon.</string>
+    <string name="error_in_progress">Start one of the available reward and track your progress on this screen.</string>
 
 </resources>

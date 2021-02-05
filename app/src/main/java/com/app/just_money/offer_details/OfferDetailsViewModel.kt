@@ -14,22 +14,14 @@ class OfferDetailsViewModel : ViewModel() {
     private var offerDetailModel: LiveData<OfferDetailsModel>? = null
     private var claimOfferModel: LiveData<ClaimOfferModel>? = null
 
-    fun getOfferDetails(
-        context: Context,
-        api: API,
-        offerId: String
-    ): LiveData<OfferDetailsModel> {
+    fun getOfferDetails(context: Context?, api: API, offerId: String): LiveData<OfferDetailsModel> {
         if (offerDetailModel == null || offerDetailModel != null) {
             offerDetailModel = offerDetailRepository.getOfferDetails(context, api, offerId)
         }
-        return offerDetailModel!!
+        return offerDetailModel as LiveData<OfferDetailsModel>
     }
 
-    fun claimOffer(
-        context: Context,
-        api: API,
-        appId: String
-    ): LiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context, api: API, appId: String): LiveData<ClaimOfferModel> {
         if (claimOfferModel != null || claimOfferModel == null) {
             claimOfferModel = offerDetailRepository.claimOffer(context, api, appId)
         }

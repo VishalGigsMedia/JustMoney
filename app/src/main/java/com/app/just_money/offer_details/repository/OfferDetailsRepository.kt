@@ -23,11 +23,7 @@ class OfferDetailsRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getOfferDetails(
-        context: Context,
-        api: API,
-        offerId: String
-    ): MutableLiveData<OfferDetailsModel> {
+    fun getOfferDetails(context: Context?, api: API, offerId: String): MutableLiveData<OfferDetailsModel> {
         val mutableLiveData: MutableLiveData<OfferDetailsModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -40,37 +36,29 @@ class OfferDetailsRepository {
                         " ${requestKeyHelper.city} " +
                         ": ${requestKeyHelper.display_id}"
             )*/
-            api.getOfferDetails(preferenceHelper.getJwtToken(), requestKeyHelper).enqueue(object :
-                Callback<OfferDetailsModel> {
-                override fun onResponse(
-                    call: Call<OfferDetailsModel>,
-                    response: Response<OfferDetailsModel>
-                ) {
-                    gson = gsonBuilder.create()
-                    val json = Gson().toJson(response.body())
-                    offerDetailsModel = gson?.fromJson(json, OfferDetailsModel::class.java)
-                    println("$TAG : $json")
-                    mutableLiveData.value = offerDetailsModel
-                }
+            api.getOfferDetails(preferenceHelper.getJwtToken(), requestKeyHelper)
+                .enqueue(object : Callback<OfferDetailsModel> {
+                    override fun onResponse(call: Call<OfferDetailsModel>, response: Response<OfferDetailsModel>) {
+                        gson = gsonBuilder.create()
+                        val json = Gson().toJson(response.body())
+                        offerDetailsModel = gson?.fromJson(json, OfferDetailsModel::class.java)
+                        println("$TAG : $json")
+                        mutableLiveData.value = offerDetailsModel
+                    }
 
-                override fun onFailure(call: Call<OfferDetailsModel>, t: Throwable) {
-                    println("TAG : ${t.printStackTrace()}")
-                }
-            })
+                    override fun onFailure(call: Call<OfferDetailsModel>, t: Throwable) {
+                        println("TAG : ${t.printStackTrace()}")
+                        mutableLiveData.value = null
+                    }
+                })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context!!.getString(R.string.no_internet))
+            mutableLiveData.value = null
         }
         return mutableLiveData
     }
 
-    fun claimOffer(
-        context: Context,
-        api: API,
-        appId: String
-    ): MutableLiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context, api: API, appId: String): MutableLiveData<ClaimOfferModel> {
         val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -85,10 +73,7 @@ class OfferDetailsRepository {
             )*/
             api.claimOffer(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {
-                    override fun onResponse(
-                        call: Call<ClaimOfferModel>,
-                        response: Response<ClaimOfferModel>
-                    ) {
+                    override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
@@ -101,10 +86,7 @@ class OfferDetailsRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

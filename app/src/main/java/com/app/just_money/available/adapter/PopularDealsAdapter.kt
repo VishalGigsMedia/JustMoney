@@ -39,9 +39,7 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
         }
     }
 
-    override fun getItemCount(): Int {
-        return availableOfferList.size
-    }
+    override fun getItemCount(): Int = availableOfferList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
@@ -55,6 +53,7 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
             val imageUrl = availableOfferList[position].image.toString()
             val actualCoins = availableOfferList[position].actualCoins.toString()
             val offerCoins = availableOfferList[position].offerCoins.toString()
+            val url = DefaultHelper.decrypt(availableOfferList[position].url.toString())
 
             if (title.isNotEmpty()) {
                 holder.mBindingPopularDeals?.txtTitle?.text = DefaultHelper.decrypt(title)
@@ -95,7 +94,7 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
             }
 
             holder.mBindingPopularDeals?.clEarn?.setOnClickListener {
-                onClicked.claimOffers(offerId)
+                onClicked.claimOffers(offerId,url)
             }
 
             val itemWidth = screenWidth / 1.5
@@ -158,7 +157,7 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
     }
 
     interface OnClickedPopularDeals {
-        fun claimOffers(appId: String)
+        fun claimOffers(appId: String, url: String)
         fun showOfferDetails(offerId: String, displayId: String)
     }
 

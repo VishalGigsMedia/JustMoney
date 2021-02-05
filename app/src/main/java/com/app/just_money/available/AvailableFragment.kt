@@ -1,9 +1,13 @@
 package com.app.just_money.available
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -20,6 +24,7 @@ import com.app.just_money.common_helper.*
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentAvailableBinding
+import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,6 +32,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private var timer: CountDownTimer? = null
+
 class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     QuickDealsAdapter.OnClickedQuickDeals {
 
@@ -51,10 +57,17 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         init()
         //checkVersion()
         getOffers()
+        setListeners()
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
+    }
+
+    private fun setListeners() {
+        mBinding.clDailyRewardValue.setOnClickListener {
+            (activity as MainActivity).onClickMyWallet()
+        }
     }
 
     private fun init() {
@@ -124,8 +137,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.shimmerViewContainer.startShimmer()
         viewModel.getOffers(context!!, api).observe(viewLifecycleOwner, { availableOfferModel ->
             mBinding.shimmerViewContainer.stopShimmer()
-            mBinding.shimmerViewContainer.visibility = View.GONE
-            mBinding.nsv.visibility = View.VISIBLE
+            mBinding.shimmerViewContainer.visibility = GONE
+            mBinding.nsv.visibility = VISIBLE
             run {
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
@@ -138,44 +151,61 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             setDailyReward(dailyReward, totalCoins, withdrawn, completed)
 
                             if (availableOfferModel.availableOfferData?.flashOffer != null) {
-                                mBinding.clBestDeal.visibility = View.VISIBLE
+                                mBinding.clBestDeal.visibility = VISIBLE
                                 setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
-                            } else mBinding.clBestDeal.visibility = View.GONE
+                            } else mBinding.clBestDeal.visibility = GONE
 
                             if (availableOfferModel.availableOfferData?.popular != null) {
                                 popularDealsAdapter(availableOfferModel.availableOfferData.popular)
                             } else {
-                                mBinding.txtPopular.visibility = View.GONE
-                                mBinding.rvPopular.visibility = View.GONE
+                                mBinding.txtPopular.visibility = GONE
+                                mBinding.rvPopular.visibility = GONE
                             }
+
                             if (availableOfferModel.availableOfferData?.quickDeals != null) {
-                                setAdapter(availableOfferModel.availableOfferData.quickDeals)
+                                setAdapter(availableOfferModel.availableOfferData.quickDeals!!)
                             } else {
-                                mBinding.txtQuickDeals.visibility = View.GONE
-                                mBinding.rvQuickDeals.visibility = View.GONE
+                                mBinding.txtQuickDeals.visibility = GONE
+                                mBinding.rvQuickDeals.visibility = GONE
+                            }
+
+                            //if no offer available among three types, just showing error screen
+                            if (mBinding.clBestDeal.visibility == GONE
+                                && mBinding.rvPopular.visibility == GONE
+                                && mBinding.rvQuickDeals.visibility == GONE) {
+                                showErrorScreen()
                             }
 
 
                         }
                         DefaultKeyHelper.failureCode -> {
                             DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                            showErrorScreen()
                         }
                         DefaultKeyHelper.forceLogoutCode -> {
-                            DefaultHelper.forceLogout(activity!!)
+                            DefaultHelper.forceLogout(activity)
                         }
                         else -> {
                             DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                            showErrorScreen()
                         }
                     }
+                } else {
+                    showErrorScreen()
                 }
             }
         })
     }
 
+    private fun showErrorScreen() {
+        mBinding.clData.visibility = GONE
+        mBinding.llError.visibility = VISIBLE
+    }
+
     private fun popularDealsAdapter(popularList: List<AvailableOffer>) {
         if (popularList.isNotEmpty()) {
-            mBinding.txtPopular.visibility = View.VISIBLE
-            mBinding.rvPopular.visibility = View.VISIBLE
+            mBinding.txtPopular.visibility = VISIBLE
+            mBinding.rvPopular.visibility = VISIBLE
 
             popularDealsAdapter = PopularDealsAdapter(activity!!, popularList, onClicked!!)
             mBinding.rvPopular.layoutManager =
@@ -184,8 +214,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             popularDealsAdapter.notifyDataSetChanged()
 
         } else {
-            mBinding.txtPopular.visibility = View.GONE
-            mBinding.rvPopular.visibility = View.GONE
+            mBinding.txtPopular.visibility = GONE
+            mBinding.rvPopular.visibility = GONE
         }
     }
 
@@ -250,6 +280,13 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             val time = convertMinute + convertSecond
             //println("timeTotal : $time")
             if (timer == null) setTimer(time)
+
+            mBinding.txtRedeemOfferAmount.setOnClickListener {
+                claimOffer(flashOffer[0].id.toString(), flashOffer[0].url.toString())
+            }
+            mBinding.txtHaveAQuestion.setOnClickListener {
+                openFragment(FaqFragment(), true)
+            }
         } else {
             mBinding.clBestDeal.visibility = View.GONE
         }
@@ -270,8 +307,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         }
     }
 
-    override fun claimOffers(appId: String) {
-        claimOffer(appId)
+    override fun claimOffers(appId: String, url: String) {
+        claimOffer(appId, url)
     }
 
     override fun showOfferDetails(offerId: String, displayId: String) {
@@ -283,30 +320,30 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         openFragment(offerDetailFragment, true)
     }
 
-    override fun getOffers(appId: String) {
-        claimOffer(appId)
+    override fun getOffers(appId: String, url: String) {
+        claimOffer(appId, url)
     }
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
-            activity!!.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity!!.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
-                .addToBackStack(MainActivity::class.java.simpleName).commit()
+            activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
+                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         } else {
-            activity!!.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity!!.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
-                .commit()
+            activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
+                ?.commit()
         }
     }
 
-    private fun claimOffer(appId: String) {
+    private fun claimOffer(appId: String, url: String) {
         viewModel.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
                 if (claimOfferModel.status == DefaultKeyHelper.successCode) {
-                    DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
-                } else {
-                    DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
-                }
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                } else DefaultHelper.showToast(context, DefaultHelper.decrypt(claimOfferModel.message.toString()))
             }
         })
     }
