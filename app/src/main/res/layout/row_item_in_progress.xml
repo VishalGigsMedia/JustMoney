@@ -57,6 +57,7 @@
                 android:lineSpacingExtra="@dimen/_2sdp"
                 tools:text="Dummy text Dummy text Dummy textDummy textDummy textDummy textDummy textDummy text"
                 android:textAllCaps="false"
+
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintEnd_toEndOf="parent"
