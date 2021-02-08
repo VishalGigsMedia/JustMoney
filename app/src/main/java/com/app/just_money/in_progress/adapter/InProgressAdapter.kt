@@ -9,49 +9,28 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.MainActivity
 import com.app.just_money.R
-import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.RowItemInProgressBinding
 import com.app.just_money.databinding.RowItemInProgressTypeSecondBinding
 import com.app.just_money.in_progress.model.PendingList
-import com.app.just_money.my_wallet.completed.model.CompletedOfferData
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
-class InProgressAdapter(
-    private val context: FragmentActivity,
-    private val inProgressList: List<PendingList>,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    companion object {
-        private const val first = 0
-        private const val second = 1
-    }
+class InProgressAdapter(private val context: FragmentActivity, private val inProgressList: List<PendingList>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == 0) {
-            return InProgressViewHolder(
-                LayoutInflater.from(context).inflate(
-                    R.layout.row_item_in_progress,
-                    parent,
-                    false
-                )
-            )
+        return if (viewType == 0) {
+            InProgressViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.row_item_in_progress, parent, false))
         } else {
-            return InProgressSecondViewHolder(
-                LayoutInflater.from(context).inflate(
-                    R.layout.row_item_in_progress_type_second,
-                    parent,
-                    false
-                )
-            )
+            InProgressSecondViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.row_item_in_progress_type_second, parent, false))
         }
     }
 
-    override fun getItemCount(): Int {
-        return inProgressList.size
-    }
+    override fun getItemCount() = inProgressList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is InProgressViewHolder) {
@@ -75,11 +54,8 @@ class InProgressAdapter(
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
-                    .into(holder.mBindingInProgressBinding?.ivLogo!!)
+                Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
+                    .error(R.drawable.ic_logo).into(holder.mBindingInProgressBinding?.ivLogo!!)
             }
 
             if (actualCoins.isNotEmpty()) {
@@ -99,10 +75,8 @@ class InProgressAdapter(
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName)
-                    .commit()
+                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
+                    .addToBackStack(MainActivity::class.java.simpleName).commit()
             }
 
             holder.mBindingInProgressBinding?.clEarn?.setOnClickListener {
@@ -131,9 +105,7 @@ class InProgressAdapter(
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_logo)
+                Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
                     .error(R.drawable.ic_logo)
                     .into(holder.mBindingInProgressTypeSecondBinding?.ivLogo!!)
             }
@@ -155,10 +127,8 @@ class InProgressAdapter(
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName)
-                    .commit()
+                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
+                    .addToBackStack(MainActivity::class.java.simpleName).commit()
             }
 
             holder.mBindingInProgressTypeSecondBinding?.clEarn?.setOnClickListener {
@@ -179,8 +149,7 @@ class InProgressAdapter(
 
 
     class InProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mBindingInProgressBinding: RowItemInProgressBinding? =
-            DataBindingUtil.bind(itemView)
+        val mBindingInProgressBinding: RowItemInProgressBinding? = DataBindingUtil.bind(itemView)
     }
 
     class InProgressSecondViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

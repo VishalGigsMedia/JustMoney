@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_50sdp"
-            android:background="@drawable/light_curve_white"
+            android:background="@drawable/light_curve_white_with_stroke"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,12 +35,13 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:fontFamily="@font/metropolis_bold_italic"
-                android:text="@null"
                 android:textAllCaps="true"
                 android:textColor="@color/indigo_900"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="adidas">
 
             </TextView>
 
@@ -52,15 +54,15 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:ellipsize="end"
                 android:fontFamily="@font/metropolis_regular"
-                android:lines="3"
+                android:lineSpacingExtra="@dimen/_2sdp"
                 android:maxLines="3"
-                android:text="@null"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8ssp"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitle">
+                app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                tools:text="Dummy text Dummy text Dummy textDummy textDummy textDummy textDummy textDummy text">
 
             </TextView>
 
@@ -68,8 +70,8 @@
                 android:id="@+id/txtDealOfferAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:fontFamily="@font/metropolis_bold"
                 android:text="@null"
                 android:textAllCaps="true"
@@ -77,7 +79,8 @@
                 android:textSize="@dimen/_14ssp"
                 app:drawableStartCompat="@drawable/ic_coins_pink"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+                app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+                tools:text="45000">
 
             </TextView>
 
@@ -87,15 +90,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/metropolis_bold"
+                android:fontFamily="@font/metropolis_regular"
                 android:gravity="center"
-                android:text="@null"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
+                tools:text="Started 9 hours ago"
+                android:textColor="@color/indigo_900"
                 android:textSize="@dimen/_10ssp"
                 app:drawableStartCompat="@drawable/ic_clock_black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtDealOfferAmount">
+                app:layout_constraintTop_toBottomOf="@+id/txtDealOfferAmount"
+                app:drawableTint="@color/indigo_900">
 
             </TextView>
 
@@ -138,6 +141,7 @@
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:fontFamily="@font/metropolis_bold"
                             android:gravity="center"
+                            android:textAllCaps="true"
                             android:text="@string/earn"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_8ssp"
@@ -152,11 +156,11 @@
                             android:layout_height="@dimen/_30sdp"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:drawablePadding="0dp"
-                            android:fontFamily="@font/metropolis_bold"
+                            android:fontFamily="@font/metropolis_extra_bold"
                             android:gravity="center"
-                            android:text="@null"
+                            tools:text="45000"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_10ssp"
+                            android:textSize="@dimen/_15ssp"
                             app:drawableEndCompat="@drawable/ic_coins_white"
                             app:layout_constraintStart_toEndOf="@+id/txtEarn"
                             app:layout_constraintTop_toTopOf="parent">
@@ -179,7 +183,7 @@
                     android:padding="@dimen/_5sdp"
                     android:text="@string/i_have_question"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/pink_600"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/clRedeemOfferAmount"
