@@ -13,7 +13,6 @@ import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.RowItemCompletedPinkBgBinding
 import com.app.just_money.databinding.RowItemCompletedWhiteBgBinding
-import com.app.just_money.in_progress.adapter.InProgressAdapter
 import com.app.just_money.my_wallet.completed.model.CompletedList
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide

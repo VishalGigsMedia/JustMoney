@@ -142,15 +142,16 @@
                             android:fontFamily="@font/metropolis_bold"
                             android:gravity="center"
                             android:textAllCaps="true"
-                            android:text="@string/earn"
+                            android:text="@string/open"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_8ssp"
+                            android:textSize="@dimen/_10ssp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
                         </TextView>
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/txtRedeemOfferAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/_30sdp"

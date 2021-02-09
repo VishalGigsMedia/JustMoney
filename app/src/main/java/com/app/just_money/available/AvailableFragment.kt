@@ -77,7 +77,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         onClickedQuickDeals = this
 
         mBinding.txtDailyRewardValue.text = "0"
-        val preferenceHelper = PreferenceHelper(context!!)
+        val preferenceHelper = PreferenceHelper(context)
         val jwtToken = preferenceHelper.getJwtToken()
         println("JWT: $jwtToken")
     }
@@ -140,55 +140,48 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.shimmerViewContainer.visibility = GONE
             mBinding.nsv.visibility = VISIBLE
             run {
-                if (availableOfferModel != null) {
-                    when (availableOfferModel.status) {
-                        DefaultKeyHelper.successCode -> {
-                            val dailyReward =
-                                availableOfferModel.availableOfferData?.dailyRewards.toString()
-                            val totalCoins = availableOfferModel.totalCoins.toString()
-                            val withdrawn = availableOfferModel.withdrawn.toString()
-                            val completed = availableOfferModel.completed.toString()
-                            setDailyReward(dailyReward, totalCoins, withdrawn, completed)
+                if (availableOfferModel != null) when (availableOfferModel.status) {
+                    DefaultKeyHelper.successCode -> {
+                        val dailyReward =
+                            availableOfferModel.availableOfferData?.dailyRewards.toString()
+                        val totalCoins = availableOfferModel.totalCoins.toString()
+                        val withdrawn = availableOfferModel.withdrawn.toString()
+                        val completed = availableOfferModel.completed.toString()
+                        setDailyReward(dailyReward, totalCoins, withdrawn, completed)
 
-                            if (availableOfferModel.availableOfferData?.flashOffer != null) {
-                                mBinding.clBestDeal.visibility = VISIBLE
-                                setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
-                            } else mBinding.clBestDeal.visibility = GONE
+                        if (availableOfferModel.availableOfferData?.flashOffer != null) {
+                            mBinding.clBestDeal.visibility = VISIBLE
+                            setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
+                        } else mBinding.clBestDeal.visibility = GONE
 
-                            if (availableOfferModel.availableOfferData?.popular != null) {
-                                popularDealsAdapter(availableOfferModel.availableOfferData.popular)
-                            } else {
-                                mBinding.txtPopular.visibility = GONE
-                                mBinding.rvPopular.visibility = GONE
-                            }
-
-                            if (availableOfferModel.availableOfferData?.quickDeals != null) {
-                                setAdapter(availableOfferModel.availableOfferData.quickDeals!!)
-                            } else {
-                                mBinding.txtQuickDeals.visibility = GONE
-                                mBinding.rvQuickDeals.visibility = GONE
-                            }
-
-                            //if no offer available among three types, just showing error screen
-                            if (mBinding.clBestDeal.visibility == GONE
-                                && mBinding.rvPopular.visibility == GONE
-                                && mBinding.rvQuickDeals.visibility == GONE) {
-                                showErrorScreen()
-                            }
-
-
+                        if (availableOfferModel.availableOfferData?.popular != null) {
+                            popularDealsAdapter(availableOfferModel.availableOfferData.popular)
+                        } else {
+                            mBinding.txtPopular.visibility = GONE
+                            mBinding.rvPopular.visibility = GONE
                         }
-                        DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
-                            showErrorScreen()
+
+                        if (availableOfferModel.availableOfferData?.quickDeals != null) {
+                            setAdapter(availableOfferModel.availableOfferData.quickDeals!!)
+                        } else {
+                            mBinding.txtQuickDeals.visibility = GONE
+                            mBinding.rvQuickDeals.visibility = GONE
                         }
-                        DefaultKeyHelper.forceLogoutCode -> {
-                            DefaultHelper.forceLogout(activity)
-                        }
-                        else -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
-                            showErrorScreen()
-                        }
+
+                        //if no offer available among three types, just showing error screen
+                        if (mBinding.clBestDeal.visibility == GONE && mBinding.rvPopular.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
+
+                    }
+                    DefaultKeyHelper.failureCode -> {
+                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        showErrorScreen()
+                    }
+                    DefaultKeyHelper.forceLogoutCode -> {
+                        DefaultHelper.forceLogout(activity)
+                    }
+                    else -> {
+                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        showErrorScreen()
                     }
                 } else {
                     showErrorScreen()

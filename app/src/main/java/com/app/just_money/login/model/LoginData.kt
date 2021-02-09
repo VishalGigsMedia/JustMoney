@@ -9,7 +9,7 @@ data class LoginData(
     @SerializedName("carrier_name")
     val carrierName: String?,
     @SerializedName("city")
-    val city: Any?,
+    val city: String?,
     @SerializedName("cpu")
     val cpu: String?,
     @SerializedName("device_id")
@@ -19,33 +19,33 @@ data class LoginData(
     @SerializedName("display")
     val display: String?,
     @SerializedName("dob")
-    val dob: Any?,
+    val dob: String?,
     @SerializedName("fcm_key")
     val fcmKey: String?,
     @SerializedName("language")
-    val language: Any?,
+    val language: String?,
     @SerializedName("mobile")
     val mobile: String?,
     @SerializedName("mobile_model")
     val mobileModel: String?,
     @SerializedName("profile_pic")
-    val profilePic: Any?,
+    val profilePic: String?,
     @SerializedName("push_notification_status")
-    val pushNotificationStatus: Int?,
+    val pushNotificationStatus: String?,
     @SerializedName("referral_code")
     val referralCode: String?,
     @SerializedName("state")
-    val state: Any?,
+    val state: String?,
     @SerializedName("token")
     val token: String?,
     @SerializedName("user_id")
     val userId: String?,
     @SerializedName("user_mode")
-    val userMode: Int?,
+    val userMode: String?,
     @SerializedName("version_code")
     val versionCode: String?,
     @SerializedName("version_name")
     val versionName: String?,
-    @SerializedName("webapp_company_id")
-    val webappCompanyId: Boolean?
+    @SerializedName("webapp_compString_id")
+    val webappCompStringId: Boolean?
 )

@@ -403,7 +403,7 @@
                         android:textColor="@color/black"
                         android:gravity="center"
                         android:layout_marginTop="@dimen/_15sdp"
-                        android:text="@string/error_in_progress" />
+                        android:text="@string/error_offer_details" />
 
                     <ImageView
                         android:layout_width="match_parent"

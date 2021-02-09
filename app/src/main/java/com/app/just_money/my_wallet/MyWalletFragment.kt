@@ -26,10 +26,6 @@ class MyWalletFragment : Fragment() {
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentMyWalletBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

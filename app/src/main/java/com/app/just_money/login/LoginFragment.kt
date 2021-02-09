@@ -212,7 +212,7 @@ class LoginFragment : Fragment() {
                                 DefaultHelper.decrypt(loginModel.message.toString())
                             )
                             trackLogin()
-                            /* val intent = Intent(context, MainActivity::class.java)
+                             /*val intent = Intent(context, MainActivity::class.java)
                              startActivity(intent)
                              activity!!.finish()*/
                         }

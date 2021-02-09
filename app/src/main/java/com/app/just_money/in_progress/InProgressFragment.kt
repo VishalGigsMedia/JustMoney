@@ -1,5 +1,7 @@
 package com.app.just_money.in_progress
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.available.AvailableOfferViewModel
 import com.app.just_money.available.adapter.QuickDealsAdapter
 import com.app.just_money.available.model.AvailableOffer
 import com.app.just_money.common_helper.DefaultHelper
@@ -30,14 +33,11 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
     private lateinit var quickDealsAdapter: QuickDealsAdapter
     private lateinit var inProgressAdapter: InProgressAdapter
     private lateinit var viewModel: InProgressViewModel
+    private lateinit var viewModelAvailable: AvailableOfferViewModel
     private lateinit var mBinding: FragmentInProgressBinding
     private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_in_progress, container, false)
         return mBinding.root
@@ -48,6 +48,7 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
         callback?.onShowHideBottomNav(true)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(InProgressViewModel::class.java)
+        viewModelAvailable = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         onClickedQuickDeals = this
         getInProgressOffers()
     }
@@ -57,8 +58,12 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
     }
 
     private fun getInProgressOffers() {
+        mBinding.shimmerViewContainer.startShimmer()
         viewModel.getInProgressOffers(context!!, api)
             .observe(viewLifecycleOwner, { inProgressOffers ->
+                mBinding.shimmerViewContainer.stopShimmer()
+                mBinding.shimmerViewContainer.visibility = View.GONE
+                mBinding.nsv.visibility = View.VISIBLE
                 if (inProgressOffers != null) {
                     when (inProgressOffers.status) {
                         DefaultKeyHelper.successCode -> {
@@ -78,31 +83,37 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
                                 mBinding.txtQuickDeals.visibility = View.GONE
                                 mBinding.rvQuickDeals.visibility = View.GONE
                             }
+                            //if no offer available between two types, just showing error screen
+                            if (mBinding.rvInProgressDeals.visibility == View.GONE && mBinding.rvQuickDeals.visibility == View.GONE) showErrorScreen()
+
                         }
                         DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(
-                                context!!,
-                                DefaultHelper.decrypt(inProgressOffers.message.toString())
-                            )
+                            DefaultHelper.showToast(context, DefaultHelper.decrypt(inProgressOffers.message.toString()))
+                            showErrorScreen()
                         }
                         DefaultKeyHelper.forceLogoutCode -> {
 
                         }
                         else -> {
-                            DefaultHelper.showToast(
-                                context!!,
-                                DefaultHelper.decrypt(inProgressOffers.message.toString())
-                            )
+                            DefaultHelper.showToast(context, DefaultHelper.decrypt(inProgressOffers.message.toString()))
+                            showErrorScreen()
                         }
 
                     }
+                } else {
+                    showErrorScreen()
                 }
             })
     }
 
+    private fun showErrorScreen() {
+        mBinding.clData.visibility = View.GONE
+        mBinding.llError.visibility = View.VISIBLE
+    }
+
     private fun setAdapter(inProgressOfferData: List<PendingList>) {
 
-        inProgressAdapter = InProgressAdapter(activity!!, inProgressOfferData)
+        inProgressAdapter = InProgressAdapter(activity, inProgressOfferData)
         mBinding.rvInProgressDeals.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mBinding.rvInProgressDeals.adapter = inProgressAdapter
@@ -115,8 +126,6 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
             mBinding.rvQuickDeals.visibility = View.VISIBLE
 
             quickDealsAdapter = QuickDealsAdapter(activity!!, quickDeals, onClickedQuickDeals!!)
-            mBinding.rvQuickDeals.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             mBinding.rvQuickDeals.adapter = quickDealsAdapter
             quickDealsAdapter.notifyDataSetChanged()
         } else {
@@ -126,26 +135,22 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
     }
 
     override fun getOffers(appId: String, url: String) {
-        //  claimOffer(appId)
+        claimOffer(appId, url)
     }
 
-    /* private fun claimOffer(appId: String) {
-         viewModel.claimOffer(context!!, api, appId)
-             .observe(viewLifecycleOwner, Observer { claimOfferModel ->
-                 if (claimOfferModel != null) {
-                     if (claimOfferModel.status == DefaultKeyHelper.successCode) {
-                         DefaultHelper.showToast(
-                             context!!,
-                             DefaultHelper.decrypt(claimOfferModel.message.toString())
-                         )
-                     } else {
-                         DefaultHelper.showToast(
-                             context!!,
-                             DefaultHelper.decrypt(claimOfferModel.message.toString())
-                         )
-                     }
-                 }
-             })
-     }*/
+
+    private fun claimOffer(appId: String, url: String) {
+        viewModelAvailable.claimOffer(context!!, api, appId)
+            .observe(viewLifecycleOwner, { claimOfferModel ->
+                if (claimOfferModel != null) {
+                    if (claimOfferModel.status == DefaultKeyHelper.successCode) {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    } else DefaultHelper.showToast(context, DefaultHelper.decrypt(claimOfferModel.message.toString()))
+                }
+            })
+    }
+
 
 }

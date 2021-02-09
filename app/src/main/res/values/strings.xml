@@ -145,5 +145,7 @@
     <string name="err_ent_otp">Enter OTP</string>
     <string name="error_available">No Offers available currently, Stay tuned! We will come up with new exciting offers soon.</string>
     <string name="error_in_progress">Start one of the available reward and track your progress on this screen.</string>
+    <string name="error_offer_details">Unable to show details now, please come back later.</string>
+    <string name="open">OPEN</string>
 
 </resources>

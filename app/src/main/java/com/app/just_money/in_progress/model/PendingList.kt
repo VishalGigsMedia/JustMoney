@@ -24,6 +24,8 @@ data class PendingList(
     val name: String?,
     @SerializedName("offer_coins")
     val offerCoins: String?,
+    @SerializedName("url")
+    val url: String?,
     @SerializedName("offer_type")
     val offerType: Any?,
     @SerializedName("original_track_link")

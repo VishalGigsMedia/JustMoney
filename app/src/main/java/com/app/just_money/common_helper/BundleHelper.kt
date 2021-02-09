@@ -9,4 +9,6 @@ object BundleHelper {
     const val dob: String = "dob"
     const val gender: String = "gender"
     const val imageUrl: String = "imageUrl"
+    const val source: String = "source"
+    const val inProgress: String = "inProgress"
 }

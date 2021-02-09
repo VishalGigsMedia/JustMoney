@@ -1,5 +1,7 @@
 package com.app.just_money.in_progress.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +16,11 @@ import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.RowItemInProgressBinding
 import com.app.just_money.databinding.RowItemInProgressTypeSecondBinding
 import com.app.just_money.in_progress.model.PendingList
+import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
-class InProgressAdapter(private val context: FragmentActivity, private val inProgressList: List<PendingList>) :
+class InProgressAdapter(private val context: FragmentActivity?, private val inProgressList: List<PendingList>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -43,6 +46,7 @@ class InProgressAdapter(private val context: FragmentActivity, private val inPro
             val imageUrl = inProgressList[position].image.toString()
             val actualCoins = inProgressList[position].actualCoins.toString()
             val offerCoins = inProgressList[position].offerCoins.toString()
+            val url = DefaultHelper.decrypt(inProgressList[position].url.toString())
 
             if (title.isNotEmpty()) {
                 holder.mBindingInProgressBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
@@ -52,10 +56,11 @@ class InProgressAdapter(private val context: FragmentActivity, private val inPro
                     DefaultHelper.decrypt(description)
             }
 
-            /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo).into(holder.mBindingInProgressBinding?.ivLogo!!)
+                if (context != null) {
+                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
+                        .error(R.drawable.ic_logo).into(holder.mBindingInProgressBinding?.ivLogo!!)
+                }
             }
 
             if (actualCoins.isNotEmpty()) {
@@ -74,13 +79,24 @@ class InProgressAdapter(private val context: FragmentActivity, private val inPro
                 val bundle = Bundle()
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
+                bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
+                context?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.flMain, offerDetails)
+                    ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             }
 
             holder.mBindingInProgressBinding?.clEarn?.setOnClickListener {
-                // onClicked.claimOffers(offerId)
+                if (url.contains("http")) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    context?.startActivity(intent)
+                }
+            }
+            holder.mBindingInProgressBinding?.txtHaveAQuestion?.setOnClickListener {
+                (context as MainActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.flMain, FaqFragment())
+                    .addToBackStack(MainActivity::class.java.simpleName).commit()
             }
 
         } else if (holder is InProgressSecondViewHolder) {
@@ -93,6 +109,7 @@ class InProgressAdapter(private val context: FragmentActivity, private val inPro
             val imageUrl = inProgressList[position].image.toString()
             val actualCoins = inProgressList[position].actualCoins.toString()
             val offerCoins = inProgressList[position].offerCoins.toString()
+            val url = DefaultHelper.decrypt(inProgressList[position].url.toString())
 
             if (title.isNotEmpty()) {
                 holder.mBindingInProgressTypeSecondBinding?.txtTitle?.text =
@@ -105,9 +122,11 @@ class InProgressAdapter(private val context: FragmentActivity, private val inPro
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
-                    .into(holder.mBindingInProgressTypeSecondBinding?.ivLogo!!)
+                if (context != null) {
+                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
+                        .error(R.drawable.ic_logo)
+                        .into(holder.mBindingInProgressTypeSecondBinding?.ivLogo!!)
+                }
             }
 
             if (actualCoins.isNotEmpty()) {
@@ -126,27 +145,31 @@ class InProgressAdapter(private val context: FragmentActivity, private val inPro
                 val bundle = Bundle()
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
+                bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
+                context?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.flMain, offerDetails)
+                    ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             }
 
             holder.mBindingInProgressTypeSecondBinding?.clEarn?.setOnClickListener {
-                // onClicked.claimOffers(offerId)
+                if (url.contains("http")) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    context?.startActivity(intent)
+                }
+            }
+
+            holder.mBindingInProgressTypeSecondBinding?.txtHaveAQuestion?.setOnClickListener {
+                (context as MainActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.flMain, FaqFragment())
+                    .addToBackStack(MainActivity::class.java.simpleName).commit()
             }
 
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        //val comparable = data[position]
-        return if (position % 2 == 0) {
-            0
-        } else {
-            1
-        }
-    }
-
+    override fun getItemViewType(position: Int): Int = if (position % 2 == 0) 0 else 1
 
     class InProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBindingInProgressBinding: RowItemInProgressBinding? = DataBindingUtil.bind(itemView)

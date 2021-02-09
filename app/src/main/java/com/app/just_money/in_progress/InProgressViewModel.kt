@@ -10,13 +10,10 @@ class InProgressViewModel : ViewModel() {
     private val inProgressOfferRepository: InProgressOfferRepository = InProgressOfferRepository()
     private var inProgressOfferModel: LiveData<InProgressModel>? = null
 
-    fun getInProgressOffers(
-        context: Context,
-        api: API
-    ): LiveData<InProgressModel> {
+    fun getInProgressOffers(context: Context, api: API): LiveData<InProgressModel> {
         if (inProgressOfferModel != null || inProgressOfferModel == null) {
             inProgressOfferModel = inProgressOfferRepository.getInProgressOffers(context, api)
         }
-        return inProgressOfferModel!!
+        return inProgressOfferModel as LiveData<InProgressModel>
     }
 }

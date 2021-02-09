@@ -20,10 +20,7 @@ class InProgressOfferRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getInProgressOffers(
-        context: Context,
-        api: API
-    ): MutableLiveData<InProgressModel> {
+    fun getInProgressOffers(context: Context, api: API): MutableLiveData<InProgressModel> {
         val mutableLiveData: MutableLiveData<InProgressModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -32,10 +29,7 @@ class InProgressOfferRepository {
             requestHelper.city = preferenceHelper.getUserCity()
             api.getInProgressOffers(preferenceHelper.getJwtToken(), requestHelper)
                 .enqueue(object : Callback<InProgressModel> {
-                    override fun onResponse(
-                        call: Call<InProgressModel>,
-                        response: Response<InProgressModel>
-                    ) {
+                    override fun onResponse(call: Call<InProgressModel>, response: Response<InProgressModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         inProgressModel = gson?.fromJson(json, InProgressModel::class.java)
@@ -44,13 +38,12 @@ class InProgressOfferRepository {
 
                     override fun onFailure(call: Call<InProgressModel>, t: Throwable) {
                         println("TAG : ${t.printStackTrace()}")
+                        mutableLiveData.value = null
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            mutableLiveData.value = null
         }
         return mutableLiveData
     }
