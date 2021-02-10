@@ -2,6 +2,8 @@ package com.app.just_money.my_wallet
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.FragmentMyWalletBinding
@@ -20,6 +23,7 @@ import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
+
 
 class MyWalletFragment : Fragment() {
 
@@ -64,8 +68,8 @@ class MyWalletFragment : Fragment() {
         mBinding.txtCompleted.setOnClickListener { onClickCompleted() }
         mBinding.txtQuestion.setOnClickListener { onClickQuestion() }
         mBinding.txtTryAndEnjoy.setOnClickListener { onClickTryEnjoy() }
-        mBinding.txtFacebook.setOnClickListener { onClickFacebook() }
-        mBinding.txtTwitter.setOnClickListener { onClickTwitter() }
+        mBinding.clFacebook.setOnClickListener { onClickFacebook() }
+        mBinding.clTelegram.setOnClickListener { onClickTelegram() }
     }
 
     private fun onClickSetting() {
@@ -90,9 +94,13 @@ class MyWalletFragment : Fragment() {
 
     private fun onClickTryEnjoy() {}
 
-    private fun onClickFacebook() {}
+    private fun onClickFacebook() {
+        DefaultHelper.openFacebookPage(context)
+    }
 
-    private fun onClickTwitter() {}
+    private fun onClickTelegram() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.telegramUrl)))
+    }
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
@@ -117,7 +125,6 @@ class MyWalletFragment : Fragment() {
             dialog.dismiss()
         }
         dialog?.show()
-
     }
 
     private fun vibrateDevice() {

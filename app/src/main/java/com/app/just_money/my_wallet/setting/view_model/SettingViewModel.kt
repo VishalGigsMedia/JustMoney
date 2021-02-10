@@ -12,10 +12,7 @@ class SettingViewModel : ViewModel() {
     private var settingRepository: SettingRepository = SettingRepository()
     private var logoutModel: LiveData<LogoutModel>? = null
 
-    fun logout(
-        context: Context,
-        api: API
-    ): LiveData<LogoutModel> {
+    fun logout(context: Context?, api: API): LiveData<LogoutModel> {
         if (logoutModel != null || logoutModel == null) {
             logoutModel = settingRepository.logout(context, api)
         }

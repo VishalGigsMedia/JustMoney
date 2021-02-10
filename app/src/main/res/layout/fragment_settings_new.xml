@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,7 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@drawable/light_logo_background">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -31,15 +32,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_30sdp"
-                    android:drawableStart="@drawable/ic_arrow_back_white"
-                    android:fontFamily="@font/metropolis_extra_bold_italic"
+                    android:fontFamily="@font/metropolis_bold_italic"
                     android:gravity="start"
                     android:text="@string/setting"
-                    android:textAllCaps="true"
+                    android:letterSpacing="0.02"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="@dimen/_20ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:drawableStartCompat="@drawable/ic_arrow_back_white">
 
                 </TextView>
 
@@ -52,8 +53,6 @@
                 android:layout_height="@dimen/_70sdp"
                 android:layout_marginTop="@dimen/_80sdp"
                 android:src="@drawable/ic_user_place_holder"
-                app:civ_border_color="@color/indigo_600"
-                app:civ_border_width="@dimen/_1sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,10 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/metropolis_regular"
-                android:text="9930629894"
+                tools:text="pravin@enrootmedia.in"
+                android:letterSpacing="0.02"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/gray_900"
+                android:textSize="@dimen/_11ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivProfileImage">
@@ -77,11 +77,11 @@
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
+                android:layout_height="0.7dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@color/gray_600"
+                android:background="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber">
@@ -93,11 +93,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/metropolis_regular"
                 android:text="@string/account"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view">
@@ -115,8 +115,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/my_profile"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/gray_800"
+                android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_my_profile"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtAccount">
@@ -126,11 +126,11 @@
             <View
                 android:id="@+id/viewSecond"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
+                android:layout_height="0.7dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@color/gray_600"
+                android:background="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtMyProfile">
@@ -146,7 +146,7 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:text="@string/others"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewSecond">
@@ -164,8 +164,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/faq"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/gray_800"
+                android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_faq"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtOthers">
@@ -183,8 +183,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/feedback"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/gray_800"
+                android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_feedback"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtFaq">
@@ -202,8 +202,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/terms_condition"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/gray_800"
+                android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_terms_condition"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtFeedback">
@@ -221,8 +221,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/privacy_policy"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/gray_800"
+                android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_privacy_policy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTermsCondition">
@@ -232,11 +232,11 @@
             <View
                 android:id="@+id/viewThird"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
+                android:layout_height="0.7dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@color/gray_600"
+                android:background="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPolicy">
@@ -252,7 +252,7 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:text="@string/social"
                 android:textAllCaps="false"
-                android:textColor="@color/gray_600"
+                android:textColor="@color/gray_700"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewThird">
@@ -270,12 +270,13 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clFacebook"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
                     android:background="@drawable/curve_indigo_600"
-                    app:layout_constraintEnd_toStartOf="@+id/clTwitter"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -284,12 +285,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_2sdp"
-                        android:fontFamily="@font/metropolis_bold"
+                        android:fontFamily="@font/metropolis_medium"
                         android:text="@string/like_us_on_facebook"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp"
-                        app:drawableTopCompat="@drawable/ic_facebook"
+                        android:gravity="center"
+                        android:textSize="@dimen/_12ssp"
+                        app:drawableEndCompat="@drawable/ic_facebook"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -300,29 +302,30 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clTwitter"
+                    android:id="@+id/clTelegram"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
                     android:background="@drawable/curve_blue_300"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/clFacebook"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintStart_toStartOf="@id/clFacebook"
+                    app:layout_constraintTop_toBottomOf="@id/clFacebook"
+                    app:layout_constraintEnd_toEndOf="@id/clFacebook">
 
                     <TextView
-                        android:id="@+id/txtTwitter"
+                        android:id="@+id/txtTelegram"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_2sdp"
-                        android:fontFamily="@font/metropolis_bold"
+                        android:fontFamily="@font/metropolis_medium"
                         android:text="@string/follow_us_on_twitter"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp"
-                        app:drawableTopCompat="@drawable/ic_twitter"
+                        android:gravity="center"
+                        android:textSize="@dimen/_12ssp"
+                        app:drawableEndCompat="@drawable/ic_twitter"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -346,7 +349,7 @@
                 android:text="@string/logout"
                 android:textAllCaps="false"
                 android:textColor="@color/pink_600"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_logout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clFollow">

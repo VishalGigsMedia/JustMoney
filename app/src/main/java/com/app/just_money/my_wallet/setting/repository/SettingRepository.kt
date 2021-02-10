@@ -19,35 +19,25 @@ class SettingRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun logout(
-        context: Context,
-        api: API
-    ): MutableLiveData<LogoutModel> {
+    fun logout(context: Context?, api: API): MutableLiveData<LogoutModel> {
         val mutableLiveData: MutableLiveData<LogoutModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            api.logout(preferenceHelper.getJwtToken())
-                .enqueue(object : Callback<LogoutModel> {
-                    override fun onResponse(
-                        call: Call<LogoutModel>,
-                        response: Response<LogoutModel>
-                    ) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        logoutModel = gson?.fromJson(json, LogoutModel::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = logoutModel
-                    }
+            api.logout(preferenceHelper.getJwtToken()).enqueue(object : Callback<LogoutModel> {
+                override fun onResponse(call: Call<LogoutModel>, response: Response<LogoutModel>) {
+                    gson = gsonBuilder.create()
+                    val json = Gson().toJson(response.body())
+                    logoutModel = gson?.fromJson(json, LogoutModel::class.java)
+                    println("$TAG : $json")
+                    mutableLiveData.value = logoutModel
+                }
 
-                    override fun onFailure(call: Call<LogoutModel>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
+                override fun onFailure(call: Call<LogoutModel>, t: Throwable) {
+                    println("TAG : ${t.printStackTrace()}")
+                }
+            })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

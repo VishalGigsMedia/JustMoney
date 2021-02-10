@@ -1,5 +1,7 @@
 package com.app.just_money.my_wallet.setting
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,13 +32,8 @@ class SettingsNewFragment : Fragment() {
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentSettingsNewBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_settings_new, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings_new, container, false)
         return mBinding.root
     }
 
@@ -44,8 +41,8 @@ class SettingsNewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
-
         callback?.onShowHideBottomNav(false)
+
         manageClickEvents()
     }
 
@@ -58,19 +55,17 @@ class SettingsNewFragment : Fragment() {
         mBinding.txtFaq.setOnClickListener { openFragment(FaqFragment(), true) }
         mBinding.txtFeedback.setOnClickListener { openFragment(HelpUsFragment(), true) }
         mBinding.txtTermsCondition.setOnClickListener {
-            openFragment(
-                TermsConditionFragment(),
-                true
-            )
+            openFragment(TermsConditionFragment(), true)
         }
         mBinding.txtPrivacyPolicy.setOnClickListener {
-            openFragment(
-                PrivacyPolicyFragment(),
-                true
-            )
+            openFragment(PrivacyPolicyFragment(), true)
         }
-        mBinding.txtFacebook.setOnClickListener { }
-        mBinding.txtTwitter.setOnClickListener { }
+        mBinding.clFacebook.setOnClickListener {
+            DefaultHelper.openFacebookPage(context)
+        }
+        mBinding.clTelegram.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.telegramUrl)))
+        }
         mBinding.txtLogout.setOnClickListener {
             logout()
         }
@@ -79,32 +74,25 @@ class SettingsNewFragment : Fragment() {
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
             //activity!!.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .addToBackStack(MainActivity::class.java.simpleName)
-                .commit()
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
+                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         } else {
             //supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .commit()
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)?.commit()
         }
     }
 
     private fun logout() {
-        viewModel.logout(context!!, api).observe(viewLifecycleOwner, { logoutModule ->
+        viewModel.logout(context, api).observe(viewLifecycleOwner, { logoutModule ->
             if (logoutModule != null) {
                 when (logoutModule.status) {
                     DefaultKeyHelper.successCode -> {
-                        val preferenceHelper = PreferenceHelper(context!!)
+                        val preferenceHelper = PreferenceHelper(context)
                         preferenceHelper.setUserLoggedIn(false)
-                        DefaultHelper.forceLogout(activity!!)
+                        DefaultHelper.forceLogout(activity)
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(logoutModule.message.toString())
-                        )
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(logoutModule.message.toString()))
                     }
                 }
             }

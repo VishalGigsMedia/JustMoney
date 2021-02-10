@@ -216,7 +216,7 @@ class LoginRepository {
         val requestKeyHelper = RequestKeyHelper()
         requestKeyHelper.email = email
         requestKeyHelper.password = password
-        requestKeyHelper.networkUrl = DefaultKeyHelper.GIGSNATIVEURL
+        requestKeyHelper.networkUrl = DefaultKeyHelper.GIGS_NATIVE_URL
         val apiInterface: API? = ApiClient.getClient(context)?.create(API::class.java)
         val call: Call<LoginTrackier>? =
             apiInterface?.trackLogin(Hash_file_maps2, requestKeyHelper)
