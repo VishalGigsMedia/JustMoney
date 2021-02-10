@@ -42,8 +42,7 @@ class OfferDetailsFragment : Fragment() {
     private lateinit var mBinding: FragmentOfferDetailsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_offer_details, container, false)
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_offer_details, container, false)
         return mBinding.root
     }
 
@@ -67,8 +66,7 @@ class OfferDetailsFragment : Fragment() {
             activity?.onBackPressed()
         }
         mBinding.txtHaveAQuestion.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.flMain, FaqFragment())
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, FaqFragment())
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         }
     }
@@ -81,13 +79,11 @@ class OfferDetailsFragment : Fragment() {
                     intent.data = Uri.parse(url)
                     startActivity(intent)
                 } else DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
-
             }
         })
     }
 
     private fun showIdentityProof() {
-
         val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_step_to_earn)
@@ -102,22 +98,21 @@ class OfferDetailsFragment : Fragment() {
 
     private fun getOfferDetails() {
         mBinding.shimmer.startShimmer()
-        viewModel.getOfferDetails(context, api, offerId)
-            .observe(viewLifecycleOwner, { offerDetails ->
-                mBinding.shimmer.stopShimmer()
-                mBinding.shimmer.visibility = GONE
-                mBinding.nsv.visibility = VISIBLE
-                if (offerDetails != null) {
-                    when (offerDetails.status) {
-                        DefaultKeyHelper.successCode -> if (offerDetails.data != null) {
-                            setData(offerDetails.data)
-                        }
-                        DefaultKeyHelper.failureCode -> showErrorScreen()
-                        DefaultKeyHelper.forceLogoutCode -> DefaultHelper.forceLogout(activity)
-                        else -> showErrorScreen()
+        viewModel.getOfferDetails(context, api, offerId).observe(viewLifecycleOwner, { offerDetails ->
+            mBinding.shimmer.stopShimmer()
+            mBinding.shimmer.visibility = GONE
+            mBinding.nsv.visibility = VISIBLE
+            if (offerDetails != null) {
+                when (offerDetails.status) {
+                    DefaultKeyHelper.successCode -> if (offerDetails.data != null) {
+                        setData(offerDetails.data)
                     }
-                } else showErrorScreen()
-            })
+                    DefaultKeyHelper.failureCode -> showErrorScreen()
+                    DefaultKeyHelper.forceLogoutCode -> DefaultHelper.forceLogout(activity)
+                    else -> showErrorScreen()
+                }
+            } else showErrorScreen()
+        })
     }
 
     @SuppressLint("SetTextI18n")
@@ -138,14 +133,13 @@ class OfferDetailsFragment : Fragment() {
         if (title.isNotEmpty()) mBinding.txtTitle.text = "  $title"
         if (description.isNotEmpty()) mBinding.txtDescription.text = description
         if (imageUrl.isNotEmpty()) {
-            Glide.with(context!!).load(imageUrl).placeholder(R.drawable.ic_logo)
-                .error(R.drawable.ic_logo).into(mBinding.ivOfferImage)
+            Glide.with(context!!).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
+                .into(mBinding.ivOfferImage)
         }
         if (actualCoins.isNotEmpty()) mBinding.txtActualCoins.text = actualCoins
         if (offerCoins.isNotEmpty()) {
             mBinding.txtOfferCoins.text = offerCoins
-            if (source == BundleHelper.inProgress) mBinding.txtOfferAmount.text =
-                getString(R.string.open)
+            if (source == BundleHelper.inProgress) mBinding.txtOfferAmount.text = getString(R.string.open)
             else mBinding.txtOfferAmount.text = "EARN $offerCoins"
         }
         if (saveCoinsValue.isNotEmpty()) mBinding.txtSaveCoins.text = saveCoinsValue
