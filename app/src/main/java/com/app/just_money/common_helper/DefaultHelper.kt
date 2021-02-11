@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
@@ -177,6 +178,24 @@ object DefaultHelper {
 
     fun isValidEmailId(emailId: String): Boolean {
         return !TextUtils.isEmpty(emailId) && Patterns.EMAIL_ADDRESS.matcher(emailId).matches()
+    }
+
+    fun openFacebookPage(context: Context?) {
+        if (isPackageInstalled(context, "com.facebook.katana")) {
+            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
+        } else {
+            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.facebookPageUrl)))
+        }
+    }
+
+    private fun isPackageInstalled(c: Context?, targetPackage: String): Boolean {
+        val pm = c?.packageManager
+        try {
+            val info = pm?.getPackageInfo(targetPackage, PackageManager.GET_META_DATA)
+        } catch (e: PackageManager.NameNotFoundException) {
+            return false
+        }
+        return true
     }
 
 }
