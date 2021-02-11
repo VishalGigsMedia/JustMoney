@@ -224,15 +224,6 @@ object DefaultHelper {
     fun getApplicationVersionName(context: Context?): String {
         var version = ""
         try {
-    fun loadImage(context: Context?, imageUrl: String, imageView: ImageView,
-        placeholder: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!,
-        error: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!) {
-        context?.let {
-            Glide.with(it).load(imageUrl).placeholder(placeholder).error(error).into(imageView)
-        }
-    }
-
-
             val pInfo: PackageInfo? = context?.packageManager?.getPackageInfo(context.packageName, 0)
             version = pInfo?.versionName.toString() //Version Name
             /*val verCode: Long? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -244,5 +235,13 @@ object DefaultHelper {
             e.printStackTrace()
         }
         return version
+    }
+
+    fun loadImage(context: Context?, imageUrl: String, imageView: ImageView,
+        placeholder: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!,
+        error: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!) {
+        context?.let {
+            Glide.with(it).load(imageUrl).placeholder(placeholder).error(error).into(imageView)
+        }
     }
 }
