@@ -8,7 +8,7 @@
     <View
         android:id="@+id/viewClose"
         android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
+        android:layout_height="@dimen/_160sdp"
         android:background="@drawable/curve_top_left_bottom_left_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
