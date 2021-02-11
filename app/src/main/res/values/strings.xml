@@ -82,8 +82,8 @@
     <string name="send_us_feedback">SEND US YOUR FEEDBACK!</string>
     <string name="do_you_have_suggestion">Do you have a suggestion or found some bug?</string>
     <string name="let_me_know_field_below">let us know in the field bellow.</string>
-    <string name="name">Name</string>
-    <string name="email">Email</string>
+    <string name="name">Name*</string>
+    <string name="email">Email*</string>
     <string name="subject">Subject</string>
     <string name="describe">Describe</string>
 
@@ -111,8 +111,8 @@
     <string name="rewards">Rewards</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="update_profile">Update Profile</string>
-    <string name="birth_date">Birthdate</string>
-    <string name="gender">Gender</string>
+    <string name="birth_date">Birthdate*</string>
+    <string name="gender">Gender*</string>
     <string name="last_name">Last Name</string>
 
     <string name="sel_gender">Select Gender</string>

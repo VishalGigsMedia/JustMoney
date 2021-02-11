@@ -32,15 +32,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_30sdp"
-                    android:fontFamily="@font/metropolis_bold_italic"
+                    android:fontFamily="@font/metropolis_medium_italic"
                     android:gravity="start"
-                    android:text="@string/setting"
                     android:letterSpacing="0.02"
+                    android:text="@string/setting"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_20ssp"
+                    app:drawableStartCompat="@drawable/ic_arrow_back_white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:drawableStartCompat="@drawable/ic_arrow_back_white">
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </TextView>
 
@@ -63,14 +63,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/metropolis_regular"
-                tools:text="pravin@enrootmedia.in"
                 android:letterSpacing="0.02"
                 android:textAllCaps="false"
                 android:textColor="@color/gray_900"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivProfileImage">
+                app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"
+                tools:text="pravin@enrootmedia.in">
 
             </TextView>
 
@@ -274,9 +274,9 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_2sdp"
+                    android:background="@drawable/curve_indigo_600"
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
-                    android:background="@drawable/curve_indigo_600"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -286,10 +286,10 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_2sdp"
                         android:fontFamily="@font/metropolis_medium"
+                        android:gravity="center"
                         android:text="@string/like_us_on_facebook"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:gravity="center"
                         android:textSize="@dimen/_12ssp"
                         app:drawableEndCompat="@drawable/ic_facebook"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -307,12 +307,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/curve_blue_300"
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
-                    android:background="@drawable/curve_blue_300"
+                    app:layout_constraintEnd_toEndOf="@id/clFacebook"
                     app:layout_constraintStart_toStartOf="@id/clFacebook"
-                    app:layout_constraintTop_toBottomOf="@id/clFacebook"
-                    app:layout_constraintEnd_toEndOf="@id/clFacebook">
+                    app:layout_constraintTop_toBottomOf="@id/clFacebook">
 
                     <TextView
                         android:id="@+id/txtTelegram"
@@ -320,10 +320,10 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/_2sdp"
                         android:fontFamily="@font/metropolis_medium"
+                        android:gravity="center"
                         android:text="@string/join_telegram"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:gravity="center"
                         android:textSize="@dimen/_12ssp"
                         app:drawableEndCompat="@drawable/ic_telegram"
                         app:layout_constraintBottom_toBottomOf="parent"

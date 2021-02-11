@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@drawable/light_logo_background">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -40,12 +41,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_30sdp"
-                        android:fontFamily="@font/metropolis_extra_bold_italic"
+                        android:fontFamily="@font/metropolis_medium_italic"
                         android:gravity="start"
+                        android:letterSpacing="0.02"
                         android:text="@string/profile"
-                        android:textAllCaps="true"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_16ssp"
+                        android:textSize="@dimen/_20ssp"
                         app:drawableStartCompat="@drawable/ic_arrow_back_white"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -86,11 +87,11 @@
                 <View
                     android:id="@+id/view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
+                    android:layout_height="0.7dp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@color/gray_600"
+                    android:background="@color/gray_900"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber">
@@ -102,11 +103,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:fontFamily="@font/metropolis_regular"
                     android:text="@string/name"
                     android:textAllCaps="false"
-                    android:textColor="@color/gray_600"
+                    android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view">
@@ -119,12 +120,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/metropolis_medium"
+                    android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    android:text="@null"
+                    tools:text="Pravin Kadam"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtName">
 
@@ -139,7 +140,7 @@
                     android:fontFamily="@font/metropolis_regular"
                     android:text="@string/birth_date"
                     android:textAllCaps="false"
-                    android:textColor="@color/gray_600"
+                    android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtNameValue">
@@ -152,12 +153,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/metropolis_medium"
+                    android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    android:text="@null"
+                    tools:text="25-10-1994"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtBirthDate">
 
@@ -172,7 +173,7 @@
                     android:fontFamily="@font/metropolis_regular"
                     android:text="@string/gender"
                     android:textAllCaps="false"
-                    android:textColor="@color/gray_600"
+                    android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtBirthDateValue">
@@ -185,12 +186,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/metropolis_medium"
+                    android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    android:text="@null"
+                    tools:text="Male"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtGender">
 
@@ -205,7 +206,7 @@
                     android:fontFamily="@font/metropolis_regular"
                     android:text="@string/email"
                     android:textAllCaps="false"
-                    android:textColor="@color/gray_600"
+                    android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtGenderValue">
@@ -218,12 +219,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/metropolis_medium"
+                    android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    android:text="@null"
+                    tools:text="pravin@gigs.com"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
@@ -236,18 +237,18 @@
 
         <TextView
             android:id="@+id/txtEditProfile"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
+            android:paddingStart="@dimen/_60sdp"
+            android:paddingEnd="@dimen/_60sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/curve_pink_600"
             android:fontFamily="@font/metropolis_medium"
             android:gravity="center"
             android:text="@string/edit_profile"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
