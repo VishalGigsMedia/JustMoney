@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -30,23 +33,50 @@ class MyProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.instance.getNetComponent()?.inject(this)
         //viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        //getProfile()
         manageClickEvent()
         setData()
-        //getProfile()
     }
 
     private fun setData() {
         val preferenceHelper = PreferenceHelper(context)
-        mBinding.txtNameValue.text = preferenceHelper.getFirstName()+" "+preferenceHelper.getLastName()
-        mBinding.txtBirthDateValue.text = preferenceHelper.getDob()
-        mBinding.txtGenderValue.text = preferenceHelper.getGender()
+        //Set Name
+        mBinding.txtNameValue.text = preferenceHelper.getFirstName() + " " + preferenceHelper.getLastName()
+
+        //Set DOB
+        if (preferenceHelper.getDob().contains("0000")) {
+            //it means dob not set yet
+            mBinding.txtBirthDateValue.text = "N/A"
+        } else {
+            mBinding.txtBirthDateValue.text = preferenceHelper.getDob()
+        }
+        //Set Gender
+        when (preferenceHelper.getGender()) {
+            "0" -> {
+                mBinding.txtGenderValue.text = "N/A"
+            }
+            DefaultKeyHelper.male -> {
+                mBinding.txtGenderValue.text = "Male"
+            }
+            DefaultKeyHelper.female -> {
+                mBinding.txtGenderValue.text = "Female"
+            }
+        }
+
+        //Set Email & Image
         mBinding.txtEmailValue.text = preferenceHelper.getEmail()
+        DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
+            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
+            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
     }
 
     private fun manageClickEvent() {
         mBinding.txtEditProfile.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, EditProfileFragment())
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
+        }
+        mBinding.txtProfile.setOnClickListener {
+            activity?.onBackPressed()
         }
     }
 

@@ -68,11 +68,6 @@ interface API {
     @GET("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>
 
-
-    @GET("send_email_verification_otp")
-    fun sendEmailVerificationOtp(@Header("Authorization") authorizationToken: String): Call<SendEmailOtpModel>
-
-
     @POST("verify_email_otp")
     fun verifyEmailOtp(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<VerifyEmailOtpModel>
 

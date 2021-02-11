@@ -135,39 +135,6 @@ class ProfileRepository {
     }
 
 
-    fun sendEmailVerificationOtp(
-        context: Context,
-        api: API
-    ): MutableLiveData<SendEmailOtpModel> {
-        val mutableLiveData: MutableLiveData<SendEmailOtpModel> = MutableLiveData()
-        if (DefaultHelper.isOnline()) {
-            val preferenceHelper = PreferenceHelper(context)
-            api.sendEmailVerificationOtp(preferenceHelper.getJwtToken())
-                .enqueue(object : Callback<SendEmailOtpModel> {
-                    override fun onResponse(
-                        call: Call<SendEmailOtpModel>,
-                        response: Response<SendEmailOtpModel>
-                    ) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        sendEmailOtpModel = gson?.fromJson(json, SendEmailOtpModel::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = sendEmailOtpModel
-                    }
-
-                    override fun onFailure(call: Call<SendEmailOtpModel>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
-        } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
-        }
-        return mutableLiveData
-    }
-
     fun verifyEmailOtp(
         context: Context,
         api: API,

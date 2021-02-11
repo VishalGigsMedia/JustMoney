@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -12,7 +13,9 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Patterns
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -21,6 +24,7 @@ import com.app.just_money.LoginActivity
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.dagger.MyApplication
+import com.bumptech.glide.Glide
 import org.apache.commons.codec.binary.Base64
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
@@ -81,7 +85,8 @@ object DefaultHelper {
         if (netInfo != null) {
             val nc = cm.getNetworkCapabilities(netInfo)
 
-            return (nc?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) != null || nc?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) != null)
+            return (nc?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) != null || nc?.hasTransport(
+                NetworkCapabilities.TRANSPORT_WIFI) != null)
         }
 
         return haveConnectedWifi || haveConnectedMobile
@@ -120,8 +125,8 @@ object DefaultHelper {
             // truncated into NUM_HASHED_BYTES
             hashSignature = Arrays.copyOfRange(hashSignature, 0, numHashedBytes)
             // encode into Base64
-            var base64Hash =
-                android.util.Base64.encodeToString(hashSignature, android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP)
+            var base64Hash = android.util.Base64.encodeToString(hashSignature,
+                android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP)
             base64Hash = base64Hash.substring(0, numBase64Char)
 
             //Log.e(TAG, String.format("pkg: %s -- hash: %s", packageName, base64Hash))
@@ -148,7 +153,8 @@ object DefaultHelper {
             val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
             val secretKey = SecretKeySpec(DefaultKeyHelper.secretKey.toByteArray(charset("UTF-8")), "AES")
             val initializeVectorKey =
-                IvParameterSpec(DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")), 0, cipher.blockSize)
+                IvParameterSpec(DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")), 0,
+                    cipher.blockSize)
             cipher.init(Cipher.DECRYPT_MODE, secretKey, initializeVectorKey)
             //decrypt
             val text = cipher.doFinal(base64.decode(plainText.toByteArray()))
@@ -166,7 +172,8 @@ object DefaultHelper {
 
         val secretKey = SecretKeySpec(DefaultKeyHelper.secretKey.toByteArray(charset("UTF-8")), "AES")
         val initializeVectorKey =
-            IvParameterSpec(DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")), 0, cipher.blockSize)
+            IvParameterSpec(DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")), 0,
+                cipher.blockSize)
 
         //encrypt
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, initializeVectorKey)
@@ -186,7 +193,8 @@ object DefaultHelper {
 
     fun openFacebookPage(context: Context?) {
         if (isPackageInstalled(context, "com.facebook.katana")) {
-            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
+            context?.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
         } else {
             context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.facebookPageUrl)))
         }
@@ -209,6 +217,14 @@ object DefaultHelper {
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         } else {
             supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)?.commit()
+        }
+    }
+
+    fun loadImage(context: Context?, imageUrl: String, imageView: ImageView,
+        placeholder: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!,
+        error: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!) {
+        context?.let {
+            Glide.with(it).load(imageUrl).placeholder(placeholder).error(error).into(imageView)
         }
     }
 

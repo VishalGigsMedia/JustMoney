@@ -19,4 +19,7 @@ object DefaultKeyHelper {
     const val facebookPageUrl ="https://www.facebook.com/pravinhaircare/"
     const val telegramUrl ="https://t.me/downloadnearn"
 
+    const val male = "1"
+    const val female = "2"
+
 }

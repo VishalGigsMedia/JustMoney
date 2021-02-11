@@ -54,16 +54,6 @@ class ProfileViewModel : ViewModel() {
         return updateProfileModel!!
     }
 
-    fun sendEmailVerificationOtp(
-        context: Context,
-        api: API
-    ): LiveData<SendEmailOtpModel> {
-        if (sendEmailOtpModel != null || sendEmailOtpModel == null) {
-            sendEmailOtpModel = profileRepository.sendEmailVerificationOtp(context, api)
-        }
-        return sendEmailOtpModel!!
-    }
-
 
     fun verifyEmailOtp(
         context: Context,

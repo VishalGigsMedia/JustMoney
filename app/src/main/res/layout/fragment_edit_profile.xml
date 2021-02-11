@@ -120,7 +120,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/view">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtName"
+                        android:id="@+id/edtFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_medium"
@@ -252,26 +252,8 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/txtGetOtp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    android:background="@drawable/curve_pink_600"
-                    android:fontFamily="@font/metropolis_medium"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:paddingEnd="@dimen/_20sdp"
-                    android:text="@string/get_otp"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_12ssp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
-                </TextView>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
