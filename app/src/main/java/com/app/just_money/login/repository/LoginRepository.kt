@@ -1,7 +1,9 @@
 package com.app.just_money.login.repository
 
 import android.content.Context
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
+import com.app.just_money.BuildConfig
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultKeyHelper
@@ -67,12 +69,20 @@ class LoginRepository {
     }
 
 
-    fun login(context: Context, api: API, email: String, password: String): MutableLiveData<LoginModel> {
+    fun login(context: Context, api: API, email: String, password: String, carrierName: String): MutableLiveData<LoginModel> {
         val mutableLiveData: MutableLiveData<LoginModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.email = DefaultHelper.encrypt(email)
             requestKeyHelper.password = DefaultHelper.encrypt(password)
+            requestKeyHelper.device = Build.BRAND + " " + Build.MODEL
+            requestKeyHelper.android_version = Build.VERSION.RELEASE
+            requestKeyHelper.version_name = BuildConfig.VERSION_NAME
+            requestKeyHelper.version_code = BuildConfig.VERSION_CODE.toString()
+            requestKeyHelper.cpu = Build.CPU_ABI
+            requestKeyHelper.display = Build.DISPLAY
+            requestKeyHelper.device_type = "phone"
+            requestKeyHelper.carrier_name = carrierName
             api.login(requestKeyHelper).enqueue(object : Callback<LoginModel> {
                 override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
                     val header = response.headers()["Authorization"].toString()

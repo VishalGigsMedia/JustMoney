@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.widget.CompoundButtonCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
@@ -18,12 +21,16 @@ import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentLoginBinding
 import com.app.just_money.login.model.LoginModel
 import com.app.just_money.login.view_model.LoginViewModel
+import com.app.just_money.terms_condition.TermsConditionFragment
+import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
+
 
 class LoginFragment : Fragment() {
     @Inject
     lateinit var api: API
 
+    private var fm: FragmentManager? = null
     private lateinit var mBinding: FragmentLoginBinding
     private lateinit var viewModel: LoginViewModel
 
@@ -41,18 +48,29 @@ class LoginFragment : Fragment() {
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        fm = activity?.supportFragmentManager
+        /* mBinding.edtEmailId.setText("test897@gmail.com")
+         mBinding.edtPassword.setText("123456")*/
+    }
 
-        mBinding.edtEmailId.setText("test897@gmail.com")
-        mBinding.edtPassword.setText("123456")
+    private fun TextInputLayout.markRequired() {
+        hint = "$hint " + context?.getString(R.string.mandatory_mark)
     }
 
     private fun manageClickEvent() {
         mBinding.clRegisterWithUs.setOnClickListener {
-            openFragment(RegisterFragment(), true)
+            DefaultHelper.openFragment(this.fm, RegisterFragment(), true)
+        }
+        mBinding.clTermsCondition.setOnClickListener {
+            DefaultHelper.openFragment(this.fm, TermsConditionFragment(), true)
         }
         mBinding.clLogin.setOnClickListener {
             isValid()
         }
+
+        val darkStateList = ContextCompat.getColorStateList(context!!, R.color.checkbox_filter_tint)
+        CompoundButtonCompat.setButtonTintList(mBinding.checkbox, darkStateList)
+
     }
 
     private fun isValid() {
@@ -76,23 +94,24 @@ class LoginFragment : Fragment() {
 
     private fun onLogin(email: String, password: String) {
         showLoader()
-        viewModel.login(activity!!, api, email, password).observe(viewLifecycleOwner, { loginModel ->
-            hideLoader()
-            if (loginModel != null) {
-                when (loginModel.status) {
-                    DefaultKeyHelper.successCode -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
-                        setLoginData(loginModel)
-                    }
-                    DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
-                    }
-                    else -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+        viewModel.login(activity!!, api, email, password, DefaultHelper.getCarrierName(context))
+            .observe(viewLifecycleOwner, { loginModel ->
+                hideLoader()
+                if (loginModel != null) {
+                    when (loginModel.status) {
+                        DefaultKeyHelper.successCode -> {
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+                            setLoginData(loginModel)
+                        }
+                        DefaultKeyHelper.failureCode -> {
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+                        }
+                        else -> {
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+                        }
                     }
                 }
-            }
-        })
+            })
     }
 
     private fun showLoader() {
@@ -108,6 +127,8 @@ class LoginFragment : Fragment() {
     private fun setLoginData(loginModel: LoginModel) {
 
         val userId = loginModel.loginData?.userId.toString()
+        val userFirstName = loginModel.loginData?.firstname.toString()
+        val userLastName = loginModel.loginData?.lastname.toString()
         val email = loginModel.loginData?.email.toString()
         val dob = loginModel.loginData?.dob.toString()
         val gender = loginModel.loginData?.gender.toString()
@@ -116,6 +137,13 @@ class LoginFragment : Fragment() {
         if (userId.isNotEmpty() && userId != "null") {
             preferenceHelper.setUserId(userId)
         }
+        if (userFirstName.isNotEmpty() && userFirstName != "null") {
+            preferenceHelper.setFirstName(userFirstName)
+        }
+        if (userLastName.isNotEmpty() && userLastName != "null") {
+            preferenceHelper.setLastName(userLastName)
+        }
+
         if (email.isNotEmpty() && email != "null") {
             preferenceHelper.setEmail(email)
         }
@@ -147,5 +175,6 @@ class LoginFragment : Fragment() {
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)?.commit()
         }
     }
+
 
 }

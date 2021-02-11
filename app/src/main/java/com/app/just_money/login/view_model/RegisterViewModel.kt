@@ -77,8 +77,16 @@ class RegisterViewModel : ViewModel() {
                 DefaultHelper.showToast(context, context?.getString(R.string.ent_password))
                 false
             }
+            password.length < 6 -> {
+                DefaultHelper.showToast(context, context?.getString(R.string.invalid_pwd_length))
+                false
+            }
             confirmPassword.isEmpty() -> {
                 DefaultHelper.showToast(context, context?.getString(R.string.ent_confirm_password))
+                false
+            }
+            confirmPassword.length < 6 -> {
+                DefaultHelper.showToast(context, context?.getString(R.string.invalid_confirm_pwd_length))
                 false
             }
             password != confirmPassword -> {

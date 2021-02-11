@@ -13,9 +13,13 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Patterns
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.app.just_money.BuildConfig
 import com.app.just_money.LoginActivity
+import com.app.just_money.MainActivity
+import com.app.just_money.R
 import com.app.just_money.dagger.MyApplication
 import org.apache.commons.codec.binary.Base64
 import java.nio.charset.StandardCharsets
@@ -63,8 +67,8 @@ object DefaultHelper {
     }
 
     //to get network operator name
-    fun getCarrierName(context: Context): String {
-        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    fun getCarrierName(context: Context?): String {
+        val tm = context?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return tm.networkOperatorName.toString()
     }
 
@@ -197,5 +201,16 @@ object DefaultHelper {
         }
         return true
     }
+
+    fun openFragment(supportFragmentManager: FragmentManager?, fragment: Fragment, addToBackStack: Boolean) {
+        if (addToBackStack) {
+            //activity?.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)
+                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
+        } else {
+            supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)?.commit()
+        }
+    }
+
 
 }

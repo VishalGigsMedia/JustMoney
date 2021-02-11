@@ -15,6 +15,7 @@ import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentRegisterBinding
 import com.app.just_money.login.view_model.RegisterViewModel
+import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
 
 class RegisterFragment : Fragment() {
@@ -40,6 +41,7 @@ class RegisterFragment : Fragment() {
         this.mContext = activity
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         MyApplication.instance.getNetComponent()?.inject(this)
+
     }
 
     private fun manageClickEvent() {
@@ -107,5 +109,8 @@ class RegisterFragment : Fragment() {
         mBinding.clRegister.isEnabled = true
     }
 
+    private fun TextInputLayout.markRequired() {
+        hint = "$hint " + context?.getString(R.string.mandatory_mark)
+    }
 
 }
