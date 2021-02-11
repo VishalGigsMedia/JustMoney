@@ -3,6 +3,7 @@ package com.app.just_money.common_helper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -212,5 +213,20 @@ object DefaultHelper {
         }
     }
 
+    fun getApplicationVersionName(context: Context?): String {
+        var version = ""
+        try {
 
+            val pInfo: PackageInfo? = context?.packageManager?.getPackageInfo(context.packageName, 0)
+            version = pInfo?.versionName.toString() //Version Name
+            /*val verCode: Long? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                pInfo?.longVersionCode
+            } else {
+                pInfo?.versionCode?.toLong()
+            }*/
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return version
+    }
 }

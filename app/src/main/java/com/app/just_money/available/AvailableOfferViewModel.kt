@@ -4,17 +4,17 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.app.just_money.available.model.AvailableOfferModel
-import com.app.just_money.available.model.VersionModel
 import com.app.just_money.available.repository.AvailableOfferRepository
 import com.app.just_money.dagger.API
 import com.app.just_money.login.model.ClaimOfferModel
+import com.app.just_money.model.CheckAppVersionModel
 
 class AvailableOfferViewModel : ViewModel() {
 
     private val availableOfferRepository: AvailableOfferRepository = AvailableOfferRepository()
     private var availableOfferModel: LiveData<AvailableOfferModel>? = null
     private var claimOfferModel: LiveData<ClaimOfferModel>? = null
-    private var versionModel: LiveData<VersionModel>? = null
+    private var versionModel: LiveData<CheckAppVersionModel>? = null
 
     fun getOffers(context: Context, api: API): LiveData<AvailableOfferModel> {
         if (availableOfferModel != null || availableOfferModel == null) {
@@ -31,9 +31,9 @@ class AvailableOfferViewModel : ViewModel() {
     }
 
 
-    fun checkVersion(context: Context, api: API, appVersionCode: String): LiveData<VersionModel> {
+    fun checkVersion(context: Context, api: API): LiveData<CheckAppVersionModel> {
         if (versionModel != null || versionModel == null) {
-            versionModel = availableOfferRepository.checkVersion(context, api, appVersionCode)
+            versionModel = availableOfferRepository.checkVersion(context, api)
         }
         return versionModel!!
     }

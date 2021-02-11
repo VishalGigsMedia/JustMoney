@@ -1,14 +1,14 @@
 package com.app.just_money.available
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -55,7 +55,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
         init()
-        //checkVersion()
+        checkVersion()
         getOffers()
         setListeners()
     }
@@ -338,24 +338,69 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    /*private fun checkVersion() {
-        viewModel.checkVersion(context!!, api, "").observe(viewLifecycleOwner, { versionModel ->
+    private fun checkVersion() {
+        viewModel.checkVersion(context!!, api).observe(viewLifecycleOwner, { versionModel ->
             if (versionModel != null) {
                 when (versionModel.status) {
                     DefaultKeyHelper.successCode -> {
-                        *//*DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(versionModel.message.toString())
-                        )*//*
+                        val title = DefaultHelper.decrypt(versionModel.title.toString())
+                        val playStoreUrl = DefaultHelper.decrypt(versionModel.data?.url.toString())
+                        val updateVersion = DefaultHelper.decrypt(versionModel.data?.version.toString())
+                        val applicationVersion = DefaultHelper.getApplicationVersionName(context)
+                        val msg = DefaultHelper.decrypt(versionModel.message.toString())
+                        updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
+                        //DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
                     }
                     DefaultKeyHelper.failureCode -> {
-                        *//* DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(versionModel.message.toString())
-                        )*//*
+                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
                     }
                 }
             }
         })
-    }*/
+    }
+
+    private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String, message: String, url: String) {
+        //println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
+        if (applicationVersion != updateVersion) {
+            showDialog(title, message, url)
+        }
+    }
+
+    private fun showDialog(title: String, message: String, url: String) {
+
+        val dialog = Dialog(context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.update_verstion_dialog)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.gravity = Gravity.CENTER
+        dialog.window!!.attributes = lp
+
+        val txtTitle = dialog.findViewById<View>(R.id.txtTitle) as TextView
+        val txtMessage = dialog.findViewById<View>(R.id.txtMessage) as TextView
+        val txtUpdateApplication = dialog.findViewById<View>(R.id.txtUpdateApplication) as TextView
+
+
+        if (title.isNotEmpty()) {
+            txtTitle.text = title
+        }
+        if (message.isNotEmpty()) {
+            txtMessage.text = message
+        }
+
+        txtUpdateApplication.setOnClickListener {
+            //  startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.dne.rewardapp&reviewId")))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+    }
 }
