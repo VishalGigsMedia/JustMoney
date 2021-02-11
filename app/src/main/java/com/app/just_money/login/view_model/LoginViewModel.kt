@@ -28,9 +28,9 @@ class LoginViewModel : ViewModel() {
         return getOtpModel!!
     }
 
-    fun login(activity: Context, api: API, email: String, password: String): LiveData<LoginModel> {
+    fun login(activity: Context, api: API, email: String, password: String, carrierName: String): LiveData<LoginModel> {
         if (loginModel == null || loginModel != null) {
-            loginModel = loginRepository.login(activity, api, email, password)
+            loginModel = loginRepository.login(activity, api, email, password, carrierName)
         }
         return loginModel!!
     }
@@ -65,6 +65,9 @@ class LoginViewModel : ViewModel() {
     fun isValidPassword(context: Context?, pwd: String): Boolean {
         if (pwd.isEmpty()) {
             DefaultHelper.showToast(context, context?.getString(R.string.ent_password))
+            return false
+        } else if (pwd.length < 6) {
+            DefaultHelper.showToast(context, context?.getString(R.string.invalid_pwd_length))
             return false
         }
         return true
