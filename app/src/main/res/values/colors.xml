@@ -40,5 +40,6 @@
     <color name="light_shimmer_color">#dddddd</color>
     <color name="dark_shimmer_color">#757575</color>
 
+    <color name="grey_400_light">#B3B3B3</color>
 
 </resources>

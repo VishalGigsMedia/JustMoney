@@ -3,6 +3,7 @@ package com.app.just_money.dagger
 import com.app.just_money.available.AvailableFragment
 import com.app.just_money.in_progress.InProgressFragment
 import com.app.just_money.login.LoginFragment
+import com.app.just_money.login.RegisterFragment
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.setting.EditProfileFragment
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AppModule::class, ApiModule::class])
-public interface ApiComponent {
+interface ApiComponent {
 
     //public fun retrofit(): Retrofit
     fun inject(application: MyApplication)
@@ -29,5 +30,6 @@ public interface ApiComponent {
     fun inject(myProfileFragment: MyProfileFragment)
     fun inject(editProfileFragment: EditProfileFragment)
     fun inject(settingsNewFragment: SettingsNewFragment)
+    fun inject(registerFragment: RegisterFragment)
 
 }

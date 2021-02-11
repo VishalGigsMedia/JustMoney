@@ -148,4 +148,25 @@
     <string name="error_offer_details">Unable to show details now, please come back later.</string>
     <string name="open">OPEN</string>
 
+    <string name="first_name">First Name</string>
+    <string name="email_id">Email Id</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="or_register_up_with">Or Register Up With Us</string>
+    <string name="register">Register</string>
+
+    <string name="do_not_have_an_account">"Don't have an account?"</string>
+
+    <!--err msg-->
+    <string name="ent_password">Enter Password</string>
+    <string name="ent_confirm_password">Enter Confirm Password</string>
+    <string name="pwd_does_not_match">Password and Confirm Password does not match</string>
+    <string name="ent_first_name">Enter First Name</string>
+    <string name="ent_last_name">Enter Last Name</string>
+    <string name="invalid_email">Invalid Email Id</string>
+    <string name="kindly_agree_tnc">Kindly Agree Terms Condition</string>
+
+
 </resources>

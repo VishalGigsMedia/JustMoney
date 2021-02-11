@@ -14,15 +14,7 @@ class PreferenceHelper(context: Context?) {
 
 
     enum class Key {
-        AuthorizationKey,
-        UserLogIn,
-        UserId,
-        UserState,
-        UserCity,
-        UserCountry,
-        TotalCoins,
-        Completed,
-        Withdrawn,
+        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserDob, UserGender, UserProfilePic
     }
 
     /*fun setString(key: String, value: String) {
@@ -90,7 +82,7 @@ class PreferenceHelper(context: Context?) {
     }
 
     fun getUserId(): String {
-        return this.sharedPreferences.getString(Key.UserId.name, "").toString()
+        return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserId.name, "").toString())
     }
 
     fun setUserState(value: String) {
@@ -143,6 +135,37 @@ class PreferenceHelper(context: Context?) {
         return this.sharedPreferences.getString(Key.Withdrawn.name, "").toString()
     }
 
+    fun setEmail(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserEmail.name, value).apply()
+    }
+
+    fun getEmail(): String {
+        return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserEmail.name, "").toString())
+    }
+
+    fun setDob(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserDob.name, value).apply()
+    }
+
+    fun getDob(): String {
+        return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserDob.name, "").toString())
+    }
+
+    fun setGender(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserGender.name, value).apply()
+    }
+
+    fun getGender(): String {
+        return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserGender.name, "").toString())
+    }
+
+    fun setProfilePic(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserProfilePic.name, value).apply()
+    }
+
+    fun getProfilePic(): String {
+        return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserProfilePic.name, "").toString())
+    }
 
     fun setClear() {
         this.sharedPreferences.edit().clear().apply()

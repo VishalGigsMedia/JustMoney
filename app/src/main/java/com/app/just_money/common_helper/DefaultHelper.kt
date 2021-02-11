@@ -9,6 +9,8 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.TextUtils
+import android.util.Patterns
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.app.just_money.BuildConfig
@@ -68,16 +70,13 @@ object DefaultHelper {
     fun isOnline(): Boolean {
         val haveConnectedWifi = false
         val haveConnectedMobile = false
-        val cm =
-            MyApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = MyApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val netInfo = cm.activeNetwork
         if (netInfo != null) {
             val nc = cm.getNetworkCapabilities(netInfo)
 
-            return (nc?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) != null || nc?.hasTransport(
-                NetworkCapabilities.TRANSPORT_WIFI
-            ) != null);
+            return (nc?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) != null || nc?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) != null)
         }
 
         return haveConnectedWifi || haveConnectedMobile
@@ -90,10 +89,7 @@ object DefaultHelper {
             // Get all package signatures for the current package
             val packageName = context.packageName
             val packageManager = context.packageManager
-            val signatures = packageManager.getPackageInfo(
-                packageName,
-                PackageManager.GET_SIGNATURES
-            ).signatures
+            val signatures = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
 
             // For each signature create a compatible hash
             for (signature in signatures) {
@@ -119,10 +115,8 @@ object DefaultHelper {
             // truncated into NUM_HASHED_BYTES
             hashSignature = Arrays.copyOfRange(hashSignature, 0, numHashedBytes)
             // encode into Base64
-            var base64Hash = android.util.Base64.encodeToString(
-                hashSignature,
-                android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP
-            )
+            var base64Hash =
+                android.util.Base64.encodeToString(hashSignature, android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP)
             base64Hash = base64Hash.substring(0, numBase64Char)
 
             //Log.e(TAG, String.format("pkg: %s -- hash: %s", packageName, base64Hash))
@@ -134,9 +128,9 @@ object DefaultHelper {
         return null
     }
 
-    fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_LONG) {
+    fun showToast(context: Context?, message: String?, duration: Int = Toast.LENGTH_LONG) {
         var mToast: Toast? = null
-        if (message.isNotEmpty()) {
+        if (message.toString().isNotEmpty()) {
             mToast?.cancel()
             mToast = Toast.makeText(context, message, duration)
             mToast!!.show()
@@ -147,13 +141,9 @@ object DefaultHelper {
         return try {
             val base64 = Base64()
             val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-            val secretKey =
-                SecretKeySpec(DefaultKeyHelper.secretKey.toByteArray(charset("UTF-8")), "AES")
-            val initializeVectorKey = IvParameterSpec(
-                DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")),
-                0,
-                cipher.blockSize
-            )
+            val secretKey = SecretKeySpec(DefaultKeyHelper.secretKey.toByteArray(charset("UTF-8")), "AES")
+            val initializeVectorKey =
+                IvParameterSpec(DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")), 0, cipher.blockSize)
             cipher.init(Cipher.DECRYPT_MODE, secretKey, initializeVectorKey)
             //decrypt
             val text = cipher.doFinal(base64.decode(plainText.toByteArray()))
@@ -169,14 +159,9 @@ object DefaultHelper {
         val base64 = Base64()
         val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
 
-        val secretKey =
-            SecretKeySpec(DefaultKeyHelper.secretKey.toByteArray(charset("UTF-8")), "AES")
+        val secretKey = SecretKeySpec(DefaultKeyHelper.secretKey.toByteArray(charset("UTF-8")), "AES")
         val initializeVectorKey =
-            IvParameterSpec(
-                DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")),
-                0,
-                cipher.blockSize
-            )
+            IvParameterSpec(DefaultKeyHelper.initializeVectorKey.toByteArray(charset("UTF-8")), 0, cipher.blockSize)
 
         //encrypt
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, initializeVectorKey)
@@ -188,6 +173,10 @@ object DefaultHelper {
         val intent = Intent(context, LoginActivity::class.java)
         context?.startActivity(intent)
         context?.finish()
+    }
+
+    fun isValidEmailId(emailId: String): Boolean {
+        return !TextUtils.isEmpty(emailId) && Patterns.EMAIL_ADDRESS.matcher(emailId).matches()
     }
 
 }

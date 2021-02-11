@@ -15,4 +15,13 @@ object DefaultValidationHelper {
         }
         return true
     }
+
+    fun checkPwdMatching(password: String, confirmPassword: String): Boolean {
+        if (password != confirmPassword) {
+            return false
+        }
+        return true
+    }
+
+
 }

@@ -35,4 +35,9 @@ class RequestKeyHelper {
     var profile_pic: String? = null
     var app_version_code: String? = null
     var otp: String? = null
+
+
+    var firstname: String? = null
+    var lastname: String? = null
+    var invite_code: String? = null
 }
