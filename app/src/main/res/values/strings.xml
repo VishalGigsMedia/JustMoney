@@ -147,5 +147,6 @@
     <string name="error_in_progress">Start one of the available reward and track your progress on this screen.</string>
     <string name="error_offer_details">Unable to show details now, please come back later.</string>
     <string name="open">OPEN</string>
+    <string name="join_telegram">Join us on Telegram</string>
 
 </resources>

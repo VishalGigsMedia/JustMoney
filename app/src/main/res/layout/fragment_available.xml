@@ -70,9 +70,7 @@
                         android:src="@drawable/ic_close"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </ImageView>
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,9 +89,7 @@
                     android:textStyle="italic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </TextView>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clData"
@@ -141,9 +137,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/clDailyRewardValue"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                            </TextView>
+                                app:layout_constraintTop_toTopOf="parent"/>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/clDailyRewardValue"
@@ -173,9 +167,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    shimmer:text="10000">
-
-                                </TextView>
+                                    shimmer:text="10000"/>
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -244,9 +236,7 @@
                                         android:textSize="@dimen/_10ssp"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                    </TextView>
+                                        app:layout_constraintTop_toTopOf="parent"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -259,9 +249,7 @@
                                         android:textSize="@dimen/_8ssp"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/txtMinute">
-
-                                    </TextView>
+                                        app:layout_constraintTop_toBottomOf="@+id/txtMinute"/>
 
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -277,9 +265,7 @@
                                     android:textSize="@dimen/_10ssp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toStartOf="@+id/clSecond"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                </TextView>
+                                    app:layout_constraintTop_toTopOf="parent"/>
 
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -308,9 +294,7 @@
                                         android:textSize="@dimen/_10ssp"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                    </TextView>
+                                        app:layout_constraintTop_toTopOf="parent"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -323,9 +307,7 @@
                                         android:textSize="@dimen/_8ssp"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/txtSeconds">
-
-                                    </TextView>
+                                        app:layout_constraintTop_toBottomOf="@+id/txtSeconds"/>
 
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -344,9 +326,7 @@
                                 android:textStyle="bold"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/clTimeHolder"
-                                shimmer:text="Adidas">
-
-                            </TextView>
+                                shimmer:text="Adidas"/>
 
                             <TextView
                                 android:id="@+id/txtDealOfferAmount"
@@ -362,9 +342,7 @@
                                 app:drawableStartCompat="@drawable/ic_coins_yellow"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-                                shimmer:text="45000">
-
-                            </TextView>
+                                shimmer:text="45000"/>
 
                             <TextView
                                 android:id="@+id/txtDealActualAmount"
@@ -380,9 +358,7 @@
                                 app:drawableStartCompat="@drawable/ic_coins_white"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/txtDealOfferAmount"
-                                shimmer:text="30000">
-
-                            </TextView>
+                                shimmer:text="30000"/>
 
                             <TextView
                                 android:id="@+id/txtDescription"
@@ -399,9 +375,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/txtDealActualAmount"
-                                shimmer:text="Dummy text Dummy text Dummy textDummy textDummy textDummy textDummy textDummy text">
-
-                            </TextView>
+                                shimmer:text="Dummy text Dummy text Dummy textDummy textDummy textDummy textDummy textDummy text"/>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -447,9 +421,7 @@
                                             android:textColor="@color/indigo_900"
                                             android:textSize="@dimen/_8ssp"
                                             app:layout_constraintStart_toStartOf="parent"
-                                            app:layout_constraintTop_toTopOf="parent">
-
-                                        </TextView>
+                                            app:layout_constraintTop_toTopOf="parent"/>
 
                                         <TextView
                                             android:id="@+id/txtRedeemOfferAmount"
@@ -464,9 +436,7 @@
                                             app:drawableEndCompat="@drawable/ic_coins_blue"
                                             app:layout_constraintStart_toEndOf="@+id/txtEarn"
                                             app:layout_constraintTop_toTopOf="parent"
-                                            shimmer:text="45000">
-
-                                        </TextView>
+                                            shimmer:text="45000"/>
 
                                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -504,9 +474,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            shimmer:src="@mipmap/ic_sample">
-
-                        </ImageView>
+                            shimmer:src="@mipmap/ic_sample"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -526,9 +494,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/rvPopular"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/clBestDeal">
-
-                    </TextView>
+                        app:layout_constraintTop_toBottomOf="@+id/clBestDeal"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvPopular"
@@ -544,9 +510,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtPopular"
                         shimmer:itemCount="3"
-                        shimmer:listitem="@layout/row_item_popular_deal">
-
-                    </androidx.recyclerview.widget.RecyclerView>
+                        shimmer:listitem="@layout/row_item_popular_deal"/>
 
                     <TextView
                         android:id="@+id/txtQuickDeals"
@@ -564,9 +528,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/rvQuickDeals"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rvPopular">
-
-                    </TextView>
+                        app:layout_constraintTop_toBottomOf="@+id/rvPopular"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvQuickDeals"
@@ -580,9 +542,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtQuickDeals"
                         shimmer:itemCount="1"
-                        shimmer:listitem="@layout/row_item_quick_deals">
-
-                    </androidx.recyclerview.widget.RecyclerView>
+                        shimmer:listitem="@layout/row_item_quick_deals"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout

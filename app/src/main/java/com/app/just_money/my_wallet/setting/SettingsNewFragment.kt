@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -67,17 +68,28 @@ class SettingsNewFragment : Fragment() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.telegramUrl)))
         }
         mBinding.txtLogout.setOnClickListener {
-            logout()
+            if (context != null) {
+                val builder = AlertDialog.Builder(context!!)
+                builder.setMessage("Are you sure you want to Logout?").setCancelable(true)
+                    .setPositiveButton("Yes") { _, _ ->
+                        logout()
+                    }.setNegativeButton("No") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+            }
+        }
+        mBinding.txtSetting.setOnClickListener {
+            activity?.onBackPressed()
         }
     }
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
-            //activity!!.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         } else {
-            //supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)?.commit()
         }
     }
