@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOfferModel
-import com.app.just_money.available.model.VersionModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.login.model.ClaimOfferModel
+import com.app.just_money.model.CheckAppVersionModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
@@ -20,7 +20,7 @@ class AvailableOfferRepository {
     private val TAG = javaClass.simpleName
     private var availableOfferModel: AvailableOfferModel? = null
     private var claimOfferModel: ClaimOfferModel? = null
-    private var versionModel: VersionModel? = null
+    private var checkAppVersionModel: CheckAppVersionModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
@@ -94,26 +94,24 @@ class AvailableOfferRepository {
         return mutableLiveData
     }
 
-    fun checkVersion(context: Context, api: API, appVersionCode: String): MutableLiveData<VersionModel> {
-        val mutableLiveData: MutableLiveData<VersionModel> = MutableLiveData()
+    fun checkVersion(context: Context, api: API): MutableLiveData<CheckAppVersionModel> {
+        val mutableLiveData: MutableLiveData<CheckAppVersionModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.app_version_code = appVersionCode
-            api.checkVersion(preferenceHelper.getJwtToken(), requestKeyHelper)
-                .enqueue(object : Callback<VersionModel> {
-                    override fun onResponse(call: Call<VersionModel>, response: Response<VersionModel>) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        versionModel = gson?.fromJson(json, VersionModel::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = versionModel
-                    }
+            val authorizationToken = preferenceHelper.getJwtToken()
+            api.checkVersion(authorizationToken).enqueue(object : Callback<CheckAppVersionModel> {
+                override fun onResponse(call: Call<CheckAppVersionModel>, response: Response<CheckAppVersionModel>) {
+                    gson = gsonBuilder.create()
+                    val json = Gson().toJson(response.body())
+                    checkAppVersionModel = gson?.fromJson(json, CheckAppVersionModel::class.java)
+                    // println("TAG : $json")
+                    mutableLiveData.value = checkAppVersionModel
+                }
 
-                    override fun onFailure(call: Call<VersionModel>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
+                override fun onFailure(call: Call<CheckAppVersionModel>, t: Throwable) {
+                    println("TAG : ${t.printStackTrace()}")
+                }
+            })
         } else {
             DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }

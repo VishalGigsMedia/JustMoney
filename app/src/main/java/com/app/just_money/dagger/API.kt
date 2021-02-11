@@ -1,10 +1,10 @@
 package com.app.just_money.dagger
 
 import com.app.just_money.available.model.AvailableOfferModel
-import com.app.just_money.available.model.VersionModel
 import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.login.model.login.LoginModel
+import com.app.just_money.model.CheckAppVersionModel
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
 import com.app.just_money.my_wallet.setting.model.*
@@ -71,7 +71,8 @@ interface API {
     @POST("verify_email_otp")
     fun verifyEmailOtp(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<VerifyEmailOtpModel>
 
-    @POST("check_version")
-    fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<VersionModel>
+    @POST("appCurrentVersion") //check_version
+    fun checkVersion(@Header("Authorization") authorizationToken: String): Call<CheckAppVersionModel>
+    //fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CheckAppVersionModel>
 
 }

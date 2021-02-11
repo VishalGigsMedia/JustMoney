@@ -3,6 +3,7 @@ package com.app.just_money.common_helper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -220,6 +221,9 @@ object DefaultHelper {
         }
     }
 
+    fun getApplicationVersionName(context: Context?): String {
+        var version = ""
+        try {
     fun loadImage(context: Context?, imageUrl: String, imageView: ImageView,
         placeholder: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!,
         error: Drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!) {
@@ -229,4 +233,16 @@ object DefaultHelper {
     }
 
 
+            val pInfo: PackageInfo? = context?.packageManager?.getPackageInfo(context.packageName, 0)
+            version = pInfo?.versionName.toString() //Version Name
+            /*val verCode: Long? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                pInfo?.longVersionCode
+            } else {
+                pInfo?.versionCode?.toLong()
+            }*/
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return version
+    }
 }
