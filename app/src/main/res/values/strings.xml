@@ -25,13 +25,13 @@
     <string name="withdrawn">Withdrawn</string>
     <string name="request_payout">Request Payout</string>
     <string name="payout">Payout</string>
-    <string name="question">Questions</string>
+    <string name="question">Questions?</string>
     <string name="earn_more_reward">Earn more rewards</string>
     <string name="try_enjoy">Try &amp; Enjoy</string>
     <string name="follow_us_on">Follow us on :</string>
-    <string name="like_us_on_facebook">Like us on facebook</string>
-    <string name="follow_us_on_twitter">Follow us on twitter</string>
-    <string name="setting">settings</string>
+    <string name="like_us_on_facebook">Like us on Facebook</string>
+    <string name="follow_us_on_twitter">Follow us on Twitter</string>
+    <string name="setting">Settings</string>
 
     <string name="get_ans_abt_ques">Get answer about the app</string>
     <string name="questions">Questions ?</string>

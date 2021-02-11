@@ -2,7 +2,6 @@ package com.app.just_money.common_helper
 
 object DefaultKeyHelper {
 
-    //
     const val preferenceName = "JustMoney"
 
     //used for encryption and decryption
@@ -14,8 +13,10 @@ object DefaultKeyHelper {
     const val failureCode: Int = 500
     const val forceLogoutCode: Int = 100
 
-    val xApiKey = "5e020255c70c3bde6bcf1f1c1275e020255c7151"
-
-    val GIGSNATIVEURL = "gigs.vnative.com"
+    const val xApiKey = "5e020255c70c3bde6bcf1f1c1275e020255c7151"
+    const val GIGS_NATIVE_URL = "gigs.vnative.com"
+    const val facebookPageId ="983226045070038"
+    const val facebookPageUrl ="https://www.facebook.com/pravinhaircare/"
+    const val telegramUrl ="https://t.me/downloadnearn"
 
 }

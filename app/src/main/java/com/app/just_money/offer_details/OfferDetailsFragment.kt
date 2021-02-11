@@ -78,6 +78,8 @@ class OfferDetailsFragment : Fragment() {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
+
+                    mBinding.txtOfferAmount.text = getString(R.string.open)
                 } else DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
             }
         })
@@ -146,13 +148,22 @@ class OfferDetailsFragment : Fragment() {
         if (note.isNotEmpty()) mBinding.txtNoteValue.text = note
 
         mBinding.clOfferAmount.setOnClickListener {
-            if (source == BundleHelper.inProgress) {
+            /*if (source == BundleHelper.inProgress) {
                 if (url.contains("http")) {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
                 }
-            } else claimOffer(offerId, url)
+            } else claimOffer(offerId, url)*/
+            if (!mBinding.txtOfferAmount.text.contains("EARN")) {
+                if (url.contains("http")) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
+            } else {
+                claimOffer(offerId, url)
+            }
         }
     }
 
