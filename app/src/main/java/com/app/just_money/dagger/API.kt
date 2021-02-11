@@ -4,6 +4,7 @@ import com.app.just_money.available.model.AvailableOfferModel
 import com.app.just_money.available.model.VersionModel
 import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
+import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
 import com.app.just_money.my_wallet.setting.model.*

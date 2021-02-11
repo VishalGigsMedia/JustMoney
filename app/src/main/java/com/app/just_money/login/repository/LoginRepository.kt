@@ -12,9 +12,9 @@ import com.app.just_money.dagger.API
 import com.app.just_money.dagger.ApiClient
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.login.model.GetOtpModel
-import com.app.just_money.login.model.LoginModel
 import com.app.just_money.login.model.LoginTrackier
 import com.app.just_money.login.model.SignUpTrackier
+import com.app.just_money.login.model.login.LoginModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
@@ -111,7 +111,7 @@ class LoginRepository {
             preferenceHelper.setJwtToken("Bearer $header")
         }
 
-        val userId = loginModel.loginData?.userId.toString()
+        val userId = loginModel.data?.userId.toString()
         if (userId.isNotEmpty()) {
             preferenceHelper.setUserId(userId)
         }

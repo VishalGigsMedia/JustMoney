@@ -19,7 +19,7 @@ import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentLoginBinding
-import com.app.just_money.login.model.LoginModel
+import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.login.view_model.LoginViewModel
 import com.app.just_money.terms_condition.TermsConditionFragment
 import com.google.android.material.textfield.TextInputLayout
@@ -126,13 +126,13 @@ class LoginFragment : Fragment() {
 
     private fun setLoginData(loginModel: LoginModel) {
 
-        val userId = loginModel.loginData?.userId.toString()
-        val userFirstName = loginModel.loginData?.firstname.toString()
-        val userLastName = loginModel.loginData?.lastname.toString()
-        val email = loginModel.loginData?.email.toString()
-        val dob = loginModel.loginData?.dob.toString()
-        val gender = loginModel.loginData?.gender.toString()
-        val profilePic = loginModel.loginData?.profilePic.toString()
+        val userId = loginModel.data?.userId.toString()
+        val userFirstName = loginModel.data?.firstname.toString()
+        val userLastName = loginModel.data?.lastname.toString()
+        val email = loginModel.data?.email.toString()
+        val dob = loginModel.data?.dob.toString()
+        val gender = loginModel.data?.gender.toString()
+        val profilePic = loginModel.data?.profilePic.toString()
         val preferenceHelper = PreferenceHelper(context)
         if (userId.isNotEmpty() && userId != "null") {
             preferenceHelper.setUserId(userId)
