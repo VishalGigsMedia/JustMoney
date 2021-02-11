@@ -37,9 +37,9 @@ class MyProfileFragment : Fragment() {
 
     private fun setData() {
         val preferenceHelper = PreferenceHelper(context)
-        mBinding.txtName.text = preferenceHelper.getEmail()
-        mBinding.txtEmailValue.text = preferenceHelper.getEmail()
-        mBinding.txtEmailValue.text = preferenceHelper.getEmail()
+        mBinding.txtNameValue.text = preferenceHelper.getFirstName()+" "+preferenceHelper.getLastName()
+        mBinding.txtBirthDateValue.text = preferenceHelper.getDob()
+        mBinding.txtGenderValue.text = preferenceHelper.getGender()
         mBinding.txtEmailValue.text = preferenceHelper.getEmail()
     }
 
@@ -48,7 +48,6 @@ class MyProfileFragment : Fragment() {
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, EditProfileFragment())
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         }
-
     }
 
     /* private fun getProfile() {
