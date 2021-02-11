@@ -79,7 +79,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.txtDailyRewardValue.text = "0"
         val preferenceHelper = PreferenceHelper(context)
         val jwtToken = preferenceHelper.getJwtToken()
-        println("JWT: $jwtToken")
+        println("jwtToken: $jwtToken")
     }
 
 
@@ -142,8 +142,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             run {
                 if (availableOfferModel != null) when (availableOfferModel.status) {
                     DefaultKeyHelper.successCode -> {
-                        val dailyReward =
-                            availableOfferModel.availableOfferData?.dailyRewards.toString()
+                        val dailyReward = availableOfferModel.availableOfferData?.dailyRewards.toString()
                         val totalCoins = availableOfferModel.totalCoins.toString()
                         val withdrawn = availableOfferModel.withdrawn.toString()
                         val completed = availableOfferModel.completed.toString()
@@ -201,8 +200,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.rvPopular.visibility = VISIBLE
 
             popularDealsAdapter = PopularDealsAdapter(activity!!, popularList, onClicked!!)
-            mBinding.rvPopular.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            mBinding.rvPopular.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             mBinding.rvPopular.adapter = popularDealsAdapter
             popularDealsAdapter.notifyDataSetChanged()
 
@@ -262,8 +260,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.txtRedeemOfferAmount.text = offerCoins
 
             if (image.isNotEmpty()) {
-                Glide.with(context!!).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).into(mBinding.ivLogo)
+                Glide.with(context!!).load(image).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                    .into(mBinding.ivLogo)
             }
 
             val minute = timeValue[1].toLong()
@@ -324,8 +322,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
         } else {
             activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
-                ?.commit()
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)?.commit()
         }
     }
 

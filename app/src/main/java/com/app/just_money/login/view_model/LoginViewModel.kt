@@ -7,9 +7,9 @@ import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.login.model.GetOtpModel
-import com.app.just_money.login.model.LoginModel
 import com.app.just_money.login.model.LoginTrackier
 import com.app.just_money.login.model.SignUpTrackier
+import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.login.repository.LoginRepository
 
 class LoginViewModel : ViewModel() {

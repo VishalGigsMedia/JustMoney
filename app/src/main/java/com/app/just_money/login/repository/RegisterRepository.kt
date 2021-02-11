@@ -28,7 +28,7 @@ class RegisterRepository {
             requestKeyHelper.email = DefaultHelper.encrypt(emailId)
             requestKeyHelper.password = DefaultHelper.encrypt(password)
             requestKeyHelper.device_id = DefaultHelper.encrypt(DefaultHelper.getDeviceId(context!!))
-            requestKeyHelper.invite_code = DefaultHelper.encrypt(DefaultHelper.getPackageId(context))
+            requestKeyHelper.invite_code = "" //DefaultHelper.encrypt(DefaultHelper.getPackageId(context))
             api.register(requestKeyHelper).enqueue(object : Callback<RegisterUserModel> {
                 override fun onResponse(call: Call<RegisterUserModel>, response: Response<RegisterUserModel>) {
                     val header = response.headers()["Authorization"].toString()
