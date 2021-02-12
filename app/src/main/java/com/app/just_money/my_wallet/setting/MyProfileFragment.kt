@@ -35,6 +35,10 @@ class MyProfileFragment : Fragment() {
         //viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         //getProfile()
         manageClickEvent()
+    }
+
+    override fun onResume() {
+        super.onResume()
         setData()
     }
 

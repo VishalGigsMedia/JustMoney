@@ -1,19 +1,25 @@
 package com.app.just_money.my_wallet.setting
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.*
+import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -30,11 +36,12 @@ import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentEditProfileBinding
 import com.app.just_money.my_wallet.setting.view_model.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.dialog_verify_email_id.*
+import kotlinx.android.synthetic.main.dialog_gender.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+
 
 class EditProfileFragment : Fragment() {
     @Inject
@@ -87,7 +94,7 @@ class EditProfileFragment : Fragment() {
             }
         }
         //Set Email & Image
-        mBinding.edtEmail.setText(preferenceHelper.getEmail())
+        mBinding.txtEmail.text = preferenceHelper.getEmail()
         DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
             ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
             ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
@@ -99,7 +106,7 @@ class EditProfileFragment : Fragment() {
         }
 
         cal.add(Calendar.YEAR, -18)
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -117,6 +124,10 @@ class EditProfileFragment : Fragment() {
         mBinding.txtUpdateProfile.setOnClickListener {
             onClickUpdateProfile()
         }
+
+        mBinding.txtEditProfile.setOnClickListener{
+            activity?.onBackPressed()
+        }
     }
 
     private fun updateDateInView() {
@@ -132,30 +143,42 @@ class EditProfileFragment : Fragment() {
 
     private fun selectDate(dateSetListener: DatePickerDialog.OnDateSetListener) {
         val datePickerDialog =
-            DatePickerDialog(activity!!, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH))
+            DatePickerDialog(activity!!, R.style.calender, dateSetListener, cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
     }
 
     private fun onClickUpdateProfile() {
-        val name = mBinding.edtFirstName.text.toString()
+        val firstName = mBinding.edtFirstName.text.toString()
         val lastName = mBinding.edtLastName.text.toString()
+        var gender = "0"
+        if (mBinding.edtGender.text.toString() == "Male"){
+            gender = DefaultKeyHelper.male
+        }else if(mBinding.edtGender.text.toString() == "Female"){
+            gender = DefaultKeyHelper.female
+        }
         val dob = mBinding.edtBirthDate.text.toString()
-        val gender = mBinding.edtGender.text.toString()
-        val email = mBinding.edtEmail.text.toString()
-
-        viewModel.updateProfile(context!!, api, name, lastName, dob, gender, email, fileProfile)
+        val email = mBinding.txtEmail.text.toString()
+        Log.d("jkhbdekjb", "onClickUpdateProfile: $gender")
+        viewModel.updateProfile(context!!, api, firstName, lastName, dob, gender, email, fileProfile)
             .observe(viewLifecycleOwner, { updateProfileModel ->
                 if (updateProfileModel != null) {
                     when {
                         updateProfileModel.status == DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context!!,
-                                DefaultHelper.decrypt(updateProfileModel.message.toString()))
-                            activity!!.supportFragmentManager.popBackStack()
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(updateProfileModel.message.toString()))
+
+                            //update preferences
+                            val preferenceHelper =PreferenceHelper(context)
+                            preferenceHelper.setFirstName(firstName)
+                            preferenceHelper.setLastName(lastName)
+                            preferenceHelper.setDob(dob)
+                            preferenceHelper.setGender(gender)
+
+                            activity?.onBackPressed()
                         }
                         updateProfileModel.status == DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context!!,
+                            DefaultHelper.showToast(context,
                                 DefaultHelper.decrypt(updateProfileModel.message.toString()))
                         }
                         updateProfileModel.forceLogout != 0 -> {
@@ -173,7 +196,6 @@ class EditProfileFragment : Fragment() {
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.CAMERA), idPermissionAllowed)
         } else {
-            // DefaultHelper.hideKeyboard(activity!!)
             selectImage()
         }
     }
@@ -193,21 +215,12 @@ class EditProfileFragment : Fragment() {
         builder.setItems(options) { dialog: DialogInterface, item: Int ->
             when {
                 options[item] == "Take Photo" -> {
-                    try {
-                        fileProfile = createImageFile()
-                        // Continue only if the File was successfully created
-                        if (fileProfile != null) {
-                            val photoURI =
-                                FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID + ".provider",
-                                    fileProfile!!)
-                            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                            startActivityForResult(takePictureIntent, 1)
-                        }
-                    } catch (ex: Exception) {
-                        // Error occurred while creating the File
-                        //displayMessage(baseContext, ex.message.toString())
-                    }
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    val f = File(Environment.getExternalStorageDirectory(), "temp.jpg")
+                    val imageUri: Uri
+                    imageUri = FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID + ".provider", f)
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                    startActivityForResult(intent, 1)
                 }
                 options[item] == "Choose from Gallery" -> {
                     val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -225,98 +238,52 @@ class EditProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
-                val myBitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath)
-                //println("fileProfile : $myBitmap")
-                mBinding.ivProfileImage.setImageBitmap(myBitmap)
-            } else if (requestCode == 2) {
-                val selectedImage = data!!.data
-                val filePath = arrayOf(MediaStore.Images.Media.DATA)
-                val cursor = activity!!.contentResolver.query(selectedImage!!, filePath, null, null, null)
-                cursor!!.moveToFirst()
-                val columnIndex = cursor.getColumnIndex(filePath[0])
-                picturePath = cursor.getString(columnIndex)
-                println("picturePath : $picturePath")
-                cursor.close()
-                val thumbnail = BitmapFactory.decodeFile(picturePath)
-                println("thumbnail : $thumbnail")
-                mBinding.ivProfileImage.setImageBitmap(thumbnail)
-                mBinding.ivProfileImage.buildLayer()
-                fileProfile = File(picturePath)
-                fileIsSelected = true
+                fileProfile = File(Environment.getExternalStorageDirectory().toString())
+                if (fileProfile != null) {
+                    for (temp in fileProfile!!.listFiles()) {
+                        if (temp.name == "temp.jpg") {
+                            fileProfile = temp
+                            break
+                        }
+                    }
+                    val bitmap: Bitmap
+                    val bitmapOptions = BitmapFactory.Options()
+                    bitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath, bitmapOptions)
+                    mBinding.ivProfileImage.setImageBitmap(bitmap)
+                    fileIsSelected = true
+                } else if (requestCode == 2) {
+                    val selectedImage = data!!.data
+                    val filePath = arrayOf(MediaStore.Images.Media.DATA)
+                    val cursor = activity!!.contentResolver.query(selectedImage!!, filePath, null, null, null)
+                    cursor!!.moveToFirst()
+                    val columnIndex = cursor.getColumnIndex(filePath[0])
+                    picturePath = cursor.getString(columnIndex)
+                    cursor.close()
+
+                    val thumbnail = BitmapFactory.decodeFile(picturePath)
+                    mBinding.ivProfileImage.setImageBitmap(thumbnail)
+                    mBinding.ivProfileImage.buildLayer()
+                    fileProfile = File(picturePath)
+                    fileIsSelected = true
+                }
             }
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-        val storageDir = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val image = File.createTempFile(imageFileName, /* prefix */
-            ".jpg", /* suffix */
-            storageDir      /* directory */)
-        // Save a file: path for use with ACTION_VIEW intents
-        val mCurrentPhotoPath = image.absolutePath
-        //println("mCurrentPhotoPath: $mCurrentPhotoPath")
-        return image
-    }
-
-
     private fun showGenderDialog() {
-        val wrappedContext = ContextThemeWrapper(context, R.style.ThemeOverlay_Demo_BottomSheetDialog)
-        val dialog = BottomSheetDialog(wrappedContext)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_gender)
         dialog.window?.setGravity(Gravity.BOTTOM)
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.WRAP_CONTENT
-        dialog.window!!.setLayout(width, height)
-        dialog.show()
-
-    }
-
-    private fun showOtpDialog() {
-        val wrappedContext = ContextThemeWrapper(context, R.style.ThemeOverlay_Demo_BottomSheetDialog)
-        dialogVerify = BottomSheetDialog(wrappedContext)
-        dialogVerify.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogVerify.setCancelable(true)
-        dialogVerify.setContentView(R.layout.dialog_verify_email_id)
-        dialogVerify.window?.setGravity(Gravity.BOTTOM)
-        val width = ViewGroup.LayoutParams.MATCH_PARENT
-        val height = ViewGroup.LayoutParams.WRAP_CONTENT
-        dialogVerify.window!!.setLayout(width, height)
-
-        dialogVerify.txtVerifyOtp.setOnClickListener {
-            val otp = dialogVerify.squareField.text.toString()
-            onClickVerifyOtp(otp)
+        dialog.window?.setLayout(width, height)
+        dialog.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val radio: RadioButton = group.findViewById(checkedId)
+            mBinding.edtGender.setText(radio.text.toString())
+            dialog.dismiss()
         }
-
-        dialogVerify.show()
-
-    }
-
-    private fun onClickVerifyOtp(otp: String) {
-        viewModel.verifyEmailOtp(context!!, api, otp).observe(viewLifecycleOwner, { verifyOtpModel ->
-            if (verifyOtpModel != null) {
-                when {
-                    verifyOtpModel.status == DefaultKeyHelper.successCode -> {
-                        DefaultHelper.showToast(context!!,
-                            DefaultHelper.decrypt(verifyOtpModel.message.toString()))
-
-                        dialogVerify.cancel()
-                    }
-                    verifyOtpModel.status == DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context!!,
-                            DefaultHelper.decrypt(verifyOtpModel.message.toString()))
-                    }
-                    verifyOtpModel.forceLogout != 0 -> {
-                        DefaultHelper.forceLogout(activity!!)
-                    }
-                }
-            }
-        })
+        dialog.show()
     }
 
 }

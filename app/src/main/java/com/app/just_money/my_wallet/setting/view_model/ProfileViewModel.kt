@@ -18,48 +18,24 @@ class ProfileViewModel : ViewModel() {
     private var sendEmailOtpModel: LiveData<SendEmailOtpModel>? = null
     private var verifyEmailOtpModel: LiveData<VerifyEmailOtpModel>? = null
 
-    fun getUserProfile(
-        context: Context,
-        api: API
-    ): LiveData<GetUserProfileModel> {
+    fun getUserProfile(context: Context, api: API): LiveData<GetUserProfileModel> {
         if (getUserProfileModel != null || getUserProfileModel == null) {
             getUserProfileModel = profileRepository.getUserProfileData(context, api)
         }
         return getUserProfileModel!!
     }
 
-    fun updateProfile(
-        context: Context,
-        api: API,
-        name: String,
-        lastName: String,
-        dob: String,
-        gender: String,
-        email: String,
-        uploadImage: File?
-    ): LiveData<UpdateProfileModel> {
+    fun updateProfile(context: Context, api: API, name: String, lastName: String, dob: String, gender: String,
+        email: String, uploadImage: File?): LiveData<UpdateProfileModel> {
         if (updateProfileModel != null || updateProfileModel == null) {
             updateProfileModel =
-                profileRepository.updateProfile(
-                    context,
-                    api,
-                    name,
-                    lastName,
-                    dob,
-                    gender,
-                    email,
-                    uploadImage
-                )
+                profileRepository.updateProfile(context, api, name, lastName, dob, gender, email, uploadImage)
         }
         return updateProfileModel!!
     }
 
 
-    fun verifyEmailOtp(
-        context: Context,
-        api: API,
-        otp: String
-    ): LiveData<VerifyEmailOtpModel> {
+    fun verifyEmailOtp(context: Context, api: API, otp: String): LiveData<VerifyEmailOtpModel> {
         if (verifyEmailOtpModel != null || verifyEmailOtpModel == null) {
             verifyEmailOtpModel = profileRepository.verifyEmailOtp(context, api, otp)
         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@drawable/light_logo_background">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -40,22 +41,20 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/txtSetting"
+                        android:id="@+id/txtEditProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_30sdp"
-                        android:fontFamily="@font/metropolis_extra_bold_italic"
+                        android:fontFamily="@font/metropolis_medium_italic"
                         android:gravity="start"
-                        android:text="@string/profile"
-                        android:textAllCaps="true"
+                        android:letterSpacing="0.02"
+                        android:text="@string/edit_profile"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_16ssp"
+                        android:textSize="@dimen/_20ssp"
                         app:drawableStartCompat="@drawable/ic_arrow_back_white"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -66,65 +65,79 @@
                     android:layout_height="@dimen/_70sdp"
                     android:layout_marginTop="@dimen/_80sdp"
                     android:src="@drawable/ic_user_place_holder"
-                    app:civ_border_color="@color/indigo_600"
-                    app:civ_border_width="@dimen/_1sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:src="@drawable/camera"
+                    app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
+                    app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"/>
+
                 <TextView
-                    android:id="@+id/txtMobileNumber"
+                    android:id="@+id/txtEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/metropolis_regular"
-                    android:text="@null"
+                    android:fontFamily="@font/metropolis_medium"
+                    tools:text="pravin@enrootmedia.in"
                     android:textAllCaps="false"
-                    android:textColor="@color/gray_600"
-                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/gray_900"
+                    android:textSize="@dimen/_13ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"/>
 
                 <View
                     android:id="@+id/view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
+                    android:layout_height="0.7dp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@color/gray_600"
+                    android:background="@color/gray_900"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber">
+                    app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
                 </View>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtName"
+                    android:id="@+id/txtFirstName"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
-                    android:hint="@string/name"
+                    android:hint="@string/first_name"
                     android:textColorHint="@color/black"
                     app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_20sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_20sdp"
                     app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:boxStrokeColor="@color/pink_600"
+                    app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+                    app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+                    app:hintTextColor="@color/gray_700"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view">
+                    app:layout_constraintTop_toBottomOf="@id/view">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_medium"
-                        android:text="@null"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="0dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
@@ -145,15 +158,26 @@
                     app:boxCornerRadiusBottomStart="@dimen/_20sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_20sdp"
                     app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:boxStrokeColor="@color/pink_600"
+                    app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+                    app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+                    app:hintTextColor="@color/gray_700"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtName">
+                    app:layout_constraintTop_toBottomOf="@id/txtFirstName">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_medium"
-                        android:text="@null"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="0dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
@@ -174,18 +198,28 @@
                     app:boxCornerRadiusBottomStart="@dimen/_20sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_20sdp"
                     app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:boxStrokeColor="@color/pink_600"
+                    app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+                    app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+                    app:hintTextColor="@color/gray_700"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtLastName">
+                    app:layout_constraintTop_toBottomOf="@id/txtLastName">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtBirthDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
+                        android:clickable="false"
                         android:focusable="false"
                         android:fontFamily="@font/metropolis_medium"
-                        android:inputType="none"
-                        android:text="@null"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapCharacters"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="0dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
@@ -206,52 +240,33 @@
                     app:boxCornerRadiusBottomStart="@dimen/_20sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_20sdp"
                     app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:boxStrokeColor="@color/pink_600"
+                    app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+                    app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+                    app:hintTextColor="@color/gray_700"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDate">
+                    app:layout_constraintTop_toBottomOf="@id/txtBirthDate">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtGender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
+                        android:clickable="false"
                         android:focusable="false"
                         android:fontFamily="@font/metropolis_medium"
-                        android:text="@null"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapCharacters"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="0dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtEmail"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:hint="@string/email"
-                    android:textColorHint="@color/black"
-                    app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
-                    app:boxCornerRadiusBottomStart="@dimen/_20sdp"
-                    app:boxCornerRadiusTopEnd="@dimen/_20sdp"
-                    app:boxCornerRadiusTopStart="@dimen/_20sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtGender">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/metropolis_medium"
-                        android:text="@null"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
 
 
 
@@ -261,18 +276,18 @@
 
         <TextView
             android:id="@+id/txtUpdateProfile"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/curve_pink_600"
             android:fontFamily="@font/metropolis_medium"
             android:gravity="center"
+            android:paddingStart="@dimen/_60sdp"
+            android:paddingEnd="@dimen/_60sdp"
             android:text="@string/update_profile"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
