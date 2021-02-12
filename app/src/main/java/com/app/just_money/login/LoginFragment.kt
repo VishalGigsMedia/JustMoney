@@ -2,9 +2,8 @@ package com.app.just_money.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.CompoundButtonCompat
 import androidx.databinding.DataBindingUtil
@@ -22,6 +21,7 @@ import com.app.just_money.databinding.FragmentLoginBinding
 import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.login.view_model.LoginViewModel
 import com.app.just_money.terms_condition.TermsConditionFragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
 
@@ -51,6 +51,9 @@ class LoginFragment : Fragment() {
         fm = activity?.supportFragmentManager
         /* mBinding.edtEmailId.setText("test897@gmail.com")
          mBinding.edtPassword.setText("123456")*/
+
+        val darkStateList = ContextCompat.getColorStateList(context!!, R.color.checkbox_filter_tint)
+        CompoundButtonCompat.setButtonTintList(mBinding.checkbox, darkStateList)
     }
 
     private fun TextInputLayout.markRequired() {
@@ -68,9 +71,18 @@ class LoginFragment : Fragment() {
             isValid()
         }
 
-        val darkStateList = ContextCompat.getColorStateList(context!!, R.color.checkbox_filter_tint)
-        CompoundButtonCompat.setButtonTintList(mBinding.checkbox, darkStateList)
+        mBinding.txtForgetPassword.setOnClickListener {
+            isValidEmailId()
+        }
 
+    }
+
+    private fun isValidEmailId() {
+        val email = mBinding.edtEmailId.text.toString()
+        if (!viewModel.isValidEmail(context, email)) {
+            return
+        }
+        showForgotPasswordDialog(email)
     }
 
     private fun isValid() {
@@ -100,14 +112,17 @@ class LoginFragment : Fragment() {
                 if (loginModel != null) {
                     when (loginModel.status) {
                         DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+                            DefaultHelper.showToast(context!!,
+                                DefaultHelper.decrypt(loginModel.message.toString()))
                             setLoginData(loginModel)
                         }
                         DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+                            DefaultHelper.showToast(context!!,
+                                DefaultHelper.decrypt(loginModel.message.toString()))
                         }
                         else -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(loginModel.message.toString()))
+                            DefaultHelper.showToast(context!!,
+                                DefaultHelper.decrypt(loginModel.message.toString()))
                         }
                     }
                 }
@@ -165,16 +180,33 @@ class LoginFragment : Fragment() {
         activity!!.finish()
     }
 
-    private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
-        if (addToBackStack) {
-            //activity?.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)
-                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
-        } else {
-            //activity?.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)?.commit()
-        }
-    }
 
+    private fun showForgotPasswordDialog(email: String) {
+        // val dialog = Dialog(context!!)
+        // val wrappedContext = ContextThemeWrapper(context, R.style.AppBottomSheetDialogTheme)
+        val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_forgot_password)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.gravity = Gravity.CENTER
+        dialog.window!!.attributes = lp
+
+        val txtEmailId = dialog.findViewById<View>(R.id.txtEmailId) as TextView
+        val txtOkay = dialog.findViewById<View>(R.id.txtOkay) as TextView
+
+        if (email.isNotEmpty()) {
+            txtEmailId.text = email
+        }
+
+        txtOkay.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 
 }
