@@ -14,7 +14,7 @@
     <string name="i_have_question">I Have A Question</string>
 
     <string name="earn">Earn</string>
-    <string name="okay">Okay!</string>
+    <!--<string name="okay">Okay!</string>-->
 
     <string name="min">min</string>
     <string name="sec">sec</string>
@@ -178,4 +178,11 @@
     <string name="mandatory_first_name">First Name<font fgcolor='#D92249'>*</font></string>
     <string name="mandatory_last_name">Last Name<font fgcolor='#D92249'>*</font></string>
     <string name="mandatory_confirm_password">Confirm Password<font fgcolor='#D92249'>*</font></string>
+
+    <string name="update">update</string>
+    <string name="okay">okay</string>
+    <string name="send">Send</string>
+
+    <string name="forgot_pwd_msg">"Click 'Send' button to receive update password link on your entered email address:"</string>
+
 </resources>
