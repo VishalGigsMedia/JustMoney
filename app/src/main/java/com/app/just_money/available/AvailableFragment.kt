@@ -172,14 +172,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        DefaultHelper.showToast(context!!,
+                            DefaultHelper.decrypt(availableOfferModel.message.toString()))
                         showErrorScreen()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
                         DefaultHelper.forceLogout(activity)
                     }
                     else -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        DefaultHelper.showToast(context!!,
+                            DefaultHelper.decrypt(availableOfferModel.message.toString()))
                         showErrorScreen()
                     }
                 } else {
@@ -348,7 +350,10 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                         val updateVersion = DefaultHelper.decrypt(versionModel.data?.version.toString())
                         val applicationVersion = DefaultHelper.getApplicationVersionName(context)
                         val msg = DefaultHelper.decrypt(versionModel.message.toString())
-                        updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
+
+                        if (updateVersion.isNotEmpty() && updateVersion != "null") {
+                            updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
+                        }
                         //DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
                     }
                     DefaultKeyHelper.failureCode -> {
@@ -359,8 +364,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String, message: String, url: String) {
-        //println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
+    private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String,
+        message: String, url: String) {
+        println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
         if (applicationVersion != updateVersion) {
             showDialog(title, message, url)
         }
