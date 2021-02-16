@@ -1,6 +1,7 @@
 package com.app.just_money.my_wallet.setting
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -9,18 +10,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -36,6 +36,7 @@ import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentEditProfileBinding
+import com.app.just_money.my_wallet.setting.model.UpdatedProfileModel
 import com.app.just_money.my_wallet.setting.view_model.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_gender.*
@@ -56,6 +57,7 @@ class EditProfileFragment : Fragment() {
     private var picturePath = ""
     private var cal = Calendar.getInstance()
     private lateinit var dialogVerify: Dialog
+
     private lateinit var viewModel: ProfileViewModel
     private lateinit var mBinding: FragmentEditProfileBinding
 
@@ -98,10 +100,9 @@ class EditProfileFragment : Fragment() {
         }
         //Set Email & Image
         mBinding.txtEmail.text = preferenceHelper.getEmail()
-        DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
-            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
-            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
-        mBinding.edtEmail.setText(preferenceHelper.getEmail())
+        /* DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
+             ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
+             ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)*/
         val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
         if (profilePic.isNotEmpty() && profilePic != "null") {
             DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
@@ -111,12 +112,13 @@ class EditProfileFragment : Fragment() {
             mBinding.ivProfileImage.setImageDrawable(
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
         }
-
-
     }
 
     private fun manageClickEvents() {
         mBinding.ivProfileImage.setOnClickListener {
+            onRequestPermission()
+        }
+        mBinding.ivEditProfile.setOnClickListener {
             onRequestPermission()
         }
 
@@ -140,7 +142,7 @@ class EditProfileFragment : Fragment() {
             onClickUpdateProfile()
         }
 
-        mBinding.txtEditProfile.setOnClickListener{
+        mBinding.txtEditProfile.setOnClickListener {
             activity?.onBackPressed()
         }
     }
@@ -168,42 +170,79 @@ class EditProfileFragment : Fragment() {
         val firstName = mBinding.edtFirstName.text.toString()
         val lastName = mBinding.edtLastName.text.toString()
         var gender = "0"
-        if (mBinding.edtGender.text.toString() == "Male"){
+        if (mBinding.edtGender.text.toString() == "Male") {
             gender = DefaultKeyHelper.male
-        }else if(mBinding.edtGender.text.toString() == "Female"){
+        } else if (mBinding.edtGender.text.toString() == "Female") {
             gender = DefaultKeyHelper.female
         }
         val dob = mBinding.edtBirthDate.text.toString()
         val email = mBinding.txtEmail.text.toString()
-        Log.d("jkhbdekjb", "onClickUpdateProfile: $gender")
         viewModel.updateProfile(context!!, api, firstName, lastName, dob, gender, email, fileProfile)
             .observe(viewLifecycleOwner, { updateProfileModel ->
                 if (updateProfileModel != null) {
                     when {
                         updateProfileModel.status == DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(updateProfileModel.message.toString()))
-
-                            //update preferences
-                            val preferenceHelper =PreferenceHelper(context)
-                            preferenceHelper.setFirstName(firstName)
-                            preferenceHelper.setLastName(lastName)
-                            preferenceHelper.setDob(dob)
-                            preferenceHelper.setGender(gender)
-
-                            activity?.onBackPressed()
+                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(updateProfileModel.message))
+                            setData(updateProfileModel)
                         }
                         updateProfileModel.status == DefaultKeyHelper.failureCode -> {
                             DefaultHelper.showToast(context,
                                 DefaultHelper.decrypt(updateProfileModel.message.toString()))
                         }
                         updateProfileModel.forceLogout != 0 -> {
-
+                            DefaultHelper.forceLogout(activity)
                         }
                     }
                 }
             })
     }
 
+
+    fun onDateSet(view: DatePicker?, year: Int, month: Int, day: Int) {
+        val userAge: Calendar = GregorianCalendar(year, month, day)
+        val minAdultAge: Calendar = GregorianCalendar()
+        minAdultAge.add(Calendar.YEAR, -18)
+        if (minAdultAge.before(userAge)) {
+            //SHOW_ERROR_MESSAGE
+        }
+    }
+
+    private fun setData(updateProfileModel: UpdatedProfileModel) {
+        val userFirstName = updateProfileModel.data.firstname
+        val userLastName = updateProfileModel.data.lastname
+        val dob = updateProfileModel.data.dob
+        val gender = updateProfileModel.data.gender
+        val email = updateProfileModel.data.email
+        val profilePic = updateProfileModel.data.profilePic
+
+        val preferenceHelper = PreferenceHelper(context)
+        /* if (userId.isNotEmpty() && userId != "null") {
+             preferenceHelper.setUserId(userId)
+         }*/
+        if (userFirstName.isNotEmpty() && userFirstName != "null") {
+            preferenceHelper.setFirstName(userFirstName)
+        }
+        if (userLastName.isNotEmpty() && userLastName != "null") {
+            preferenceHelper.setLastName(userLastName)
+        }
+
+        if (email.isNotEmpty() && email != "null") {
+            preferenceHelper.setEmail(email)
+        }
+
+        if (dob.isNotEmpty() && dob != "null") {
+            preferenceHelper.setDob(dob)
+        }
+        if (gender.isNotEmpty() && gender != "null") {
+            preferenceHelper.setGender(gender)
+        }
+
+        if (profilePic.isNotEmpty() && profilePic != "null") {
+            preferenceHelper.setProfilePic(profilePic)
+        }
+
+        activity?.onBackPressed()
+    }
 
     private fun onRequestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -229,12 +268,21 @@ class EditProfileFragment : Fragment() {
         builder.setItems(options) { dialog: DialogInterface, item: Int ->
             when {
                 options[item] == "Take Photo" -> {
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val f = File(Environment.getExternalStorageDirectory(), "temp.jpg")
-                    val imageUri: Uri
-                    imageUri = FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID + ".provider", f)
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    startActivityForResult(intent, 1)
+                    try {
+                        fileProfile = createImageFile()
+                        // Continue only if the File was successfully created
+                        if (fileProfile != null) {
+                            val photoURI =
+                                FileProvider.getUriForFile(context!!, BuildConfig.APPLICATION_ID + ".provider",
+                                    fileProfile!!)
+                            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                            startActivityForResult(takePictureIntent, 1)
+                        }
+                    } catch (ex: Exception) {
+                        // Error occurred while creating the File
+                        //displayMessage(baseContext, ex.message.toString())
+                    }
                 }
                 options[item] == "Choose from Gallery" -> {
                     val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -252,36 +300,6 @@ class EditProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
-                fileProfile = File(Environment.getExternalStorageDirectory().toString())
-                if (fileProfile != null) {
-                    for (temp in fileProfile!!.listFiles()) {
-                        if (temp.name == "temp.jpg") {
-                            fileProfile = temp
-                            break
-                        }
-                    }
-                    val bitmap: Bitmap
-                    val bitmapOptions = BitmapFactory.Options()
-                    bitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath, bitmapOptions)
-                    mBinding.ivProfileImage.setImageBitmap(bitmap)
-                    fileIsSelected = true
-                } else if (requestCode == 2) {
-                    val selectedImage = data!!.data
-                    val filePath = arrayOf(MediaStore.Images.Media.DATA)
-                    val cursor = activity!!.contentResolver.query(selectedImage!!, filePath, null, null, null)
-                    cursor!!.moveToFirst()
-                    val columnIndex = cursor.getColumnIndex(filePath[0])
-                    picturePath = cursor.getString(columnIndex)
-                    cursor.close()
-
-                    val thumbnail = BitmapFactory.decodeFile(picturePath)
-                    mBinding.ivProfileImage.setImageBitmap(thumbnail)
-                    mBinding.ivProfileImage.buildLayer()
-                    fileProfile = File(picturePath)
-                    fileIsSelected = true
-                }
-            }
-        }
                 if (fileProfile != null) {
                     val myBitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath)
                     //println("fileProfile : $myBitmap")
@@ -310,7 +328,6 @@ class EditProfileFragment : Fragment() {
             }
         }
     }
-
 
     @Throws(IOException::class)
     fun modifyOrientation(bitmap: Bitmap, image_absolute_path: String?): Bitmap? {
@@ -369,5 +386,9 @@ class EditProfileFragment : Fragment() {
         }
         dialog.show()
     }
-
 }
+
+
+
+
+

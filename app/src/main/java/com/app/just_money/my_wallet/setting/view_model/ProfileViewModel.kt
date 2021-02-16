@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.app.just_money.dagger.API
 import com.app.just_money.my_wallet.setting.model.GetUserProfileModel
 import com.app.just_money.my_wallet.setting.model.SendEmailOtpModel
-import com.app.just_money.my_wallet.setting.model.UpdateProfileModel
+import com.app.just_money.my_wallet.setting.model.UpdatedProfileModel
 import com.app.just_money.my_wallet.setting.model.VerifyEmailOtpModel
 import com.app.just_money.my_wallet.setting.repository.ProfileRepository
 import java.io.File
@@ -14,7 +14,7 @@ import java.io.File
 class ProfileViewModel : ViewModel() {
     private val profileRepository: ProfileRepository = ProfileRepository()
     private var getUserProfileModel: LiveData<GetUserProfileModel>? = null
-    private var updateProfileModel: LiveData<UpdateProfileModel>? = null
+    private var updateProfileModel: LiveData<UpdatedProfileModel>? = null
     private var sendEmailOtpModel: LiveData<SendEmailOtpModel>? = null
     private var verifyEmailOtpModel: LiveData<VerifyEmailOtpModel>? = null
 
@@ -26,7 +26,7 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun updateProfile(context: Context, api: API, name: String, lastName: String, dob: String, gender: String,
-        email: String, uploadImage: File?): LiveData<UpdateProfileModel> {
+        email: String, uploadImage: File?): LiveData<UpdatedProfileModel> {
         if (updateProfileModel != null || updateProfileModel == null) {
             updateProfileModel =
                 profileRepository.updateProfile(context, api, name, lastName, dob, gender, email, uploadImage)

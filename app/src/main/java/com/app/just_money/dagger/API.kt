@@ -74,7 +74,7 @@ interface API {
     @POST("update_profile")
     fun updateProfile(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
         @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?,
-        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?): Call<UpdateProfileModel>
+        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?): Call<UpdatedProfileModel>
 
     @GET("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>
