@@ -55,11 +55,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
         init()
-        checkVersion()
         getOffers()
         setListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        //checkVersion()
+    }
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
     }
