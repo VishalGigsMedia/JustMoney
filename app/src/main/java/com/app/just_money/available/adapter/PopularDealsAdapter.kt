@@ -18,7 +18,8 @@ import com.app.just_money.databinding.RowItemPopularDealsTypeSecondBinding
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
-class PopularDealsAdapter(private val context: FragmentActivity, private val availableOfferList: List<AvailableOffer>, private val onClicked: OnClickedPopularDeals) :
+class PopularDealsAdapter(private val context: FragmentActivity,
+    private val availableOfferList: List<AvailableOffer>, private val onClicked: OnClickedPopularDeals) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var screenWidth = 0
 
@@ -33,9 +34,11 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
         context.windowManager.defaultDisplay.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
         return if (viewType == 0) {
-            PopularDealsViewHolder(LayoutInflater.from(context).inflate(R.layout.row_item_popular_deal, parent, false))
+            PopularDealsViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.row_item_popular_deal, parent, false))
         } else {
-            PopularDealsWhiteViewHolder(LayoutInflater.from(context).inflate(R.layout.row_item_popular_deals_type_second, parent, false))
+            PopularDealsWhiteViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.row_item_popular_deals_type_second, parent, false))
         }
     }
 
@@ -59,28 +62,23 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
                 holder.mBindingPopularDeals?.txtTitle?.text = DefaultHelper.decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtDescription?.text =
-                    DefaultHelper.decrypt(description)
+                holder.mBindingPopularDeals?.txtDescription?.text = DefaultHelper.decrypt(description)
             }
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context).load(DefaultHelper.decrypt(imageUrl))
-                    .placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
-                    .into(holder.mBindingPopularDeals?.ivLogo!!)
+                Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo)
+                    .error(R.drawable.ic_logo).into(holder.mBindingPopularDeals?.ivLogo!!)
                 // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
             }
 
 
             if (actualCoins.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(actualCoins)
+                holder.mBindingPopularDeals?.txtDealActualAmount?.text = DefaultHelper.decrypt(actualCoins)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtDealOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
-                holder.mBindingPopularDeals?.txtRedeemOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
+                holder.mBindingPopularDeals?.txtDealOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
+                holder.mBindingPopularDeals?.txtRedeemOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
             }
 
             holder.mBindingPopularDeals?.clBestDeal?.setOnClickListener {
@@ -94,7 +92,7 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
             }
 
             holder.mBindingPopularDeals?.clEarn?.setOnClickListener {
-                onClicked.claimOffers(offerId,url)
+                onClicked.claimOffers(offerId, url)
             }
 
             val itemWidth = screenWidth / 1.5
@@ -122,20 +120,16 @@ class PopularDealsAdapter(private val context: FragmentActivity, private val ava
             }
 
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context).load(DefaultHelper.decrypt(imageUrl))
-                    .placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
-                    .into(holder.mBindingPopularDealsSecond?.ivLogo!!)
+                Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo)
+                    .error(R.drawable.ic_logo).into(holder.mBindingPopularDealsSecond?.ivLogo!!)
             }
 
             if (actualCoins.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(actualCoins)
+                holder.mBindingPopularDealsSecond?.txtDealActualAmount?.text = DefaultHelper.decrypt(actualCoins)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtDealOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
-                holder.mBindingPopularDealsSecond?.txtRedeemOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
+                holder.mBindingPopularDealsSecond?.txtDealOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
+                holder.mBindingPopularDealsSecond?.txtRedeemOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
             }
 
             holder.mBindingPopularDealsSecond?.clBestDeal?.setOnClickListener {

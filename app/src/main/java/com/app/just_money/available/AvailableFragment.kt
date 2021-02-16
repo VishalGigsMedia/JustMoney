@@ -56,7 +56,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         callback?.onShowHideBottomNav(true)
         init()
         checkVersion()
-        getOffers()
+        val preferenceHelper = PreferenceHelper(context)
+        //preferenceHelper.setClearSpecific(UserState.name)
+        val state = preferenceHelper.getUserState()
+        if (state.isNotEmpty() || state != "null") {
+            getOffers()
+        } else {
+            val mainActivity = MainActivity()
+            mainActivity.init()
+            DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
+        }
         setListeners()
     }
 
@@ -79,7 +88,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.txtDailyRewardValue.text = "0"
         val preferenceHelper = PreferenceHelper(context)
         val jwtToken = preferenceHelper.getJwtToken()
-        println("jwtToken: $jwtToken")
+        //println("jwtToken: $jwtToken")
     }
 
 
@@ -366,7 +375,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String,
         message: String, url: String) {
-        println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
+        //println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
         if (applicationVersion != updateVersion) {
             showDialog(title, message, url)
         }
@@ -390,7 +399,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         val txtMessage = dialog.findViewById<View>(R.id.txtMessage) as TextView
         val txtUpdateApplication = dialog.findViewById<View>(R.id.txtUpdateApplication) as TextView
 
-
         if (title.isNotEmpty()) {
             txtTitle.text = title
         }
@@ -405,8 +413,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             startActivity(intent)
             dialog.dismiss()
         }
-
         dialog.show()
-
     }
 }

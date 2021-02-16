@@ -23,6 +23,9 @@ interface API {
     @POST("login2")
     fun login(@Body requestKeyHelper: RequestKeyHelper): Call<LoginModel>
 
+    @POST("forget_password")
+    fun forgotPassword(@Body requestKeyHelper: RequestKeyHelper): Call<ForgotPasswordModel>
+
     @POST("signup")
     fun register(@Body requestKeyHelper: RequestKeyHelper): Call<RegisterUserModel>
 
@@ -33,11 +36,13 @@ interface API {
     fun getFaq(@Header("Authorization") authorizationToken: String): Call<FaqModel>
 
     @POST("get_offer_details")
-    fun getOfferDetails(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<OfferDetailsModel>
+    fun getOfferDetails(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<OfferDetailsModel>
 
 
     @POST("publishers")
-    fun trackSignUp(@HeaderMap header: HashMap<String, String>, @HeaderMap header1: HashMap<String, String>, @Body requestKeyHelper: RequestKeyHelper): Call<SignUpTrackier>
+    fun trackSignUp(@HeaderMap header: HashMap<String, String>, @HeaderMap header1: HashMap<String, String>,
+        @Body requestKeyHelper: RequestKeyHelper): Call<SignUpTrackier>
 
 
     @POST("login")
@@ -48,14 +53,18 @@ interface API {
     fun claimOffer(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>
 
     @POST("get_completed_offers")
-    fun getCompletedOffers(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CompletedOfferModel>
+    fun getCompletedOffers(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<CompletedOfferModel>
 
     @POST("get_pending_offers")
-    fun getInProgressOffers(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<InProgressModel>
+    fun getInProgressOffers(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<InProgressModel>
 
     @Multipart
     @POST("help_form")
-    fun sendFeedback(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?, @Part("name") firstname: RequestBody?, @Part("email") mobile: RequestBody?, @Part("subject") lastname: RequestBody?, @Part("message") email: RequestBody?): Call<SendFeedbackModel>
+    fun sendFeedback(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
+        @Part("name") firstname: RequestBody?, @Part("email") mobile: RequestBody?,
+        @Part("subject") lastname: RequestBody?, @Part("message") email: RequestBody?): Call<SendFeedbackModel>
 
 
     @GET("get_user_data")
@@ -63,13 +72,16 @@ interface API {
 
     @Multipart
     @POST("update_profile")
-    fun updateProfile(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?, @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?, @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?): Call<UpdateProfileModel>
+    fun updateProfile(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
+        @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?,
+        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?): Call<UpdateProfileModel>
 
     @GET("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>
 
     @POST("verify_email_otp")
-    fun verifyEmailOtp(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<VerifyEmailOtpModel>
+    fun verifyEmailOtp(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<VerifyEmailOtpModel>
 
     @POST("appCurrentVersion") //check_version
     fun checkVersion(@Header("Authorization") authorizationToken: String): Call<CheckAppVersionModel>

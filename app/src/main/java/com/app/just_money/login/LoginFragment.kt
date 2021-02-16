@@ -3,6 +3,7 @@ package com.app.just_money.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.CompoundButtonCompat
@@ -82,7 +83,10 @@ class LoginFragment : Fragment() {
         if (!viewModel.isValidEmail(context, email)) {
             return
         }
+
         showForgotPasswordDialog(email)
+
+
     }
 
     private fun isValid() {
@@ -129,6 +133,35 @@ class LoginFragment : Fragment() {
             })
     }
 
+    private fun forgotPassword(emailId: String, progressBar: ProgressBar, txtOkay: TextView,
+        dialog: BottomSheetDialog) {
+        dialog.setCancelable(false)
+        txtOkay.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+        //api call
+        viewModel.forgotPassword(activity!!, api, emailId).observe(viewLifecycleOwner, { forgotPasswordModel ->
+            progressBar.visibility = View.GONE
+            txtOkay.visibility = View.VISIBLE
+            if (dialog.isShowing) {
+                dialog.setCancelable(true)
+                dialog.dismiss()
+            }
+            if (forgotPasswordModel != null) {
+                when (forgotPasswordModel.status) {
+                    DefaultKeyHelper.successCode -> {
+                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(forgotPasswordModel.message))
+                    }
+                    DefaultKeyHelper.failureCode -> {
+                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(forgotPasswordModel.message))
+                    }
+                    else -> {
+                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(forgotPasswordModel.message))
+                    }
+                }
+            }
+        })
+    }
+
     private fun showLoader() {
         mBinding.progressCircular.visibility = View.VISIBLE
         mBinding.clLogin.isEnabled = false
@@ -148,6 +181,7 @@ class LoginFragment : Fragment() {
         val dob = loginModel.data?.dob.toString()
         val gender = loginModel.data?.gender.toString()
         val profilePic = loginModel.data?.profilePic.toString()
+        //println("profilePic : $profilePic")
         val preferenceHelper = PreferenceHelper(context)
         if (userId.isNotEmpty() && userId != "null") {
             preferenceHelper.setUserId(userId)
@@ -198,13 +232,15 @@ class LoginFragment : Fragment() {
 
         val txtEmailId = dialog.findViewById<View>(R.id.txtEmailId) as TextView
         val txtOkay = dialog.findViewById<View>(R.id.txtOkay) as TextView
+        val progressBar = dialog.findViewById<View>(R.id.progressBar) as ProgressBar
 
         if (email.isNotEmpty()) {
             txtEmailId.text = email
         }
 
         txtOkay.setOnClickListener {
-            dialog.dismiss()
+
+            forgotPassword(email, progressBar, txtOkay, dialog)
         }
         dialog.show()
     }

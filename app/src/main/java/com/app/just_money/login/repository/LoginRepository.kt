@@ -11,6 +11,7 @@ import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.ApiClient
 import com.app.just_money.dagger.RequestKeyHelper
+import com.app.just_money.login.model.ForgotPasswordModel
 import com.app.just_money.login.model.GetOtpModel
 import com.app.just_money.login.model.LoginTrackier
 import com.app.just_money.login.model.SignUpTrackier
@@ -27,6 +28,7 @@ class LoginRepository {
     private val TAG = javaClass.simpleName
     private var getOtpModel: GetOtpModel? = null
     private var loginModel: LoginModel? = null
+    private var forgotPasswordModel: ForgotPasswordModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
@@ -37,7 +39,7 @@ class LoginRepository {
     val hashFileMapsAuthorization = HashMap<String, String>()
 
 
-    fun getOTP(context: Context, api: API, mobile: String, countryCode: String): MutableLiveData<GetOtpModel> {
+    fun forgotPassword(context: Context, api: API, mobile: String, countryCode: String): MutableLiveData<GetOtpModel> {
         val mutableLiveData: MutableLiveData<GetOtpModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
@@ -178,4 +180,30 @@ class LoginRepository {
         })
         return mutableLiveData
     }
+
+
+    fun forgotPassword(context: Context, api: API, emailId: String): MutableLiveData<ForgotPasswordModel> {
+
+        val mutableLiveData: MutableLiveData<ForgotPasswordModel> = MutableLiveData()
+        if (DefaultHelper.isOnline()) {
+            val requestKeyHelper = RequestKeyHelper()
+            requestKeyHelper.email = DefaultHelper.encrypt(emailId)
+            api.forgotPassword(requestKeyHelper).enqueue(object : Callback<ForgotPasswordModel> {
+                override fun onResponse(call: Call<ForgotPasswordModel>, response: Response<ForgotPasswordModel>) {
+                    gson = gsonBuilder.create()
+                    val json = Gson().toJson(response.body())
+                    forgotPasswordModel = gson?.fromJson(json, ForgotPasswordModel::class.java)
+                    mutableLiveData.value = forgotPasswordModel
+                }
+
+                override fun onFailure(call: Call<ForgotPasswordModel>, t: Throwable) {
+                    println("TAG : ${t.printStackTrace()}")
+                }
+            })
+        } else {
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+        }
+        return mutableLiveData
+    }
+
 }

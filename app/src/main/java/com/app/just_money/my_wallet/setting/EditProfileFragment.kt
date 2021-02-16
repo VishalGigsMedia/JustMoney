@@ -8,7 +8,10 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -32,9 +35,11 @@ import com.app.just_money.my_wallet.setting.view_model.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_verify_email_id.*
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+
 
 class EditProfileFragment : Fragment() {
     @Inject
@@ -88,9 +93,17 @@ class EditProfileFragment : Fragment() {
         }
         //Set Email & Image
         mBinding.edtEmail.setText(preferenceHelper.getEmail())
-        DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
-            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
-            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
+        val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
+        if (profilePic.isNotEmpty() && profilePic != "null") {
+            DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
+        } else {
+            mBinding.ivProfileImage.setImageDrawable(
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
+        }
+
+
     }
 
     private fun manageClickEvents() {
@@ -180,7 +193,6 @@ class EditProfileFragment : Fragment() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        println("requestCode: $requestCode")
         if (requestCode == idPermissionAllowed && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // CommonHelper.hideKeyboard(activity!!)
             selectImage()
@@ -225,9 +237,13 @@ class EditProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
-                val myBitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath)
-                //println("fileProfile : $myBitmap")
-                mBinding.ivProfileImage.setImageBitmap(myBitmap)
+                if (fileProfile != null) {
+                    val myBitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath)
+                    //println("fileProfile : $myBitmap")
+                    val bitmap = modifyOrientation(myBitmap, fileProfile!!.absolutePath)
+                    mBinding.ivProfileImage.setImageBitmap(bitmap)
+                    fileIsSelected = true
+                }
             } else if (requestCode == 2) {
                 val selectedImage = data!!.data
                 val filePath = arrayOf(MediaStore.Images.Media.DATA)
@@ -235,17 +251,48 @@ class EditProfileFragment : Fragment() {
                 cursor!!.moveToFirst()
                 val columnIndex = cursor.getColumnIndex(filePath[0])
                 picturePath = cursor.getString(columnIndex)
-                println("picturePath : $picturePath")
+                //println("picturePath : $picturePath")
                 cursor.close()
-                val thumbnail = BitmapFactory.decodeFile(picturePath)
-                println("thumbnail : $thumbnail")
-                mBinding.ivProfileImage.setImageBitmap(thumbnail)
-                mBinding.ivProfileImage.buildLayer()
+                // val myBitmap = BitmapFactory.decodeFile(picturePath)
+
                 fileProfile = File(picturePath)
+                val myBitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath)
+                val bitmap = modifyOrientation(myBitmap, picturePath)
+                mBinding.ivProfileImage.setImageBitmap(bitmap)
+                mBinding.ivProfileImage.buildLayer()
                 fileIsSelected = true
+                //rotateImage(mBinding.ivEditImage)
             }
         }
     }
+
+
+    @Throws(IOException::class)
+    fun modifyOrientation(bitmap: Bitmap, image_absolute_path: String?): Bitmap? {
+        val ei = ExifInterface(image_absolute_path.toString())
+        return when (ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotate(bitmap, 90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotate(bitmap, 180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotate(bitmap, 270f)
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> flip(bitmap, horizontal = true, vertical = false)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> flip(bitmap, horizontal = false, vertical = true)
+            else -> bitmap
+        }
+    }
+
+    private fun rotate(bitmap: Bitmap, degrees: Float): Bitmap? {
+        val matrix = Matrix()
+        matrix.postRotate(degrees)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
+    private fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap? {
+        val matrix = Matrix()
+        matrix.preScale((if (horizontal) -1 else 1.toFloat()) as Float,
+            (if (vertical) -1 else 1.toFloat()) as Float)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
 
     @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): File {
