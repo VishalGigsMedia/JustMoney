@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -40,11 +41,14 @@ class SettingsNewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
+        manageClickEvents()
+    }
+
+    private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
         callback?.onShowHideBottomNav(false)
-
-        manageClickEvents()
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
@@ -109,5 +113,23 @@ class SettingsNewFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setData()
+    }
+
+    private fun setData() {
+        val preferenceHelper = PreferenceHelper(context)
+        val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
+        if (profilePic.isNotEmpty() && profilePic != "null") {
+            DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
+        } else {
+            mBinding.ivProfileImage.setImageDrawable(
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
+        }
     }
 }

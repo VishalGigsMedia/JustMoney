@@ -13,16 +13,11 @@ import com.app.just_money.databinding.RowItemQuickDealsBinding
 import com.bumptech.glide.Glide
 
 
-class QuickDealsAdapter(
-    private val context: FragmentActivity,
-    private val quickDealsList: List<AvailableOffer>,
-    private val onClickedQuickDeals: OnClickedQuickDeals
-) : RecyclerView.Adapter<QuickDealsAdapter.ViewHolder>() {
+class QuickDealsAdapter(private val context: FragmentActivity, private val quickDealsList: List<AvailableOffer>,
+    private val onClickedQuickDeals: OnClickedQuickDeals) : RecyclerView.Adapter<QuickDealsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.row_item_quick_deals, parent, false)
-        )
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_item_quick_deals, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -35,27 +30,24 @@ class QuickDealsAdapter(
         holder.mBinding?.data = eachListData
 
         val id = DefaultHelper.decrypt(quickDealsList[position].id.toString())
-        val title = quickDealsList[position].name.toString()
-        val imageUrl = quickDealsList[position].image.toString()
-        val buttonText = quickDealsList[position].buttonText.toString()
+        val title = DefaultHelper.decrypt(quickDealsList[position].name.toString())
+        val imageUrl = DefaultHelper.decrypt(quickDealsList[position].image.toString())
+        val buttonText = DefaultHelper.decrypt(quickDealsList[position].buttonText.toString())
         val url = DefaultHelper.decrypt(quickDealsList[position].buttonText.toString())
 
         if (title.isNotEmpty()) {
-            holder.mBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
+            holder.mBinding?.txtTitle?.text = title
         }
         if (buttonText.isNotEmpty()) {
-            holder.mBinding?.txtTakeActionMessage?.text = DefaultHelper.decrypt(buttonText)
+            holder.mBinding?.txtTakeActionMessage?.text = buttonText
         }
 
         if (imageUrl.isNotEmpty()) {
-            Glide.with(context)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_logo)
-                .error(R.drawable.ic_logo)
+            Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
                 .into(holder.mBinding?.ivLogo!!)
         }
         holder.mBinding?.txtTakeActionMessage?.setOnClickListener {
-            onClickedQuickDeals.getOffers(id,url)
+            onClickedQuickDeals.getOffers(id, url)
         }
     }
 

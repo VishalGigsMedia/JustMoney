@@ -49,7 +49,7 @@
                         android:textSize="@dimen/_20ssp"
                         app:drawableStartCompat="@drawable/ic_arrow_back_white"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -76,7 +76,7 @@
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"/>
+                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
 
                 <View
                     android:id="@+id/view"
@@ -88,7 +88,7 @@
                     android:background="@color/gray_900"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber"/>
+                    app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber" />
 
                 <TextView
                     android:id="@+id/txtName"
@@ -102,7 +102,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view"/>
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
 
                 <TextView
                     android:id="@+id/txtNameValue"
@@ -117,7 +117,7 @@
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtName"
-                    tools:text="Pravin Kadam"/>
+                    tools:text="Pravin Kadam" />
 
                 <TextView
                     android:id="@+id/txtBirthDate"
@@ -131,7 +131,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtNameValue"/>
+                    app:layout_constraintTop_toBottomOf="@+id/txtNameValue" />
 
                 <TextView
                     android:id="@+id/txtBirthDateValue"
@@ -146,7 +146,7 @@
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtBirthDate"
-                    tools:text="25-10-1994"/>
+                    tools:text="25-10-1994" />
 
                 <TextView
                     android:id="@+id/txtGender"
@@ -160,7 +160,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDateValue"/>
+                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDateValue" />
 
                 <TextView
                     android:id="@+id/txtGenderValue"
@@ -175,7 +175,7 @@
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtGender"
-                    tools:text="Male"/>
+                    tools:text="Male" />
 
                 <TextView
                     android:id="@+id/txtEmail"
@@ -189,7 +189,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtGenderValue"/>
+                    app:layout_constraintTop_toBottomOf="@+id/txtGenderValue" />
 
                 <TextView
                     android:id="@+id/txtEmailValue"
@@ -204,7 +204,7 @@
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtEmail"
-                    tools:text="pravin@gigs.com"/>
+                    tools:text="pravin@gigs.com" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -227,7 +227,8 @@
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

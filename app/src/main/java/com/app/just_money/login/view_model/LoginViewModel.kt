@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.dagger.API
+import com.app.just_money.login.model.ForgotPasswordModel
 import com.app.just_money.login.model.GetOtpModel
 import com.app.just_money.login.model.LoginTrackier
 import com.app.just_money.login.model.SignUpTrackier
@@ -17,13 +18,14 @@ class LoginViewModel : ViewModel() {
     private var loginRepository: LoginRepository = LoginRepository()
     private var getOtpModel: LiveData<GetOtpModel>? = null
     private var loginModel: LiveData<LoginModel>? = null
+    private var forgotPasswordModel: LiveData<ForgotPasswordModel>? = null
     private var mutableLiveDataSignUpTrackier: LiveData<SignUpTrackier>? = null
     private var mutableLiveDataLoginTrackier: LiveData<LoginTrackier>? = null
     private var isValidPassword: LiveData<Boolean>? = null
 
     fun getOTP(activity: Context, api: API, mobile: String, countryCode: String): LiveData<GetOtpModel> {
         if (getOtpModel == null || getOtpModel != null) {
-            getOtpModel = loginRepository.getOTP(activity, api, mobile, countryCode)
+            getOtpModel = loginRepository.forgotPassword(activity, api, mobile, countryCode)
         }
         return getOtpModel!!
     }
@@ -35,7 +37,16 @@ class LoginViewModel : ViewModel() {
         return loginModel!!
     }
 
-    fun trackSignUp(activity: Context, name: String, email: String, password: String, phone: String, status: String): LiveData<SignUpTrackier> {
+    fun forgotPassword(context: Context, api: API, emailId: String): LiveData<ForgotPasswordModel> {
+        if (forgotPasswordModel == null || forgotPasswordModel != null) {
+            forgotPasswordModel = loginRepository.forgotPassword(context, api, emailId)
+        }
+        return forgotPasswordModel!!
+    }
+
+
+    fun trackSignUp(activity: Context, name: String, email: String, password: String, phone: String,
+        status: String): LiveData<SignUpTrackier> {
         if (mutableLiveDataSignUpTrackier == null) {
             mutableLiveDataSignUpTrackier =
                 loginRepository.trackSignUp(activity, name, email, password, phone, status)
@@ -81,16 +92,4 @@ class LoginViewModel : ViewModel() {
         return true
     }
 
-    /*fun isValidPasswordVal(context: Context?, pwd: String): LiveData<Boolean> {
-        if (isValidPassword != null) {
-            if (pwd.isEmpty()) {
-                //DefaultHelper.showToast(context, context?.getString(R.string.ent_password))
-                //return false
-                isValidPassword = true
-            }
-        }
-
-        isValidPassword!!
-
-    }*/
 }

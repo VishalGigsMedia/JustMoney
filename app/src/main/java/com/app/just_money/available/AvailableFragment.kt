@@ -55,14 +55,20 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
         init()
-        getOffers()
+        checkVersion()
+        val preferenceHelper = PreferenceHelper(context)
+        //preferenceHelper.setClearSpecific(UserState.name)
+        val state = preferenceHelper.getUserState()
+        if (state.isNotEmpty() || state != "null") {
+            getOffers()
+        } else {
+            val mainActivity = MainActivity()
+            mainActivity.init()
+            DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
+        }
         setListeners()
     }
 
-    override fun onResume() {
-        super.onResume()
-        //checkVersion()
-    }
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
     }
@@ -82,7 +88,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.txtDailyRewardValue.text = "0"
         val preferenceHelper = PreferenceHelper(context)
         val jwtToken = preferenceHelper.getJwtToken()
-        println("jwtToken: $jwtToken")
+        //println("jwtToken: $jwtToken")
     }
 
 
@@ -175,14 +181,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        DefaultHelper.showToast(context!!,
+                            DefaultHelper.decrypt(availableOfferModel.message.toString()))
                         showErrorScreen()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
                         DefaultHelper.forceLogout(activity)
                     }
                     else -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                        DefaultHelper.showToast(context!!,
+                            DefaultHelper.decrypt(availableOfferModel.message.toString()))
                         showErrorScreen()
                     }
                 } else {
@@ -351,7 +359,10 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                         val updateVersion = DefaultHelper.decrypt(versionModel.data?.version.toString())
                         val applicationVersion = DefaultHelper.getApplicationVersionName(context)
                         val msg = DefaultHelper.decrypt(versionModel.message.toString())
-                        updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
+
+                        if (updateVersion.isNotEmpty() && updateVersion != "null") {
+                            updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
+                        }
                         //DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
                     }
                     DefaultKeyHelper.failureCode -> {
@@ -362,7 +373,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String, message: String, url: String) {
+    private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String,
+        message: String, url: String) {
         //println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
         if (applicationVersion != updateVersion) {
             showDialog(title, message, url)
@@ -387,7 +399,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         val txtMessage = dialog.findViewById<View>(R.id.txtMessage) as TextView
         val txtUpdateApplication = dialog.findViewById<View>(R.id.txtUpdateApplication) as TextView
 
-
         if (title.isNotEmpty()) {
             txtTitle.text = title
         }
@@ -402,8 +413,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             startActivity(intent)
             dialog.dismiss()
         }
-
         dialog.show()
-
     }
 }

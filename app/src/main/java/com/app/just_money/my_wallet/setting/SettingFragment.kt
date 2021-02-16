@@ -17,15 +17,7 @@ class SettingFragment : Fragment() {
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentSettingBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
         return mBinding.root
     }
@@ -45,16 +37,10 @@ class SettingFragment : Fragment() {
             activity!!.supportFragmentManager.popBackStack()
         }
         mBinding.txtTermsOfService.setOnClickListener {
-            openFragment(
-                TermsConditionFragment(),
-                true
-            )
+            openFragment(TermsConditionFragment(), true)
         }
         mBinding.txtPrivacyPolicy.setOnClickListener {
-            openFragment(
-                PrivacyPolicyFragment(),
-                true
-            )
+            openFragment(PrivacyPolicyFragment(), true)
         }
 
         mBinding.cLHaveFeedback.setOnClickListener {
@@ -65,14 +51,10 @@ class SettingFragment : Fragment() {
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .addToBackStack(MainActivity::class.java.simpleName)
-                .commit()
+            activity!!.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
+                .addToBackStack(MainActivity::class.java.simpleName).commit()
         } else {
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .commit()
+            activity!!.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment).commit()
         }
     }
 

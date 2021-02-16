@@ -9,13 +9,15 @@ import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.my_wallet.setting.model.GetUserProfileModel
 import com.app.just_money.my_wallet.setting.model.SendEmailOtpModel
-import com.app.just_money.my_wallet.setting.model.UpdateProfileModel
+import com.app.just_money.my_wallet.setting.model.UpdatedProfileModel
 import com.app.just_money.my_wallet.setting.model.VerifyEmailOtpModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +26,7 @@ import java.io.File
 class ProfileRepository {
     private val TAG = javaClass.simpleName
     private var getUserProfileModel: GetUserProfileModel? = null
-    private var updateProfileModel: UpdateProfileModel? = null
+    private var updateProfileModel: UpdatedProfileModel? = null
     private var sendEmailOtpModel: SendEmailOtpModel? = null
     private var verifyEmailOtpModel: VerifyEmailOtpModel? = null
     private val gsonBuilder = GsonBuilder()
@@ -55,40 +57,37 @@ class ProfileRepository {
 
 
     fun updateProfile(context: Context, api: API, name: String, lastName: String, dob: String, gender: String,
-        email: String, uploadImage: File?): MutableLiveData<UpdateProfileModel> {
-        val mutableLiveData: MutableLiveData<UpdateProfileModel> = MutableLiveData()
+        email: String, uploadImage: File?): MutableLiveData<UpdatedProfileModel> {
+        val mutableLiveData: MutableLiveData<UpdatedProfileModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             println("DefaultHelper: $email")
             val preferenceHelper = PreferenceHelper(context)
-            val rbName: RequestBody =
-                RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(name))
+            val rbName: RequestBody = DefaultHelper.encrypt(name).toRequestBody("text/plain".toMediaTypeOrNull())
             val rbLastName: RequestBody =
-                RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(lastName))
-            val rbEmail: RequestBody =
-                RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(email))
-            val rbDob: RequestBody =
-                RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(dob))
+                DefaultHelper.encrypt(lastName).toRequestBody("text/plain".toMediaTypeOrNull())
+            val rbEmail: RequestBody = DefaultHelper.encrypt(email).toRequestBody("text/plain".toMediaTypeOrNull())
+            val rbDob: RequestBody = DefaultHelper.encrypt(dob).toRequestBody("text/plain".toMediaTypeOrNull())
             val rbGender: RequestBody =
-                RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(gender))
+                DefaultHelper.encrypt(gender).toRequestBody("text/plain".toMediaTypeOrNull())
             var rbUploadImage: MultipartBody.Part? = null
             if (!chkFile(uploadImage)) {
                 val requestFile: RequestBody =
-                    RequestBody.create("multipart/form-data".toMediaTypeOrNull(), uploadImage!!)
+                    uploadImage!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
                 rbUploadImage = MultipartBody.Part.createFormData("profile_pic", uploadImage.name, requestFile)
             }
 
             api.updateProfile(preferenceHelper.getJwtToken(), rbUploadImage, rbName, rbLastName, rbGender, rbDob,
-                rbEmail).enqueue(object : Callback<UpdateProfileModel> {
-                override fun onResponse(call: Call<UpdateProfileModel>, response: Response<UpdateProfileModel>) {
+                rbEmail).enqueue(object : Callback<UpdatedProfileModel> {
+                override fun onResponse(call: Call<UpdatedProfileModel>, response: Response<UpdatedProfileModel>) {
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())
-                    updateProfileModel = gson?.fromJson(json, UpdateProfileModel::class.java)
+                    updateProfileModel = gson?.fromJson(json, UpdatedProfileModel::class.java)
                     println("$TAG : $json")
                     mutableLiveData.value = updateProfileModel
                 }
 
-                override fun onFailure(call: Call<UpdateProfileModel>, t: Throwable) {
+                override fun onFailure(call: Call<UpdatedProfileModel>, t: Throwable) {
                     println("TAG : ${t.printStackTrace()}")
                 }
             })
