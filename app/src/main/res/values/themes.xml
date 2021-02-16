@@ -52,4 +52,14 @@
         <item name="android:background">@drawable/top_left_top_right_curve_white</item>
     </style>
 
+    <style name="calender" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_primary</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="android:buttonBarNeutralButtonStyle">@style/Widget.MaterialComponents.Button</item>
+    </style>
+
+
 </resources>

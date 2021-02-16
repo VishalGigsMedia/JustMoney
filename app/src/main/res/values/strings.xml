@@ -113,7 +113,7 @@
     <string name="update_profile">Update Profile</string>
     <string name="birth_date">Birthdate*</string>
     <string name="gender">Gender*</string>
-    <string name="last_name">Last Name</string>
+    <string name="last_name">Last Name*</string>
 
     <string name="sel_gender">Select Gender</string>
     <string name="male">Male</string>
@@ -149,7 +149,7 @@
     <string name="open">OPEN</string>
     <string name="join_telegram">Join us on Telegram</string>
 
-    <string name="first_name">First Name</string>
+    <string name="first_name">First Name*</string>
     <string name="email_id">Email Id</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>

@@ -30,50 +30,32 @@ class ProfileRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getUserProfileData(
-        context: Context,
-        api: API
-    ): MutableLiveData<GetUserProfileModel> {
+    fun getUserProfileData(context: Context, api: API): MutableLiveData<GetUserProfileModel> {
         val mutableLiveData: MutableLiveData<GetUserProfileModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            api.getUserProfileData(preferenceHelper.getJwtToken())
-                .enqueue(object : Callback<GetUserProfileModel> {
-                    override fun onResponse(
-                        call: Call<GetUserProfileModel>,
-                        response: Response<GetUserProfileModel>
-                    ) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        getUserProfileModel = gson?.fromJson(json, GetUserProfileModel::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = getUserProfileModel
-                    }
+            api.getUserProfileData(preferenceHelper.getJwtToken()).enqueue(object : Callback<GetUserProfileModel> {
+                override fun onResponse(call: Call<GetUserProfileModel>, response: Response<GetUserProfileModel>) {
+                    gson = gsonBuilder.create()
+                    val json = Gson().toJson(response.body())
+                    getUserProfileModel = gson?.fromJson(json, GetUserProfileModel::class.java)
+                    println("$TAG : $json")
+                    mutableLiveData.value = getUserProfileModel
+                }
 
-                    override fun onFailure(call: Call<GetUserProfileModel>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
+                override fun onFailure(call: Call<GetUserProfileModel>, t: Throwable) {
+                    println("TAG : ${t.printStackTrace()}")
+                }
+            })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
 
-    fun updateProfile(
-        context: Context,
-        api: API,
-        name: String,
-        lastName: String,
-        dob: String,
-        gender: String,
-        email: String,
-        uploadImage: File?
-    ): MutableLiveData<UpdateProfileModel> {
+    fun updateProfile(context: Context, api: API, name: String, lastName: String, dob: String, gender: String,
+        email: String, uploadImage: File?): MutableLiveData<UpdateProfileModel> {
         val mutableLiveData: MutableLiveData<UpdateProfileModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             println("DefaultHelper: $email")
@@ -81,10 +63,7 @@ class ProfileRepository {
             val rbName: RequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(name))
             val rbLastName: RequestBody =
-                RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    DefaultHelper.encrypt(lastName)
-                )
+                RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(lastName))
             val rbEmail: RequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), DefaultHelper.encrypt(email))
             val rbDob: RequestBody =
@@ -96,50 +75,31 @@ class ProfileRepository {
                 val requestFile: RequestBody =
                     RequestBody.create("multipart/form-data".toMediaTypeOrNull(), uploadImage!!)
 
-                rbUploadImage =
-                    MultipartBody.Part.createFormData("profile_pic", uploadImage.name, requestFile)
+                rbUploadImage = MultipartBody.Part.createFormData("profile_pic", uploadImage.name, requestFile)
             }
 
-            api.updateProfile(
-                preferenceHelper.getJwtToken(),
-                rbUploadImage,
-                rbName,
-                rbLastName,
-                rbGender,
-                rbDob,
-                rbEmail
-            )
-                .enqueue(object : Callback<UpdateProfileModel> {
-                    override fun onResponse(
-                        call: Call<UpdateProfileModel>,
-                        response: Response<UpdateProfileModel>
-                    ) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        updateProfileModel = gson?.fromJson(json, UpdateProfileModel::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = updateProfileModel
-                    }
+            api.updateProfile(preferenceHelper.getJwtToken(), rbUploadImage, rbName, rbLastName, rbGender, rbDob,
+                rbEmail).enqueue(object : Callback<UpdateProfileModel> {
+                override fun onResponse(call: Call<UpdateProfileModel>, response: Response<UpdateProfileModel>) {
+                    gson = gsonBuilder.create()
+                    val json = Gson().toJson(response.body())
+                    updateProfileModel = gson?.fromJson(json, UpdateProfileModel::class.java)
+                    println("$TAG : $json")
+                    mutableLiveData.value = updateProfileModel
+                }
 
-                    override fun onFailure(call: Call<UpdateProfileModel>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
+                override fun onFailure(call: Call<UpdateProfileModel>, t: Throwable) {
+                    println("TAG : ${t.printStackTrace()}")
+                }
+            })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
 
-    fun verifyEmailOtp(
-        context: Context,
-        api: API,
-        otp: String
-    ): MutableLiveData<VerifyEmailOtpModel> {
+    fun verifyEmailOtp(context: Context, api: API, otp: String): MutableLiveData<VerifyEmailOtpModel> {
         val mutableLiveData: MutableLiveData<VerifyEmailOtpModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -147,10 +107,8 @@ class ProfileRepository {
             requestKeyHelper.otp = DefaultHelper.encrypt(otp)
             api.verifyEmailOtp(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<VerifyEmailOtpModel> {
-                    override fun onResponse(
-                        call: Call<VerifyEmailOtpModel>,
-                        response: Response<VerifyEmailOtpModel>
-                    ) {
+                    override fun onResponse(call: Call<VerifyEmailOtpModel>,
+                        response: Response<VerifyEmailOtpModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         verifyEmailOtpModel = gson?.fromJson(json, VerifyEmailOtpModel::class.java)
@@ -163,10 +121,7 @@ class ProfileRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

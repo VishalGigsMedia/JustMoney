@@ -49,9 +49,7 @@
                         android:textSize="@dimen/_20ssp"
                         app:drawableStartCompat="@drawable/ic_arrow_back_white"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </TextView>
+                        app:layout_constraintTop_toTopOf="parent"/>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -62,8 +60,6 @@
                     android:layout_height="@dimen/_70sdp"
                     android:layout_marginTop="@dimen/_80sdp"
                     android:src="@drawable/ic_user_place_holder"
-                    app:civ_border_color="@color/indigo_600"
-                    app:civ_border_width="@dimen/_1sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -80,9 +76,7 @@
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"/>
 
                 <View
                     android:id="@+id/view"
@@ -94,9 +88,7 @@
                     android:background="@color/gray_900"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber">
-
-                </View>
+                    app:layout_constraintTop_toBottomOf="@+id/txtMobileNumber"/>
 
                 <TextView
                     android:id="@+id/txtName"
@@ -110,9 +102,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/view"/>
 
                 <TextView
                     android:id="@+id/txtNameValue"
@@ -122,14 +112,12 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    tools:text="Pravin Kadam"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtName">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtName"
+                    tools:text="Pravin Kadam"/>
 
                 <TextView
                     android:id="@+id/txtBirthDate"
@@ -143,9 +131,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtNameValue">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtNameValue"/>
 
                 <TextView
                     android:id="@+id/txtBirthDateValue"
@@ -155,14 +141,12 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    tools:text="25-10-1994"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDate">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDate"
+                    tools:text="25-10-1994"/>
 
                 <TextView
                     android:id="@+id/txtGender"
@@ -176,9 +160,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDateValue">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtBirthDateValue"/>
 
                 <TextView
                     android:id="@+id/txtGenderValue"
@@ -188,14 +170,12 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    tools:text="Male"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtGender">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtGender"
+                    tools:text="Male"/>
 
                 <TextView
                     android:id="@+id/txtEmail"
@@ -209,9 +189,7 @@
                     android:textColor="@color/gray_700"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtGenderValue">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtGenderValue"/>
 
                 <TextView
                     android:id="@+id/txtEmailValue"
@@ -221,14 +199,12 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/metropolis_regular"
                     android:gravity="center_vertical"
-                    tools:text="pravin@gigs.com"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtEmail">
-
-                </TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+                    tools:text="pravin@gigs.com"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -239,21 +215,19 @@
             android:id="@+id/txtEditProfile"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
-            android:paddingStart="@dimen/_60sdp"
-            android:paddingEnd="@dimen/_60sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/curve_pink_600"
             android:fontFamily="@font/metropolis_medium"
             android:gravity="center"
+            android:paddingStart="@dimen/_60sdp"
+            android:paddingEnd="@dimen/_60sdp"
             android:text="@string/edit_profile"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        </TextView>
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
