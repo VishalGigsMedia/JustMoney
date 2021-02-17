@@ -13,20 +13,13 @@ import com.app.just_money.R
 import com.app.just_money.databinding.FragmentTermsConditionBinding
 
 class TermsConditionFragment : Fragment() {
-
-
     private lateinit var mBinding: FragmentTermsConditionBinding
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_terms_condition, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_terms_condition, container, false)
         return mBinding.root
     }
+
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

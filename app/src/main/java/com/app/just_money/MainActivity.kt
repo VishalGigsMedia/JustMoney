@@ -345,8 +345,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
     override fun onStop() {
         super.onStop()
-        if (mGoogleApiClient!!.isConnected) {
-            mGoogleApiClient!!.disconnect()
+        if (mGoogleApiClient?.isConnected == true) {
+            mGoogleApiClient?.disconnect()
         }
     }
 

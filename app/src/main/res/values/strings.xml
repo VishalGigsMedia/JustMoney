@@ -81,16 +81,16 @@
     <string name="help">Help</string>
     <string name="send_us_feedback">SEND US YOUR FEEDBACK!</string>
     <string name="do_you_have_suggestion">Do you have a suggestion or found some bug?</string>
-    <string name="let_me_know_field_below">let us know in the field bellow.</string>
+    <string name="let_me_know_field_below">let us know in the fields below.</string>
     <string name="name">Name*</string>
     <string name="email">Email*</string>
     <string name="subject">Subject</string>
     <string name="describe">Describe</string>
 
-    <string name="ent_name">Enter name</string>
-    <string name="ent_email">Enter email</string>
-    <string name="ent_subject">Enter subject</string>
-    <string name="ent_describe">Enter describe</string>
+    <string name="ent_name">Enter Name*</string>
+    <string name="ent_email">Enter Email*</string>
+    <string name="ent_subject">Enter Subject*</string>
+    <string name="ent_describe">Enter Description*</string>
     <string name="upload_image">Upload Image</string>
     <string name="send_feedback">Send Feedback</string>
 
