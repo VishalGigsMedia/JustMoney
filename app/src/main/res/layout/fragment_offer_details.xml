@@ -64,9 +64,10 @@
                     android:textSize="@dimen/_16ssp"
                     app:drawableStartCompat="@drawable/ic_arrow_back_black"
                     app:layout_constraintEnd_toStartOf="@+id/clClose"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Adidias">
+                    tools:text="Adidas">
 
                 </TextView>
 

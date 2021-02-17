@@ -24,15 +24,8 @@ class HelpRepository {
     private var gson: Gson? = null
 
 
-    fun sendFeedback(
-        context: Context,
-        apiService: API,
-        name: String,
-        email: String,
-        subject: String,
-        message: String,
-        uploadImage: File?
-    ): MutableLiveData<SendFeedbackModel> {
+    fun sendFeedback(context: Context, apiService: API, name: String, email: String, subject: String,
+        message: String, uploadImage: File?): MutableLiveData<SendFeedbackModel> {
         val mutableLiveData: MutableLiveData<SendFeedbackModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -49,49 +42,34 @@ class HelpRepository {
             if (!chkFile(uploadImage)) {
                 val requestFile: RequestBody =
                     RequestBody.create("multipart/form-data".toMediaTypeOrNull(), uploadImage!!)
-                rbUploadImage =
-                    MultipartBody.Part.createFormData("uploads", uploadImage.name, requestFile)
+                rbUploadImage = MultipartBody.Part.createFormData("uploads", uploadImage.name, requestFile)
             }
-            apiService.sendFeedback(
-                authorizationToken,
-                rbUploadImage,
-                rbName,
-                rbEmail,
-                rbSubject,
-                rbMessage
-            ).enqueue(object : Callback<SendFeedbackModel> {
-                override fun onResponse(
-                    call: Call<SendFeedbackModel>,
-                    response: Response<SendFeedbackModel>
-                ) {
-                    try {
-                        //println(TAG + response.body())
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        sendFeedbackModel = gson?.fromJson(json, SendFeedbackModel::class.java)
-                        if (sendFeedbackModel != null) {
-                            mutableLiveData.value = sendFeedbackModel
-                        } else {
-                            DefaultHelper.showToast(
-                                context,
-                                DefaultHelper.decrypt(response.message())
-                            )
+            apiService.sendFeedback(authorizationToken, rbUploadImage, rbName, rbEmail, rbSubject, rbMessage)
+                .enqueue(object : Callback<SendFeedbackModel> {
+                    override fun onResponse(call: Call<SendFeedbackModel>, response: Response<SendFeedbackModel>) {
+                        try {
+                            //println(TAG + response.body())
+                            gson = gsonBuilder.create()
+                            val json = Gson().toJson(response.body())
+                            sendFeedbackModel = gson?.fromJson(json, SendFeedbackModel::class.java)
+                            if (sendFeedbackModel != null) {
+                                mutableLiveData.value = sendFeedbackModel
+                            } else {
+                                DefaultHelper.showToast(context, DefaultHelper.decrypt(response.message()))
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
-                }
 
-                override fun onFailure(call: Call<SendFeedbackModel>, t: Throwable) {
-                    //println(TAG + t.toString())
-                    mutableLiveData.value = sendFeedbackModel
-                }
-            })
+                    override fun onFailure(call: Call<SendFeedbackModel>, t: Throwable) {
+                        //println(TAG + t.toString())
+                        mutableLiveData.value = null
+                    }
+                })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            mutableLiveData.value = null
         }
         return mutableLiveData
     }

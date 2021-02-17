@@ -13,27 +13,13 @@ class HelpViewModel : ViewModel() {
     private val helpRepository: HelpRepository = HelpRepository()
     private var sendFeedbackModel: LiveData<SendFeedbackModel>? = null
 
-    fun sendFeedback(
-        context: Context,
-        api: API,
-        name: String,
-        email: String,
-        subject: String,
-        message: String,
-        uploadImage: File?
-    ): LiveData<SendFeedbackModel> {
+    fun sendFeedback(context: Context, api: API, name: String, email: String, subject: String, message: String,
+        uploadImage: File?): LiveData<SendFeedbackModel> {
         if (sendFeedbackModel == null || sendFeedbackModel != null) {
-            sendFeedbackModel = helpRepository.sendFeedback(
-                context,
-                api,
-                name,
-                email,
-                subject,
-                message,
-                uploadImage
-            )
+            sendFeedbackModel =
+                helpRepository.sendFeedback(context, api, name, email, subject, message, uploadImage)
         }
-        return sendFeedbackModel!!
+        return sendFeedbackModel as LiveData<SendFeedbackModel>
     }
 
 }
