@@ -21,21 +21,16 @@ class CompletedOfferRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getCompletedOffers(
-        context: Context,
-        api: API
-    ): MutableLiveData<CompletedOfferModel> {
+    fun getCompletedOffers(context: Context?, api: API): MutableLiveData<CompletedOfferModel> {
         val mutableLiveData: MutableLiveData<CompletedOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestHelper = RequestKeyHelper()
             requestHelper.state = preferenceHelper.getUserState()
-            api.getCompletedOffers(preferenceHelper.getJwtToken(),requestHelper)
+            api.getCompletedOffers(preferenceHelper.getJwtToken(), requestHelper)
                 .enqueue(object : Callback<CompletedOfferModel> {
-                    override fun onResponse(
-                        call: Call<CompletedOfferModel>,
-                        response: Response<CompletedOfferModel>
-                    ) {
+                    override fun onResponse(call: Call<CompletedOfferModel>,
+                        response: Response<CompletedOfferModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         completedOfferModel = gson?.fromJson(json, CompletedOfferModel::class.java)
@@ -44,13 +39,12 @@ class CompletedOfferRepository {
 
                     override fun onFailure(call: Call<CompletedOfferModel>, t: Throwable) {
                         println("TAG : ${t.printStackTrace()}")
+                        mutableLiveData.value = null
                     }
                 })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+            mutableLiveData.value = null
         }
         return mutableLiveData
     }

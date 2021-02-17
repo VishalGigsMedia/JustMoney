@@ -3,6 +3,8 @@ package com.app.just_money.my_wallet.faq
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -25,16 +27,11 @@ class FaqFragment : Fragment() {
     lateinit var api: API
 
     private var callback: OnCurrentFragmentVisibleListener? = null
-    private val faqList: List<FaqData> = ArrayList()
     private lateinit var faqAdapter: FaqAdapter
     private lateinit var viewModel: FaqViewModel
     private lateinit var mBinding: FragmentFaqBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_faq, container, false)
         return mBinding.root
     }
@@ -45,6 +42,9 @@ class FaqFragment : Fragment() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(FaqViewModel::class.java)
         getFaq()
+        mBinding.txtFaqTitle.setOnClickListener{
+            activity?.onBackPressed()
+        }
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
@@ -52,40 +52,44 @@ class FaqFragment : Fragment() {
     }
 
     private fun getFaq() {
+        mBinding.shimmer.startShimmer()
         viewModel.getFaq(context!!, api).observe(viewLifecycleOwner, { faqDetails ->
+            mBinding.shimmer.stopShimmer()
+            mBinding.shimmer.visibility = GONE
+            mBinding.nsv.visibility = VISIBLE
             if (faqDetails != null) {
                 when (faqDetails.status) {
                     DefaultKeyHelper.successCode -> {
                         println("faqDetails: " + faqDetails.faqData?.size)
-                        setAdapter(faqDetails.faqData!!)
+                        setAdapter(faqDetails.faqData)
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(faqDetails.message.toString())
-                        )
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
+                        activity?.onBackPressed()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
                         DefaultHelper.forceLogout(activity!!)
                     }
                     else -> {
-                        DefaultHelper.showToast(
-                            context!!,
-                            DefaultHelper.decrypt(faqDetails.message.toString())
-                        )
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
+                        activity?.onBackPressed()
                     }
                 }
+            } else {
+                DefaultHelper.showToast(context, "Something went Wrong!!")
+                activity?.onBackPressed()
             }
         })
     }
 
-    private fun setAdapter(faqData: List<FaqData>) {
-        if (faqData.isNotEmpty()) {
+    private fun setAdapter(faqData: List<FaqData>?) {
+        if (faqData?.isNotEmpty() == true) {
             faqAdapter = FaqAdapter(activity!!, faqData)
-            mBinding.rvFaq.layoutManager =
-                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            mBinding.rvFaq.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             mBinding.rvFaq.adapter = faqAdapter
-            faqAdapter.notifyDataSetChanged()
+        } else {
+            DefaultHelper.showToast(context, "Something went Wrong!!")
+            activity?.onBackPressed()
         }
     }
 

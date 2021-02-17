@@ -12,10 +12,7 @@ class FaqViewModel : ViewModel() {
     private val faqRepository: FaqRepository = FaqRepository()
     private var faqDetails: LiveData<FaqModel>? = null
 
-    fun getFaq(
-        context: Context,
-        api: API
-    ): LiveData<FaqModel> {
+    fun getFaq(context: Context, api: API): LiveData<FaqModel> {
         if (faqDetails == null || faqDetails != null) {
             faqDetails = faqRepository.getFaq(context, api)
         }

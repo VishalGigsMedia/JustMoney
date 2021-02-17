@@ -20,19 +20,12 @@ class FaqRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getFaq(
-        context: Context,
-        api: API
-    ): MutableLiveData<FaqModel> {
+    fun getFaq(context: Context, api: API): MutableLiveData<FaqModel> {
         val mutableLiveData: MutableLiveData<FaqModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            api.getFaq(preferenceHelper.getJwtToken()).enqueue(object :
-                Callback<FaqModel> {
-                override fun onResponse(
-                    call: Call<FaqModel>,
-                    response: Response<FaqModel>
-                ) {
+            api.getFaq(preferenceHelper.getJwtToken()).enqueue(object : Callback<FaqModel> {
+                override fun onResponse(call: Call<FaqModel>, response: Response<FaqModel>) {
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())
                     faqModel = gson?.fromJson(json, FaqModel::class.java)
@@ -45,10 +38,7 @@ class FaqRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(
-                context,
-                context.getString(R.string.no_internet)
-            )
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

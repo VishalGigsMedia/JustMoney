@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -62,13 +64,11 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
         viewModel.getInProgressOffers(context!!, api)
             .observe(viewLifecycleOwner, { inProgressOffers ->
                 mBinding.shimmerViewContainer.stopShimmer()
-                mBinding.shimmerViewContainer.visibility = View.GONE
-                mBinding.nsv.visibility = View.VISIBLE
+                mBinding.shimmerViewContainer.visibility = GONE
+                mBinding.nsv.visibility = VISIBLE
                 if (inProgressOffers != null) {
                     when (inProgressOffers.status) {
                         DefaultKeyHelper.successCode -> {
-                            // println("quickDealsSize:" + inProgressOffers.data?.pendingList?.size + "")
-                            //  println("quickDealsSize:" + inProgressOffers.data?.quickDealsList?.size + "")
                             if (inProgressOffers.data?.pendingList != null) {
                                 mBinding.rvInProgressDeals.visibility = View.VISIBLE
                                 setAdapter(inProgressOffers.data.pendingList)
