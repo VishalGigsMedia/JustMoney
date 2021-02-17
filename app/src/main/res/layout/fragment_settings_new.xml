@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
+    <data />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -70,9 +68,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"
-                tools:text="pravin@enrootmedia.in">
-
-            </TextView>
+                tools:text="pravin@enrootmedia.in" />
 
             <View
                 android:id="@+id/view"
@@ -84,9 +80,7 @@
                 android:background="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtEmail">
-
-            </View>
+                app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
 
             <TextView
                 android:id="@+id/txtAccount"
@@ -100,9 +94,7 @@
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <TextView
                 android:id="@+id/txtMyProfile"
@@ -119,9 +111,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_my_profile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtAccount">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/txtAccount" />
 
             <View
                 android:id="@+id/viewSecond"
@@ -133,9 +123,7 @@
                 android:background="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtMyProfile">
-
-            </View>
+                app:layout_constraintTop_toBottomOf="@+id/txtMyProfile" />
 
             <TextView
                 android:id="@+id/txtOthers"
@@ -149,9 +137,7 @@
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewSecond">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/viewSecond" />
 
             <TextView
                 android:id="@+id/txtFaq"
@@ -168,9 +154,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_faq"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtOthers">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/txtOthers" />
 
             <TextView
                 android:id="@+id/txtFeedback"
@@ -187,9 +171,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_feedback"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtFaq">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/txtFaq" />
 
             <TextView
                 android:id="@+id/txtTermsCondition"
@@ -206,9 +188,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_terms_condition"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtFeedback">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/txtFeedback" />
 
             <TextView
                 android:id="@+id/txtPrivacyPolicy"
@@ -225,9 +205,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_privacy_policy"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTermsCondition">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/txtTermsCondition" />
 
             <View
                 android:id="@+id/viewThird"
@@ -239,9 +217,7 @@
                 android:background="@color/gray_900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPolicy">
-
-            </View>
+                app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPolicy" />
 
             <TextView
                 android:id="@+id/txtSocial"
@@ -255,9 +231,7 @@
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewThird">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/viewThird" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clFollow"
@@ -295,9 +269,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -329,9 +301,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </TextView>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -352,9 +322,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:drawableStartCompat="@drawable/ic_logout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clFollow">
-
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/clFollow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
