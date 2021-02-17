@@ -67,7 +67,7 @@
     <string name="hint_questions">Questions</string>
     <string name="faq">FAQ</string>
     <string name="history">History</string>
-    <string name="payouts">Payouts</string>
+    <string name="payouts">My Payouts</string>
     <string name="balance">Balance</string>
 
     <string name="hint_location_permission_needed">Location Permission Needed</string>
