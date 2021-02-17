@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         subscribeToTopic()
         getToken()
-        init()
+        //init()
         manageClickEvents()
         //open available fragment
         openFragment(AvailableFragment(), false)
@@ -234,6 +234,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
                     if (city.isNotEmpty()) {
                         preferenceHelper.setUserCity(DefaultHelper.encrypt(city))
                     }
+                    val availableFragment = AvailableFragment()
                 }
             } else {
                 //  Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();

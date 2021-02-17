@@ -20,7 +20,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -100,9 +99,6 @@ class EditProfileFragment : Fragment() {
         }
         //Set Email & Image
         mBinding.txtEmail.text = preferenceHelper.getEmail()
-        /* DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
-             ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
-             ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)*/
         val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
         if (profilePic.isNotEmpty() && profilePic != "null") {
             DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
@@ -162,7 +158,9 @@ class EditProfileFragment : Fragment() {
         val datePickerDialog =
             DatePickerDialog(activity!!, R.style.calender, dateSetListener, cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        datePickerDialog.datePicker.maxDate =
+            System.currentTimeMillis() - 568025136000L //start calender from last 18 yrs
+        //datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
     }
 
@@ -195,16 +193,6 @@ class EditProfileFragment : Fragment() {
                     }
                 }
             })
-    }
-
-
-    fun onDateSet(view: DatePicker?, year: Int, month: Int, day: Int) {
-        val userAge: Calendar = GregorianCalendar(year, month, day)
-        val minAdultAge: Calendar = GregorianCalendar()
-        minAdultAge.add(Calendar.YEAR, -18)
-        if (minAdultAge.before(userAge)) {
-            //SHOW_ERROR_MESSAGE
-        }
     }
 
     private fun setData(updateProfileModel: UpdatedProfileModel) {

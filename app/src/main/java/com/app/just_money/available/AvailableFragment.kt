@@ -56,18 +56,20 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         callback?.onShowHideBottomNav(true)
         init()
         checkVersion()
-        val preferenceHelper = PreferenceHelper(context)
-        //preferenceHelper.setClearSpecific(UserState.name)
-        val state = preferenceHelper.getUserState()
-        if (state.isNotEmpty() || state != "null") {
-            getOffers()
-        } else {
-            val mainActivity = MainActivity()
-            mainActivity.init()
-            DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
-        }
         setListeners()
     }
+
+    /* fun setLocation() {
+         val preferenceHelper = PreferenceHelper(context)
+         val state = preferenceHelper.getUserState()
+         if (state.isNotEmpty() || state != "null") {
+             getOffers()
+         } else {
+             DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
+             val mainActivity = MainActivity()
+             mainActivity.init()
+         }
+     }*/
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
@@ -89,6 +91,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         val preferenceHelper = PreferenceHelper(context)
         val jwtToken = preferenceHelper.getJwtToken()
         //println("jwtToken: $jwtToken")
+
+        //preferenceHelper.setClearSpecific(PreferenceHelper.Key.UserState.name)
+        val state = preferenceHelper.getUserState()
+        if (state.isNotEmpty() || state != "null") {
+            getOffers()
+        } else {
+            DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
+        }
     }
 
 
