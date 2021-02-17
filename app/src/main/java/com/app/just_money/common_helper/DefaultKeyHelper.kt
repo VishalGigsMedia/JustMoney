@@ -15,8 +15,8 @@ object DefaultKeyHelper {
 
     const val xApiKey = "5e020255c70c3bde6bcf1f1c1275e020255c7151"
     const val GIGS_NATIVE_URL = "gigs.vnative.com"
-    const val facebookPageId ="983226045070038"
-    const val facebookPageUrl ="https://www.facebook.com/pravinhaircare/"
+    const val facebookPageId ="104354911699587"
+    const val facebookPageUrl ="https://www.facebook.com/JustMoney-104354911699587"
     const val telegramUrl ="https://t.me/downloadnearn"
 
     const val male = "1"

@@ -29,7 +29,6 @@ import javax.inject.Inject
 class SettingsNewFragment : Fragment() {
     @Inject
     lateinit var api: API
-
     private lateinit var viewModel: SettingViewModel
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentSettingsNewBinding
@@ -45,25 +44,25 @@ class SettingsNewFragment : Fragment() {
         manageClickEvents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setData()
+    }
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
         callback?.onShowHideBottomNav(false)
     }
 
-    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
-        callback = activity
-    }
-
     private fun manageClickEvents() {
-        mBinding.txtMyProfile.setOnClickListener { openFragment(MyProfileFragment(), true) }
-        mBinding.txtFaq.setOnClickListener { openFragment(FaqFragment(), true) }
-        mBinding.txtFeedback.setOnClickListener { openFragment(HelpUsFragment(), true) }
+        mBinding.txtMyProfile.setOnClickListener { openFragment(MyProfileFragment()) }
+        mBinding.txtFaq.setOnClickListener { openFragment(FaqFragment()) }
+        mBinding.txtFeedback.setOnClickListener { openFragment(HelpUsFragment()) }
         mBinding.txtTermsCondition.setOnClickListener {
-            openFragment(TermsConditionFragment(), true)
+            openFragment(TermsConditionFragment())
         }
         mBinding.txtPrivacyPolicy.setOnClickListener {
-            openFragment(PrivacyPolicyFragment(), true)
+            openFragment(PrivacyPolicyFragment())
         }
         mBinding.clFacebook.setOnClickListener {
             DefaultHelper.openFacebookPage(context)
@@ -89,15 +88,6 @@ class SettingsNewFragment : Fragment() {
         }
     }
 
-    private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
-        if (addToBackStack) {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
-                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
-        } else {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)?.commit()
-        }
-    }
-
     private fun logout() {
         viewModel.logout(context, api).observe(viewLifecycleOwner, { logoutModule ->
             if (logoutModule != null) {
@@ -115,13 +105,9 @@ class SettingsNewFragment : Fragment() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        setData()
-    }
-
     private fun setData() {
         val preferenceHelper = PreferenceHelper(context)
+        mBinding.txtEmail.text = preferenceHelper.getEmail()
         val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
         if (profilePic.isNotEmpty() && profilePic != "null") {
             DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
@@ -131,5 +117,18 @@ class SettingsNewFragment : Fragment() {
             mBinding.ivProfileImage.setImageDrawable(
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
         }
+    }
+
+    private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {
+        if (addToBackStack) {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
+                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
+        } else {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)?.commit()
+        }
+    }
+
+    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
+        callback = activity
     }
 }
