@@ -11,8 +11,7 @@ class MyPayoutViewModel : ViewModel() {
     private val payoutHistoryRepository: PayoutHistoryRepository = PayoutHistoryRepository()
     private var payoutHistoryModel: LiveData<PayoutHistoryModel>? = null
 
-
-    fun getPayoutHistory(context: Context, api: API): LiveData<PayoutHistoryModel> {
+    fun getPayoutHistory(context: Context?, api: API): LiveData<PayoutHistoryModel> {
         if (payoutHistoryModel != null || payoutHistoryModel == null) {
             payoutHistoryModel = payoutHistoryRepository.getPayoutHistory(context, api)
         }

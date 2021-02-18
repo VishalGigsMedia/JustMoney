@@ -1,14 +1,15 @@
 package com.app.just_money.available
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.TextView
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -28,8 +29,11 @@ import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.update_verstion_dialog.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 private var timer: CountDownTimer? = null
 
@@ -51,14 +55,18 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         return mBinding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
         init()
-        checkVersion()
         setListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkVersion()
+    }
     /* fun setLocation() {
          val preferenceHelper = PreferenceHelper(context)
          val state = preferenceHelper.getUserState()
@@ -159,49 +167,51 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.shimmerViewContainer.visibility = GONE
             mBinding.nsv.visibility = VISIBLE
             run {
-                if (availableOfferModel != null) when (availableOfferModel.status) {
-                    DefaultKeyHelper.successCode -> {
-                        val dailyReward = availableOfferModel.availableOfferData?.dailyRewards.toString()
-                        val totalCoins = availableOfferModel.totalCoins.toString()
-                        val withdrawn = availableOfferModel.withdrawn.toString()
-                        val completed = availableOfferModel.completed.toString()
-                        setDailyReward(dailyReward, totalCoins, withdrawn, completed)
+                if (availableOfferModel != null) {
+                    when (availableOfferModel.status) {
+                        DefaultKeyHelper.successCode -> {
+                            val dailyReward = availableOfferModel.availableOfferData?.dailyRewards.toString()
+                            val totalCoins = availableOfferModel.totalCoins.toString()
+                            val withdrawn = availableOfferModel.withdrawn.toString()
+                            val completed = availableOfferModel.completed.toString()
+                            setDailyReward(dailyReward, totalCoins, withdrawn, completed)
 
-                        if (availableOfferModel.availableOfferData?.flashOffer != null) {
-                            mBinding.clBestDeal.visibility = VISIBLE
-                            setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
-                        } else mBinding.clBestDeal.visibility = GONE
+                            if (availableOfferModel.availableOfferData?.flashOffer != null) {
+                                mBinding.clBestDeal.visibility = VISIBLE
+                                setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
+                            } else mBinding.clBestDeal.visibility = GONE
 
-                        if (availableOfferModel.availableOfferData?.popular != null) {
-                            popularDealsAdapter(availableOfferModel.availableOfferData.popular)
-                        } else {
-                            mBinding.txtPopular.visibility = GONE
-                            mBinding.rvPopular.visibility = GONE
+                            if (availableOfferModel.availableOfferData?.popular != null) {
+                                popularDealsAdapter(availableOfferModel.availableOfferData.popular)
+                            } else {
+                                mBinding.txtPopular.visibility = GONE
+                                mBinding.rvPopular.visibility = GONE
+                            }
+
+                            if (availableOfferModel.availableOfferData?.quickDeals != null) {
+                                setAdapter(availableOfferModel.availableOfferData.quickDeals!!)
+                            } else {
+                                mBinding.txtQuickDeals.visibility = GONE
+                                mBinding.rvQuickDeals.visibility = GONE
+                            }
+
+                            //if no offer available among three types, just showing error screen
+                            if (mBinding.clBestDeal.visibility == GONE && mBinding.rvPopular.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
+
                         }
-
-                        if (availableOfferModel.availableOfferData?.quickDeals != null) {
-                            setAdapter(availableOfferModel.availableOfferData.quickDeals!!)
-                        } else {
-                            mBinding.txtQuickDeals.visibility = GONE
-                            mBinding.rvQuickDeals.visibility = GONE
+                        DefaultKeyHelper.failureCode -> {
+                            DefaultHelper.showToast(context!!,
+                                DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                            showErrorScreen()
                         }
-
-                        //if no offer available among three types, just showing error screen
-                        if (mBinding.clBestDeal.visibility == GONE && mBinding.rvPopular.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
-
-                    }
-                    DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context!!,
-                            DefaultHelper.decrypt(availableOfferModel.message.toString()))
-                        showErrorScreen()
-                    }
-                    DefaultKeyHelper.forceLogoutCode -> {
-                        DefaultHelper.forceLogout(activity)
-                    }
-                    else -> {
-                        DefaultHelper.showToast(context!!,
-                            DefaultHelper.decrypt(availableOfferModel.message.toString()))
-                        showErrorScreen()
+                        DefaultKeyHelper.forceLogoutCode -> {
+                            DefaultHelper.forceLogout(activity)
+                        }
+                        else -> {
+                            DefaultHelper.showToast(context!!,
+                                DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                            showErrorScreen()
+                        }
                     }
                 } else {
                     showErrorScreen()
@@ -366,14 +376,12 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                     DefaultKeyHelper.successCode -> {
                         val title = DefaultHelper.decrypt(versionModel.title.toString())
                         val playStoreUrl = DefaultHelper.decrypt(versionModel.data?.url.toString())
-                        val updateVersion = DefaultHelper.decrypt(versionModel.data?.version.toString())
-                        val applicationVersion = DefaultHelper.getApplicationVersionName(context)
+                        val updateVersion = (DefaultHelper.decrypt(versionModel.data?.version.toString())).toLong()
+                        val applicationVersion = DefaultHelper.getApplicationVersion(context)
                         val msg = DefaultHelper.decrypt(versionModel.message.toString())
-
-                        if (updateVersion.isNotEmpty() && updateVersion != "null") {
+                        if (updateVersion != null) {
                             updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
                         }
-                        //DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
                     }
                     DefaultKeyHelper.failureCode -> {
                         DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
@@ -383,40 +391,33 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    private fun updateApplicationDialog(updateVersion: String, applicationVersion: String, title: String,
+    private fun updateApplicationDialog(updateVersion: Long, applicationVersion: Long?, title: String,
         message: String, url: String) {
-        //println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
-        if (applicationVersion != updateVersion) {
-            showDialog(title, message, url)
+        println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
+        if (applicationVersion != null) {
+            if (applicationVersion < updateVersion) {
+                showDialog(title, message, url)
+            }
         }
     }
 
     private fun showDialog(title: String, message: String, url: String) {
-
-        val dialog = Dialog(context!!)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.update_verstion_dialog)
-
-        val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialog.window!!.attributes)
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        lp.gravity = Gravity.CENTER
-        dialog.window!!.attributes = lp
-
-        val txtTitle = dialog.findViewById<View>(R.id.txtTitle) as TextView
-        val txtMessage = dialog.findViewById<View>(R.id.txtMessage) as TextView
-        val txtUpdateApplication = dialog.findViewById<View>(R.id.txtUpdateApplication) as TextView
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        val width = ViewGroup.LayoutParams.MATCH_PARENT
+        val height = ViewGroup.LayoutParams.WRAP_CONTENT
+        dialog.window?.setLayout(width, height)
 
         if (title.isNotEmpty()) {
-            txtTitle.text = title
+            dialog.txtTitle.text = title
         }
         if (message.isNotEmpty()) {
-            txtMessage.text = message
+            dialog.txtMessage.text = message
         }
 
-        txtUpdateApplication.setOnClickListener {
+        dialog.txtUpdateApplication.setOnClickListener {
             //  startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.dne.rewardapp&reviewId")))
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

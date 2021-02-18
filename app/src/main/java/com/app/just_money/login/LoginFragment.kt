@@ -52,7 +52,6 @@ class LoginFragment : Fragment() {
         fm = activity?.supportFragmentManager
         /* mBinding.edtEmailId.setText("test897@gmail.com")
          mBinding.edtPassword.setText("123456")*/
-
         val darkStateList = ContextCompat.getColorStateList(context!!, R.color.checkbox_filter_tint)
         CompoundButtonCompat.setButtonTintList(mBinding.checkbox, darkStateList)
     }

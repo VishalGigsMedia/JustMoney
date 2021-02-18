@@ -221,16 +221,16 @@ object DefaultHelper {
         }
     }
 
-    fun getApplicationVersionName(context: Context?): String {
-        var version = ""
+    fun getApplicationVersion(context: Context?): Long? {
+        var version: Long? = 0
         try {
             val pInfo: PackageInfo? = context?.packageManager?.getPackageInfo(context.packageName, 0)
-            version = pInfo?.versionName.toString() //Version Name
-            /*val verCode: Long? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            //version = pInfo?.versionName.toString() //Version Name
+            version = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 pInfo?.longVersionCode
             } else {
                 pInfo?.versionCode?.toLong()
-            }*/
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

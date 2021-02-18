@@ -19,13 +19,12 @@ class PayoutHistoryRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getPayoutHistory(context: Context, api: API): MutableLiveData<PayoutHistoryModel> {
+    fun getPayoutHistory(context: Context?, api: API): MutableLiveData<PayoutHistoryModel> {
         val mutableLiveData: MutableLiveData<PayoutHistoryModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            //preferenceHelper.getJwtToken()
-            val authorizationToken =
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vNjUuMC4xNTEuMjA2L2Rldi9wdWJsaWMvYXBpL3YyL2xvZ2luMiIsImlhdCI6MTYxMzM5MTUyOSwiZXhwIjoxNjEzOTk2MzI5LCJuYmYiOjE2MTMzOTE1MjksImp0aSI6IkM4WFhSM2lMQ3VSWGVrT0kiLCJzdWIiOjMxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.OREMq9tang1baolM6Tmg9H9LmEkDecyYRYWEFMnZvTA"
+            val authorizationToken = preferenceHelper.getJwtToken()
+            //val authorizationToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vNjUuMC4xNTEuMjA2L2Rldi9wdWJsaWMvYXBpL3YyL2xvZ2luMiIsImlhdCI6MTYxMzM5MTUyOSwiZXhwIjoxNjEzOTk2MzI5LCJuYmYiOjE2MTMzOTE1MjksImp0aSI6IkM4WFhSM2lMQ3VSWGVrT0kiLCJzdWIiOjMxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.OREMq9tang1baolM6Tmg9H9LmEkDecyYRYWEFMnZvTA"
             api.getPayoutHistory(authorizationToken).enqueue(object : Callback<PayoutHistoryModel> {
                 override fun onResponse(call: Call<PayoutHistoryModel>, response: Response<PayoutHistoryModel>) {
                     gson = gsonBuilder.create()
@@ -40,7 +39,7 @@ class PayoutHistoryRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
             mutableLiveData.value = null
         }
         return mutableLiveData
