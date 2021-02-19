@@ -466,7 +466,7 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/ivLogo"
                             android:layout_width="@dimen/_75sdp"
                             android:layout_height="@dimen/_75sdp"

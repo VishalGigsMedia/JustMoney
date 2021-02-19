@@ -31,6 +31,8 @@ import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.trackier.sdk.TrackierEvent
+import com.trackier.sdk.TrackierSDK
 import kotlinx.android.synthetic.main.update_verstion_dialog.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -79,6 +81,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun setListeners() {
         mBinding.clDailyRewardValue.setOnClickListener {
             (activity as MainActivity).onClickMyWallet()
+            val event = TrackierEvent(TrackierEvent.LEVEL_ACHIEVED)
+            event.param1 = "Level 10"
+            TrackierSDK.trackEvent(event)
         }
     }
 
@@ -293,7 +298,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             if (timer == null) setTimer(time)
 
             mBinding.txtRedeemOfferAmount.setOnClickListener {
-                claimOffer(flashOffer[0].id.toString(), flashOffer[0].url.toString())
+                claimOffer(flashOffer[0].id.toString(), DefaultHelper.decrypt(flashOffer[0].url.toString()))
             }
             mBinding.txtHaveAQuestion.setOnClickListener {
                 openFragment(FaqFragment(), true)
@@ -349,7 +354,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun claimOffer(appId: String, url: String) {
         viewModel.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
-                if (claimOfferModel.status == DefaultKeyHelper.successCode) {
+                if (claimOfferModel.status == DefaultKeyHelper.successCode && url!="") {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
@@ -423,4 +428,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         }
         dialog.show()
     }
+
+
 }

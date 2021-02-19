@@ -24,6 +24,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.app.just_money.available.AvailableFragment
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultKeyHelper.availableFragment
+import com.app.just_money.common_helper.DefaultKeyHelper.inProgressFragment
+import com.app.just_money.common_helper.DefaultKeyHelper.walletFragment
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.ActivityMainBinding
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         //init()
         manageClickEvents()
         //open available fragment
-        openFragment(AvailableFragment(), false)
+        openFragment(AvailableFragment(), false, availableFragment)
     }
 
     fun init() {
@@ -86,6 +89,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             e.printStackTrace()
         }
     }
+
 
     private fun getToken() {
         // Get token
@@ -108,6 +112,26 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         })
     }
 
+    override fun onBackPressed() {
+        val availableFragment: AvailableFragment? = supportFragmentManager.findFragmentByTag(availableFragment) as AvailableFragment?
+        val inProgressFragment: InProgressFragment? = supportFragmentManager.findFragmentByTag(inProgressFragment) as InProgressFragment?
+        val walletFragment: MyWalletFragment? = supportFragmentManager.findFragmentByTag(walletFragment) as MyWalletFragment?
+        if (availableFragment != null && availableFragment.isVisible ||
+            inProgressFragment != null && inProgressFragment.isVisible||
+            walletFragment != null && walletFragment.isVisible) {
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setMessage("Are you sure you want to Exit?").setCancelable(true)
+                .setPositiveButton("Yes") { _, _ ->
+                    super.onBackPressed()
+                }.setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
+        }else{
+            super.onBackPressed()
+        }
+    }
     private fun subscribeToTopic() {
         // [START subscribe_topics]
         Firebase.messaging.unsubscribeFromTopic("GENERAL").addOnCompleteListener { task ->
@@ -139,7 +163,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             ContextCompat.getDrawable(this, R.drawable.ic_inactive_wallet), null, null, null)
         mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(
             ContextCompat.getDrawable(this, R.drawable.ic_inactive_inprogress), null, null, null)
-        openFragment(AvailableFragment(), false)
+        openFragment(AvailableFragment(), false, availableFragment)
     }
 
     private fun onClickInProgress() {
@@ -153,7 +177,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         mBinding.txtInProgress.setCompoundDrawablesWithIntrinsicBounds(
             ContextCompat.getDrawable(this, R.drawable.ic_active_inprogress), null, null, null)
 
-        openFragment(InProgressFragment(), false)
+        openFragment(InProgressFragment(), false, inProgressFragment)
     }
 
     fun onClickMyWallet() {
@@ -169,20 +193,19 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         mBinding.txtMyWallet.setCompoundDrawablesWithIntrinsicBounds(
             ContextCompat.getDrawable(this, R.drawable.ic_active_wallet), null, null, null)
 
-        openFragment(MyWalletFragment(), false)
+        openFragment(MyWalletFragment(), false, walletFragment)
     }
 
-    fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
+    fun openFragment(fragment: Fragment, addToBackStack: Boolean, tag: String) {
         if (addToBackStack) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment)
+            supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment, tag)
                 .addToBackStack(MainActivity::class.java.simpleName).commit()
         } else {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment, tag).commit()
         }
     }
-
 
     override fun onLocationChanged(location: Location?) {
         mLastLocation = location

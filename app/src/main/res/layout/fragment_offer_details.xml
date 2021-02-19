@@ -204,13 +204,12 @@
                             android:layout_marginStart="@dimen/_5sdp"
                             android:fontFamily="@font/metropolis_medium_italic"
                             android:gravity="center"
-                            android:textAllCaps="true"
                             android:textColor="@color/pink_600"
-                            android:textSize="@dimen/_10ssp"
+                            android:textSize="@dimen/_9ssp"
                             app:drawableEndCompat="@drawable/ic_coins_pink"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/txtActualCoins"
-                            tools:text="SAVE 35000">
+                            tools:text="Earn Extra 35000">
 
                         </TextView>
 

@@ -130,7 +130,7 @@ class OfferDetailsFragment : Fragment() {
         val actualCoins = DefaultHelper.decrypt(offerDetailsData.actual_coins)
         val offerCoins = DefaultHelper.decrypt(offerDetailsData.offer_coins)
         val saveCoins = offerCoins.toInt() - actualCoins.toInt()
-        val saveCoinsValue = "SAVE $saveCoins"
+        val saveCoinsValue = "Earn Extra $saveCoins"
 
         if (title.isNotEmpty()) mBinding.txtTitle.text = "  $title"
         if (description.isNotEmpty()) mBinding.txtDescription.text = description

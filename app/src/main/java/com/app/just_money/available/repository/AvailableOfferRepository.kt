@@ -31,8 +31,8 @@ class AvailableOfferRepository {
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.state = preferenceHelper.getUserState()
-            requestKeyHelper.city = preferenceHelper.getUserCity()
+            requestKeyHelper.state = /*preferenceHelper.getUserState()*/"OZzKAE0urG/YZhmjkPWmlQ=="
+            requestKeyHelper.city = /*preferenceHelper.getUserCity()*/"HIfhY0jIeZ7SlDNNiYF7sQ=="
             requestKeyHelper.display_id = "1234"
             /*println(
                 "RequestHelper :" +

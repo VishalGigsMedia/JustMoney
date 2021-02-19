@@ -129,5 +129,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7'
+
+    //trackier
+    implementation 'com.trackier:android-sdk:1.0.1'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
 }
 apply plugin: 'com.google.gms.google-services'
