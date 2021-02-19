@@ -13,7 +13,7 @@ class PreferenceHelper(context: Context?) {
     }
 
     enum class Key {
-        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserDob, UserGender, UserProfilePic, UserFirstName, UserLastName
+        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserDob, UserGender, UserProfilePic, UserFirstName, UserLastName, ipAddress
     }
 
     //set preference data
@@ -138,6 +138,13 @@ class PreferenceHelper(context: Context?) {
 
     fun getLastName(): String {
         return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserLastName.name, "").toString())
+    }
+    fun setIpAddress(value: String) {
+        this.sharedPreferences.edit().putString(Key.ipAddress.name, value).apply()
+    }
+
+    fun getIpAddress(): String {
+        return this.sharedPreferences.getString(Key.ipAddress.name, "NA").toString()
     }
 
     fun setClear() {

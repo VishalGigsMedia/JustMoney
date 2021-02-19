@@ -1,6 +1,7 @@
 package com.app.just_money.dagger
 
 import com.app.just_money.available.model.AvailableOfferModel
+import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.login.model.login.LoginModel
@@ -90,4 +91,7 @@ interface API {
 
     @POST("EarningHistory") //check_version
     fun getPayoutHistory(@Header("Authorization") authorizationToken: String): Call<PayoutHistoryModel>
+
+    @GET//getIPAddress
+    fun getIPAddress(@Url url: String): Call<IpAddressModel>
 }

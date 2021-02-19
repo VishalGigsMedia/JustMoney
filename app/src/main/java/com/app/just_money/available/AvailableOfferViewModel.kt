@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.app.just_money.available.model.AvailableOfferModel
+import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.available.repository.AvailableOfferRepository
 import com.app.just_money.dagger.API
 import com.app.just_money.login.model.ClaimOfferModel
@@ -15,6 +16,7 @@ class AvailableOfferViewModel : ViewModel() {
     private var availableOfferModel: LiveData<AvailableOfferModel>? = null
     private var claimOfferModel: LiveData<ClaimOfferModel>? = null
     private var versionModel: LiveData<CheckAppVersionModel>? = null
+    private var ipAddressModel: LiveData<IpAddressModel>? = null
 
     fun getOffers(context: Context, api: API): LiveData<AvailableOfferModel> {
         if (availableOfferModel != null || availableOfferModel == null) {
@@ -27,7 +29,7 @@ class AvailableOfferViewModel : ViewModel() {
         if (claimOfferModel != null || claimOfferModel == null) {
             claimOfferModel = availableOfferRepository.claimOffer(context, api, appId)
         }
-        return claimOfferModel!!
+        return claimOfferModel as LiveData<ClaimOfferModel>
     }
 
 
@@ -36,6 +38,11 @@ class AvailableOfferViewModel : ViewModel() {
             versionModel = availableOfferRepository.checkVersion(context, api)
         }
         return versionModel!!
+    }
+
+    fun getIPAddress(context: Context, api: API): LiveData<IpAddressModel> {
+        ipAddressModel = availableOfferRepository.getIPAddress(context, api)
+        return ipAddressModel as LiveData<IpAddressModel>
     }
 
 }

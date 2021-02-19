@@ -70,21 +70,21 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
                     when (inProgressOffers.status) {
                         DefaultKeyHelper.successCode -> {
                             if (inProgressOffers.data?.pendingList != null) {
-                                mBinding.rvInProgressDeals.visibility = View.VISIBLE
+                                mBinding.rvInProgressDeals.visibility = VISIBLE
                                 setAdapter(inProgressOffers.data.pendingList)
                             } else {
-                                mBinding.rvInProgressDeals.visibility = View.GONE
+                                mBinding.rvInProgressDeals.visibility = GONE
                             }
                             if (inProgressOffers.data?.quickDealsList != null) {
-                                mBinding.txtQuickDeals.visibility = View.VISIBLE
-                                mBinding.rvQuickDeals.visibility = View.VISIBLE
+                                mBinding.txtQuickDeals.visibility = VISIBLE
+                                mBinding.rvQuickDeals.visibility = VISIBLE
                                 setAdapterQuickDeals(inProgressOffers.data.quickDealsList)
                             } else {
-                                mBinding.txtQuickDeals.visibility = View.GONE
-                                mBinding.rvQuickDeals.visibility = View.GONE
+                                mBinding.txtQuickDeals.visibility = GONE
+                                mBinding.rvQuickDeals.visibility = GONE
                             }
                             //if no offer available between two types, just showing error screen
-                            if (mBinding.rvInProgressDeals.visibility == View.GONE && mBinding.rvQuickDeals.visibility == View.GONE) showErrorScreen()
+                            if (mBinding.rvInProgressDeals.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
 
                         }
                         DefaultKeyHelper.failureCode -> {
@@ -107,8 +107,8 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
     }
 
     private fun showErrorScreen() {
-        mBinding.clData.visibility = View.GONE
-        mBinding.llError.visibility = View.VISIBLE
+        mBinding.clData.visibility = GONE
+        mBinding.llError.visibility = VISIBLE
     }
 
     private fun setAdapter(inProgressOfferData: List<PendingList>) {
@@ -122,15 +122,15 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
 
     private fun setAdapterQuickDeals(quickDeals: List<AvailableOffer>) {
         if (quickDeals.isNotEmpty()) {
-            mBinding.txtQuickDeals.visibility = View.VISIBLE
-            mBinding.rvQuickDeals.visibility = View.VISIBLE
+            mBinding.txtQuickDeals.visibility = VISIBLE
+            mBinding.rvQuickDeals.visibility = VISIBLE
 
             quickDealsAdapter = QuickDealsAdapter(activity!!, quickDeals, onClickedQuickDeals!!)
             mBinding.rvQuickDeals.adapter = quickDealsAdapter
             quickDealsAdapter.notifyDataSetChanged()
         } else {
-            mBinding.txtQuickDeals.visibility = View.GONE
-            mBinding.rvQuickDeals.visibility = View.GONE
+            mBinding.txtQuickDeals.visibility = GONE
+            mBinding.rvQuickDeals.visibility = GONE
         }
     }
 

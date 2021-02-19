@@ -44,7 +44,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             val title = inProgressList[position].name.toString()
             val description = inProgressList[position].shortDescription.toString()
             val imageUrl = inProgressList[position].image.toString()
-            val actualCoins = inProgressList[position].actualCoins.toString()
+            val created_at = inProgressList[position].created_at.toString()
             val offerCoins = inProgressList[position].offerCoins.toString()
             val url = DefaultHelper.decrypt(inProgressList[position].url.toString())
 
@@ -63,9 +63,9 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
                 }
             }
 
-            if (actualCoins.isNotEmpty()) {
+            if (created_at.isNotEmpty()) {
                 holder.mBindingInProgressBinding?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(actualCoins)
+                    DefaultHelper.decrypt(created_at)
             }
             if (offerCoins.isNotEmpty()) {
                 holder.mBindingInProgressBinding?.txtDealOfferAmount?.text =
@@ -107,7 +107,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             val title = inProgressList[position].name.toString()
             val description = inProgressList[position].shortDescription.toString()
             val imageUrl = inProgressList[position].image.toString()
-            val actualCoins = inProgressList[position].actualCoins.toString()
+            val created_at = inProgressList[position].created_at.toString()
             val offerCoins = inProgressList[position].offerCoins.toString()
             val url = DefaultHelper.decrypt(inProgressList[position].url.toString())
 
@@ -129,9 +129,9 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
                 }
             }
 
-            if (actualCoins.isNotEmpty()) {
+            if (created_at.isNotEmpty()) {
                 holder.mBindingInProgressTypeSecondBinding?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(actualCoins)
+                    DefaultHelper.decrypt(created_at)
             }
             if (offerCoins.isNotEmpty()) {
                 holder.mBindingInProgressTypeSecondBinding?.txtDealOfferAmount?.text =

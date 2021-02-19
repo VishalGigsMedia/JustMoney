@@ -37,5 +37,7 @@ data class PendingList(
     @SerializedName("trackier_offer_id")
     val trackierOfferId: String?,
     @SerializedName("type")
-    val type: String?
+    val type: String?,
+    @SerializedName("created_at")
+    val created_at: String?
 )

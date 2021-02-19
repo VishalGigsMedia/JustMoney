@@ -21,6 +21,7 @@ import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.available.adapter.QuickDealsAdapter
 import com.app.just_money.available.model.AvailableOffer
 import com.app.just_money.available.model.FlashOffer
+import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.common_helper.*
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -49,6 +50,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private lateinit var mBinding: FragmentAvailableBinding
     private var onClicked: PopularDealsAdapter.OnClickedPopularDeals? = null
     private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
+    private lateinit var preferenceHelper : PreferenceHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
@@ -59,6 +61,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
+        preferenceHelper = PreferenceHelper(context)
+
         init()
         setListeners()
     }
@@ -67,17 +71,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         super.onResume()
         checkVersion()
     }
-    /* fun setLocation() {
-         val preferenceHelper = PreferenceHelper(context)
-         val state = preferenceHelper.getUserState()
-         if (state.isNotEmpty() || state != "null") {
-             getOffers()
-         } else {
-             DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
-             val mainActivity = MainActivity()
-             mainActivity.init()
-         }
-     }*/
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
@@ -96,11 +89,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         onClickedQuickDeals = this
 
         mBinding.txtDailyRewardValue.text = "0"
-        val preferenceHelper = PreferenceHelper(context)
-        val jwtToken = preferenceHelper.getJwtToken()
-        //println("jwtToken: $jwtToken")
-
-        //preferenceHelper.setClearSpecific(PreferenceHelper.Key.UserState.name)
+        getIPAddress()
         val state = preferenceHelper.getUserState()
         if (state.isNotEmpty() || state != "null") {
             getOffers()
@@ -389,6 +378,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 }
             }
         })
+    }
+    private fun getIPAddress() {
+        viewModel.getIPAddress(context!!, api).observe(viewLifecycleOwner,
+            fun(ipAddressModel: IpAddressModel) {
+                if (ipAddressModel != null) {
+                    preferenceHelper.setIpAddress(ipAddressModel.ip)
+                }
+            })
     }
 
     private fun updateApplicationDialog(updateVersion: Long, applicationVersion: Long?, title: String,

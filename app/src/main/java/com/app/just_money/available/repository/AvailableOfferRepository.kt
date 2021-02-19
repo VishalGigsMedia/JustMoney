@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOfferModel
+import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
@@ -21,6 +22,7 @@ class AvailableOfferRepository {
     private var availableOfferModel: AvailableOfferModel? = null
     private var claimOfferModel: ClaimOfferModel? = null
     private var checkAppVersionModel: CheckAppVersionModel? = null
+    private var ipAddressModel: IpAddressModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
@@ -67,13 +69,7 @@ class AvailableOfferRepository {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.appId = appId
-
-            /*println(
-                "RequestHelper :" +
-                        " ${requestKeyHelper.state} :" +
-                        " ${requestKeyHelper.city} " +
-                        ": ${requestKeyHelper.display_id}"
-            )*/
+            requestKeyHelper.user_click_ip = DefaultHelper.encrypt(preferenceHelper.getIpAddress())
             api.claimOffer(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {
                     override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {
@@ -109,6 +105,29 @@ class AvailableOfferRepository {
                 }
 
                 override fun onFailure(call: Call<CheckAppVersionModel>, t: Throwable) {
+                    println("TAG : ${t.printStackTrace()}")
+                }
+            })
+        } else {
+            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+        }
+        return mutableLiveData
+    }
+
+    fun getIPAddress(context: Context, api: API): MutableLiveData<IpAddressModel> {
+        val mutableLiveData: MutableLiveData<IpAddressModel> = MutableLiveData()
+        if (DefaultHelper.isOnline()) {
+            val url = "https://api.ipify.org/?format=json"
+            api.getIPAddress(url).enqueue(object : Callback<IpAddressModel> {
+                override fun onResponse(call: Call<IpAddressModel>, response: Response<IpAddressModel>) {
+                    gson = gsonBuilder.create()
+                    val json = Gson().toJson(response.body())
+                    ipAddressModel = gson?.fromJson(json, IpAddressModel::class.java)
+                    // println("TAG : $json")
+                    mutableLiveData.value = ipAddressModel
+                }
+
+                override fun onFailure(call: Call<IpAddressModel>, t: Throwable) {
                     println("TAG : ${t.printStackTrace()}")
                 }
             })
