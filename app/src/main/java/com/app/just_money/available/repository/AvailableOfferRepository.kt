@@ -17,6 +17,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("PrivatePropertyName")
 class AvailableOfferRepository {
     private val TAG = javaClass.simpleName
     private var availableOfferModel: AvailableOfferModel? = null
@@ -33,7 +34,7 @@ class AvailableOfferRepository {
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.state = /*preferenceHelper.getUserState()*/"OZzKAE0urG/YZhmjkPWmlQ=="
             requestKeyHelper.city = /*preferenceHelper.getUserCity()*/"HIfhY0jIeZ7SlDNNiYF7sQ=="
-            requestKeyHelper.display_id = "1234"
+            requestKeyHelper.display_id = DefaultHelper.encrypt("1234")
             /*println(
                 "RequestHelper :" +
                         " ${requestKeyHelper.state} :" +

@@ -1,5 +1,6 @@
 package com.app.just_money.my_wallet
 
+import android.animation.ValueAnimator
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.doOnEnd
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
@@ -52,8 +54,20 @@ class MyWalletFragment : Fragment() {
         val completedCoins = preferenceHelper.getCompleted()
         val withdrawnCoins = preferenceHelper.getWithdrawn()
 
-        if (currentBalance.isNotEmpty()) mBinding.txtCurrentBalanceValue.text =
-            DefaultHelper.decrypt(currentBalance)
+
+        if (currentBalance.isNotEmpty()) {
+            val animator = ValueAnimator()
+            animator.setObjectValues(2000, 4000)
+            animator.addUpdateListener { animation ->
+                mBinding.txtCurrentBalanceValue.text = animation.animatedValue.toString()
+            }
+            animator.duration = 2000 // here you set the duration of the anim
+            animator.start()
+            animator.doOnEnd {
+                mBinding.txtCurrentBalanceValue.text = DefaultHelper.decrypt(currentBalance)
+            }
+
+        }
 
         if (completedCoins.isNotEmpty()) mBinding.txtCompletedCoinsValue.text =
             DefaultHelper.decrypt(completedCoins)

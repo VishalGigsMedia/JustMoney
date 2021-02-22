@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
+import android.media.RingtoneManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -243,5 +245,20 @@ object DefaultHelper {
         context?.let {
             Glide.with(it).load(imageUrl).placeholder(placeholder).error(error).into(imageView)
         }
+    }
+
+    fun playNotificationSound(context: Context?){
+        try {
+            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r = RingtoneManager.getRingtone(context, notification)
+            r.play()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun playCustomSound(context: Context?,item :Int){
+        val mediaPlayer : MediaPlayer = MediaPlayer.create(context,item)
+        mediaPlayer.start()
     }
 }

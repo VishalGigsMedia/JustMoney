@@ -31,9 +31,9 @@
                 android:layout_marginTop="@dimen/_30sdp"
                 android:fontFamily="@font/metropolis_medium_italic"
                 android:gravity="start"
+                android:letterSpacing="0.02"
                 android:text="@string/feedback"
                 android:textColor="@color/color_primary"
-                android:letterSpacing="0.02"
                 android:textSize="@dimen/_20ssp"
                 app:drawableStartCompat="@drawable/ic_arrow_back_black"
                 app:layout_constraintEnd_toStartOf="@+id/clClose"
@@ -268,24 +268,18 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/imageContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:elevation="1dp"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtDescription">
 
-                <ImageView
-                    android:id="@+id/ivUploadImage"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/upload_image" />
-            </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/ivUploadImage"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curve_transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/upload_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDescription" />
 
             <TextView
                 android:id="@+id/txtSendFeedback"
@@ -304,7 +298,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/ivUploadImage" />
 
             <ProgressBar
                 android:id="@+id/progress"

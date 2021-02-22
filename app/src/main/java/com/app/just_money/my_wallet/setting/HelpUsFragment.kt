@@ -71,6 +71,7 @@ class HelpUsFragment : Fragment() {
     }
 
     private fun manageClickEvent() {
+        mBinding.ivUploadImage.clipToOutline = true
         mBinding.ivUploadImage.setOnClickListener { onRequestPermission() }
         mBinding.txtSendFeedback.setOnClickListener { if (validate()) sendFeedback() }
         mBinding.txtHelpUs.setOnClickListener { activity?.onBackPressed() }

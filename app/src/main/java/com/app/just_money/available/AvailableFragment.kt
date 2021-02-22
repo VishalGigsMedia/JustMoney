@@ -52,7 +52,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private lateinit var mBinding: FragmentAvailableBinding
     private var onClicked: PopularDealsAdapter.OnClickedPopularDeals? = null
     private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
-    private lateinit var preferenceHelper : PreferenceHelper
+    private lateinit var preferenceHelper: PreferenceHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
@@ -67,6 +67,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
         init()
         setListeners()
+        DefaultHelper.playCustomSound(context,R.raw.tone)
+
+        mBinding.swipe.setOnRefreshListener { init() }
     }
 
     override fun onResume() {
@@ -126,10 +129,10 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         //val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
         val seconds = milliseconds / 1000 % 60
 
-        // println("Milliseconds = $minutes : $seconds")
+        /* println("Milliseconds = $minutes : $seconds") */
 
-        var minVal: String = ""
-        var secVal: String = ""
+        val minVal: String
+        val secVal: String
         minVal = if (minutes < 10) {
             "0$minutes"
         } else {
@@ -160,6 +163,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.shimmerViewContainer.stopShimmer()
             mBinding.shimmerViewContainer.visibility = GONE
             mBinding.nsv.visibility = VISIBLE
+            if (mBinding.swipe.isRefreshing) {
+                mBinding.swipe.isRefreshing = false
+            }
             run {
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
@@ -207,9 +213,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             showErrorScreen()
                         }
                     }
-                } else {
-                    showErrorScreen()
-                }
+                } else showErrorScreen()
             }
         })
     }
@@ -254,7 +258,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun setFlashOffer(flashOffer: List<FlashOffer>?) {
         if (flashOffer != null && flashOffer.isNotEmpty()) {
-            mBinding.clBestDeal.visibility = View.VISIBLE
+            mBinding.clBestDeal.visibility = VISIBLE
 
             val flashOfferName = DefaultHelper.decrypt(flashOffer[0].name.toString())
             val description = DefaultHelper.decrypt(flashOffer[0].shortDescription.toString())
@@ -301,29 +305,33 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 claimOffer(flashOffer[0].id.toString(), DefaultHelper.decrypt(flashOffer[0].url.toString()))
             }
             mBinding.txtHaveAQuestion.setOnClickListener {
-                openFragment(FaqFragment(), true)
+                openFragment(FaqFragment())
             }
         } else {
-            mBinding.clBestDeal.visibility = View.GONE
+            mBinding.clBestDeal.visibility = GONE
         }
 
     }
 
     private fun setAdapter(quickDeals: List<AvailableOffer>) {
         if (quickDeals.isNotEmpty()) {
-            mBinding.txtQuickDeals.visibility = View.VISIBLE
-            mBinding.rvQuickDeals.visibility = View.VISIBLE
+            mBinding.txtQuickDeals.visibility = VISIBLE
+            mBinding.rvQuickDeals.visibility = VISIBLE
 
             quickDealsAdapter = QuickDealsAdapter(activity!!, quickDeals, onClickedQuickDeals!!)
             mBinding.rvQuickDeals.adapter = quickDealsAdapter
             quickDealsAdapter.notifyDataSetChanged()
         } else {
-            mBinding.txtQuickDeals.visibility = View.GONE
-            mBinding.rvQuickDeals.visibility = View.GONE
+            mBinding.txtQuickDeals.visibility = GONE
+            mBinding.rvQuickDeals.visibility = GONE
         }
     }
 
     override fun claimOffers(appId: String, url: String) {
+        claimOffer(appId, url)
+    }
+
+    override fun getOffers(appId: String, url: String) {
         claimOffer(appId, url)
     }
 
@@ -333,14 +341,10 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         bundle.putString(BundleHelper.offerId, offerId)
         bundle.putString(BundleHelper.displayId, displayId)
         offerDetailFragment.arguments = bundle
-        openFragment(offerDetailFragment, true)
+        openFragment(offerDetailFragment)
     }
 
-    override fun getOffers(appId: String, url: String) {
-        claimOffer(appId, url)
-    }
-
-    private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
+    private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {
         if (addToBackStack) {
             activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
@@ -354,7 +358,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun claimOffer(appId: String, url: String) {
         viewModel.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
-                if (claimOfferModel.status == DefaultKeyHelper.successCode && url!="") {
+                if (claimOfferModel.status == DefaultKeyHelper.successCode && url != "") {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
@@ -368,14 +372,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             if (versionModel != null) {
                 when (versionModel.status) {
                     DefaultKeyHelper.successCode -> {
+                        var updateVersion: Long = 0
                         val title = DefaultHelper.decrypt(versionModel.title.toString())
                         val playStoreUrl = DefaultHelper.decrypt(versionModel.data?.url.toString())
-                        val updateVersion = (DefaultHelper.decrypt(versionModel.data?.version.toString())).toLong()
+                        if (versionModel.data?.version != null) {
+                            updateVersion = (DefaultHelper.decrypt(versionModel.data.version.toString())).toLong()
+                        }
                         val applicationVersion = DefaultHelper.getApplicationVersion(context)
                         val msg = DefaultHelper.decrypt(versionModel.message.toString())
-                        if (updateVersion != null) {
-                            updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
-                        }
+
+                        updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
                     }
                     DefaultKeyHelper.failureCode -> {
                         DefaultHelper.showToast(context!!, DefaultHelper.decrypt(versionModel.message.toString()))
@@ -384,13 +390,13 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             }
         })
     }
+
     private fun getIPAddress() {
-        viewModel.getIPAddress(context!!, api).observe(viewLifecycleOwner,
-            fun(ipAddressModel: IpAddressModel) {
-                if (ipAddressModel != null) {
-                    preferenceHelper.setIpAddress(ipAddressModel.ip)
-                }
-            })
+        viewModel.getIPAddress(context!!, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
+            if (ipAddressModel != null) {
+                preferenceHelper.setIpAddress(ipAddressModel.ip)
+            }
+        })
     }
 
     private fun updateApplicationDialog(updateVersion: Long, applicationVersion: Long?, title: String,

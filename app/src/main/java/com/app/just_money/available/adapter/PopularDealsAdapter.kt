@@ -23,12 +23,6 @@ class PopularDealsAdapter(private val context: FragmentActivity,
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var screenWidth = 0
 
-    companion object {
-        private const val first = 0
-        private const val second = 1
-    }
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val displayMetrics = DisplayMetrics()
         context.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -155,17 +149,9 @@ class PopularDealsAdapter(private val context: FragmentActivity,
         fun showOfferDetails(offerId: String, displayId: String)
     }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position % 2 == 0) {
-            0
-        } else {
-            1
-        }
-    }
+    override fun getItemViewType(position: Int): Int = if (position % 2 == 0) 0 else 1
 
     class PopularDealsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBindingPopularDeals: RowItemPopularDealBinding? = DataBindingUtil.bind(itemView)

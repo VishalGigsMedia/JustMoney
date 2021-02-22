@@ -37,7 +37,7 @@ class AvailableOfferViewModel : ViewModel() {
         if (versionModel != null || versionModel == null) {
             versionModel = availableOfferRepository.checkVersion(context, api)
         }
-        return versionModel!!
+        return versionModel as LiveData<CheckAppVersionModel>
     }
 
     fun getIPAddress(context: Context, api: API): LiveData<IpAddressModel> {
