@@ -27,7 +27,7 @@ class AvailableOfferRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getOffers(context: Context, api: API): MutableLiveData<AvailableOfferModel> {
+    fun getOffers(context: Context?, api: API): MutableLiveData<AvailableOfferModel> {
         val mutableLiveData: MutableLiveData<AvailableOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -57,14 +57,14 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
             mutableLiveData.value = null
         }
         return mutableLiveData
     }
 
 
-    fun claimOffer(context: Context, api: API, appId: String): MutableLiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context?, api: API, appId: String): MutableLiveData<ClaimOfferModel> {
         val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -86,12 +86,12 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
-    fun checkVersion(context: Context, api: API): MutableLiveData<CheckAppVersionModel> {
+    fun checkVersion(context: Context?, api: API): MutableLiveData<CheckAppVersionModel> {
         val mutableLiveData: MutableLiveData<CheckAppVersionModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
@@ -110,12 +110,12 @@ class AvailableOfferRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
-    fun getIPAddress(context: Context, api: API): MutableLiveData<IpAddressModel> {
+    fun getIPAddress(context: Context?, api: API): MutableLiveData<IpAddressModel> {
         val mutableLiveData: MutableLiveData<IpAddressModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val url = "https://api.ipify.org/?format=json"
@@ -133,7 +133,7 @@ class AvailableOfferRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

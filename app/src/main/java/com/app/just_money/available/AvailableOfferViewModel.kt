@@ -18,14 +18,14 @@ class AvailableOfferViewModel : ViewModel() {
     private var versionModel: LiveData<CheckAppVersionModel>? = null
     private var ipAddressModel: LiveData<IpAddressModel>? = null
 
-    fun getOffers(context: Context, api: API): LiveData<AvailableOfferModel> {
+    fun getOffers(context: Context?, api: API): LiveData<AvailableOfferModel> {
         if (availableOfferModel != null || availableOfferModel == null) {
             availableOfferModel = availableOfferRepository.getOffers(context, api)
         }
         return availableOfferModel as LiveData<AvailableOfferModel>
     }
 
-    fun claimOffer(context: Context, api: API, appId: String): LiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context?, api: API, appId: String): LiveData<ClaimOfferModel> {
         if (claimOfferModel != null || claimOfferModel == null) {
             claimOfferModel = availableOfferRepository.claimOffer(context, api, appId)
         }
@@ -33,14 +33,14 @@ class AvailableOfferViewModel : ViewModel() {
     }
 
 
-    fun checkVersion(context: Context, api: API): LiveData<CheckAppVersionModel> {
+    fun checkVersion(context: Context?, api: API): LiveData<CheckAppVersionModel> {
         if (versionModel != null || versionModel == null) {
             versionModel = availableOfferRepository.checkVersion(context, api)
         }
         return versionModel as LiveData<CheckAppVersionModel>
     }
 
-    fun getIPAddress(context: Context, api: API): LiveData<IpAddressModel> {
+    fun getIPAddress(context: Context?, api: API): LiveData<IpAddressModel> {
         ipAddressModel = availableOfferRepository.getIPAddress(context, api)
         return ipAddressModel as LiveData<IpAddressModel>
     }

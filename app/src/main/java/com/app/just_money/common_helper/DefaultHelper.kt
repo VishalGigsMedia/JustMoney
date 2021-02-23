@@ -3,7 +3,6 @@ package com.app.just_money.common_helper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
@@ -39,34 +38,13 @@ import javax.crypto.spec.SecretKeySpec
 
 object DefaultHelper {
 
-    fun getBrand(): String {
-        return Build.BRAND.toString() + " " + Build.MODEL.toString()
-    }
+    fun getBrand(): String = Build.BRAND.toString() + " " + Build.MODEL.toString()
 
-    fun getBuildVersion(): String {
-        return Build.VERSION.RELEASE
-    }
+    fun getBuildVersion(): String = Build.VERSION.RELEASE
 
+    fun getVersionName(): String = BuildConfig.VERSION_NAME
 
-    fun getVersionName(): String {
-        return BuildConfig.VERSION_NAME
-    }
-
-    fun getVersionCode(): String {
-        return BuildConfig.VERSION_CODE.toString()
-    }
-
-    fun getCpu(): String {
-        return Build.CPU_ABI
-    }
-
-    fun getDisplay(): String {
-        return Build.DISPLAY
-    }
-
-    fun getDeviceType(): String {
-        return "phone"
-    }
+    fun getVersionCode(): Long = BuildConfig.VERSION_CODE.toLong()
 
     @SuppressLint("HardwareIds")
     fun getDeviceId(context: Context): String {
@@ -87,7 +65,6 @@ object DefaultHelper {
         val netInfo = cm.activeNetwork
         if (netInfo != null) {
             val nc = cm.getNetworkCapabilities(netInfo)
-
             return (nc?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) != null || nc?.hasTransport(
                 NetworkCapabilities.TRANSPORT_WIFI) != null)
         }
@@ -221,22 +198,6 @@ object DefaultHelper {
         } else {
             supportFragmentManager?.beginTransaction()?.replace(R.id.flLogin, fragment)?.commit()
         }
-    }
-
-    fun getApplicationVersion(context: Context?): Long? {
-        var version: Long? = 0
-        try {
-            val pInfo: PackageInfo? = context?.packageManager?.getPackageInfo(context.packageName, 0)
-            //version = pInfo?.versionName.toString() //Version Name
-            version = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                pInfo?.longVersionCode
-            } else {
-                pInfo?.versionCode?.toLong()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return version
     }
 
     fun loadImage(context: Context?, imageUrl: String, imageView: ImageView,

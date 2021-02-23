@@ -16,8 +16,7 @@ class FaqViewModel : ViewModel() {
         if (faqDetails == null || faqDetails != null) {
             faqDetails = faqRepository.getFaq(context, api)
         }
-
-        return faqDetails!!
+        return faqDetails as LiveData<FaqModel>
     }
 
 

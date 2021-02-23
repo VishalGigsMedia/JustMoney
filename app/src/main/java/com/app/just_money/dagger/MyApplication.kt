@@ -40,7 +40,7 @@ class MyApplication : Application() {
 
     }
 
-    public fun getNetComponent(): ApiComponent? {
+    fun getNetComponent(): ApiComponent? {
         return mApiComponent
     }
 }

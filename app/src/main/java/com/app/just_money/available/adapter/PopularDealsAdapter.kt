@@ -18,14 +18,14 @@ import com.app.just_money.databinding.RowItemPopularDealsTypeSecondBinding
 import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 
-class PopularDealsAdapter(private val context: FragmentActivity,
-    private val availableOfferList: List<AvailableOffer>, private val onClicked: OnClickedPopularDeals) :
+class PopularDealsAdapter(private val context: FragmentActivity?,
+    private val availableOfferList: List<AvailableOffer>, private val onClicked: OnClickedPopularDeals?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var screenWidth = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val displayMetrics = DisplayMetrics()
-        context.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        context?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
         return if (viewType == 0) {
             PopularDealsViewHolder(
@@ -61,8 +61,9 @@ class PopularDealsAdapter(private val context: FragmentActivity,
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo).into(holder.mBindingPopularDeals?.ivLogo!!)
+                if (context != null) {
+                    Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo).into(holder.mBindingPopularDeals?.ivLogo!!)
+                }
                 // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
             }
 
@@ -81,12 +82,12 @@ class PopularDealsAdapter(private val context: FragmentActivity,
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
+                context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
+                    ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             }
 
             holder.mBindingPopularDeals?.clEarn?.setOnClickListener {
-                onClicked.claimOffers(offerId, url)
+                onClicked?.claimOffers(offerId, url)
             }
 
             val itemWidth = screenWidth / 1.5
@@ -114,8 +115,9 @@ class PopularDealsAdapter(private val context: FragmentActivity,
             }
 
             if (imageUrl.isNotEmpty()) {
-                Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo).into(holder.mBindingPopularDealsSecond?.ivLogo!!)
+                if (context != null) {
+                    Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo).into(holder.mBindingPopularDealsSecond?.ivLogo!!)
+                }
             }
 
             if (actualCoins.isNotEmpty()) {
@@ -132,8 +134,8 @@ class PopularDealsAdapter(private val context: FragmentActivity,
                 bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.displayId, offerId)
                 offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
+                context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
+                    ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             }
 
             val itemWidth = screenWidth / 1.5

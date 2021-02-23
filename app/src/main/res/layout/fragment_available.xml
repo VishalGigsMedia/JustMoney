@@ -548,6 +548,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/txtQuickDeals"
                             shimmer:itemCount="1"
                             shimmer:listitem="@layout/row_item_quick_deals" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <LinearLayout
@@ -579,9 +580,24 @@
                             android:src="@drawable/error_screen" />
                     </LinearLayout>
 
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
+            <com.airbnb.lottie.LottieAnimationView
+                android:visibility="gone"
+                android:id="@+id/coinAnimation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:lottie_autoPlay="true"
+                android:elevation="12dp"
+                app:lottie_speed="1"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/coin_animation" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
