@@ -231,9 +231,7 @@
                         android:textSize="@dimen/_10ssp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/clPoints"
-                        tools:text="Description Description Description Description Description Description Description Description Description">
-
-                    </TextView>
+                        tools:text="Description Description Description Description Description Description Description Description Description"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clStepToAvailOffer"

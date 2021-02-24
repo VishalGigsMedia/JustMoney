@@ -32,7 +32,8 @@ class SettingsNewFragment : Fragment() {
     private lateinit var viewModel: SettingViewModel
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentSettingsNewBinding
-
+    /*lateinit var manager: ReviewManager
+    var reviewInfo: ReviewInfo? = null*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings_new, container, false)
         return mBinding.root
@@ -48,6 +49,7 @@ class SettingsNewFragment : Fragment() {
         super.onResume()
         setData()
     }
+
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
@@ -131,4 +133,26 @@ class SettingsNewFragment : Fragment() {
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
         callback = activity
     }
+
+    /*fun reviewPlayStorePopup() {
+        manager = ReviewManagerFactory.create(context!!)
+        manager.requestReviewFlow().addOnCompleteListener { request ->
+            if (request.isSuccessful) {
+                reviewInfo = request.result
+                if (reviewInfo != null && activity != null) {
+                    manager.launchReviewFlow(activity!!, reviewInfo!!).addOnFailureListener {
+                        // Log error and continue with the flow
+                        Log.d("rateyourapp", "onViewCreated: ")
+                    }.addOnCompleteListener {
+                        // Log success and continue with the flow
+                        Log.d("rateyourapp", "onViewCreated: $it")
+                    }
+                } else {
+                    Log.d("rateyourapp", "nulll:")
+                }
+            } else {
+                Log.d("rateyourapp", "manager nulll:")
+            }
+        }
+    }*/
 }

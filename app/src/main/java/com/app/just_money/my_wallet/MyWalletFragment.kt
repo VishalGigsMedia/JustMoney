@@ -87,7 +87,7 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickSetting() {
-        openFragment(SettingsNewFragment(), true)
+        openFragment(SettingsNewFragment(),)
     }
 
     private fun onClickRequestPayout() {
@@ -95,15 +95,15 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickPayout() {
-        openFragment(MyPayoutFragment(), true)
+        openFragment(MyPayoutFragment(),)
     }
 
     private fun onClickCompleted() {
-        openFragment(CompletedFragment(), true)
+        openFragment(CompletedFragment())
     }
 
     private fun onClickQuestion() {
-        openFragment(FaqFragment(), true)
+        openFragment(FaqFragment())
     }
 
     private fun onClickTryEnjoy() {}
@@ -116,7 +116,7 @@ class MyWalletFragment : Fragment() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.telegramUrl)))
     }
 
-    private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
+    private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {
         if (addToBackStack) {
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, fragment)
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()

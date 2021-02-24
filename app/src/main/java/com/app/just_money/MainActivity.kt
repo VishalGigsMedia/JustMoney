@@ -35,7 +35,6 @@ import com.app.just_money.my_wallet.MyWalletFragment
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
-import com.app.just_money.my_wallet.setting.SettingFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -196,7 +195,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         openFragment(MyWalletFragment(), false, walletFragment)
     }
 
-    fun openFragment(fragment: Fragment, addToBackStack: Boolean, tag: String) {
+    private fun openFragment(fragment: Fragment, addToBackStack: Boolean, tag: String) {
         if (addToBackStack) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment, tag)
@@ -417,7 +416,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         if (fragment is InProgressFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is CompletedFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is MyWalletFragment) fragment.setOnCurrentFragmentVisibleListener(this)
-        if (fragment is SettingFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is FaqFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is MyPayoutFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is SettingsNewFragment) fragment.setOnCurrentFragmentVisibleListener(this)

@@ -32,15 +32,8 @@ class AvailableOfferRepository {
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.state = /*preferenceHelper.getUserState()*/"OZzKAE0urG/YZhmjkPWmlQ=="
-            requestKeyHelper.city = /*preferenceHelper.getUserCity()*/"HIfhY0jIeZ7SlDNNiYF7sQ=="
+            requestKeyHelper.country = /*preferenceHelper.getUserState()*/"vNWcbZ07F9T9Fa0LjxaRsA=="
             requestKeyHelper.display_id = DefaultHelper.encrypt("1234")
-            /*println(
-                "RequestHelper :" +
-                        " ${requestKeyHelper.state} :" +
-                        " ${requestKeyHelper.city} " +
-                        ": ${requestKeyHelper.display_id}"
-            )*/
             api.getOffers(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<AvailableOfferModel> {
                     override fun onResponse(call: Call<AvailableOfferModel>, response: Response<AvailableOfferModel>) {

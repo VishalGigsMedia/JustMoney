@@ -31,8 +31,7 @@ import com.google.android.gms.location.LocationSettingsRequest
 import java.util.*
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener,
-    LocationListener {
+    GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private var addressList: List<Address>? = null
     private var service: LocationManager? = null
@@ -52,22 +51,17 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         init()
-
         openFragment(LoginFragment(), false)
     }
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (addToBackStack) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.flLogin, fragment)
-                .addToBackStack(MainActivity::class.java.simpleName)
-                .commit()
+            supportFragmentManager.beginTransaction().replace(R.id.flLogin, fragment)
+                .addToBackStack(MainActivity::class.java.simpleName).commit()
         } else {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.flLogin, fragment)
-                .commit()
+            supportFragmentManager.beginTransaction().replace(R.id.flLogin, fragment).commit()
         }
     }
 
@@ -76,7 +70,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         try {
 
             checkLocationPermission()
-
             service = this.getSystemService(LOCATION_SERVICE) as LocationManager
             enabled = service!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
             buildGoogleApiClient()
@@ -89,36 +82,25 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         mLastLocation = location
     }
 
-    override fun onConnectionFailed(p0: ConnectionResult) {
-    }
+    override fun onConnectionFailed(p0: ConnectionResult) {}
 
-    override fun onConnectionSuspended(p0: Int) {
-    }
+    override fun onConnectionSuspended(p0: Int) {}
 
     override fun onConnected(p0: Bundle?) {
         mLocationRequest = LocationRequest()
         locationGet()
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         ) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this
-            )
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
         }
 
     }
 
     @Synchronized
     fun buildGoogleApiClient() {
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .addApi(LocationServices.API)
-            .build()
+        mGoogleApiClient =
+            GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build()
         mGoogleApiClient!!.connect()
     }
 
@@ -131,8 +113,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
             }
             if (mLastLocation != null) {
                 val geoCoder = Geocoder(this, Locale.ENGLISH)
-                addressList =
-                    geoCoder.getFromLocation(mLastLocation!!.latitude, mLastLocation!!.longitude, 1)
+                addressList = geoCoder.getFromLocation(mLastLocation!!.latitude, mLastLocation!!.longitude, 1)
                 // Log.d("lat",mLastLocation!!.latitude.toString())
                 if (addressList != null && addressList!!.isNotEmpty()) {
                     val state = addressList!![0].adminArea
@@ -161,12 +142,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun showAlert() {
-        mLocationRequest = LocationRequest.create()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(updateInterval)
-            .setFastestInterval(fastestInterval)
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(mLocationRequest!!)
+        mLocationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setInterval(updateInterval).setFastestInterval(fastestInterval)
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest!!)
         val client = LocationServices.getSettingsClient(this)
         val task = client.checkLocationSettings(builder.build())
 
@@ -178,44 +156,23 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
             ) {
-                AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.hint_location_permission_needed))
+                AlertDialog.Builder(this).setTitle(getString(R.string.hint_location_permission_needed))
                     .setMessage(getString(R.string.hint_local_permission_message))
-                    .setPositiveButton(
-                        getString(R.string.hint_ok)
-                    ) { dialog, which ->
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                            requestLocationCode
-                        )
-                    }
-                    .create()
-                    .show()
+                    .setPositiveButton(getString(R.string.hint_ok)) { dialog, which ->
+                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            requestLocationCode)
+                    }.create().show()
 
-            } else ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                requestLocationCode
-            )
+            } else ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                requestLocationCode)
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             requestLocationCode -> {
@@ -249,10 +206,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
                 showAlert()
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     ) {
                         //Location Permission already granted
                         getLocation()
@@ -273,13 +227,11 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     private fun isLocationEnabled(): Boolean {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
+            LocationManager.NETWORK_PROVIDER)
     }
 
     private fun checkGPSEnabled(): Boolean {
-        if (!isLocationEnabled())
-            showAlert()
+        if (!isLocationEnabled()) showAlert()
         return isLocationEnabled()
     }
 

@@ -136,5 +136,8 @@ dependencies {
 
     //swipe
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    //play core (rate app dialog)
+    implementation 'com.google.android.play:core:1.9.1'
 }
 apply plugin: 'com.google.gms.google-services'

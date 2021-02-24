@@ -11,6 +11,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -65,10 +66,12 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         preferenceHelper = PreferenceHelper(context)
 
         init()
+        getOffers()
         setListeners()
         DefaultHelper.playCustomSound(context, R.raw.tone)
+        showPopupOffer()
 
-        mBinding.swipe.setOnRefreshListener { init() }
+        mBinding.swipe.setOnRefreshListener { getOffers() }
     }
 
     private fun setListeners() {
@@ -78,21 +81,12 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         }
     }
 
-
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         onClicked = this
         onClickedQuickDeals = this
-
-        mBinding.txtDailyRewardValue.text = "0"
         getIPAddress()
-        val state = preferenceHelper.getUserState()
-        if (state.isNotEmpty() || state != "null") {
-            getOffers()
-        } else {
-            DefaultHelper.showToast(context, "Not able to fetch state.Kindly check your location permission")
-        }
     }
 
     private fun getOffers() {
@@ -445,6 +439,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             override fun onAnimationRepeat(animation: Animator?) {
             }
         })
+    }
+
+    fun showPopupOffer(){
+        if (context==null)return
+        val popupOfferView = LayoutInflater.from(activity).inflate(R.layout.layout_popup_offer, null)
+        val popupOfferBuilder = AlertDialog.Builder(context!!).setView(popupOfferView)
+
+        //setting text values
+        //popupOfferView.aa.text = "This is message header"
+        val  messageBoxInstance = popupOfferBuilder.show()
     }
 
 
