@@ -186,5 +186,11 @@
     <string name="forgot_pwd_msg">"Click 'Send' button to receive update password link on your entered email address:"</string>
     <string name="error_completed">Start and complete one of the available reward to make it appear on this screen</string>
     <string name="error_payout">Request a payout to make it appear in this list</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="referEarn">Refer &amp; Earn</string>
+    <string name="shareTo">Share via</string>
+    <string name="yourRefCode">Your referral code</string>
+    <string name="referString">Refer your friend &amp; get up to \n <b>100</b> referral coins!</string>
 
 </resources>

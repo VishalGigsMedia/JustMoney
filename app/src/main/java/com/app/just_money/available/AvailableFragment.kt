@@ -5,13 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -25,7 +23,10 @@ import com.app.just_money.available.adapter.QuickDealsAdapter
 import com.app.just_money.available.model.AvailableOffer
 import com.app.just_money.available.model.FlashOffer
 import com.app.just_money.available.model.IpAddressModel
+import com.app.just_money.available.model.Popup
 import com.app.just_money.common_helper.*
+import com.app.just_money.common_helper.BundleHelper.displayId
+import com.app.just_money.common_helper.BundleHelper.offerId
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentAvailableBinding
@@ -34,6 +35,7 @@ import com.app.just_money.offer_details.OfferDetailsFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.layout_popup_offer.view.*
 import kotlinx.android.synthetic.main.update_verstion_dialog.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -69,7 +71,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         getOffers()
         setListeners()
         DefaultHelper.playCustomSound(context, R.raw.tone)
-        showPopupOffer()
 
         mBinding.swipe.setOnRefreshListener { getOffers() }
     }
@@ -107,12 +108,19 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             val withdrawn = availableOfferModel.withdrawn.toString()
                             val completed = availableOfferModel.completed.toString()
                             setDailyReward(dailyReward, totalCoins, withdrawn, completed)
+                            //popup offer
+                            if (availableOfferModel.availableOfferData?.popup != null
+                                && (activity as MainActivity).popup==0) {
+                                showPopupOffer(availableOfferModel.availableOfferData.popup)
+                            }
 
+                            //flash offer
                             if (availableOfferModel.availableOfferData?.flashOffer != null) {
                                 mBinding.clBestDeal.visibility = VISIBLE
                                 setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
                             } else mBinding.clBestDeal.visibility = GONE
 
+                            //popular offer
                             if (availableOfferModel.availableOfferData?.popular != null) {
                                 popularDealsAdapter(availableOfferModel.availableOfferData.popular)
                             } else {
@@ -120,6 +128,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                                 mBinding.rvPopular.visibility = GONE
                             }
 
+                            //quick deals offer
                             if (availableOfferModel.availableOfferData?.quickDeals != null) {
                                 setAdapter(availableOfferModel.availableOfferData.quickDeals)
                             } else {
@@ -441,14 +450,42 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    fun showPopupOffer(){
-        if (context==null)return
+    private fun showPopupOffer(popup: Popup) {
+        if (context == null) return
         val popupOfferView = LayoutInflater.from(activity).inflate(R.layout.layout_popup_offer, null)
         val popupOfferBuilder = AlertDialog.Builder(context!!).setView(popupOfferView)
 
-        //setting text values
-        //popupOfferView.aa.text = "This is message header"
-        val  messageBoxInstance = popupOfferBuilder.show()
+        val alert = popupOfferBuilder.show()//can use this instance for dismissing
+        val window: Window = alert.window!!
+        window.setLayout(550, WindowManager.LayoutParams.WRAP_CONTENT)
+        window.setGravity(Gravity.CENTER)
+        alert.show()
+
+        //setting  values
+        DefaultHelper.loadImage(context, DefaultHelper.decrypt(popup.image.toString()),
+            popupOfferView.ivOfferImage, ContextCompat.getDrawable(context!!, R.drawable.ic_love_app)!!,
+            ContextCompat.getDrawable(context!!, R.drawable.ic_logo)!!)
+        val offerCoins = DefaultHelper.decrypt(popup.offer_coins.toString())
+        val actualCoins = DefaultHelper.decrypt(popup.actual_coins.toString())
+        popupOfferView.txtOfferCoins.text = offerCoins
+        popupOfferView.txtActualCoins.text = actualCoins
+        popupOfferView.txtSaveCoins.text = "Earn Extra " + (offerCoins.toInt() - actualCoins.toInt())
+        popupOfferView.txtDescription.text = DefaultHelper.decrypt(popup.short_description.toString())
+        popupOfferView.txtOfferExpiry.text =
+            "Offer expires " + DefaultHelper.decrypt(popup.download_end_date.toString())
+
+        popupOfferView.tvSeeOfferDetails.setOnClickListener {
+            val offerDetails = OfferDetailsFragment()
+            val bundle = Bundle()
+            bundle.putString(offerId, popup.id.toString())
+            bundle.putString(displayId, popup.id.toString())
+            offerDetails.arguments = bundle
+
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
+                ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
+            alert.dismiss()
+            (activity as MainActivity).popup=1
+        }
     }
 
 
