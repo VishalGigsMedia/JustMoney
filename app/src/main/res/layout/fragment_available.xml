@@ -144,9 +144,26 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
 
+                                <TextView
+                                    android:id="@+id/tvTimeLeft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:paddingStart="@dimen/_20sdp"
+                                    android:paddingTop="@dimen/_5sdp"
+                                    android:paddingEnd="@dimen/_20sdp"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:fontFamily="@font/metropolis_medium"
+                                    android:textColor="@color/pink_600"
+                                    shimmer:text="2 hours 20 min left"
+                                    />
+
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:id="@+id/clDailyRewardValue"
                                     android:layout_width="0dp"
+                                    shimmer:visibility="gone"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/curve_pink_600"
                                     android:paddingStart="@dimen/_20sdp"

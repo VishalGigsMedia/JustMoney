@@ -16,7 +16,7 @@ class SettingViewModel : ViewModel() {
         if (logoutModel != null || logoutModel == null) {
             logoutModel = settingRepository.logout(context, api)
         }
-        return logoutModel!!
+        return logoutModel as LiveData<LogoutModel>
     }
 
 }

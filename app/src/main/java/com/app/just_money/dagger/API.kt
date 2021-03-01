@@ -22,7 +22,7 @@ interface API {
     @POST("get_otp")
     fun getOTP(@Body requestKeyHelper: RequestKeyHelper): Call<GetOtpModel>
 
-    @POST("login2")
+    @POST("login")
     fun login(@Body requestKeyHelper: RequestKeyHelper): Call<LoginModel>
 
     @POST("forget_password")
@@ -54,6 +54,9 @@ interface API {
     @POST("claim_offer")
     fun claimOffer(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>
 
+    @POST("claim_reward")
+    fun claimReward(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>
+
     @POST("get_completed_offers")
     fun getCompletedOffers(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<CompletedOfferModel>
@@ -78,7 +81,7 @@ interface API {
         @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?,
         @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?): Call<UpdatedProfileModel>
 
-    @GET("logout")
+    @POST("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>
 
     @POST("verify_email_otp")

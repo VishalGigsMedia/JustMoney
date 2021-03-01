@@ -21,27 +21,6 @@ class RegisterViewModel : ViewModel() {
     }
 
 
-    fun isValid(context: Context?, firstName: String, lastName: String, emailId: String, password: String, confirmPassword: String) {
-
-        if (!isValidFirstName(context, firstName)) {
-            return
-        }
-
-        if (!isValidLastName(context, lastName)) {
-            return
-        }
-
-        if (!isValidEmail(context, emailId)) {
-            return
-        }
-
-        if (!isValidPassword(context, password, confirmPassword)) {
-            return
-        }
-
-
-    }
-
     fun isValidFirstName(context: Context?, firstName: String): Boolean {
         if (firstName.isEmpty()) {
             DefaultHelper.showToast(context, context?.getString(R.string.ent_first_name))

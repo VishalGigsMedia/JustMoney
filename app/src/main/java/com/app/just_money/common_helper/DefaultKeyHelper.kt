@@ -30,4 +30,9 @@ object DefaultKeyHelper {
     const val inProgressFragment = "IN_PROGRESS_FRAGMENT"
     const val walletFragment = "WALLET_FRAGMENT"
 
+    //social platforms package id
+    const val FACEBOOK ="com.facebook.katana"
+    const val TWITTER ="com.twitter.android"
+    const val GMAIL ="com.google.android.gm"
+    const val WHATSAPP ="com.whatsapp"
 }

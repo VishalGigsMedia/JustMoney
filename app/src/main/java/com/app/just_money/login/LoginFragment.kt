@@ -82,10 +82,7 @@ class LoginFragment : Fragment() {
         if (!viewModel.isValidEmail(context, email)) {
             return
         }
-
         showForgotPasswordDialog(email)
-
-
     }
 
     private fun isValid() {
@@ -115,20 +112,17 @@ class LoginFragment : Fragment() {
                 if (loginModel != null) {
                     when (loginModel.status) {
                         DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context!!,
-                                DefaultHelper.decrypt(loginModel.message.toString()))
+                            DefaultHelper.showToast(context, DefaultHelper.decrypt(loginModel.message.toString()))
                             setLoginData(loginModel)
                         }
                         DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context!!,
-                                DefaultHelper.decrypt(loginModel.message.toString()))
+                            DefaultHelper.showToast(context, DefaultHelper.decrypt(loginModel.message.toString()))
                         }
                         else -> {
-                            DefaultHelper.showToast(context!!,
-                                DefaultHelper.decrypt(loginModel.message.toString()))
+                            DefaultHelper.showToast(context, DefaultHelper.decrypt(loginModel.message.toString()))
                         }
                     }
-                }
+                } else DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
             })
     }
 
@@ -180,6 +174,7 @@ class LoginFragment : Fragment() {
         val dob = loginModel.data?.dob.toString()
         val gender = loginModel.data?.gender.toString()
         val profilePic = loginModel.data?.profilePic.toString()
+        val referralCode = loginModel.data?.referral_code.toString()
         //println("profilePic : $profilePic")
         val preferenceHelper = PreferenceHelper(context)
         if (userId.isNotEmpty() && userId != "null") {
@@ -191,20 +186,20 @@ class LoginFragment : Fragment() {
         if (userLastName.isNotEmpty() && userLastName != "null") {
             preferenceHelper.setLastName(userLastName)
         }
-
         if (email.isNotEmpty() && email != "null") {
             preferenceHelper.setEmail(email)
         }
-
         if (dob.isNotEmpty() && dob != "null") {
             preferenceHelper.setDob(dob)
         }
         if (gender.isNotEmpty() && gender != "null") {
             preferenceHelper.setGender(gender)
         }
-
         if (profilePic.isNotEmpty() && profilePic != "null") {
             preferenceHelper.setProfilePic(profilePic)
+        }
+        if (referralCode.isNotEmpty() && referralCode != "null") {
+            preferenceHelper.setReferralCode(referralCode)
         }
         preferenceHelper.setUserLoggedIn(true)
 

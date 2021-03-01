@@ -17,9 +17,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-@Suppress("PrivatePropertyName")
 class AvailableOfferRepository {
-    private val TAG = javaClass.simpleName
+    private val tag = javaClass.simpleName
     private var availableOfferModel: AvailableOfferModel? = null
     private var claimOfferModel: ClaimOfferModel? = null
     private var checkAppVersionModel: CheckAppVersionModel? = null
@@ -40,7 +39,7 @@ class AvailableOfferRepository {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         availableOfferModel = gson?.fromJson(json, AvailableOfferModel::class.java)
-                        println("$TAG : $json")
+                        println("$tag : $json")
                         mutableLiveData.value = availableOfferModel
                     }
 
@@ -70,7 +69,7 @@ class AvailableOfferRepository {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
-                        println("$TAG : $json")
+                        println("$tag : $json")
                         mutableLiveData.value = claimOfferModel
                     }
 
@@ -79,6 +78,34 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
+            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+        }
+        return mutableLiveData
+    }
+    fun claimReward(context: Context?, api: API, rewardAmount: String): MutableLiveData<ClaimOfferModel> {
+        val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
+        if (DefaultHelper.isOnline()) {
+            val preferenceHelper =PreferenceHelper(context)
+            val requestKeyHelper = RequestKeyHelper()
+            requestKeyHelper.reward_amount = rewardAmount
+            requestKeyHelper.user_click_ip = DefaultHelper.encrypt(preferenceHelper.getIpAddress())
+            api.claimReward(preferenceHelper.getJwtToken(), requestKeyHelper)
+                .enqueue(object : Callback<ClaimOfferModel> {
+                    override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {
+                        gson = gsonBuilder.create()
+                        val json = Gson().toJson(response.body())
+                        claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
+                        println("$tag : $json")
+                        mutableLiveData.value = claimOfferModel
+                    }
+
+                    override fun onFailure(call: Call<ClaimOfferModel>, t: Throwable) {
+                        mutableLiveData.value = null
+                        println("TAG : ${t.printStackTrace()}")
+                    }
+                })
+        } else {
+            mutableLiveData.value = null
             DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData

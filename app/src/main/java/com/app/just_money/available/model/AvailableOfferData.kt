@@ -8,5 +8,6 @@ data class AvailableOfferData(
     @SerializedName("popular") val popular: List<AvailableOffer>?,
     @SerializedName("daily_rewards") val dailyRewards: String?,
     @SerializedName("flash_offer") val flashOffer: List<FlashOffer>?,
-    @SerializedName("popup") val popup: Popup?
+    @SerializedName("popup") val popup: Popup?,
+    @SerializedName("reward_remaining_time") val reward_remaining_time: RewardRemainingTime?
     )

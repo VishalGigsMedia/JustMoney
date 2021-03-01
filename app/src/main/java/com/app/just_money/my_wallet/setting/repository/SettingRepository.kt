@@ -34,9 +34,11 @@ class SettingRepository {
 
                 override fun onFailure(call: Call<LogoutModel>, t: Throwable) {
                     println("TAG : ${t.printStackTrace()}")
+                    mutableLiveData.value = null
                 }
             })
         } else {
+            mutableLiveData.value = null
             DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData

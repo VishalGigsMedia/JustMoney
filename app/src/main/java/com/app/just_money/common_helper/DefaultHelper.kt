@@ -25,6 +25,7 @@ import com.app.just_money.BuildConfig
 import com.app.just_money.LoginActivity
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.common_helper.DefaultKeyHelper.FACEBOOK
 import com.app.just_money.dagger.MyApplication
 import com.bumptech.glide.Glide
 import org.apache.commons.codec.binary.Base64
@@ -172,7 +173,7 @@ object DefaultHelper {
     }
 
     fun openFacebookPage(context: Context?) {
-        if (isPackageInstalled(context, "com.facebook.katana")) {
+        if (isPackageInstalled(context, FACEBOOK)) {
             context?.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
         } else {
@@ -208,7 +209,7 @@ object DefaultHelper {
         }
     }
 
-    fun playNotificationSound(context: Context?){
+    fun playNotificationSound(context: Context?) {
         try {
             val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             val r = RingtoneManager.getRingtone(context, notification)
@@ -218,8 +219,17 @@ object DefaultHelper {
         }
     }
 
-    fun playCustomSound(context: Context?,item :Int){
-        val mediaPlayer : MediaPlayer = MediaPlayer.create(context,item)
+    fun playCustomSound(context: Context?, item: Int) {
+        val mediaPlayer: MediaPlayer = MediaPlayer.create(context, item)
         mediaPlayer.start()
+    }
+
+    fun share(sharingText: String?, context: Context?, appPackage: String) {
+        val i = Intent(Intent.ACTION_SEND)
+        if (isPackageInstalled(context, appPackage)) i.setPackage(appPackage)
+        i.type = "text/plain"
+        i.putExtra(Intent.EXTRA_SUBJECT, context?.getString(R.string.app_name))
+        i.putExtra(Intent.EXTRA_TEXT, sharingText)
+        context?.startActivity(Intent.createChooser(i, "${context.getString(R.string.app_name)} Share"))
     }
 }

@@ -99,9 +99,11 @@ class LoginRepository {
 
                 override fun onFailure(call: Call<LoginModel>, t: Throwable) {
                     //println("TAG : ${t.printStackTrace()}")
+                    mutableLiveData.value = null
                 }
             })
         } else {
+            mutableLiveData.value = null
             DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData

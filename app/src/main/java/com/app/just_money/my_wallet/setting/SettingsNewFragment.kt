@@ -11,8 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.app.just_money.BuildConfig
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.R.string.shareAppText
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
@@ -60,6 +62,11 @@ class SettingsNewFragment : Fragment() {
         mBinding.txtMyProfile.setOnClickListener { openFragment(MyProfileFragment()) }
         mBinding.txtFaq.setOnClickListener { openFragment(FaqFragment()) }
         mBinding.txtFeedback.setOnClickListener { openFragment(HelpUsFragment()) }
+        mBinding.txtReferNEarn.setOnClickListener { openFragment(ReferEarnFragment()) }
+        mBinding.txtShareApp.setOnClickListener {
+            val appSharingText= "${getString(shareAppText)} \n\n https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
+            DefaultHelper.share(appSharingText,context,"")
+        }
         mBinding.txtTermsCondition.setOnClickListener {
             openFragment(TermsConditionFragment())
         }
@@ -103,7 +110,7 @@ class SettingsNewFragment : Fragment() {
                         DefaultHelper.showToast(context, DefaultHelper.decrypt(logoutModule.message.toString()))
                     }
                 }
-            }
+            }else DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
         })
     }
 

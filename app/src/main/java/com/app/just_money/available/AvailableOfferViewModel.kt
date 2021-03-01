@@ -31,6 +31,10 @@ class AvailableOfferViewModel : ViewModel() {
         }
         return claimOfferModel as LiveData<ClaimOfferModel>
     }
+    fun claimReward(context: Context?, api: API, rewardAmount: String): LiveData<ClaimOfferModel> {
+        claimOfferModel = availableOfferRepository.claimReward(context, api, rewardAmount)
+        return claimOfferModel as LiveData<ClaimOfferModel>
+    }
 
 
     fun checkVersion(context: Context?, api: API): LiveData<CheckAppVersionModel> {

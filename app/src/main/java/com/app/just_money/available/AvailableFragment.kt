@@ -18,12 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.R.string.hour_left
+import com.app.just_money.R.string.hours_left
 import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.available.adapter.QuickDealsAdapter
-import com.app.just_money.available.model.AvailableOffer
-import com.app.just_money.available.model.FlashOffer
-import com.app.just_money.available.model.IpAddressModel
-import com.app.just_money.available.model.Popup
+import com.app.just_money.available.model.*
 import com.app.just_money.common_helper.*
 import com.app.just_money.common_helper.BundleHelper.displayId
 import com.app.just_money.common_helper.BundleHelper.offerId
@@ -70,15 +69,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         init()
         getOffers()
         setListeners()
-        DefaultHelper.playCustomSound(context, R.raw.tone)
+        DefaultHelper.playCustomSound(context, R.raw.load_dashboard)
 
         mBinding.swipe.setOnRefreshListener { getOffers() }
     }
 
     private fun setListeners() {
         mBinding.clDailyRewardValue.setOnClickListener {
-            //activity as MainActivity).onClickMyWallet()
-            showCoinAnimation(mBinding.coinAnimation)
+            claimReward(DefaultHelper.encrypt(mBinding.txtDailyRewardValue.text.toString()))
         }
     }
 
@@ -91,11 +89,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun getOffers() {
-        mBinding.shimmerViewContainer.startShimmer()
+        showShimmer()
         viewModel.getOffers(context, api).observe(viewLifecycleOwner, { availableOfferModel ->
-            mBinding.shimmerViewContainer.stopShimmer()
-            mBinding.shimmerViewContainer.visibility = GONE
-            mBinding.nsv.visibility = VISIBLE
+            hideShimmer()
             if (mBinding.swipe.isRefreshing) {
                 mBinding.swipe.isRefreshing = false
             }
@@ -103,34 +99,37 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
                         DefaultKeyHelper.successCode -> {
-                            val dailyReward = availableOfferModel.availableOfferData?.dailyRewards.toString()
+                            val offerData = availableOfferModel.availableOfferData
+                            val dailyReward = offerData?.dailyRewards.toString()
+                            val rewardRemainingTime = offerData?.reward_remaining_time
                             val totalCoins = availableOfferModel.totalCoins.toString()
                             val withdrawn = availableOfferModel.withdrawn.toString()
                             val completed = availableOfferModel.completed.toString()
-                            setDailyReward(dailyReward, totalCoins, withdrawn, completed)
+                            //Daily Reward
+                            setDailyReward(dailyReward, rewardRemainingTime, totalCoins, withdrawn, completed)
+
                             //popup offer
-                            if (availableOfferModel.availableOfferData?.popup != null
-                                && (activity as MainActivity).popup==0) {
-                                showPopupOffer(availableOfferModel.availableOfferData.popup)
+                            if (offerData?.popup != null && (activity as MainActivity).popup == 0) {
+                                showPopupOffer(offerData.popup)
                             }
 
                             //flash offer
-                            if (availableOfferModel.availableOfferData?.flashOffer != null) {
+                            if (offerData?.flashOffer != null) {
                                 mBinding.clBestDeal.visibility = VISIBLE
-                                setFlashOffer(availableOfferModel.availableOfferData.flashOffer)
+                                setFlashOffer(offerData.flashOffer)
                             } else mBinding.clBestDeal.visibility = GONE
 
                             //popular offer
-                            if (availableOfferModel.availableOfferData?.popular != null) {
-                                popularDealsAdapter(availableOfferModel.availableOfferData.popular)
+                            if (offerData?.popular != null) {
+                                popularDealsAdapter(offerData.popular)
                             } else {
                                 mBinding.txtPopular.visibility = GONE
                                 mBinding.rvPopular.visibility = GONE
                             }
 
                             //quick deals offer
-                            if (availableOfferModel.availableOfferData?.quickDeals != null) {
-                                setAdapter(availableOfferModel.availableOfferData.quickDeals)
+                            if (offerData?.quickDeals != null) {
+                                setAdapter(offerData.quickDeals)
                             } else {
                                 mBinding.txtQuickDeals.visibility = GONE
                                 mBinding.rvQuickDeals.visibility = GONE
@@ -239,11 +238,29 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
 
-    private fun setDailyReward(dailyReward: String, totalCoins: String, withdrawn: String, completed: String) {
+    private fun setDailyReward(dailyReward: String, rewardRemainingTime: RewardRemainingTime?, totalCoins: String,
+        withdrawn: String, completed: String) {
         val preferenceHelper = PreferenceHelper(context)
-        if (dailyReward.isNotEmpty()) {
-            mBinding.txtDailyRewardValue.text = DefaultHelper.decrypt(dailyReward)
+        var hours = DefaultHelper.decrypt(rewardRemainingTime?.hours.toString())
+        var minutes = DefaultHelper.decrypt(rewardRemainingTime?.minutes.toString())
+        val seconds = DefaultHelper.decrypt(rewardRemainingTime?.seconds.toString())
+        if (hours.toInt() == 0 && minutes.toInt() == 0 && seconds.toInt() == 0) {
+            mBinding.clDailyRewardValue.visibility = VISIBLE
+            mBinding.tvTimeLeft.visibility = GONE
+            if (dailyReward.isNotEmpty()) {
+                mBinding.txtDailyRewardValue.text = DefaultHelper.decrypt(dailyReward)
+            }
+        } else {
+            mBinding.clDailyRewardValue.visibility = GONE
+            mBinding.tvTimeLeft.visibility = VISIBLE
+            if (hours.length == 1) hours = "0$hours"//manipulation
+            if (minutes.length == 1) minutes = "0$minutes"//manipulation
+
+            val time = if (hours == "00") "$hours:$minutes ${getString(hour_left)}"
+            else "$hours:$minutes ${getString(hours_left)}"
+            mBinding.tvTimeLeft.text = time
         }
+
         if (totalCoins.isNotEmpty()) {
             preferenceHelper.setTotalCoins(totalCoins)
         }
@@ -385,6 +402,24 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
+    private fun claimReward(rewardAmount: String) {
+        viewModel.claimReward(context, api, rewardAmount).observe(viewLifecycleOwner, { model ->
+            if (model != null) {
+                when (model.status) {
+                    DefaultKeyHelper.successCode -> {
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(model.message.toString()))
+                        showCoinAnimation(mBinding.coinAnimation)
+                        DefaultHelper.playCustomSound(context, R.raw.reward)
+                        getOffers()
+                    }
+                    DefaultKeyHelper.failureCode -> {
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(model.message.toString()))
+                    }
+                }
+            } else DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
+        })
+    }
+
     private fun getIPAddress() {
         viewModel.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
             if (ipAddressModel != null) {
@@ -460,7 +495,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         window.setLayout(550, WindowManager.LayoutParams.WRAP_CONTENT)
         window.setGravity(Gravity.CENTER)
         alert.show()
-
+        (activity as MainActivity).popup = 1
         //setting  values
         DefaultHelper.loadImage(context, DefaultHelper.decrypt(popup.image.toString()),
             popupOfferView.ivOfferImage, ContextCompat.getDrawable(context!!, R.drawable.ic_love_app)!!,
@@ -484,8 +519,18 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
                 ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             alert.dismiss()
-            (activity as MainActivity).popup=1
         }
+    }
+    private fun hideShimmer() {
+        mBinding.shimmerViewContainer.stopShimmer()
+        mBinding.shimmerViewContainer.visibility = GONE
+        mBinding.nsv.visibility = VISIBLE
+    }
+
+    private fun showShimmer() {
+        mBinding.shimmerViewContainer.visibility = VISIBLE
+        mBinding.nsv.visibility = GONE
+        mBinding.shimmerViewContainer.startShimmer()
     }
 
 

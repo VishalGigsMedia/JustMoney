@@ -2,8 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".my_wallet.setting.ReferEarnFragment">
 
     <data>
@@ -45,49 +43,54 @@
             android:layout_height="@dimen/_250sdp"
             android:scaleType="fitCenter"
             android:src="@drawable/referearnico"
+            app:layout_constraintBottom_toTopOf="@id/referString"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/referString" />
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/referString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:fontFamily="@font/metropolis_medium"
+            android:gravity="center"
             android:text="@string/referString"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
-            android:fontFamily="@font/metropolis_medium"
-            android:layout_marginBottom="@dimen/_15sdp"
-            app:layout_constraintBottom_toTopOf="@id/tvYourRefCode"/>
+            app:layout_constraintBottom_toTopOf="@id/tvYourRefCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/tvYourRefCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fontFamily="@font/metropolis_thin"
             android:text="@string/yourRefCode"
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
-            android:fontFamily="@font/metropolis_thin"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:layout_constraintBottom_toTopOf="@id/tvReferral"/>
+            app:layout_constraintBottom_toTopOf="@id/tvReferral"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <ImageView
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            app:layout_constraintTop_toTopOf="@id/tvReferral"
-            app:layout_constraintBottom_toBottomOf="@id/tvReferral"
-            app:layout_constraintEnd_toEndOf="@id/tvReferral"
-            android:src="@drawable/copy"
+            android:elevation="1dp"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/_12sdp"
-            android:elevation="1dp"/>
+            android:src="@drawable/copy"
+            app:layout_constraintBottom_toBottomOf="@id/tvReferral"
+            app:layout_constraintEnd_toEndOf="@id/tvReferral"
+            app:layout_constraintTop_toTopOf="@id/tvReferral" />
+
         <TextView
             android:id="@+id/tvReferral"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/curve_blue_300"
+            android:layout_marginBottom="@dimen/_22sdp"
+            android:background="@drawable/curve_outline_black_dotted"
             android:fontFamily="@font/metropolis_bold"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/_20sdp"
@@ -97,13 +100,13 @@
             app:layout_constraintBottom_toTopOf="@id/tvShareVia"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="ABC1234"/>
+            tools:text="ABC1234" />
 
         <TextView
             android:id="@+id/tvShareVia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:fontFamily="@font/metropolis_medium"
             android:text="@string/shareTo"
             android:textColor="@color/gray_900"
@@ -116,8 +119,7 @@
             android:id="@+id/ivFacebook"
             android:layout_width="@dimen/social_media_icon"
             android:layout_height="@dimen/social_media_icon"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_50sdp"
             android:src="@drawable/fb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivTwitter"
@@ -127,7 +129,6 @@
             android:id="@+id/ivTwitter"
             android:layout_width="@dimen/social_media_icon"
             android:layout_height="@dimen/social_media_icon"
-            android:layout_marginBottom="@dimen/_20sdp"
             android:src="@drawable/twitter"
             app:layout_constraintEnd_toStartOf="@id/ivGMail"
             app:layout_constraintStart_toEndOf="@id/ivFacebook"
@@ -137,7 +138,6 @@
             android:id="@+id/ivGMail"
             android:layout_width="@dimen/social_media_icon"
             android:layout_height="@dimen/social_media_icon"
-            android:layout_marginBottom="@dimen/_20sdp"
             android:src="@drawable/email"
             app:layout_constraintEnd_toStartOf="@id/ivWhatsApp"
             app:layout_constraintStart_toEndOf="@id/ivTwitter"
@@ -147,7 +147,6 @@
             android:id="@+id/ivWhatsApp"
             android:layout_width="@dimen/social_media_icon"
             android:layout_height="@dimen/social_media_icon"
-            android:layout_marginBottom="@dimen/_20sdp"
             android:src="@drawable/whatsapp"
             app:layout_constraintEnd_toStartOf="@id/ivMore"
             app:layout_constraintStart_toEndOf="@id/ivGMail"
@@ -157,9 +156,7 @@
             android:id="@+id/ivMore"
             android:layout_width="@dimen/social_media_icon"
             android:layout_height="@dimen/social_media_icon"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:src="@drawable/ic_facebook"
+            android:src="@drawable/more"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivWhatsApp"
             app:layout_constraintTop_toTopOf="@id/ivFacebook" />

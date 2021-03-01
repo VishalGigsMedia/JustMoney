@@ -13,7 +13,7 @@ class PreferenceHelper(context: Context?) {
     }
 
     enum class Key {
-        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserDob, UserGender, UserProfilePic, UserFirstName, UserLastName, ipAddress
+        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserDob, UserGender, UserProfilePic, ReferralCode, UserFirstName, UserLastName, ipAddress
     }
 
     //set preference data
@@ -121,6 +121,13 @@ class PreferenceHelper(context: Context?) {
 
     fun getProfilePic(): String {
         return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserProfilePic.name, "").toString())
+    }
+    fun setReferralCode(value: String) {
+        this.sharedPreferences.edit().putString(Key.ReferralCode.name, value).apply()
+    }
+
+    fun getReferralCode(): String {
+        return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.ReferralCode.name, "").toString())
     }
 
 

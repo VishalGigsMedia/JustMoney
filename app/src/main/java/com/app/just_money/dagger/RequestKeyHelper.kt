@@ -22,6 +22,7 @@ class RequestKeyHelper {
     var country: String? = null
     var display_id: String? = null
     var offer_id: String? = null
+    var reward_amount : String? = null
 
     //trackier
     var name: String? = null
