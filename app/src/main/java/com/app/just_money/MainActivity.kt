@@ -14,7 +14,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -34,6 +35,7 @@ import com.app.just_money.in_progress.InProgressFragment
 import com.app.just_money.my_wallet.MyWalletFragment
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
+import com.app.just_money.my_wallet.leaderborard.LeaderBoardFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
 import com.google.android.gms.common.ConnectionResult
@@ -67,7 +69,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
 
     private lateinit var mBinding: ActivityMainBinding
 
-    var popup :Int = 0
+    var popup: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,12 +116,13 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
     }
 
     override fun onBackPressed() {
-        val availableFragment: AvailableFragment? = supportFragmentManager.findFragmentByTag(availableFragment) as AvailableFragment?
-        val inProgressFragment: InProgressFragment? = supportFragmentManager.findFragmentByTag(inProgressFragment) as InProgressFragment?
-        val walletFragment: MyWalletFragment? = supportFragmentManager.findFragmentByTag(walletFragment) as MyWalletFragment?
-        if (availableFragment != null && availableFragment.isVisible ||
-            inProgressFragment != null && inProgressFragment.isVisible||
-            walletFragment != null && walletFragment.isVisible) {
+        val availableFragment: AvailableFragment? =
+            supportFragmentManager.findFragmentByTag(availableFragment) as AvailableFragment?
+        val inProgressFragment: InProgressFragment? =
+            supportFragmentManager.findFragmentByTag(inProgressFragment) as InProgressFragment?
+        val walletFragment: MyWalletFragment? =
+            supportFragmentManager.findFragmentByTag(walletFragment) as MyWalletFragment?
+        if (availableFragment != null && availableFragment.isVisible || inProgressFragment != null && inProgressFragment.isVisible || walletFragment != null && walletFragment.isVisible) {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setMessage("Are you sure you want to Exit?").setCancelable(true)
                 .setPositiveButton("Yes") { _, _ ->
@@ -129,10 +132,11 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
                 }
             val alert = builder.create()
             alert.show()
-        }else{
+        } else {
             super.onBackPressed()
         }
     }
+
     private fun subscribeToTopic() {
         // [START subscribe_topics]
         Firebase.messaging.unsubscribeFromTopic("GENERAL").addOnCompleteListener { task ->
@@ -421,16 +425,11 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
         if (fragment is FaqFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is MyPayoutFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is SettingsNewFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is LeaderBoardFragment) fragment.setOnCurrentFragmentVisibleListener(this)
     }
 
-    override fun onShowHideBottomNav(show: Boolean) {
-        //println("show:  $show")
-        if (show) {
-            mBinding.bottomNav.visibility = View.VISIBLE
-        } else {
-            mBinding.bottomNav.visibility = View.GONE
-        }
-    }
+    override fun onShowHideBottomNav(show: Boolean) =
+        if (show) mBinding.bottomNav.visibility = VISIBLE else mBinding.bottomNav.visibility = GONE
 
 
 }

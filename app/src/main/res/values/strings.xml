@@ -199,5 +199,11 @@
     <string name="shareAppText">To Earn money in simple steps install this application</string>
     <string name="hours_left">hours left</string>
     <string name="hour_left">hour left</string>
+    <string name="leaderBoard">Leaderboard</string>
+    <string name="rank">Rank</string>
+    <string name="coins">Coins</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="name1">Name</string>
 
 </resources>

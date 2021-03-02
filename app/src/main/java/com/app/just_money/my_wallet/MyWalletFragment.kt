@@ -23,6 +23,7 @@ import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.FragmentMyWalletBinding
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
+import com.app.just_money.my_wallet.leaderborard.LeaderBoardFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
 
@@ -84,6 +85,7 @@ class MyWalletFragment : Fragment() {
         mBinding.txtTryAndEnjoy.setOnClickListener { onClickTryEnjoy() }
         mBinding.clFacebook.setOnClickListener { onClickFacebook() }
         mBinding.clTelegram.setOnClickListener { onClickTelegram() }
+        mBinding.clLeaderBoard.setOnClickListener { openFragment(LeaderBoardFragment()) }
     }
 
     private fun onClickSetting() {
@@ -95,7 +97,7 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickPayout() {
-        openFragment(MyPayoutFragment(),)
+        openFragment(MyPayoutFragment())
     }
 
     private fun onClickCompleted() {

@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_refer_earn.*
 
 class ReferEarnFragment : Fragment() {
     private lateinit var mBinding: FragmentReferEarnBinding
-    private var referText = "Dummy dummy dummy dummy"
+    private var referText = "Real Real Real Real"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_refer_earn, container, false)
         return mBinding.root
@@ -66,6 +66,9 @@ class ReferEarnFragment : Fragment() {
         }
         mBinding.ivMore.setOnClickListener {
             DefaultHelper.share(referText,context, "")
+        }
+        mBinding.tvHeading.setOnClickListener {
+            activity?.onBackPressed()
         }
     }
 }
