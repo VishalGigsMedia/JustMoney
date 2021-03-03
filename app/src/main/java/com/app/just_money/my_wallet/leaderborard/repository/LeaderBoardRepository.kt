@@ -6,7 +6,6 @@ import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
-import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.my_wallet.leaderborard.model.LeaderBoardModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,9 +24,7 @@ class LeaderBoardRepository {
         val mutableLiveData: MutableLiveData<LeaderBoardModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            val requestHelper = RequestKeyHelper()
-            requestHelper.type = type
-            api.getLeaderBoard(preferenceHelper.getJwtToken(), requestHelper)
+            api.getLeaderBoard(preferenceHelper.getJwtToken())
                 .enqueue(object : Callback<LeaderBoardModel> {
                     override fun onResponse(call: Call<LeaderBoardModel>, response: Response<LeaderBoardModel>) {
                         gson = gsonBuilder.create()

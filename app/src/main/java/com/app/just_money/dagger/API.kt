@@ -100,6 +100,5 @@ interface API {
     fun getIPAddress(@Url url: String): Call<IpAddressModel>
 
     @POST("leadership")
-    fun getLeaderBoard(@Header("Authorization") authorizationToken: String,
-        @Body requestKeyHelper: RequestKeyHelper): Call<LeaderBoardModel>
+    fun getLeaderBoard(@Header("Authorization") authorizationToken: String): Call<LeaderBoardModel>
 }
