@@ -146,6 +146,7 @@
     <string name="error_available">No Offers available currently, Stay tuned! We will come up with new exciting offers soon.</string>
     <string name="error_in_progress">Start one of the available reward and track your progress on this screen.</string>
     <string name="error_offer_details">Unable to show details now, please come back later.</string>
+    <string name="error_leader_board" >Unable to show leader board now, please come back later.</string>
     <string name="open">OPEN</string>
     <string name="join_telegram">Join us on Telegram</string>
 
@@ -205,5 +206,8 @@
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="name1">Name</string>
+    <string name="referral1">Install Just Money from Play Store Using my Referral code</string>
+    <string name="referral2">and get coins as bonus on completing the offers.\n\nWin exciting rewards with Just Money by performing following tasks:\n\n1) Installing Apps\n2) Completing Surveys\n3)Referring Your friends\n\nInstall Now!!"</string>
+
 
 </resources>

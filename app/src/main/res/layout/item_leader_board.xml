@@ -7,13 +7,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_70sdp"
         android:background="@color/white">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_100"
+            android:background="@color/grey_400_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
             android:id="@+id/ivRankContainer"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:src="@color/pink_600"
+            tools:src="@color/pink_600"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivProfile"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +35,8 @@
             android:elevation="1dp"
             android:fontFamily="@font/metropolis_regular"
             android:gravity="center"
-            android:text="1"
-            android:textColor="@color/black"
+            tools:text="1"
+            android:textColor="#562c2c"
             android:textSize="@dimen/_14sdp"
             app:layout_constraintBottom_toBottomOf="@id/ivRankContainer"
             app:layout_constraintEnd_toEndOf="@id/ivRankContainer"
@@ -47,25 +47,22 @@
             android:id="@+id/ivProfile"
             android:layout_width="@dimen/_45sdp"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:layout_marginBottom="@dimen/_6sdp"
-            android:src="@color/yellow_a400"
+            tools:src="@color/yellow_a400"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvName"
             app:layout_constraintStart_toEndOf="@id/ivRankContainer"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/ivCrown"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginEnd="-20dp"
             android:rotation="40"
-            android:src="@drawable/ic_active_wallet"
+            tools:src="@drawable/ic_active_wallet"
             android:translationX="@dimen/_5ssp"
             android:translationY="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@id/ivProfile"
             app:layout_constraintEnd_toEndOf="@id/ivProfile"
-            app:tint="@color/pink_600"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -73,9 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:singleLine="true"
             android:fontFamily="@font/metropolis_medium"
-            android:maxLength="20"
-            android:text="Pravin Kadam"
+            android:maxWidth="@dimen/_100sdp"
+            android:minWidth="@dimen/_100sdp"
+            tools:text="Pravin Kadam"
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,11 +86,11 @@
             android:id="@+id/tvCoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/metropolis_regular"
+            android:fontFamily="@font/metropolis_medium"
             android:gravity="center"
-            android:text="50,000"
+            tools:text="50,000"
             android:textColor="@color/black"
-            android:textSize="@dimen/_11sdp"
+            android:textSize="@dimen/_13sdp"
             app:drawableStartCompat="@drawable/ic_coins_pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

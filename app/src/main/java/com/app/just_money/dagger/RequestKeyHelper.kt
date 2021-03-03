@@ -1,6 +1,7 @@
 package com.app.just_money.dagger
 
 class RequestKeyHelper {
+    var type: String?=null
     var mobile: String? = null
     var package_id: String? = null
     var country_code: String? = null

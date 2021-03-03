@@ -1,8 +1,13 @@
 package com.app.just_money.common_helper
 
+import com.app.just_money.BuildConfig
+
 object DefaultKeyHelper {
 
     const val preferenceName = "JustMoney"
+
+    //play store link
+    const val playStoreLink = "https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
 
     //used for encryption and decryption
     const val secretKey = "KEY51E0678457D96"
@@ -15,9 +20,9 @@ object DefaultKeyHelper {
 
     const val xApiKey = "5e020255c70c3bde6bcf1f1c1275e020255c7151"
     const val GIGS_NATIVE_URL = "gigs.vnative.com"
-    const val facebookPageId ="104354911699587"
-    const val facebookPageUrl ="https://www.facebook.com/JustMoney-104354911699587"
-    const val telegramUrl ="https://t.me/downloadnearn"
+    const val facebookPageId = "104354911699587"
+    const val facebookPageUrl = "https://www.facebook.com/JustMoney-104354911699587"
+    const val telegramUrl = "https://t.me/downloadnearn"
 
     const val male = "1"
     const val female = "2"
@@ -31,8 +36,12 @@ object DefaultKeyHelper {
     const val walletFragment = "WALLET_FRAGMENT"
 
     //social platforms package id
-    const val FACEBOOK ="com.facebook.katana"
-    const val TWITTER ="com.twitter.android"
-    const val GMAIL ="com.google.android.gm"
-    const val WHATSAPP ="com.whatsapp"
+    const val FACEBOOK = "com.facebook.katana"
+    const val TWITTER = "com.twitter.android"
+    const val GMAIL = "com.google.android.gm"
+    const val WHATSAPP = "com.whatsapp"
+
+    //leader board types
+    var weekly = DefaultHelper.encrypt("weekly")
+    var monthly = DefaultHelper.encrypt("monthly")
 }

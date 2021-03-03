@@ -40,8 +40,8 @@ class HistoryAdapter(
             if (context != null) {
                 DefaultHelper.loadImage(context,DefaultHelper.decrypt(eachListData.appIcon),
                     holder.mBinding?.ivPayPal!!,
-                    ContextCompat.getDrawable(context, R.drawable.ic_logo)!!,
-                    ContextCompat.getDrawable(context, R.drawable.ic_logo)!!)
+                    ContextCompat.getDrawable(context, R.drawable.ic_logo),
+                    ContextCompat.getDrawable(context, R.drawable.ic_logo))
             }
         }
     }

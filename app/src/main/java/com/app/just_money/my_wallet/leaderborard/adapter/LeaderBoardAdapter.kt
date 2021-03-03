@@ -4,50 +4,56 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.R
+import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.databinding.ItemLeaderBoardBinding
-import com.app.just_money.my_wallet.completed.model.CompletedList
+import com.app.just_money.my_wallet.leaderborard.model.Leadership
 
-class LeaderBoardAdapter(
-    private val context: Context?,
-    private val completedOfferData: List<CompletedList>?,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-
+class LeaderBoardAdapter(private val context: Context?, private val data: List<Leadership>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CompletedPinkViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_leader_board, parent, false))
-
+        return LBViewHolder(LayoutInflater.from(context).inflate(R.layout.item_leader_board, parent, false))
     }
 
-    override fun getItemCount(): Int = 5
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        val holder = viewHolder as LBViewHolder
+        val provider = data[position]
+        if (holder.mBinding != null && context != null) {
+            holder.mBinding.tvName.text = DefaultHelper.decrypt(provider.firstname)
+            holder.mBinding.tvRank.text = DefaultHelper.decrypt(provider.rank)
+            holder.mBinding.tvCoins.text = DefaultHelper.decrypt(provider.total_amount)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            DefaultHelper.loadImage(context, DefaultHelper.decrypt(provider.profile_pic),
+                holder.mBinding.ivProfile, ContextCompat.getDrawable(context, R.drawable.ic_user_place_holder),
+                ContextCompat.getDrawable(context, R.drawable.ic_user_place_holder))
 
-        if (holder is CompletedPinkViewHolder) {
-            val eachListData = completedOfferData?.get(position)
-            holder.mBinding?.tvRank?.text = "${position+1}"
-
-            /*holder.mBindingCompletedPinkBgBinding?.clBestDeal?.setOnClickListener {
-                val offerDetails = OfferDetailsFragment()
-                val bundle = Bundle()
-                bundle.putString(BundleHelper.offerId, offerId)
-                bundle.putString(BundleHelper.displayId, offerId)
-                offerDetails.arguments = bundle
-                context.supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
-            }*/
+            holder.mBinding.ivRankContainer.setImageDrawable(
+                ContextCompat.getDrawable(context, R.drawable.rank_bg_golden))
+            when (holder.mBinding.tvRank.text.toString()) {
+                "1" -> holder.mBinding.ivCrown.setImageDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.crown_1))
+                "2" -> holder.mBinding.ivCrown.setImageDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.crown_2))
+                "3" -> holder.mBinding.ivCrown.setImageDrawable(
+                    ContextCompat.getDrawable(context, R.drawable.crown_3))
+                else -> {
+                    holder.mBinding.ivRankContainer.setImageDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.rank_bg_silver))
+                    holder.mBinding.ivCrown.setImageDrawable(null)
+                }
+            }
         }
     }
 
-    override fun getItemId(position: Int): Long = position.toLong()
-
-
-    class CompletedPinkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mBinding: ItemLeaderBoardBinding? = DataBindingUtil.bind(itemView)
-    }
-
-
+    override fun getItemCount(): Int = data.size
 }
+
+
+class LBViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val mBinding: ItemLeaderBoardBinding? = DataBindingUtil.bind(itemView)
+}
+
+

@@ -12,6 +12,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#FFD400</color>
 
     <color name="cyan_300">#50AFCD</color>
     <color name="pink_600">#D92249</color>
@@ -31,6 +32,7 @@
 
     <color name="blue_300">#0088CC</color><!--55ACEE-->
 
+    <color name="grey_50">#e1e1e1</color>
     <color name="grey_500">#989898</color>
     <color name="gray_600">#757575</color>
     <color name="gray_700">#616161</color>

@@ -6,6 +6,7 @@ import com.app.just_money.login.LoginFragment
 import com.app.just_money.login.RegisterFragment
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
+import com.app.just_money.my_wallet.leaderborard.LeaderBoardFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.EditProfileFragment
 import com.app.just_money.my_wallet.setting.HelpUsFragment
@@ -33,5 +34,6 @@ interface ApiComponent {
     fun inject(settingsNewFragment: SettingsNewFragment)
     fun inject(registerFragment: RegisterFragment)
     fun inject(myPayoutFragment: MyPayoutFragment)
+    fun inject(leaderBoardFragment: LeaderBoardFragment)
 
 }

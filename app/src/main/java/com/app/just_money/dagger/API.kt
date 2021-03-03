@@ -8,6 +8,7 @@ import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.model.CheckAppVersionModel
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
+import com.app.just_money.my_wallet.leaderborard.model.LeaderBoardModel
 import com.app.just_money.my_wallet.payouts.model.PayoutHistoryModel
 import com.app.just_money.my_wallet.setting.model.*
 import com.app.just_money.offer_details.model.OfferDetailsModel
@@ -97,4 +98,8 @@ interface API {
 
     @GET//getIPAddress
     fun getIPAddress(@Url url: String): Call<IpAddressModel>
+
+    @POST("leadership")
+    fun getLeaderBoard(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<LeaderBoardModel>
 }

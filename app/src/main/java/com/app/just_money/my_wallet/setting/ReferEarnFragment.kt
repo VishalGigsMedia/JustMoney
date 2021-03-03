@@ -16,6 +16,7 @@ import com.app.just_money.common_helper.DefaultKeyHelper.FACEBOOK
 import com.app.just_money.common_helper.DefaultKeyHelper.GMAIL
 import com.app.just_money.common_helper.DefaultKeyHelper.TWITTER
 import com.app.just_money.common_helper.DefaultKeyHelper.WHATSAPP
+import com.app.just_money.common_helper.DefaultKeyHelper.playStoreLink
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.FragmentReferEarnBinding
 import kotlinx.android.synthetic.main.fragment_refer_earn.*
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_refer_earn.*
 
 class ReferEarnFragment : Fragment() {
     private lateinit var mBinding: FragmentReferEarnBinding
-    private var referText = "Real Real Real Real"
+    private var referText = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_refer_earn, container, false)
         return mBinding.root
@@ -39,6 +40,7 @@ class ReferEarnFragment : Fragment() {
         val preferenceHelper = PreferenceHelper(context)
         if (preferenceHelper.getReferralCode() != "") {
             mBinding.tvReferral.text = preferenceHelper.getReferralCode()
+            referText = "${getString(R.string.referral1)}  ${preferenceHelper.getReferralCode()}  ${getString(R.string.referral2)} \n\n$playStoreLink"
         } else {
             DefaultHelper.showToast(context, getString(R.string.referralError))
             activity?.onBackPressed()
@@ -46,26 +48,26 @@ class ReferEarnFragment : Fragment() {
     }
 
     private fun manageClicks() {
-        mBinding.tvReferral.setOnClickListener{
+        mBinding.tvReferral.setOnClickListener {
             val clipboard: ClipboardManager? = context?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
             val clip = ClipData.newPlainText(label.toString(), tvReferral.text)
             clipboard?.setPrimaryClip(clip)
-            DefaultHelper.showToast(context,getString(R.string.textCopied))
+            DefaultHelper.showToast(context, getString(R.string.textCopied))
         }
         mBinding.ivFacebook.setOnClickListener {
-            DefaultHelper.share(referText,context,FACEBOOK)
+            DefaultHelper.share(referText, context, FACEBOOK)
         }
         mBinding.ivTwitter.setOnClickListener {
-            DefaultHelper.share(referText,context, TWITTER)
+            DefaultHelper.share(referText, context, TWITTER)
         }
         mBinding.ivGMail.setOnClickListener {
-            DefaultHelper.share(referText,context, GMAIL)
+            DefaultHelper.share(referText, context, GMAIL)
         }
         mBinding.ivWhatsApp.setOnClickListener {
-            DefaultHelper.share(referText,context, WHATSAPP)
+            DefaultHelper.share(referText, context, WHATSAPP)
         }
         mBinding.ivMore.setOnClickListener {
-            DefaultHelper.share(referText,context, "")
+            DefaultHelper.share(referText, context, "")
         }
         mBinding.tvHeading.setOnClickListener {
             activity?.onBackPressed()

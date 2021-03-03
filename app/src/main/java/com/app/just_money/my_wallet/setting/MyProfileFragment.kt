@@ -76,8 +76,8 @@ class MyProfileFragment : Fragment() {
         //println("profilePic : $profilePic")
         if (profilePic.isNotEmpty() && profilePic != "null") {
             DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
-                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!,
-                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder)!!)
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder),
+                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
         } else {
             mBinding.ivProfileImage.setImageDrawable(
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
