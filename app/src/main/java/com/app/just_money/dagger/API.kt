@@ -80,7 +80,7 @@ interface API {
     @POST("update_profile")
     fun updateProfile(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
         @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?,
-        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?): Call<UpdatedProfileModel>
+        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?, @Part("mobile") mobile: RequestBody?): Call<UpdatedProfileModel>
 
     @POST("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>
@@ -93,12 +93,12 @@ interface API {
     fun checkVersion(@Header("Authorization") authorizationToken: String): Call<CheckAppVersionModel>
     //fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CheckAppVersionModel>
 
-    @POST("EarningHistory") //check_version
+    @POST("EarningHistory")
     fun getPayoutHistory(@Header("Authorization") authorizationToken: String): Call<PayoutHistoryModel>
 
     @GET//getIPAddress
     fun getIPAddress(@Url url: String): Call<IpAddressModel>
 
-    @POST("leadership")
+    @POST("leadership")//leader board
     fun getLeaderBoard(@Header("Authorization") authorizationToken: String): Call<LeaderBoardModel>
 }

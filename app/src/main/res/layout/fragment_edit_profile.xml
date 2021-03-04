@@ -74,8 +74,8 @@
                     android:layout_width="@dimen/_17sdp"
                     android:layout_height="@dimen/_17sdp"
                     android:src="@drawable/camera"
-                    app:layout_constraintEnd_toEndOf="@id/ivProfileImage"
-                    app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"/>
+                    app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
+                    app:layout_constraintEnd_toEndOf="@id/ivProfileImage" />
 
                 <TextView
                     android:id="@+id/txtEmail"
@@ -83,13 +83,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/metropolis_medium"
-                    tools:text="pravin@enrootmedia.in"
                     android:textAllCaps="false"
                     android:textColor="@color/gray_900"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"/>
+                    app:layout_constraintTop_toBottomOf="@+id/ivProfileImage"
+                    tools:text="pravin@enrootmedia.in" />
 
                 <View
                     android:id="@+id/view"
@@ -269,6 +269,46 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtMobile"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:hint="@string/mobile"
+                    android:textColorHint="@color/black"
+                    app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:boxStrokeColor="@color/pink_600"
+                    app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+                    app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+                    app:hintTextColor="@color/gray_700"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtGender">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/metropolis_medium"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="0dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -291,9 +331,18 @@
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent" />
 
-        </TextView>
+        <ProgressBar
+            android:id="@+id/pbUpdateProfile"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:elevation="1dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/txtUpdateProfile"
+            app:layout_constraintEnd_toEndOf="@id/txtUpdateProfile"
+            app:layout_constraintTop_toTopOf="@id/txtUpdateProfile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

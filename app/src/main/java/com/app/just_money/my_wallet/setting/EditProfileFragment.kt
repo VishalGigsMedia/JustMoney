@@ -19,6 +19,8 @@ import android.provider.MediaStore
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
@@ -97,6 +99,9 @@ class EditProfileFragment : Fragment() {
                 mBinding.edtGender.setText("Female")
             }
         }
+        //mobile
+        mBinding.edtMobile.setText(preferenceHelper.getMobile())
+
         //Set Email & Image
         mBinding.txtEmail.text = preferenceHelper.getEmail()
         val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
@@ -175,8 +180,13 @@ class EditProfileFragment : Fragment() {
         }
         val dob = mBinding.edtBirthDate.text.toString()
         val email = mBinding.txtEmail.text.toString()
-        viewModel.updateProfile(context!!, api, firstName, lastName, dob, gender, email, fileProfile)
+        val mobile = mBinding.edtMobile.text.toString()
+        mBinding.pbUpdateProfile.visibility = VISIBLE
+        mBinding.txtUpdateProfile.isEnabled = false
+        viewModel.updateProfile(context!!, api, firstName, lastName, dob, gender, email, mobile, fileProfile)
             .observe(viewLifecycleOwner, { updateProfileModel ->
+                mBinding.pbUpdateProfile.visibility = GONE
+                mBinding.txtUpdateProfile.isEnabled = true
                 if (updateProfileModel != null) {
                     when {
                         updateProfileModel.status == DefaultKeyHelper.successCode -> {
@@ -201,6 +211,7 @@ class EditProfileFragment : Fragment() {
         val dob = updateProfileModel.data.dob
         val gender = updateProfileModel.data.gender
         val email = updateProfileModel.data.email
+        val mobile = updateProfileModel.data.mobile
         val profilePic = updateProfileModel.data.profilePic
 
         val preferenceHelper = PreferenceHelper(context)
@@ -216,6 +227,9 @@ class EditProfileFragment : Fragment() {
 
         if (email.isNotEmpty() && email != "null") {
             preferenceHelper.setEmail(email)
+        }
+        if (mobile.isNotEmpty() && mobile != "null") {
+            preferenceHelper.setMobile(mobile)
         }
 
         if (dob.isNotEmpty() && dob != "null") {

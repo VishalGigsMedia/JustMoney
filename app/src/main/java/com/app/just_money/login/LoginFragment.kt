@@ -171,6 +171,7 @@ class LoginFragment : Fragment() {
         val userFirstName = loginModel.data?.firstname.toString()
         val userLastName = loginModel.data?.lastname.toString()
         val email = loginModel.data?.email.toString()
+        val mobile = loginModel.data?.mobile.toString()
         val dob = loginModel.data?.dob.toString()
         val gender = loginModel.data?.gender.toString()
         val profilePic = loginModel.data?.profilePic.toString()
@@ -188,6 +189,9 @@ class LoginFragment : Fragment() {
         }
         if (email.isNotEmpty() && email != "null") {
             preferenceHelper.setEmail(email)
+        }
+        if (mobile.isNotEmpty() && mobile != "null") {
+            preferenceHelper.setMobile(mobile)
         }
         if (dob.isNotEmpty() && dob != "null") {
             preferenceHelper.setDob(dob)

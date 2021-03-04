@@ -57,7 +57,7 @@ class ProfileRepository {
 
 
     fun updateProfile(context: Context, api: API, name: String, lastName: String, dob: String, gender: String,
-        email: String, uploadImage: File?): MutableLiveData<UpdatedProfileModel> {
+        email: String, mobile: String, uploadImage: File?): MutableLiveData<UpdatedProfileModel> {
         val mutableLiveData: MutableLiveData<UpdatedProfileModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             println("DefaultHelper: $email")
@@ -66,6 +66,8 @@ class ProfileRepository {
             val rbLastName: RequestBody =
                 DefaultHelper.encrypt(lastName).toRequestBody("text/plain".toMediaTypeOrNull())
             val rbEmail: RequestBody = DefaultHelper.encrypt(email).toRequestBody("text/plain".toMediaTypeOrNull())
+            val rbMobile: RequestBody =
+                DefaultHelper.encrypt(mobile).toRequestBody("text/plain".toMediaTypeOrNull())
             val rbDob: RequestBody = DefaultHelper.encrypt(dob).toRequestBody("text/plain".toMediaTypeOrNull())
             val rbGender: RequestBody =
                 DefaultHelper.encrypt(gender).toRequestBody("text/plain".toMediaTypeOrNull())
@@ -78,7 +80,7 @@ class ProfileRepository {
             }
 
             api.updateProfile(preferenceHelper.getJwtToken(), rbUploadImage, rbName, rbLastName, rbGender, rbDob,
-                rbEmail).enqueue(object : Callback<UpdatedProfileModel> {
+                rbEmail, rbMobile).enqueue(object : Callback<UpdatedProfileModel> {
                 override fun onResponse(call: Call<UpdatedProfileModel>, response: Response<UpdatedProfileModel>) {
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())

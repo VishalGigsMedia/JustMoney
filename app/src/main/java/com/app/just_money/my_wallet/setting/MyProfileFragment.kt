@@ -23,7 +23,6 @@ class MyProfileFragment : Fragment() {
     @Inject
     lateinit var api: API
 
-
     private lateinit var viewModel: ProfileViewModel
     private lateinit var mBinding: FragmentProfileBinding
 
@@ -54,20 +53,20 @@ class MyProfileFragment : Fragment() {
         if (preferenceHelper.getDob().contains("0000")) {
             //it means dob not set yet
             mBinding.txtBirthDateValue.text = "N/A"
-        } else {
-            mBinding.txtBirthDateValue.text = preferenceHelper.getDob()
-        }
+        } else mBinding.txtBirthDateValue.text = preferenceHelper.getDob()
+
+
+        //Set mobile
+        if (preferenceHelper.getMobile() == "") {
+            //it means mobile not set yet
+            mBinding.txtMobileValue.text = "N/A"
+        } else mBinding.txtMobileValue.text = preferenceHelper.getMobile()
+
         //Set Gender
         when (preferenceHelper.getGender()) {
-            "0" -> {
-                mBinding.txtGenderValue.text = "N/A"
-            }
-            DefaultKeyHelper.male -> {
-                mBinding.txtGenderValue.text = "Male"
-            }
-            DefaultKeyHelper.female -> {
-                mBinding.txtGenderValue.text = "Female"
-            }
+            "0" -> mBinding.txtGenderValue.text = "N/A"
+            DefaultKeyHelper.male -> mBinding.txtGenderValue.text = "Male"
+            DefaultKeyHelper.female -> mBinding.txtGenderValue.text = "Female"
         }
 
         //Set Email & Image
@@ -78,10 +77,9 @@ class MyProfileFragment : Fragment() {
             DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder),
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
-        } else {
-            mBinding.ivProfileImage.setImageDrawable(
-                ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
-        }
+        } else mBinding.ivProfileImage.setImageDrawable(
+            ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
+
     }
 
     private fun manageClickEvent() {

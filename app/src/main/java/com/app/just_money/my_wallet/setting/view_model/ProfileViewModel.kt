@@ -26,10 +26,10 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun updateProfile(context: Context, api: API, name: String, lastName: String, dob: String, gender: String,
-        email: String, uploadImage: File?): LiveData<UpdatedProfileModel> {
+        email: String,mobile: String, uploadImage: File?): LiveData<UpdatedProfileModel> {
         if (updateProfileModel != null || updateProfileModel == null) {
             updateProfileModel =
-                profileRepository.updateProfile(context, api, name, lastName, dob, gender, email, uploadImage)
+                profileRepository.updateProfile(context, api, name, lastName, dob, gender, email,mobile, uploadImage)
         }
         return updateProfileModel!!
     }

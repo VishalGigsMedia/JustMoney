@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="app_name">Just Money</string>
     <string name="server_url">http://65.0.151.206/public/api/v2/signup/</string>
     <string name="tracking_url">https://api.trackier.com/v2/</string>
     <string name="terms_condition_url">http://65.0.151.206/dev/public/terms-and-conditions</string>
