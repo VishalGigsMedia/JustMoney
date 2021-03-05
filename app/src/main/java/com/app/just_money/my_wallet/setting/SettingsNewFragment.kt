@@ -14,11 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.R.string.shareAppText
-import com.app.just_money.common_helper.DefaultHelper
-import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.common_helper.*
 import com.app.just_money.common_helper.DefaultKeyHelper.playStoreLink
-import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
-import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentSettingsNewBinding
@@ -66,6 +63,7 @@ class SettingsNewFragment : Fragment() {
         mBinding.txtShareApp.setOnClickListener {
             val appSharingText= "${getString(shareAppText)} \n\n $playStoreLink"
             DefaultHelper.share(appSharingText,context,"")
+            TrackingEvents.trackAppShared()
         }
         mBinding.txtTermsCondition.setOnClickListener {
             openFragment(TermsConditionFragment())
@@ -75,9 +73,11 @@ class SettingsNewFragment : Fragment() {
         }
         mBinding.clFacebook.setOnClickListener {
             DefaultHelper.openFacebookPage(context)
+            TrackingEvents.trackFBLikeClicked("Settings")
         }
         mBinding.clTelegram.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.telegramUrl)))
+            TrackingEvents.trackJoinTelegramClicked("Settings")
         }
         mBinding.txtLogout.setOnClickListener {
             if (context != null) {

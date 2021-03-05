@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.app.just_money.MainActivity
@@ -67,7 +66,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         preferenceHelper = PreferenceHelper(context)
 
         init()
-        getOffers()
         setListeners()
         DefaultHelper.playCustomSound(context, R.raw.load_dashboard)
 
@@ -82,7 +80,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
-        viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
+        //viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         onClicked = this
         onClickedQuickDeals = this
         getIPAddress()
@@ -99,6 +97,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
                         DefaultKeyHelper.successCode -> {
+                            TrackingEvents.trackOfferList()
                             val offerData = availableOfferModel.availableOfferData
                             val dailyReward = offerData?.dailyRewards.toString()
                             val rewardRemainingTime = offerData?.reward_remaining_time
@@ -411,6 +410,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                         showCoinAnimation(mBinding.coinAnimation)
                         DefaultHelper.playCustomSound(context, R.raw.reward)
                         getOffers()
+                        TrackingEvents.trackDailyReward(rewardAmount)
                     }
                     DefaultKeyHelper.failureCode -> {
                         DefaultHelper.showToast(context, DefaultHelper.decrypt(model.message.toString()))
@@ -423,7 +423,13 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun getIPAddress() {
         viewModel.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
             if (ipAddressModel != null) {
-                preferenceHelper.setIpAddress(ipAddressModel.ip)
+                if (ipAddressModel.ip!==null&&ipAddressModel.ip!="") {
+                    preferenceHelper.setIpAddress(ipAddressModel.ip)
+                    getOffers()
+                }else{
+                    DefaultHelper.showToast(context,getString(R.string.somethingWentWrong))
+                    activity?.finish()
+                }
             }
         })
     }

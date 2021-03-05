@@ -34,6 +34,7 @@ import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
+import com.app.just_money.common_helper.TrackingEvents
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentEditProfileBinding
@@ -192,6 +193,7 @@ class EditProfileFragment : Fragment() {
                         updateProfileModel.status == DefaultKeyHelper.successCode -> {
                             DefaultHelper.showToast(context!!, DefaultHelper.decrypt(updateProfileModel.message))
                             setData(updateProfileModel)
+                            TrackingEvents.trackProfileEdited()
                         }
                         updateProfileModel.status == DefaultKeyHelper.failureCode -> {
                             DefaultHelper.showToast(context,

@@ -16,10 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
-import com.app.just_money.common_helper.DefaultHelper
-import com.app.just_money.common_helper.DefaultKeyHelper
-import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
-import com.app.just_money.common_helper.PreferenceHelper
+import com.app.just_money.common_helper.*
 import com.app.just_money.databinding.FragmentMyWalletBinding
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
@@ -112,10 +109,12 @@ class MyWalletFragment : Fragment() {
 
     private fun onClickFacebook() {
         DefaultHelper.openFacebookPage(context)
+        TrackingEvents.trackFBLikeClicked("Wallet")
     }
 
     private fun onClickTelegram() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.telegramUrl)))
+        TrackingEvents.trackJoinTelegramClicked("Wallet")
     }
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean = true) {

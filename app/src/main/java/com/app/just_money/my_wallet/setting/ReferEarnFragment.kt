@@ -18,6 +18,7 @@ import com.app.just_money.common_helper.DefaultKeyHelper.TWITTER
 import com.app.just_money.common_helper.DefaultKeyHelper.WHATSAPP
 import com.app.just_money.common_helper.DefaultKeyHelper.playStoreLink
 import com.app.just_money.common_helper.PreferenceHelper
+import com.app.just_money.common_helper.TrackingEvents
 import com.app.just_money.databinding.FragmentReferEarnBinding
 import kotlinx.android.synthetic.main.fragment_refer_earn.*
 
@@ -56,18 +57,23 @@ class ReferEarnFragment : Fragment() {
         }
         mBinding.ivFacebook.setOnClickListener {
             DefaultHelper.share(referText, context, FACEBOOK)
+            TrackingEvents.trackReferred(FACEBOOK)
         }
         mBinding.ivTwitter.setOnClickListener {
             DefaultHelper.share(referText, context, TWITTER)
+            TrackingEvents.trackReferred(TWITTER)
         }
         mBinding.ivGMail.setOnClickListener {
             DefaultHelper.share(referText, context, GMAIL)
+            TrackingEvents.trackReferred(GMAIL)
         }
         mBinding.ivWhatsApp.setOnClickListener {
             DefaultHelper.share(referText, context, WHATSAPP)
+            TrackingEvents.trackReferred(WHATSAPP)
         }
         mBinding.ivMore.setOnClickListener {
             DefaultHelper.share(referText, context, "")
+            TrackingEvents.trackReferred("MORE")
         }
         mBinding.tvHeading.setOnClickListener {
             activity?.onBackPressed()

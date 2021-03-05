@@ -16,6 +16,7 @@ import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.DefaultKeyHelper.weekly
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
+import com.app.just_money.common_helper.TrackingEvents
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentLeaderBoardBinding
@@ -46,14 +47,14 @@ class LeaderBoardFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(LeaderBoardViewModel::class.java)
         MyApplication.instance.getNetComponent()?.inject(this)
 
-        getLeaderBoardData(weekly, true)
+        getLeaderBoardData(weekly)
         manageClicks()
     }
 
-    private fun getLeaderBoardData(type: String, showShimmer: Boolean = false) {
-        showShimmer(showShimmer)
+    private fun getLeaderBoardData(type: String) {
+        showShimmer()
         viewModel.getLeaderBoard(context!!, api, type).observe(viewLifecycleOwner, { leaderBoardModel ->
-            stopShimmer(showShimmer)
+            stopShimmer()
             if (leaderBoardModel != null) {
                 when (leaderBoardModel.status) {
                     DefaultKeyHelper.successCode -> {
@@ -62,6 +63,7 @@ class LeaderBoardFragment : Fragment() {
                         weeklyList = leaderBoardModel.data.leadership_weekly
                         monthlyList = leaderBoardModel.data.leadership_monthly
                         setWeeklyData()
+                        TrackingEvents.trackLeaderBoardViewed()
                     }
                     DefaultKeyHelper.failureCode -> {
                         DefaultHelper.showToast(context, DefaultHelper.decrypt(leaderBoardModel.message))
@@ -112,15 +114,13 @@ class LeaderBoardFragment : Fragment() {
         mBinding.llError.visibility = VISIBLE
     }
 
-    private fun stopShimmer(showShimmer: Boolean) {
-        if (!showShimmer) return
+    private fun stopShimmer() {
         mBinding.shimmer.stopShimmer()
         mBinding.shimmer.visibility = GONE
         mBinding.llLeaderBoard.visibility = VISIBLE
     }
 
-    private fun showShimmer(showShimmer: Boolean) {
-        if (!showShimmer) return
+    private fun showShimmer() {
         mBinding.shimmer.startShimmer()
         mBinding.shimmer.visibility = VISIBLE
         mBinding.llLeaderBoard.visibility = GONE

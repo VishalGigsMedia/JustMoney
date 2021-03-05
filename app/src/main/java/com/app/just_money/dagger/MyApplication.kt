@@ -24,7 +24,6 @@ class MyApplication : Application() {
                 return appController
             }
     }
-
     private var mApiComponent: ApiComponent? = null
 
     override fun onCreate() {

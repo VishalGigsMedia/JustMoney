@@ -7,6 +7,7 @@ import com.app.just_money.available.model.AvailableOfferModel
 import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.PreferenceHelper
+import com.app.just_money.common_helper.TrackingEvents
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.login.model.ClaimOfferModel
@@ -71,6 +72,7 @@ class AvailableOfferRepository {
                         claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
                         println("$tag : $json")
                         mutableLiveData.value = claimOfferModel
+                        TrackingEvents.trackOfferEarned(appId)
                     }
 
                     override fun onFailure(call: Call<ClaimOfferModel>, t: Throwable) {
