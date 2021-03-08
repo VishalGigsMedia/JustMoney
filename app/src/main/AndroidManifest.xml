@@ -37,8 +37,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme.Base"
         android:usesCleartextTraffic="true"
-        tools:replace="android:theme"
-        >
+        tools:replace="android:theme">
 
         <activity
             android:name="com.app.just_money.SplashActivity"

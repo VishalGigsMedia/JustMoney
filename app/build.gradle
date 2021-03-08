@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        justmoney {
+            storeFile file('E:\\android\\JustMoney\\app\\justmoney.jks')
+            storePassword 'JustMoney@123'
+            keyAlias 'justmoney'
+            keyPassword 'JustMoney@123'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -51,6 +59,10 @@ android {
             versionName "1.0"
             testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         }
+    }
+    defaultConfig {
+        applicationId 'com.justmoney.app'
+        signingConfig signingConfigs.justmoney
     }
 
 }
