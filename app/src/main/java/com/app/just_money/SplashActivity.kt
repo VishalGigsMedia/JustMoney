@@ -19,7 +19,6 @@ class SplashActivity : AppCompatActivity() {
             openMainScreen()
         }
     }
-
     private fun openMainScreen() {
         val preferenceHelper = PreferenceHelper(this)
         if (preferenceHelper.isUserLoggedIn()) {

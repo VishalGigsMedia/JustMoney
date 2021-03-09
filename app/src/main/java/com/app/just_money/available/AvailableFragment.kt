@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.app.just_money.MainActivity
@@ -69,7 +70,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         setListeners()
         DefaultHelper.playCustomSound(context, R.raw.load_dashboard)
 
-        mBinding.swipe.setOnRefreshListener { getOffers() }
+        mBinding.swipe.setOnRefreshListener { getIPAddress() }
     }
 
     private fun setListeners() {
@@ -80,7 +81,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
-        //viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         onClicked = this
         onClickedQuickDeals = this
         getIPAddress()
@@ -423,11 +424,11 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun getIPAddress() {
         viewModel.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
             if (ipAddressModel != null) {
-                if (ipAddressModel.ip!==null&&ipAddressModel.ip!="") {
+                if (ipAddressModel.ip !== null && ipAddressModel.ip != "") {
                     preferenceHelper.setIpAddress(ipAddressModel.ip)
                     getOffers()
-                }else{
-                    DefaultHelper.showToast(context,getString(R.string.somethingWentWrong))
+                } else {
+                    DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
                     activity?.finish()
                 }
             }
@@ -527,6 +528,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             alert.dismiss()
         }
     }
+
     private fun hideShimmer() {
         mBinding.shimmerViewContainer.stopShimmer()
         mBinding.shimmerViewContainer.visibility = GONE

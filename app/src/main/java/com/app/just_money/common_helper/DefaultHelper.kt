@@ -120,11 +120,8 @@ object DefaultHelper {
     }
 
     fun showToast(context: Context?, message: String?, duration: Int = Toast.LENGTH_LONG) {
-        var mToast: Toast? = null
         if (message.toString().isNotEmpty()) {
-            mToast?.cancel()
-            mToast = Toast.makeText(context, message, duration)
-            mToast!!.show()
+            Toast.makeText(context, message, duration).show()
         }
     }
 
