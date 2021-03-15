@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.encrypt
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
@@ -29,7 +30,7 @@ class OfferDetailsRepository {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.offer_id = offerId
-            requestKeyHelper.display_id = DefaultHelper.decrypt("1234")
+            requestKeyHelper.display_id = encrypt("1234")
             /*println(
                 "RequestHelper :" +
                         " ${requestKeyHelper.state} :" +
@@ -54,39 +55,6 @@ class OfferDetailsRepository {
         } else {
             DefaultHelper.showToast(context, context!!.getString(R.string.no_internet))
             mutableLiveData.value = null
-        }
-        return mutableLiveData
-    }
-
-    fun claimOffer(context: Context, api: API, appId: String): MutableLiveData<ClaimOfferModel> {
-        val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
-        if (DefaultHelper.isOnline()) {
-            val preferenceHelper = PreferenceHelper(context)
-            val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.appId = appId
-
-            /*println(
-                "RequestHelper :" +
-                        " ${requestKeyHelper.state} :" +
-                        " ${requestKeyHelper.city} " +
-                        ": ${requestKeyHelper.display_id}"
-            )*/
-            api.claimOffer(preferenceHelper.getJwtToken(), requestKeyHelper)
-                .enqueue(object : Callback<ClaimOfferModel> {
-                    override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = claimOfferModel
-                    }
-
-                    override fun onFailure(call: Call<ClaimOfferModel>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
-        } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }

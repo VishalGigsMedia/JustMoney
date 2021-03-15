@@ -6,6 +6,7 @@ import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOfferModel
 import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.encrypt
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.common_helper.TrackingEvents
 import com.app.just_money.dagger.API
@@ -32,8 +33,9 @@ class AvailableOfferRepository {
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.country = /*preferenceHelper.getUserState()*/"vNWcbZ07F9T9Fa0LjxaRsA=="
-            requestKeyHelper.display_id = DefaultHelper.encrypt("1234")
+            requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
+            requestKeyHelper.display_id = encrypt("1234")
+            requestKeyHelper.fcm_key = encrypt(preferenceHelper.getFCMToken())
             api.getOffers(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<AvailableOfferModel> {
                     override fun onResponse(call: Call<AvailableOfferModel>, response: Response<AvailableOfferModel>) {
@@ -63,7 +65,7 @@ class AvailableOfferRepository {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.appId = appId
-            requestKeyHelper.user_click_ip = DefaultHelper.encrypt(preferenceHelper.getIpAddress())
+            requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.claimOffer(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {
                     override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {
@@ -90,7 +92,7 @@ class AvailableOfferRepository {
             val preferenceHelper =PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.reward_amount = rewardAmount
-            requestKeyHelper.user_click_ip = DefaultHelper.encrypt(preferenceHelper.getIpAddress())
+            requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.claimReward(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {
                     override fun onResponse(call: Call<ClaimOfferModel>, response: Response<ClaimOfferModel>) {

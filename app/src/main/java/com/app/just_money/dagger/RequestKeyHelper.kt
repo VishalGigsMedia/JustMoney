@@ -12,8 +12,10 @@ class RequestKeyHelper {
     var version_name: String? = null
     var version_code: String? = null
     var device_type: String? = null
+    var device_manufacturer: String? = null
     var display: String? = null
-    var device: String? = null
+    var device_brand: String? = null
+    var device_model: String? = null
     var android_version: String? = null
     var token: String? = null
     var device_id: String? = null

@@ -8,12 +8,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOffer
-import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.databinding.RowItemQuickDealsBinding
 import com.bumptech.glide.Glide
 
 
-class QuickDealsAdapter(private val context: FragmentActivity?, private val quickDealsList: List<AvailableOffer>,
+class  QuickDealsAdapter(private val context: FragmentActivity?, private val quickDealsList: List<AvailableOffer>,
     private val onClickedQuickDeals: OnClickedQuickDeals?) : RecyclerView.Adapter<QuickDealsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -29,11 +29,11 @@ class QuickDealsAdapter(private val context: FragmentActivity?, private val quic
         val eachListData = quickDealsList[position]
         holder.mBinding?.data = eachListData
 
-        val id = DefaultHelper.decrypt(quickDealsList[position].id.toString())
-        val title = DefaultHelper.decrypt(quickDealsList[position].name.toString())
-        val imageUrl = DefaultHelper.decrypt(quickDealsList[position].image.toString())
-        val buttonText = DefaultHelper.decrypt(quickDealsList[position].buttonText.toString())
-        val url = DefaultHelper.decrypt(quickDealsList[position].buttonText.toString())
+        val id = quickDealsList[position].id.toString()
+        val title = decrypt(quickDealsList[position].name.toString())
+        val imageUrl = decrypt(quickDealsList[position].image.toString())
+        val buttonText = decrypt(quickDealsList[position].buttonText.toString())
+        val url = decrypt(quickDealsList[position].url.toString())
 
         if (title.isNotEmpty()) {
             holder.mBinding?.txtTitle?.text = title

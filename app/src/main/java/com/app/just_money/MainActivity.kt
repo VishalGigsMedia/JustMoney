@@ -11,10 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.app.just_money.available.AvailableFragment
+import com.app.just_money.common_helper.DefaultHelper.playCustomSound
 import com.app.just_money.common_helper.DefaultKeyHelper.availableFragment
 import com.app.just_money.common_helper.DefaultKeyHelper.inProgressFragment
 import com.app.just_money.common_helper.DefaultKeyHelper.walletFragment
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
+import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.databinding.ActivityMainBinding
 import com.app.just_money.in_progress.InProgressFragment
 import com.app.just_money.my_wallet.MyWalletFragment
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity(),OnCurrentFragmentVisibleListener {
         subscribeToTopic()
         getToken()
         manageClickEvents()
+        playCustomSound(this, R.raw.load_dashboard)
         //open available fragment
         openFragment(AvailableFragment(), false, availableFragment)
     }
@@ -54,6 +57,8 @@ class MainActivity : AppCompatActivity(),OnCurrentFragmentVisibleListener {
             // Get new FCM registration token
             val token = task.result
             Log.d("fcmToken: ", token)
+            val preferenceHelper = PreferenceHelper(this)
+            preferenceHelper.setFCMToken(token)
         })
     }
 

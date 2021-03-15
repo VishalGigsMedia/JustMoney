@@ -15,8 +15,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.available.AvailableOfferViewModel
 import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -39,6 +42,7 @@ class OfferDetailsFragment : Fragment() {
     private var steps: String = ""
     private lateinit var stepsDescription: ArrayList<String>
     private lateinit var viewModel: OfferDetailsViewModel
+    private lateinit var viewModelAO: AvailableOfferViewModel
     private lateinit var mBinding: FragmentOfferDetailsBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -50,6 +54,7 @@ class OfferDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(OfferDetailsViewModel::class.java)
+        viewModelAO = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         offerId = arguments?.getString(BundleHelper.offerId).toString()
         source = arguments?.getString(BundleHelper.source).toString()
         //displayId = bundle.getString(BundleHelper.offerId).toString()
@@ -60,7 +65,7 @@ class OfferDetailsFragment : Fragment() {
 
     private fun setOnClickListener() {
         mBinding.txtStepToAvailOffer.setOnClickListener {
-            showIdentityProof()
+            showDialogue()
         }
         mBinding.txtTitle.setOnClickListener {
             activity?.onBackPressed()
@@ -72,7 +77,7 @@ class OfferDetailsFragment : Fragment() {
     }
 
     private fun claimOffer(appId: String, url: String) {
-        viewModel.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
+        viewModelAO.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
                 if (claimOfferModel.status == DefaultKeyHelper.successCode) {
                     val intent = Intent(Intent.ACTION_VIEW)
@@ -80,12 +85,12 @@ class OfferDetailsFragment : Fragment() {
                     startActivity(intent)
 
                     mBinding.txtOfferAmount.text = getString(R.string.open)
-                } else DefaultHelper.showToast(context!!, DefaultHelper.decrypt(claimOfferModel.message.toString()))
+                } else showToast(context!!, decrypt(claimOfferModel.message.toString()))
             }
         })
     }
 
-    private fun showIdentityProof() {
+    private fun showDialogue() {
         val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_step_to_earn)
@@ -120,15 +125,15 @@ class OfferDetailsFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setData(offerDetailsData: OfferDetailsData) {
         //val offerId = DefaultHelper.decrypt(offerDetailsData.id.toString())
-        val url = DefaultHelper.decrypt(offerDetailsData.url)
-        val title = DefaultHelper.decrypt(offerDetailsData.name)
-        steps = DefaultHelper.decrypt(offerDetailsData.description)
+        val url = decrypt(offerDetailsData.url)
+        val title = decrypt(offerDetailsData.name)
+        steps = decrypt(offerDetailsData.description)
         stepsDescription = offerDetailsData.steps_description as ArrayList<String>
-        val description = DefaultHelper.decrypt(offerDetailsData.short_description)
-        val imageUrl = DefaultHelper.decrypt(offerDetailsData.image)
-        val note = DefaultHelper.decrypt(offerDetailsData.note)
-        val actualCoins = DefaultHelper.decrypt(offerDetailsData.actual_coins)
-        val offerCoins = DefaultHelper.decrypt(offerDetailsData.offer_coins)
+        val description = decrypt(offerDetailsData.short_description)
+        val imageUrl = decrypt(offerDetailsData.image)
+        val note = decrypt(offerDetailsData.note)
+        val actualCoins = decrypt(offerDetailsData.actual_coins)
+        val offerCoins = decrypt(offerDetailsData.offer_coins)
         val saveCoins = offerCoins.toInt() - actualCoins.toInt()
         val saveCoinsValue = "Earn Extra $saveCoins"
 
@@ -168,8 +173,8 @@ class OfferDetailsFragment : Fragment() {
     }
 
     private fun showErrorScreen() {
-        mBinding.clData.visibility = View.GONE
-        mBinding.llError.visibility = View.VISIBLE
+        mBinding.clData.visibility = GONE
+        mBinding.llError.visibility = VISIBLE
     }
 
 

@@ -17,7 +17,7 @@ class RegisterViewModel : ViewModel() {
         if (registerUserModel == null || registerUserModel != null) {
             registerUserModel = registerRepository.register(activity, api, firstName, lastName, emailId, password)
         }
-        return registerUserModel!!
+        return registerUserModel as LiveData<RegisterUserModel>
     }
 
 

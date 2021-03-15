@@ -13,6 +13,7 @@ import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOffer
 import com.app.just_money.common_helper.BundleHelper
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.databinding.RowItemPopularDealBinding
 import com.app.just_money.databinding.RowItemPopularDealsTypeSecondBinding
 import com.app.just_money.offer_details.OfferDetailsFragment
@@ -50,7 +51,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             val imageUrl = availableOfferList[position].image.toString()
             val actualCoins = availableOfferList[position].actualCoins.toString()
             val offerCoins = availableOfferList[position].offerCoins.toString()
-            val url = DefaultHelper.decrypt(availableOfferList[position].url.toString())
+            val url = decrypt(availableOfferList[position].url.toString())
 
             if (title.isNotEmpty()) {
                 holder.mBindingPopularDeals?.txtTitle?.text = DefaultHelper.decrypt(title)

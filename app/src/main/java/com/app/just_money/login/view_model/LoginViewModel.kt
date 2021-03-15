@@ -27,21 +27,21 @@ class LoginViewModel : ViewModel() {
         if (getOtpModel == null || getOtpModel != null) {
             getOtpModel = loginRepository.forgotPassword(activity, api, mobile, countryCode)
         }
-        return getOtpModel!!
+        return getOtpModel as LiveData<GetOtpModel>
     }
 
     fun login(activity: Context, api: API, email: String, password: String, carrierName: String): LiveData<LoginModel> {
         if (loginModel == null || loginModel != null) {
             loginModel = loginRepository.login(activity, api, email, password, carrierName)
         }
-        return loginModel!!
+        return loginModel as LiveData<LoginModel>
     }
 
     fun forgotPassword(context: Context, api: API, emailId: String): LiveData<ForgotPasswordModel> {
         if (forgotPasswordModel == null || forgotPasswordModel != null) {
             forgotPasswordModel = loginRepository.forgotPassword(context, api, emailId)
         }
-        return forgotPasswordModel!!
+        return forgotPasswordModel as LiveData<ForgotPasswordModel>
     }
 
 
@@ -58,7 +58,7 @@ class LoginViewModel : ViewModel() {
         if (mutableLiveDataLoginTrackier == null) {
             mutableLiveDataLoginTrackier = loginRepository.trackLogin(context, email, password)
         }
-        return mutableLiveDataLoginTrackier!!
+        return mutableLiveDataLoginTrackier as LiveData<LoginTrackier>
     }
 
 

@@ -26,6 +26,9 @@ import com.app.just_money.available.model.*
 import com.app.just_money.common_helper.*
 import com.app.just_money.common_helper.BundleHelper.displayId
 import com.app.just_money.common_helper.BundleHelper.offerId
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.playCustomSound
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentAvailableBinding
@@ -65,10 +68,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
         preferenceHelper = PreferenceHelper(context)
-
         init()
         setListeners()
-        DefaultHelper.playCustomSound(context, R.raw.load_dashboard)
 
         mBinding.swipe.setOnRefreshListener { getIPAddress() }
     }
@@ -139,16 +140,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             if (mBinding.clBestDeal.visibility == GONE && mBinding.rvPopular.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
                         }
                         DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                            showToast(context, decrypt(availableOfferModel.message.toString()))
                             showErrorScreen()
                         }
                         DefaultKeyHelper.forceLogoutCode -> {
                             DefaultHelper.forceLogout(activity)
                         }
                         else -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(availableOfferModel.message.toString()))
+                            showToast(context, decrypt(availableOfferModel.message.toString()))
                             showErrorScreen()
                         }
                     }
@@ -181,31 +180,11 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun updateTimerUI(milliseconds: Long) {
-        // long minutes = (milliseconds / 1000) / 60;
         val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-
-        // long seconds = (milliseconds / 1000);
-        //val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
         val seconds = milliseconds / 1000 % 60
 
-        /* println("Milliseconds = $minutes : $seconds") */
-
-        val minVal: String
-        val secVal: String
-        minVal = if (minutes < 10) {
-            "0$minutes"
-        } else {
-            minutes.toString()
-        }
-
-        secVal = if (seconds < 10) {
-            "0$seconds"
-        } else {
-            seconds.toString()
-        }
-
-        mBinding.txtMinute.text = minVal
-        mBinding.txtSeconds.text = secVal
+        mBinding.txtMinute.text = if (minutes < 10) "0$minutes" else minutes.toString()
+        mBinding.txtSeconds.text = if (seconds < 10) "0$seconds" else seconds.toString()
     }
 
     override fun onDestroy() {
@@ -241,14 +220,15 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun setDailyReward(dailyReward: String, rewardRemainingTime: RewardRemainingTime?, totalCoins: String,
         withdrawn: String, completed: String) {
         val preferenceHelper = PreferenceHelper(context)
-        var hours = DefaultHelper.decrypt(rewardRemainingTime?.hours.toString())
-        var minutes = DefaultHelper.decrypt(rewardRemainingTime?.minutes.toString())
-        val seconds = DefaultHelper.decrypt(rewardRemainingTime?.seconds.toString())
+        var hours = decrypt(rewardRemainingTime?.hours.toString())
+        var minutes = decrypt(rewardRemainingTime?.minutes.toString())
+        val seconds = decrypt(rewardRemainingTime?.seconds.toString())
+        println("hbefhbde $hours $minutes $seconds")
         if (hours.toInt() == 0 && minutes.toInt() == 0 && seconds.toInt() == 0) {
             mBinding.clDailyRewardValue.visibility = VISIBLE
             mBinding.tvTimeLeft.visibility = GONE
             if (dailyReward.isNotEmpty()) {
-                mBinding.txtDailyRewardValue.text = DefaultHelper.decrypt(dailyReward)
+                mBinding.txtDailyRewardValue.text = decrypt(dailyReward)
             }
         } else {
             mBinding.clDailyRewardValue.visibility = GONE
@@ -261,32 +241,26 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             mBinding.tvTimeLeft.text = time
         }
 
-        if (totalCoins.isNotEmpty()) {
-            preferenceHelper.setTotalCoins(totalCoins)
-        }
-        if (completed.isNotEmpty()) {
-            preferenceHelper.setCompleted(completed)
-        }
-        if (withdrawn.isNotEmpty()) {
-            preferenceHelper.setWithdrawn(withdrawn)
-        }
+        if (totalCoins.isNotEmpty()) preferenceHelper.setTotalCoins(totalCoins)
+        if (completed.isNotEmpty()) preferenceHelper.setCompleted(completed)
+        if (withdrawn.isNotEmpty()) preferenceHelper.setWithdrawn(withdrawn)
     }
 
     private fun setFlashOffer(flashOffer: List<FlashOffer>?) {
         if (flashOffer != null && flashOffer.isNotEmpty()) {
             mBinding.clBestDeal.visibility = VISIBLE
 
-            val flashOfferName = DefaultHelper.decrypt(flashOffer[0].name.toString())
-            val description = DefaultHelper.decrypt(flashOffer[0].shortDescription.toString())
-            val endDate = DefaultHelper.decrypt(flashOffer[0].downloadEndDate.toString())
+            val flashOfferName = decrypt(flashOffer[0].name.toString())
+            val description = decrypt(flashOffer[0].shortDescription.toString())
+            val endDate = decrypt(flashOffer[0].downloadEndDate.toString())
             /*val startDate = DefaultHelper.decrypt(flashOffer[0].downloadStartDate.toString())*/
             /*val offerId = DefaultHelper.decrypt(flashOffer[0].offerId.toString())*/
             /*val offerType = DefaultHelper.decrypt(flashOffer[0].offerType.toString())*/
             /*val url = DefaultHelper.decrypt(flashOffer[0].url.toString())*/
             /*val trackingLink = DefaultHelper.decrypt(flashOffer[0].originalTrackLink.toString())*/
-            val image = DefaultHelper.decrypt(flashOffer[0].image.toString())
-            val actualCoins = DefaultHelper.decrypt(flashOffer[0].actualCoins.toString())
-            val offerCoins = DefaultHelper.decrypt(flashOffer[0].offerCoins.toString())
+            val image = decrypt(flashOffer[0].image.toString())
+            val actualCoins = decrypt(flashOffer[0].actualCoins.toString())
+            val offerCoins = decrypt(flashOffer[0].offerCoins.toString())
 
             val values: Array<String> = endDate.split(" ").toTypedArray()
             val timeValue: Array<String> = values[1].split(":").toTypedArray()
@@ -313,7 +287,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             if (timer == null) setTimer(time)
 
             mBinding.txtRedeemOfferAmount.setOnClickListener {
-                claimOffer(flashOffer[0].id.toString(), DefaultHelper.decrypt(flashOffer[0].url.toString()))
+                claimOffer(flashOffer[0].id.toString(), decrypt(flashOffer[0].url.toString()))
             }
             mBinding.txtHaveAQuestion.setOnClickListener {
                 openFragment(FaqFragment())
@@ -373,7 +347,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
-                } else DefaultHelper.showToast(context, DefaultHelper.decrypt(claimOfferModel.message.toString()))
+                } else showToast(context, decrypt(claimOfferModel.message.toString()))
             }
         })
     }
@@ -384,18 +358,17 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 when (versionModel.status) {
                     DefaultKeyHelper.successCode -> {
                         var updateVersion: Long = 0
-                        val title = DefaultHelper.decrypt(versionModel.title.toString())
-                        val playStoreUrl = DefaultHelper.decrypt(versionModel.data?.url.toString())
+                        val title = decrypt(versionModel.title.toString())
+                        val playStoreUrl = decrypt(versionModel.data?.url.toString())
                         if (versionModel.data?.version != null) {
-                            updateVersion = (DefaultHelper.decrypt(versionModel.data.version.toString())).toLong()
+                            updateVersion = (decrypt(versionModel.data.version.toString())).toLong()
                         }
                         val applicationVersion = DefaultHelper.getVersionCode()
-                        val msg = DefaultHelper.decrypt(versionModel.message.toString())
-
+                        val msg = decrypt(versionModel.message.toString())
                         updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(versionModel.message.toString()))
+                        showToast(context, decrypt(versionModel.message.toString()))
                     }
                 }
             }
@@ -407,17 +380,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             if (model != null) {
                 when (model.status) {
                     DefaultKeyHelper.successCode -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(model.message.toString()))
+                        showToast(context, decrypt(model.message.toString()))
+                        playCustomSound(context, R.raw.reward)
                         showCoinAnimation(mBinding.coinAnimation)
-                        DefaultHelper.playCustomSound(context, R.raw.reward)
-                        getOffers()
                         TrackingEvents.trackDailyReward(rewardAmount)
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(model.message.toString()))
+                        showToast(context, decrypt(model.message.toString()))
                     }
                 }
-            } else DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
+            } else showToast(context, getString(R.string.somethingWentWrong))
         })
     }
 
@@ -428,21 +400,15 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                     preferenceHelper.setIpAddress(ipAddressModel.ip)
                     getOffers()
                 } else {
-                    DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
+                    showToast(context, getString(R.string.somethingWentWrong))
                     activity?.finish()
                 }
             }
         })
     }
 
-    private fun updateApplicationDialog(updateVersion: Long, applicationVersion: Long?, title: String,
-        message: String, url: String) {
-        println("applicationVersion : $applicationVersion   updateVersion : $updateVersion")
-        if (applicationVersion != null) {
-            if (applicationVersion < updateVersion) {
-                showDialog(title, message, url)
-            }
-        }
+    private fun updateApplicationDialog(updtVar: Long, appVar: Long, title: String, message: String, url: String) {
+        if (appVar < updtVar) showDialog(title, message, url)
     }
 
     private fun showDialog(title: String, message: String, url: String) {
@@ -455,12 +421,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             val height = ViewGroup.LayoutParams.WRAP_CONTENT
             dialog.window?.setLayout(width, height)
 
-            if (title.isNotEmpty()) {
-                dialog.txtTitle.text = title
-            }
-            if (message.isNotEmpty()) {
-                dialog.txtMessage.text = message
-            }
+            if (title.isNotEmpty()) dialog.txtTitle.text = title
+            if (message.isNotEmpty()) dialog.txtMessage.text = message
 
             dialog.txtUpdateApplication.setOnClickListener {
                 //  startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.dne.rewardapp&reviewId")))
@@ -477,18 +439,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         view.visibility = VISIBLE
         view.playAnimation()
         view.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-            }
-
+            override fun onAnimationStart(animation: Animator?) {}
             override fun onAnimationEnd(animation: Animator?) {
                 view.visibility = GONE
+                getOffers()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationRepeat(animation: Animator?) {
-            }
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
         })
     }
 
@@ -504,17 +462,16 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         alert.show()
         (activity as MainActivity).popup = 1
         //setting  values
-        DefaultHelper.loadImage(context, DefaultHelper.decrypt(popup.image.toString()),
-            popupOfferView.ivOfferImage, ContextCompat.getDrawable(context!!, R.drawable.ic_love_app),
+        DefaultHelper.loadImage(context, decrypt(popup.image.toString()), popupOfferView.ivOfferImage,
+            ContextCompat.getDrawable(context!!, R.drawable.ic_love_app),
             ContextCompat.getDrawable(context!!, R.drawable.ic_logo))
-        val offerCoins = DefaultHelper.decrypt(popup.offer_coins.toString())
-        val actualCoins = DefaultHelper.decrypt(popup.actual_coins.toString())
+        val offerCoins = decrypt(popup.offer_coins.toString())
+        val actualCoins = decrypt(popup.actual_coins.toString())
         popupOfferView.txtOfferCoins.text = offerCoins
         popupOfferView.txtActualCoins.text = actualCoins
         popupOfferView.txtSaveCoins.text = "Earn Extra " + (offerCoins.toInt() - actualCoins.toInt())
-        popupOfferView.txtDescription.text = DefaultHelper.decrypt(popup.short_description.toString())
-        popupOfferView.txtOfferExpiry.text =
-            "Offer expires " + DefaultHelper.decrypt(popup.download_end_date.toString())
+        popupOfferView.txtDescription.text = decrypt(popup.short_description.toString())
+        popupOfferView.txtOfferExpiry.text = "Offer expires " + decrypt(popup.download_end_date.toString())
 
         popupOfferView.tvSeeOfferDetails.setOnClickListener {
             val offerDetails = OfferDetailsFragment()

@@ -3,6 +3,8 @@ package com.app.just_money.login.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.encrypt
+import com.app.just_money.common_helper.DefaultHelper.getDeviceId
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
@@ -23,12 +25,14 @@ class RegisterRepository {
         val mutableLiveData: MutableLiveData<RegisterUserModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.firstname = DefaultHelper.encrypt(firstName)
-            requestKeyHelper.lastname = DefaultHelper.encrypt(lastName)
-            requestKeyHelper.email = DefaultHelper.encrypt(emailId)
-            requestKeyHelper.password = DefaultHelper.encrypt(password)
-            requestKeyHelper.device_id = DefaultHelper.encrypt(DefaultHelper.getDeviceId(context!!))
+            val preferenceHelper = PreferenceHelper(context)
+            requestKeyHelper.firstname = encrypt(firstName)
+            requestKeyHelper.lastname = encrypt(lastName)
+            requestKeyHelper.email = encrypt(emailId)
+            requestKeyHelper.password = encrypt(password)
+            requestKeyHelper.device_id = encrypt(getDeviceId(context!!))
             requestKeyHelper.invite_code = "" //DefaultHelper.encrypt(DefaultHelper.getPackageId(context))
+            requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.register(requestKeyHelper).enqueue(object : Callback<RegisterUserModel> {
                 override fun onResponse(call: Call<RegisterUserModel>, response: Response<RegisterUserModel>) {
                     val header = response.headers()["Authorization"].toString()

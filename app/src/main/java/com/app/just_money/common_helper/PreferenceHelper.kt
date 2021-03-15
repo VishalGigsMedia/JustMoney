@@ -13,7 +13,7 @@ class PreferenceHelper(context: Context?) {
     }
 
     enum class Key {
-        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserMobile, UserDob, UserGender, UserProfilePic, ReferralCode, UserFirstName, UserLastName, ipAddress
+        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserMobile, UserDob, UserGender, UserProfilePic, ReferralCode, UserFirstName, UserLastName, ipAddress,FCMToken
     }
 
     //set preference data
@@ -167,5 +167,13 @@ class PreferenceHelper(context: Context?) {
 
     fun setClearSpecific(key: String) {
         sharedPreferences.edit().remove(key).apply()
+    }
+
+    fun setFCMToken(value: String) {
+        this.sharedPreferences.edit().putString(Key.FCMToken.name, value).apply()
+    }
+
+    fun getFCMToken(): String {
+        return this.sharedPreferences.getString(Key.FCMToken.name, "").toString()
     }
 }

@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.app.just_money.BuildConfig
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.encrypt
+import com.app.just_money.common_helper.DefaultHelper.getDeviceId
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
@@ -43,9 +45,9 @@ class LoginRepository {
         val mutableLiveData: MutableLiveData<GetOtpModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.mobile = DefaultHelper.encrypt(mobile)
+            requestKeyHelper.mobile = encrypt(mobile)
             requestKeyHelper.package_id = DefaultHelper.getPackageId(context)
-            requestKeyHelper.country_code = DefaultHelper.encrypt(countryCode)
+            requestKeyHelper.country_code = encrypt(countryCode)
             /*println(
                 "RequestHelper :" +
                         " ${requestKeyHelper.mobile} :" +
@@ -75,16 +77,19 @@ class LoginRepository {
         val mutableLiveData: MutableLiveData<LoginModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.email = DefaultHelper.encrypt(email)
-            requestKeyHelper.password = DefaultHelper.encrypt(password)
-            requestKeyHelper.device = Build.BRAND + " " + Build.MODEL
-            requestKeyHelper.android_version = Build.VERSION.RELEASE
-            requestKeyHelper.version_name = BuildConfig.VERSION_NAME
-            requestKeyHelper.version_code = BuildConfig.VERSION_CODE.toString()
-            requestKeyHelper.cpu = Build.CPU_ABI
-            requestKeyHelper.display = Build.DISPLAY
-            requestKeyHelper.device_type = "phone"
-            requestKeyHelper.carrier_name = carrierName
+            requestKeyHelper.email = encrypt(email)
+            requestKeyHelper.password = encrypt(password)
+            requestKeyHelper.device_brand = encrypt(Build.BRAND)
+            requestKeyHelper.device_model = encrypt(Build.MODEL)
+            requestKeyHelper.android_version = encrypt(Build.VERSION.RELEASE)
+            requestKeyHelper.version_name = encrypt(BuildConfig.VERSION_NAME)
+            requestKeyHelper.version_code = encrypt(BuildConfig.VERSION_CODE.toString())
+            requestKeyHelper.cpu = encrypt(Build.CPU_ABI)
+            requestKeyHelper.display = encrypt(Build.DISPLAY)
+            requestKeyHelper.device_type = encrypt("phone")
+            requestKeyHelper.device_id = encrypt(getDeviceId(context))
+            requestKeyHelper.carrier_name = encrypt(carrierName)
+            requestKeyHelper.device_manufacturer = encrypt(Build.MANUFACTURER)
             api.login(requestKeyHelper).enqueue(object : Callback<LoginModel> {
                 override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
                     val header = response.headers()["Authorization"].toString()
@@ -189,7 +194,7 @@ class LoginRepository {
         val mutableLiveData: MutableLiveData<ForgotPasswordModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.email = DefaultHelper.encrypt(emailId)
+            requestKeyHelper.email = encrypt(emailId)
             api.forgotPassword(requestKeyHelper).enqueue(object : Callback<ForgotPasswordModel> {
                 override fun onResponse(call: Call<ForgotPasswordModel>, response: Response<ForgotPasswordModel>) {
                     gson = gsonBuilder.create()

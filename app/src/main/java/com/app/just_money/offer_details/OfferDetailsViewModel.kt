@@ -21,11 +21,4 @@ class OfferDetailsViewModel : ViewModel() {
         return offerDetailModel as LiveData<OfferDetailsModel>
     }
 
-    fun claimOffer(context: Context, api: API, appId: String): LiveData<ClaimOfferModel> {
-        if (claimOfferModel != null || claimOfferModel == null) {
-            claimOfferModel = offerDetailRepository.claimOffer(context, api, appId)
-        }
-        return claimOfferModel!!
-    }
-
 }

@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.loadImage
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.DefaultKeyHelper.weekly
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
@@ -66,14 +68,14 @@ class LeaderBoardFragment : Fragment() {
                         TrackingEvents.trackLeaderBoardViewed()
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(leaderBoardModel.message))
+                        DefaultHelper.showToast(context, decrypt(leaderBoardModel.message))
                         showErrorScreen()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
                         DefaultHelper.forceLogout(activity!!)
                     }
                     else -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(leaderBoardModel.message))
+                        DefaultHelper.showToast(context, decrypt(leaderBoardModel.message))
                         showErrorScreen()
                     }
                 }
@@ -86,10 +88,10 @@ class LeaderBoardFragment : Fragment() {
 
     private fun setWeeklyData() {
         if (currentUserWeekly != null) {
-            mBinding.tvRank.text = DefaultHelper.decrypt(currentUserWeekly?.rank.toString())
-            mBinding.tvCoins.text = DefaultHelper.decrypt(currentUserWeekly?.total_amount.toString())
-            mBinding.tvName.text = DefaultHelper.decrypt(currentUserWeekly?.firstname.toString())
-            DefaultHelper.loadImage(context, DefaultHelper.decrypt(currentUserWeekly?.profile_pic.toString()),
+            mBinding.tvRank.text = decrypt(currentUserWeekly?.rank.toString())
+            mBinding.tvCoins.text = decrypt(currentUserWeekly?.total_amount.toString())
+            mBinding.tvName.text = decrypt(currentUserWeekly?.firstname.toString())
+            loadImage(context, decrypt(currentUserWeekly?.profile_pic.toString()),
                 mBinding.ivProfileImage, ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder),
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
             if (weeklyList !== null) mBinding.rvLeaderBoard.adapter = LeaderBoardAdapter(context, weeklyList!!)
@@ -98,10 +100,10 @@ class LeaderBoardFragment : Fragment() {
     }
     private fun setMonthlyData() {
         if (currentUserMonthly != null) {
-            mBinding.tvRank.text = DefaultHelper.decrypt(currentUserMonthly?.rank.toString())
-            mBinding.tvCoins.text = DefaultHelper.decrypt(currentUserMonthly?.total_amount.toString())
-            mBinding.tvName.text = DefaultHelper.decrypt(currentUserMonthly?.firstname.toString())
-            DefaultHelper.loadImage(context, DefaultHelper.decrypt(currentUserMonthly?.profile_pic.toString()),
+            mBinding.tvRank.text = decrypt(currentUserMonthly?.rank.toString())
+            mBinding.tvCoins.text = decrypt(currentUserMonthly?.total_amount.toString())
+            mBinding.tvName.text = decrypt(currentUserMonthly?.firstname.toString())
+            loadImage(context, decrypt(currentUserMonthly?.profile_pic.toString()),
                 mBinding.ivProfileImage, ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder),
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
             if (monthlyList !== null) mBinding.rvLeaderBoard.adapter = LeaderBoardAdapter(context, monthlyList!!)
