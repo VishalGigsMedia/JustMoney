@@ -32,7 +32,7 @@
                 android:fontFamily="@font/metropolis_medium_italic"
                 android:gravity="start"
                 android:letterSpacing="0.02"
-                android:text="@string/help"
+                android:text="@string/feedback"
                 android:textColor="@color/color_primary"
                 android:textSize="@dimen/_20ssp"
                 app:drawableStartCompat="@drawable/ic_arrow_back_black"

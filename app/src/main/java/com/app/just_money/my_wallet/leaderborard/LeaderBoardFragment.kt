@@ -15,10 +15,11 @@ import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.common_helper.DefaultHelper.loadImage
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.DefaultKeyHelper.weekly
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
-import com.app.just_money.common_helper.TrackingEvents
+import com.app.just_money.common_helper.TrackingEvents.trackLeaderBoardViewed
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentLeaderBoardBinding
@@ -34,11 +35,11 @@ class LeaderBoardFragment : Fragment() {
     lateinit var mBinding: FragmentLeaderBoardBinding
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var viewModel: LeaderBoardViewModel
-    var currentUserWeekly: CurrUserRankWeekly? = null
-    var currentUserMonthly: CurrUserRankMonthly? = null
-    var weeklyList: List<Leadership>? = null
-    var monthlyList: List<Leadership>? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private var currentUserWeekly: CurrUserRankWeekly? = null
+    private var currentUserMonthly: CurrUserRankMonthly? = null
+    private var weeklyList: List<Leadership>? = null
+    private var monthlyList: List<Leadership>? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_leader_board, container, false)
         return mBinding.root
     }
@@ -65,22 +66,22 @@ class LeaderBoardFragment : Fragment() {
                         weeklyList = leaderBoardModel.data.leadership_weekly
                         monthlyList = leaderBoardModel.data.leadership_monthly
                         setWeeklyData()
-                        TrackingEvents.trackLeaderBoardViewed()
+                        trackLeaderBoardViewed()
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context, decrypt(leaderBoardModel.message))
+                        showToast(context, decrypt(leaderBoardModel.message))
                         showErrorScreen()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
                         DefaultHelper.forceLogout(activity!!)
                     }
                     else -> {
-                        DefaultHelper.showToast(context, decrypt(leaderBoardModel.message))
+                        showToast(context, decrypt(leaderBoardModel.message))
                         showErrorScreen()
                     }
                 }
             } else {
-                DefaultHelper.showToast(context, "Something went Wrong!!")
+                showToast(context, "Something went Wrong!!")
                 showErrorScreen()
             }
         })
@@ -116,16 +117,16 @@ class LeaderBoardFragment : Fragment() {
         mBinding.llError.visibility = VISIBLE
     }
 
-    private fun stopShimmer() {
-        mBinding.shimmer.stopShimmer()
-        mBinding.shimmer.visibility = GONE
-        mBinding.llLeaderBoard.visibility = VISIBLE
-    }
-
     private fun showShimmer() {
         mBinding.shimmer.startShimmer()
         mBinding.shimmer.visibility = VISIBLE
         mBinding.llLeaderBoard.visibility = GONE
+    }
+
+    private fun stopShimmer() {
+        mBinding.shimmer.stopShimmer()
+        mBinding.shimmer.visibility = GONE
+        mBinding.llLeaderBoard.visibility = VISIBLE
     }
 
     private fun manageClicks() {

@@ -165,7 +165,7 @@
                 android:drawablePadding="@dimen/_10sdp"
                 android:fontFamily="@font/metropolis_medium"
                 android:gravity="center_vertical"
-                android:text="@string/help"
+                android:text="@string/feedback"
                 android:textAllCaps="false"
                 android:textColor="@color/gray_800"
                 android:textSize="@dimen/_13ssp"

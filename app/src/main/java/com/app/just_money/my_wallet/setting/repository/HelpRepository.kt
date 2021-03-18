@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.my_wallet.setting.model.SendFeedbackModel
@@ -55,7 +57,7 @@ class HelpRepository {
                             if (sendFeedbackModel != null) {
                                 mutableLiveData.value = sendFeedbackModel
                             } else {
-                                DefaultHelper.showToast(context, DefaultHelper.decrypt(response.message()))
+                                showToast(context, decrypt(response.message()))
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -68,7 +70,7 @@ class HelpRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            showToast(context, context.getString(R.string.no_internet))
             mutableLiveData.value = null
         }
         return mutableLiveData

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.BundleHelper
-import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.databinding.RowItemInProgressBinding
 import com.app.just_money.databinding.RowItemInProgressTypeSecondBinding
 import com.app.just_money.in_progress.model.PendingList
@@ -25,11 +25,11 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == 0) {
-            InProgressViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.row_item_in_progress, parent, false))
+            InProgressViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.row_item_in_progress, parent, false))
         } else {
-            InProgressSecondViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.row_item_in_progress_type_second, parent, false))
+            InProgressSecondViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.row_item_in_progress_type_second, parent, false))
         }
     }
 
@@ -46,32 +46,28 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             val imageUrl = inProgressList[position].image.toString()
             val created_at = inProgressList[position].created_at.toString()
             val offerCoins = inProgressList[position].offerCoins.toString()
-            val url = DefaultHelper.decrypt(inProgressList[position].url.toString())
+            val url = decrypt(inProgressList[position].url.toString())
 
             if (title.isNotEmpty()) {
-                holder.mBindingInProgressBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
+                holder.mBindingInProgressBinding?.txtTitle?.text = decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingInProgressBinding?.txtDescription?.text =
-                    DefaultHelper.decrypt(description)
+                holder.mBindingInProgressBinding?.txtDescription?.text = decrypt(description)
             }
 
             if (imageUrl.isNotEmpty()) {
                 if (context != null) {
-                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
-                        .error(R.drawable.ic_logo).into(holder.mBindingInProgressBinding?.ivLogo!!)
+                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
+                        .into(holder.mBindingInProgressBinding?.ivLogo!!)
                 }
             }
 
             if (created_at.isNotEmpty()) {
-                holder.mBindingInProgressBinding?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(created_at)
+                holder.mBindingInProgressBinding?.txtCreatedAt?.text = decrypt(created_at)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingInProgressBinding?.txtDealOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
-                holder.mBindingInProgressBinding?.txtRedeemOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
+                holder.mBindingInProgressBinding?.txtDealOfferAmount?.text = decrypt(offerCoins)
+                holder.mBindingInProgressBinding?.txtRedeemOfferAmount?.text = decrypt(offerCoins)
             }
 
             holder.mBindingInProgressBinding?.clBestDeal?.setOnClickListener {
@@ -81,8 +77,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
                 bundle.putString(BundleHelper.displayId, offerId)
                 bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
-                context?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.flMain, offerDetails)
+                context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
                     ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             }
 
@@ -95,8 +90,8 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             }
             holder.mBindingInProgressBinding?.txtHaveAQuestion?.setOnClickListener {
                 (context as MainActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMain, FaqFragment())
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
+                    .replace(R.id.flMain, FaqFragment()).addToBackStack(MainActivity::class.java.simpleName)
+                    .commit()
             }
 
         } else if (holder is InProgressSecondViewHolder) {
@@ -109,35 +104,29 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             val imageUrl = inProgressList[position].image.toString()
             val created_at = inProgressList[position].created_at.toString()
             val offerCoins = inProgressList[position].offerCoins.toString()
-            val url = DefaultHelper.decrypt(inProgressList[position].url.toString())
+            val url = decrypt(inProgressList[position].url.toString())
 
             if (title.isNotEmpty()) {
-                holder.mBindingInProgressTypeSecondBinding?.txtTitle?.text =
-                    DefaultHelper.decrypt(title)
+                holder.mBindingInProgressTypeSecondBinding?.txtTitle?.text = decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingInProgressTypeSecondBinding?.txtDescription?.text =
-                    DefaultHelper.decrypt(description)
+                holder.mBindingInProgressTypeSecondBinding?.txtDescription?.text = decrypt(description)
             }
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
                 if (context != null) {
-                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo)
-                        .error(R.drawable.ic_logo)
+                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
                         .into(holder.mBindingInProgressTypeSecondBinding?.ivLogo!!)
                 }
             }
 
             if (created_at.isNotEmpty()) {
-                holder.mBindingInProgressTypeSecondBinding?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(created_at)
+                holder.mBindingInProgressTypeSecondBinding?.txtCreatedAt?.text = decrypt(created_at)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingInProgressTypeSecondBinding?.txtDealOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
-                holder.mBindingInProgressTypeSecondBinding?.txtRedeemOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
+                holder.mBindingInProgressTypeSecondBinding?.txtDealOfferAmount?.text = decrypt(offerCoins)
+                holder.mBindingInProgressTypeSecondBinding?.txtRedeemOfferAmount?.text = decrypt(offerCoins)
             }
 
             holder.mBindingInProgressTypeSecondBinding?.clBestDeal?.setOnClickListener {
@@ -147,8 +136,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
                 bundle.putString(BundleHelper.displayId, offerId)
                 bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
-                context?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.flMain, offerDetails)
+                context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
                     ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
             }
 
@@ -162,8 +150,8 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
 
             holder.mBindingInProgressTypeSecondBinding?.txtHaveAQuestion?.setOnClickListener {
                 (context as MainActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMain, FaqFragment())
-                    .addToBackStack(MainActivity::class.java.simpleName).commit()
+                    .replace(R.id.flMain, FaqFragment()).addToBackStack(MainActivity::class.java.simpleName)
+                    .commit()
             }
 
         }

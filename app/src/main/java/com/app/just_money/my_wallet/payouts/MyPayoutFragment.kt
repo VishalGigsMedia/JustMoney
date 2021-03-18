@@ -28,6 +28,7 @@ class MyPayoutFragment : Fragment() {
     private lateinit var viewModel: MyPayoutViewModel
     private lateinit var mBinding: FragmentMyPayoutBinding
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_payout, container, false)
         return mBinding.root

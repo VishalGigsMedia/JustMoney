@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.R
-import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.databinding.RowItemCompletedPinkBgBinding
 import com.app.just_money.databinding.RowItemCompletedWhiteBgBinding
 import com.app.just_money.my_wallet.completed.model.CompletedList
@@ -47,12 +47,13 @@ class CompletedAdapter(
             val imageUrl = completedOfferData[position].image.toString()
             val actualCoins = completedOfferData[position].actualCoins.toString()
             val offerCoins = completedOfferData[position].offerCoins.toString()
+            val createdAt = completedOfferData[position].created_at.toString()
 
             if (title.isNotEmpty()) {
-                holder.mBindingCompletedPinkBgBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
+                holder.mBindingCompletedPinkBgBinding?.txtTitle?.text = decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingCompletedPinkBgBinding?.txtDescription?.text = DefaultHelper.decrypt(description)
+                holder.mBindingCompletedPinkBgBinding?.txtDescription?.text = decrypt(description)
             }
 
             if (imageUrl.isNotEmpty()) {
@@ -61,11 +62,10 @@ class CompletedAdapter(
             }
 
             if (actualCoins.isNotEmpty()) {
-                holder.mBindingCompletedPinkBgBinding?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(actualCoins)
+                holder.mBindingCompletedPinkBgBinding?.txtCreatedAt?.text = decrypt(createdAt)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingCompletedPinkBgBinding?.txtDealOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
+                holder.mBindingCompletedPinkBgBinding?.txtDealOfferAmount?.text = decrypt(offerCoins)
             }
 
             /*holder.mBindingCompletedPinkBgBinding?.clBestDeal?.setOnClickListener {
@@ -88,12 +88,13 @@ class CompletedAdapter(
             val imageUrl = completedOfferData[position].image.toString()
             val actualCoins = completedOfferData[position].actualCoins.toString()
             val offerCoins = completedOfferData[position].offerCoins.toString()
+            val createdAt = completedOfferData[position].created_at.toString()
 
             if (title.isNotEmpty()) {
-                holder.mBindingCompletedWhiteBgBinding?.txtTitle?.text = DefaultHelper.decrypt(title)
+                holder.mBindingCompletedWhiteBgBinding?.txtTitle?.text = decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingCompletedWhiteBgBinding?.txtDescription?.text = DefaultHelper.decrypt(description)
+                holder.mBindingCompletedWhiteBgBinding?.txtDescription?.text = decrypt(description)
             }
 
             if (imageUrl.isNotEmpty()) {
@@ -102,12 +103,10 @@ class CompletedAdapter(
             }
 
             if (actualCoins.isNotEmpty()) {
-                holder.mBindingCompletedWhiteBgBinding?.txtDealActualAmount?.text =
-                    DefaultHelper.decrypt(actualCoins)
+                holder.mBindingCompletedWhiteBgBinding?.txtCreatedAt?.text = decrypt(createdAt)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingCompletedWhiteBgBinding?.txtDealOfferAmount?.text =
-                    DefaultHelper.decrypt(offerCoins)
+                holder.mBindingCompletedWhiteBgBinding?.txtDealOfferAmount?.text = decrypt(offerCoins)
             }
 
             /*holder.mBindingCompletedWhiteBgBinding?.clBestDeal?.setOnClickListener {

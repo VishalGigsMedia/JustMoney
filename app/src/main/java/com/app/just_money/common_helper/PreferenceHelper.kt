@@ -9,7 +9,7 @@ class PreferenceHelper(context: Context?) {
 
     init {
         val preference = DefaultKeyHelper.preferenceName
-        this.sharedPreferences = context!!.getSharedPreferences(preference, Context.MODE_PRIVATE)
+        this.sharedPreferences = context?.getSharedPreferences(preference, Context.MODE_PRIVATE)!!
     }
 
     enum class Key {

@@ -31,7 +31,7 @@ class ProfileViewModel : ViewModel() {
             updateProfileModel =
                 profileRepository.updateProfile(context, api, name, lastName, dob, gender, email,mobile, uploadImage)
         }
-        return updateProfileModel!!
+        return updateProfileModel as LiveData<UpdatedProfileModel>
     }
 
 

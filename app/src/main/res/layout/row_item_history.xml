@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toStartOf="@id/verticalLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Dec 01,2021" />
+            tools:text="Dec 01,21" />
 
         <TextView
             android:id="@+id/txtTime"

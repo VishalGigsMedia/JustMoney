@@ -29,6 +29,8 @@ import com.app.just_money.common_helper.BundleHelper.offerId
 import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.common_helper.DefaultHelper.playCustomSound
 import com.app.just_money.common_helper.DefaultHelper.showToast
+import com.app.just_money.common_helper.TrackingEvents.trackDailyReward
+import com.app.just_money.common_helper.TrackingEvents.trackOfferList
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentAvailableBinding
@@ -99,7 +101,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
                         DefaultKeyHelper.successCode -> {
-                            TrackingEvents.trackOfferList()
+                            trackOfferList()
                             val offerData = availableOfferModel.availableOfferData
                             val dailyReward = offerData?.dailyRewards.toString()
                             val rewardRemainingTime = offerData?.reward_remaining_time
@@ -383,7 +385,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                         showToast(context, decrypt(model.message.toString()))
                         playCustomSound(context, R.raw.reward)
                         showCoinAnimation(mBinding.coinAnimation)
-                        TrackingEvents.trackDailyReward(rewardAmount)
+                        trackDailyReward(rewardAmount)
                     }
                     DefaultKeyHelper.failureCode -> {
                         showToast(context, decrypt(model.message.toString()))

@@ -26,7 +26,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.BuildConfig
 import com.app.just_money.R
-import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
@@ -80,19 +81,19 @@ class HelpUsFragment : Fragment() {
     private fun validate(): Boolean {
         when {
             mBinding.edtName.text.toString().isEmpty() -> {
-                DefaultHelper.showToast(context!!, getString(R.string.ent_name))
+                showToast(context!!, getString(R.string.ent_name))
                 return false
             }
             mBinding.edtEmail.text.toString().isEmpty() -> {
-                DefaultHelper.showToast(context!!, getString(R.string.ent_email))
+                showToast(context!!, getString(R.string.ent_email))
                 return false
             }
             mBinding.edtSubject.text.toString().isEmpty() -> {
-                DefaultHelper.showToast(context!!, getString(R.string.ent_subject))
+                showToast(context!!, getString(R.string.ent_subject))
                 return false
             }
             mBinding.edtDescription.text.toString().isEmpty() -> {
-                DefaultHelper.showToast(context!!, getString(R.string.ent_describe))
+                showToast(context!!, getString(R.string.ent_describe))
                 return false
             }
             else -> return true
@@ -226,24 +227,18 @@ class HelpUsFragment : Fragment() {
                 if (sendFeedbackModel != null) {
                     when {
                         sendFeedbackModel.status == DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(sendFeedbackModel.message.toString()))
+                            showToast(context, decrypt(sendFeedbackModel.message.toString()))
                             activity?.onBackPressed()
                         }
                         sendFeedbackModel.status == DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(sendFeedbackModel.message.toString()))
+                            showToast(context, decrypt(sendFeedbackModel.message.toString()))
                         }
                         sendFeedbackModel.forceLogout != 0 -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(sendFeedbackModel.message.toString()))
+                            showToast(context, decrypt(sendFeedbackModel.message.toString()))
                         }
-                        else -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(sendFeedbackModel.message.toString()))
-                        }
+                        else -> showToast(context, decrypt(sendFeedbackModel.message.toString()))
                     }
-                }
+                } else showToast(context, getString(R.string.somethingWentWrong))
             })
     }
 

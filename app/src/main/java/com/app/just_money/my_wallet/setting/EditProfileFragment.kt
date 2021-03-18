@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -32,9 +31,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.BuildConfig
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.loadImage
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
-import com.app.just_money.common_helper.TrackingEvents
+import com.app.just_money.common_helper.TrackingEvents.trackProfileEdited
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentEditProfileBinding
@@ -58,7 +60,6 @@ class EditProfileFragment : Fragment() {
     private var fileIsSelected: Boolean = false
     private var picturePath = ""
     private var cal = Calendar.getInstance()
-    private lateinit var dialogVerify: Dialog
 
     private lateinit var viewModel: ProfileViewModel
     private lateinit var mBinding: FragmentEditProfileBinding
@@ -105,9 +106,9 @@ class EditProfileFragment : Fragment() {
 
         //Set Email & Image
         mBinding.txtEmail.text = preferenceHelper.getEmail()
-        val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
+        val profilePic = decrypt(preferenceHelper.getProfilePic())
         if (profilePic.isNotEmpty() && profilePic != "null") {
-            DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
+            loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder),
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder))
         } else {
@@ -191,59 +192,30 @@ class EditProfileFragment : Fragment() {
                 if (updateProfileModel != null) {
                     when {
                         updateProfileModel.status == DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context!!, DefaultHelper.decrypt(updateProfileModel.message))
+                            showToast(context!!, decrypt(updateProfileModel.message))
                             setData(updateProfileModel)
-                            TrackingEvents.trackProfileEdited()
+                            trackProfileEdited()
                         }
                         updateProfileModel.status == DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context,
-                                DefaultHelper.decrypt(updateProfileModel.message.toString()))
+                            showToast(context, decrypt(updateProfileModel.message))
                         }
                         updateProfileModel.forceLogout != 0 -> {
                             DefaultHelper.forceLogout(activity)
                         }
                     }
-                }
+                } else showToast(context, getString(R.string.somethingWentWrong))
             })
     }
 
     private fun setData(updateProfileModel: UpdatedProfileModel) {
-        val userFirstName = updateProfileModel.data.firstname
-        val userLastName = updateProfileModel.data.lastname
-        val dob = updateProfileModel.data.dob
-        val gender = updateProfileModel.data.gender
-        val email = updateProfileModel.data.email
-        val mobile = updateProfileModel.data.mobile
-        val profilePic = updateProfileModel.data.profilePic
-
         val preferenceHelper = PreferenceHelper(context)
-        /* if (userId.isNotEmpty() && userId != "null") {
-             preferenceHelper.setUserId(userId)
-         }*/
-        if (userFirstName.isNotEmpty() && userFirstName != "null") {
-            preferenceHelper.setFirstName(userFirstName)
-        }
-        if (userLastName.isNotEmpty() && userLastName != "null") {
-            preferenceHelper.setLastName(userLastName)
-        }
-
-        if (email.isNotEmpty() && email != "null") {
-            preferenceHelper.setEmail(email)
-        }
-        if (mobile.isNotEmpty() && mobile != "null") {
-            preferenceHelper.setMobile(mobile)
-        }
-
-        if (dob.isNotEmpty() && dob != "null") {
-            preferenceHelper.setDob(dob)
-        }
-        if (gender.isNotEmpty() && gender != "null") {
-            preferenceHelper.setGender(gender)
-        }
-
-        if (profilePic.isNotEmpty() && profilePic != "null") {
-            preferenceHelper.setProfilePic(profilePic)
-        }
+        preferenceHelper.setFirstName(updateProfileModel.data?.firstname.toString())
+        preferenceHelper.setLastName(updateProfileModel.data?.lastname.toString())
+        preferenceHelper.setEmail(updateProfileModel.data?.email.toString())
+        preferenceHelper.setMobile(updateProfileModel.data?.mobile.toString())
+        preferenceHelper.setDob(updateProfileModel.data?.dob.toString())
+        preferenceHelper.setGender(updateProfileModel.data?.gender.toString())
+        preferenceHelper.setProfilePic(updateProfileModel.data?.profilePic.toString())
 
         activity?.onBackPressed()
     }
@@ -305,9 +277,9 @@ class EditProfileFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
                 if (fileProfile != null) {
-                    val myBitmap = BitmapFactory.decodeFile(fileProfile!!.absolutePath)
+                    val myBitmap = BitmapFactory.decodeFile(fileProfile?.absolutePath)
                     //println("fileProfile : $myBitmap")
-                    val bitmap = modifyOrientation(myBitmap, fileProfile!!.absolutePath)
+                    val bitmap = modifyOrientation(myBitmap, fileProfile?.absolutePath)
                     mBinding.ivProfileImage.setImageBitmap(bitmap)
                     fileIsSelected = true
                 }
@@ -371,7 +343,7 @@ class EditProfileFragment : Fragment() {
             storageDir      /* directory */)
         // Save a file: path for use with ACTION_VIEW intents
         val mCurrentPhotoPath = image.absolutePath
-        //println("mCurrentPhotoPath: $mCurrentPhotoPath")
+        println("mCurrentPhotoPath: $mCurrentPhotoPath")
         return image
     }
 

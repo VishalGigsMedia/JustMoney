@@ -119,7 +119,7 @@ object DefaultHelper {
         return null
     }
 
-    fun showToast(context: Context?, message: String?, duration: Int = Toast.LENGTH_LONG) {
+    fun showToast(context: Context?, message: String?, duration: Int = Toast.LENGTH_SHORT) {
         if (message.toString().isNotEmpty()) {
             Toast.makeText(context, message, duration).show()
         }
@@ -160,6 +160,8 @@ object DefaultHelper {
     }
 
     fun forceLogout(context: FragmentActivity?) {
+        val preferenceHelper = PreferenceHelper(context)
+        preferenceHelper.setUserLoggedIn(false)
         val intent = Intent(context, LoginActivity::class.java)
         context?.startActivity(intent)
         context?.finish()

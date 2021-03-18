@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
@@ -71,8 +72,7 @@ class MyProfileFragment : Fragment() {
 
         //Set Email & Image
         mBinding.txtEmailValue.text = preferenceHelper.getEmail()
-        val profilePic = DefaultHelper.decrypt(preferenceHelper.getProfilePic())
-        //println("profilePic : $profilePic")
+        val profilePic = decrypt(preferenceHelper.getProfilePic())
         if (profilePic.isNotEmpty() && profilePic != "null") {
             DefaultHelper.loadImage(context, preferenceHelper.getProfilePic(), mBinding.ivProfileImage,
                 ContextCompat.getDrawable(context!!, R.drawable.ic_user_place_holder),
