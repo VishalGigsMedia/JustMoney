@@ -30,7 +30,7 @@ class RegisterFragment : Fragment() {
     private lateinit var viewModelAO: AvailableOfferViewModel
     private lateinit var mBinding: FragmentRegisterBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
         return mBinding.root
     }

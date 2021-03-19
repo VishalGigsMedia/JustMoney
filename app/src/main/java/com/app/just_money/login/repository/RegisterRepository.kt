@@ -18,7 +18,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterRepository {
-    private val TAG = javaClass.simpleName
     private var registerUserModel: RegisterUserModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
@@ -38,14 +37,10 @@ class RegisterRepository {
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.register(requestKeyHelper).enqueue(object : Callback<RegisterUserModel> {
                 override fun onResponse(call: Call<RegisterUserModel>, response: Response<RegisterUserModel>) {
-                    val header = response.headers()["Authorization"].toString()
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())
                     registerUserModel = gson?.fromJson(json, RegisterUserModel::class.java)
                     mutableLiveData.value = registerUserModel
-                    /* if (header.isNotEmpty()) {
-                         setPreferenceValue(context, registerUserModel!!, header)
-                     }*/
                 }
 
                 override fun onFailure(call: Call<RegisterUserModel>, t: Throwable) {
@@ -58,17 +53,6 @@ class RegisterRepository {
             showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
-    }
-
-    private fun setPreferenceValue(context: Context, registerUserModel: RegisterUserModel, header: String) {
-        val preferenceHelper = PreferenceHelper(context)
-        if (header.isNotEmpty()) {
-            preferenceHelper.setJwtToken("Bearer $header")
-        }
-        /*if (registerUserModel.registerData?.userId.toString().isNotEmpty()) {
-            preferenceHelper.setUserId(registerUserModel.registerData?.userId.toString())
-        }*/
-        preferenceHelper.setUserLoggedIn(true)
     }
 
 }
