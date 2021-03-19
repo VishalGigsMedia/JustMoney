@@ -12,13 +12,13 @@ import com.app.just_money.R
 import com.app.just_money.available.AvailableOfferViewModel
 import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentRegisterBinding
 import com.app.just_money.login.view_model.RegisterViewModel
-import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
 
 class RegisterFragment : Fragment() {
@@ -61,58 +61,50 @@ class RegisterFragment : Fragment() {
         val emailId = mBinding.edtEmailId.text.toString()
         val password = mBinding.edtPassword.text.toString()
         val confirmPassword = mBinding.edtConfirmPassword.text.toString()
+        val refCode = mBinding.edtRefCode.text.toString()
 
-        if (!viewModel.isValidFirstName(context, firstName)) {
-            return
-        }
+        if (!viewModel.isValidFirstName(context, firstName)) return
+        if (!viewModel.isValidLastName(context, lastName)) return
+        if (!viewModel.isValidEmail(context, emailId)) return
+        if (!viewModel.isValidPassword(context, password, confirmPassword)) return
+        if (!viewModel.isValidRefCode(context, refCode)) return
 
-        if (!viewModel.isValidLastName(context, lastName)) {
-            return
-        }
-
-        if (!viewModel.isValidEmail(context, emailId)) {
-            return
-        }
-
-        if (!viewModel.isValidPassword(context, password, confirmPassword)) {
-            return
-        }
-
-        //DefaultHelper.showToast(context, "Validation Successful")
-        getIPAddress(firstName, lastName, emailId, password)
+        getIPAddress(firstName, lastName, emailId, password, refCode)
 
     }
-    private fun getIPAddress(firstName: String, lastName: String, emailId: String, password: String) {
+
+    private fun getIPAddress(firstName: String, lastName: String, emailId: String, password: String,
+        refCode: String) {
         viewModelAO.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
             if (ipAddressModel != null) {
                 if (ipAddressModel.ip !== null && ipAddressModel.ip != "") {
                     val preferenceHelper = PreferenceHelper(context)
                     preferenceHelper.setIpAddress(ipAddressModel.ip)
-                    onRegister(firstName, lastName, emailId, password)
+                    onRegister(firstName, lastName, emailId, password,refCode)
                 } else {
-                    DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
+                    showToast(context, getString(R.string.somethingWentWrong))
                     activity?.finish()
                 }
             }
         })
     }
 
-    private fun onRegister(firstName: String, lastName: String, emailId: String, password: String) {
+    private fun onRegister(firstName: String, lastName: String, emailId: String, password: String, refCode: String) {
         showLoader()
-        viewModel.register(mContext, api, firstName, lastName, emailId, password)
+        viewModel.register(mContext, api, firstName, lastName, emailId, password,refCode)
             .observe(viewLifecycleOwner, { registerUserModel ->
                 hideLoader()
                 if (registerUserModel != null) {
                     when (registerUserModel.status) {
                         DefaultKeyHelper.successCode -> {
                             activity?.supportFragmentManager?.popBackStack()
-                            DefaultHelper.showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
+                            showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
                         }
                         DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
+                            showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
                         }
                         else -> {
-                            DefaultHelper.showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
+                            showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
                         }
                     }
                 }
@@ -127,10 +119,6 @@ class RegisterFragment : Fragment() {
     private fun hideLoader() {
         mBinding.progressCircular.visibility = View.GONE
         mBinding.clRegister.isEnabled = true
-    }
-
-    private fun TextInputLayout.markRequired() {
-        hint = "$hint " + context?.getString(R.string.mandatory_mark)
     }
 
 }

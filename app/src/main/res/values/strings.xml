@@ -172,6 +172,7 @@
     <string name="mandatory_mark"><font fgcolor='#D92249'>*</font></string>
 
     <string name="mandatory_email_id">Email Id<font fgcolor='#D92249'>*</font></string>
+    <string name="referral_code">Referral Code(Optional)</string>
     <string name="mandatory_password">Password<font fgcolor='#D92249'>*</font></string>
     <string name="mandatory_first_name">First Name<font fgcolor='#D92249'>*</font></string>
     <string name="mandatory_last_name">Last Name<font fgcolor='#D92249'>*</font></string>

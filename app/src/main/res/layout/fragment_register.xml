@@ -259,9 +259,50 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_medium"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLength="20"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="0dp"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:text="@null"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtRefCode"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    android:hint="@string/referral_code"
+                    android:textColorHint="@color/black"
+                    app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                    app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+                    app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+                    app:hintTextColor="@color/gray_700"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtConfirmPassword">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtRefCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/metropolis_medium"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="8"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_20sdp"
                         android:paddingEnd="0dp"
@@ -286,7 +327,7 @@
                     android:paddingEnd="@dimen/_30sdp"
                     android:paddingBottom="@dimen/_10sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtConfirmPassword">
+                    app:layout_constraintTop_toBottomOf="@id/txtRefCode">
 
                     <TextView
                         android:id="@+id/txtRegister"

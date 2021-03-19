@@ -2,9 +2,11 @@ package com.app.just_money.login.repository
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.encrypt
 import com.app.just_money.common_helper.DefaultHelper.getDeviceId
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
@@ -21,7 +23,8 @@ class RegisterRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun register(context: Context?, api: API, firstName: String, lastName: String, emailId: String, password: String): MutableLiveData<RegisterUserModel> {
+    fun register(context: Context?, api: API, firstName: String, lastName: String, emailId: String,
+        password: String, refCode: String): MutableLiveData<RegisterUserModel> {
         val mutableLiveData: MutableLiveData<RegisterUserModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
@@ -31,7 +34,7 @@ class RegisterRepository {
             requestKeyHelper.email = encrypt(emailId)
             requestKeyHelper.password = encrypt(password)
             requestKeyHelper.device_id = encrypt(getDeviceId(context!!))
-            requestKeyHelper.invite_code = "" //DefaultHelper.encrypt(DefaultHelper.getPackageId(context))
+            requestKeyHelper.invite_code = encrypt(refCode)
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.register(requestKeyHelper).enqueue(object : Callback<RegisterUserModel> {
                 override fun onResponse(call: Call<RegisterUserModel>, response: Response<RegisterUserModel>) {
@@ -43,15 +46,16 @@ class RegisterRepository {
                     /* if (header.isNotEmpty()) {
                          setPreferenceValue(context, registerUserModel!!, header)
                      }*/
-
                 }
 
                 override fun onFailure(call: Call<RegisterUserModel>, t: Throwable) {
+                    mutableLiveData.value = null
                     //println("TAG : ${t.printStackTrace()}")
                 }
             })
         } else {
-            //DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            mutableLiveData.value = null
+            showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
