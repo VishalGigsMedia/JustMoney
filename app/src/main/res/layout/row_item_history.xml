@@ -17,10 +17,10 @@
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
             android:fontFamily="@font/metropolis_medium"
             android:maxWidth="@dimen/_60sdp"
             android:textAllCaps="false"
-            android:layout_marginStart="@dimen/_15sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_11ssp"
             app:layout_constraintEnd_toStartOf="@id/verticalLine"
@@ -62,7 +62,7 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toStartOf="@id/ivPayPal"
+            app:layout_constraintEnd_toStartOf="@id/txtWiningAmount"
             app:layout_constraintStart_toEndOf="@id/verticalLine"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="My11Circle" />
@@ -81,31 +81,34 @@
             app:layout_constraintTop_toBottomOf="@+id/txtTitle"
             tools:text="Paid" />
 
-        <ImageView
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:id="@+id/ivPayPal"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/question_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txtTitle"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/txtWiningAmount"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:fontFamily="@font/metropolis_medium"
             android:gravity="center"
             android:textAllCaps="false"
-            android:textColor="@color/pink_600"
+            android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toEndOf="@id/ivPayPal"
-            app:layout_constraintStart_toStartOf="@id/ivPayPal"
-            app:layout_constraintTop_toBottomOf="@+id/ivPayPal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtTitle"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="10.00" />
+        <TextView
+            android:id="@+id/txtCoins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/metropolis_medium"
+            android:textColor="@color/gray_600"
+            android:textSize="@dimen/_12ssp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="@id/txtWiningAmount"
+            app:layout_constraintStart_toStartOf="@id/txtWiningAmount"
+            app:layout_constraintTop_toBottomOf="@id/txtWiningAmount"
+            android:text="@string/coins" />
 
         <View
             android:id="@+id/view"
@@ -116,7 +119,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtWiningAmount" />
+            app:layout_constraintTop_toBottomOf="@id/txtDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

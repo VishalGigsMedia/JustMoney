@@ -17,11 +17,11 @@ import androidx.fragment.app.Fragment
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.*
-import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.databinding.FragmentMyWalletBinding
 import com.app.just_money.my_wallet.completed.CompletedFragment
 import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.leaderborard.LeaderBoardFragment
+import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
 
 
@@ -64,7 +64,6 @@ class MyWalletFragment : Fragment() {
             animator.doOnEnd {
                 mBinding.txtCurrentBalanceValue.text = DefaultHelper.decrypt(currentBalance)
             }
-
         }
 
         if (completedCoins.isNotEmpty()) mBinding.txtCompletedCoinsValue.text =
@@ -86,7 +85,7 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickSetting() {
-        openFragment(SettingsNewFragment(),)
+        openFragment(SettingsNewFragment())
     }
 
     private fun onClickRequestPayout() {
@@ -94,9 +93,7 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickPayout() {
-        //openFragment(MyPayoutFragment())
-        showToast(context,"Coming Soon!")
-        //final flow need to decided first(confusion between earning history and redeem history)
+        openFragment(MyPayoutFragment())
     }
 
     private fun onClickCompleted() {

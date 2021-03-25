@@ -1,21 +1,21 @@
 package com.app.just_money.my_wallet.payouts.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.just_money.R
-import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.databinding.RowItemHistoryBinding
-import com.app.just_money.my_wallet.payouts.model.PayoutHistoryModel
+import com.app.just_money.my_wallet.payouts.model.Payout
 
 class HistoryAdapter(
     private val context: FragmentActivity?,
-    private val dataList: List<PayoutHistoryModel.Data>,
-    ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+    private val dataList: List<Payout>,
+) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.row_item_history, parent, false))
@@ -25,24 +25,14 @@ class HistoryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val eachListData = dataList[position]
 
-        //1 = Success, 2 = pending, = failed
-        holder.mBinding?.txtDate?.text = DefaultHelper.decrypt(eachListData.createdDate)
-        holder.mBinding?.txtTime?.text = DefaultHelper.decrypt(eachListData.createdTime)
-        holder.mBinding?.txtTitle?.text = DefaultHelper.decrypt(eachListData.name)
-        when (DefaultHelper.decrypt(eachListData.status)) {
-            "1" -> holder.mBinding?.txtDescription?.text = DefaultHelper.decrypt("Paid")
-            "2" -> holder.mBinding?.txtDescription?.text = DefaultHelper.decrypt("Pending")
-            "3" -> holder.mBinding?.txtDescription?.text = DefaultHelper.decrypt("Failed")
-        }
-
-        holder.mBinding?.txtWiningAmount?.text = DefaultHelper.decrypt(eachListData.chPoints)
-        if (eachListData.appIcon.isNotEmpty()) {
-            if (context != null) {
-                DefaultHelper.loadImage(context,DefaultHelper.decrypt(eachListData.appIcon),
-                    holder.mBinding?.ivPayPal!!,
-                    ContextCompat.getDrawable(context, R.drawable.ic_logo),
-                    ContextCompat.getDrawable(context, R.drawable.ic_logo))
-            }
+        holder.mBinding?.txtDate?.text = decrypt(eachListData.date.toString())
+        holder.mBinding?.txtTime?.text = decrypt(eachListData.time.toString())
+        holder.mBinding?.txtTitle?.text = decrypt(eachListData.title.toString())
+        holder.mBinding?.txtDescription?.text = decrypt(eachListData.status.toString())
+        holder.mBinding?.txtWiningAmount?.text = decrypt(eachListData.points.toString())
+        when (holder.mBinding?.txtDescription?.text) {
+            "Successful" -> holder.mBinding.txtDescription.setTextColor(Color.GREEN)
+            "Failure" -> (holder.mBinding.txtDescription.setTextColor(Color.RED))
         }
     }
 

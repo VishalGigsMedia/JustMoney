@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.dagger.API
@@ -65,16 +67,15 @@ class MyPayoutFragment : Fragment() {
             mBinding.nsv.visibility = VISIBLE
             if (payoutHistoryModel != null) when (payoutHistoryModel.status) {
                 DefaultKeyHelper.successCode -> {
-                    if (DefaultHelper.decrypt(payoutHistoryModel.points).isNotEmpty()) {
-                        mBinding.txtBalanceValue.text = DefaultHelper.decrypt(payoutHistoryModel.points)
+                    if (decrypt(payoutHistoryModel.data?.total_coins.toString()).isNotEmpty()) {
+                        mBinding.txtBalanceValue.text = decrypt(payoutHistoryModel.data?.total_coins.toString())
                     } else mBinding.txtBalanceValue.text = "NA"
 
-                    if (payoutHistoryModel.data != null && payoutHistoryModel.data.isNotEmpty())
-                        mBinding.rvPayoutHistory.adapter = HistoryAdapter(activity, payoutHistoryModel.data)
+                    if (payoutHistoryModel.data != null ) mBinding.rvPayoutHistory.adapter = HistoryAdapter(activity, payoutHistoryModel.data.payouts)
                     else showErrorScreen()
                 }
                 DefaultKeyHelper.failureCode -> {
-                    DefaultHelper.showToast(context, DefaultHelper.decrypt(payoutHistoryModel.message))
+                    showToast(context, decrypt(payoutHistoryModel.message))
                     showErrorScreen()
                 }
                 DefaultKeyHelper.forceLogoutCode -> {

@@ -136,7 +136,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txtBalance"
-                            tools:text="₹25,000/-" />
+                            tools:text="25,000 " />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

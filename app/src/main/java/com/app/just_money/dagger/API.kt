@@ -9,7 +9,7 @@ import com.app.just_money.model.CheckAppVersionModel
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
 import com.app.just_money.my_wallet.leaderborard.model.LeaderBoardModel
-import com.app.just_money.my_wallet.payouts.model.PayoutHistoryModel
+import com.app.just_money.my_wallet.payouts.model.PayoutModel
 import com.app.just_money.my_wallet.setting.model.*
 import com.app.just_money.offer_details.model.OfferDetailsModel
 import okhttp3.MultipartBody
@@ -93,8 +93,8 @@ interface API {
     fun checkVersion(@Header("Authorization") authorizationToken: String): Call<CheckAppVersionModel>
     //fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CheckAppVersionModel>
 
-    @POST("EarningHistory")
-    fun getPayoutHistory(@Header("Authorization") authorizationToken: String): Call<PayoutHistoryModel>
+    @POST("payout")
+    fun getPayoutHistory(@Header("Authorization") authorizationToken: String): Call<PayoutModel>
 
     @GET//getIPAddress
     fun getIPAddress(@Url url: String): Call<IpAddressModel>
