@@ -94,7 +94,8 @@ interface API {
     //fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CheckAppVersionModel>
 
     @POST("payout")
-    fun getPayoutHistory(@Header("Authorization") authorizationToken: String): Call<PayoutModel>
+    fun getPayoutHistory(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<PayoutModel>
 
     @GET//getIPAddress
     fun getIPAddress(@Url url: String): Call<IpAddressModel>

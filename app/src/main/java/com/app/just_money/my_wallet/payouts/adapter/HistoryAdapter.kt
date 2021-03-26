@@ -14,7 +14,7 @@ import com.app.just_money.my_wallet.payouts.model.Payout
 
 class HistoryAdapter(
     private val context: FragmentActivity?,
-    private val dataList: List<Payout>,
+    private val dataList: ArrayList<Payout>,
 ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -39,6 +39,11 @@ class HistoryAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getItemViewType(position: Int): Int = position
+
+    fun addData(list: List<Payout>?) {
+        this.dataList.addAll(list!!)
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBinding: RowItemHistoryBinding? = DataBindingUtil.bind(itemView)

@@ -46,4 +46,6 @@ class RequestKeyHelper {
     var firstname: String? = null
     var lastname: String? = null
     var invite_code: String? = null
+    var scroll_limit: String? = null
+    var scroll_offset: String? = null
 }
