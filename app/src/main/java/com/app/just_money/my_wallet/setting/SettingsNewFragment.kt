@@ -41,6 +41,7 @@ class SettingsNewFragment : Fragment() {
     private lateinit var viewModel: SettingViewModel
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentSettingsNewBinding
+    private lateinit var preferenceHelper : PreferenceHelper
 
     /*lateinit var manager: ReviewManager
     var reviewInfo: ReviewInfo? = null*/
@@ -64,13 +65,17 @@ class SettingsNewFragment : Fragment() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
         callback?.onShowHideBottomNav(false)
+        preferenceHelper = PreferenceHelper(context)
     }
 
     private fun manageClickEvents() {
         mBinding.txtMyProfile.setOnClickListener { openFragment(MyProfileFragment()) }
         mBinding.txtFaq.setOnClickListener { openFragment(FaqFragment()) }
         mBinding.txtFeedback.setOnClickListener { openFragment(HelpUsFragment()) }
-        mBinding.txtReferNEarn.setOnClickListener { openFragment(ReferEarnFragment()) }
+        mBinding.txtReferNEarn.setOnClickListener {
+            if (preferenceHelper.getReferralCode() != "") openFragment(ReferEarnFragment())
+            else showToast(context, getString(R.string.referralError))
+        }
         mBinding.txtShareApp.setOnClickListener {
             val appSharingText = "${getString(shareAppText)} \n\n $playStoreLink"
             DefaultHelper.share(appSharingText, context, "")
@@ -120,7 +125,7 @@ class SettingsNewFragment : Fragment() {
     }
 
     private fun setData() {
-        val preferenceHelper = PreferenceHelper(context)
+
         mBinding.txtEmail.text = preferenceHelper.getEmail()
         val profilePic = decrypt(preferenceHelper.getProfilePic())
         if (profilePic.isNotEmpty() && profilePic != "null") {
