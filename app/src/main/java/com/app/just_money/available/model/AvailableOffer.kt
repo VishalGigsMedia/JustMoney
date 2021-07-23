@@ -4,7 +4,7 @@ package com.app.just_money.available.model
 import com.google.gson.annotations.SerializedName
 
 data class AvailableOffer(
-    @SerializedName("download_end_date")
+    @SerializedName("end_date_time")
     val downloadEndDate: String?,
     @SerializedName("download_start_date")
     val downloadStartDate: String?,
@@ -32,9 +32,9 @@ data class AvailableOffer(
     val url: String?,
     @SerializedName("web_points")
     val webPoints: Any?,
-    @SerializedName("actual_coins")
+    @SerializedName("actual_points")
     val actualCoins: String?,
-    @SerializedName("offer_coins")
+    @SerializedName("offer_points")
     val offerCoins: String?,
     @SerializedName("button_text")
     val buttonText: String?

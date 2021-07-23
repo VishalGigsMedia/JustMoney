@@ -13,7 +13,7 @@ class PreferenceHelper(context: Context?) {
     }
 
     enum class Key {
-        AuthorizationKey, UserLogIn, UserId, UserState, UserCity, UserCountry, TotalCoins, Completed, Withdrawn, UserEmail, UserMobile, UserDob, UserGender, UserProfilePic, ReferralCode, UserFirstName, UserLastName, ipAddress,FCMToken
+        AuthorizationKey, UserLogIn, UserId, UserState, UserStateCode, UserCity, UserCountry, UserCountryCode, TotalCoins, Completed, Withdrawn, UserEmail, UserMobile, UserDob, UserGender, UserProfilePic, ReferralCode, UserFirstName, UserLastName, ipAddress, FCMToken
     }
 
     //set preference data
@@ -49,6 +49,14 @@ class PreferenceHelper(context: Context?) {
         return this.sharedPreferences.getString(Key.UserState.name, "").toString()
     }
 
+    fun setUserStateCode(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserStateCode.name, value).apply()
+    }
+
+    fun getUserStateCode(): String {
+        return this.sharedPreferences.getString(Key.UserStateCode.name, "").toString()
+    }
+
     fun setUserCity(value: String) {
         this.sharedPreferences.edit().putString(Key.UserCity.name, value).apply()
     }
@@ -64,6 +72,14 @@ class PreferenceHelper(context: Context?) {
 
     fun getUserCountry(): String {
         return this.sharedPreferences.getString(Key.UserCountry.name, "").toString()
+    }
+
+    fun setUserCountryCode(value: String) {
+        this.sharedPreferences.edit().putString(Key.UserCountryCode.name, value).apply()
+    }
+
+    fun getUserCountryCode(): String {
+        return this.sharedPreferences.getString(Key.UserCountryCode.name, "").toString()
     }
 
 
@@ -98,6 +114,7 @@ class PreferenceHelper(context: Context?) {
     fun getEmail(): String {
         return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserEmail.name, "").toString())
     }
+
     fun setMobile(value: String) {
         this.sharedPreferences.edit().putString(Key.UserMobile.name, value).apply()
     }
@@ -129,6 +146,7 @@ class PreferenceHelper(context: Context?) {
     fun getProfilePic(): String {
         return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserProfilePic.name, "").toString())
     }
+
     fun setReferralCode(value: String) {
         this.sharedPreferences.edit().putString(Key.ReferralCode.name, value).apply()
     }
@@ -153,6 +171,7 @@ class PreferenceHelper(context: Context?) {
     fun getLastName(): String {
         return DefaultHelper.decrypt(this.sharedPreferences.getString(Key.UserLastName.name, "").toString())
     }
+
     fun setIpAddress(value: String) {
         this.sharedPreferences.edit().putString(Key.ipAddress.name, value).apply()
     }

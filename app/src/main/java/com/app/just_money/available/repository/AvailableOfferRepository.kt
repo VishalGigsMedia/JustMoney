@@ -1,10 +1,11 @@
 package com.app.just_money.available.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.available.model.AvailableOfferModel
-import com.app.just_money.available.model.IpAddressModel
+import com.app.just_money.available.model.IpApiModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.encrypt
 import com.app.just_money.common_helper.PreferenceHelper
@@ -24,7 +25,7 @@ class AvailableOfferRepository {
     private var availableOfferModel: AvailableOfferModel? = null
     private var claimOfferModel: ClaimOfferModel? = null
     private var checkAppVersionModel: CheckAppVersionModel? = null
-    private var ipAddressModel: IpAddressModel? = null
+    private var ipAddressModel: IpApiModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
@@ -33,12 +34,17 @@ class AvailableOfferRepository {
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
+            requestKeyHelper.country = encrypt(preferenceHelper.getUserCountry())
+            requestKeyHelper.country_code = encrypt(preferenceHelper.getUserCountryCode())
+            requestKeyHelper.state = encrypt(preferenceHelper.getUserState())
+            requestKeyHelper.state_code = encrypt(preferenceHelper.getUserStateCode())
+            requestKeyHelper.city = encrypt(preferenceHelper.getUserCity())
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
-            requestKeyHelper.display_id = encrypt("1234")
             requestKeyHelper.fcm_key = encrypt(preferenceHelper.getFCMToken())
             api.getOffers(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<AvailableOfferModel> {
-                    override fun onResponse(call: Call<AvailableOfferModel>, response: Response<AvailableOfferModel>) {
+                    override fun onResponse(call: Call<AvailableOfferModel>,
+                        response: Response<AvailableOfferModel>) {
                         gson = gsonBuilder.create()
                         val json = Gson().toJson(response.body())
                         availableOfferModel = gson?.fromJson(json, AvailableOfferModel::class.java)
@@ -86,10 +92,11 @@ class AvailableOfferRepository {
         }
         return mutableLiveData
     }
+
     fun claimReward(context: Context?, api: API, rewardAmount: String): MutableLiveData<ClaimOfferModel> {
         val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
-            val preferenceHelper =PreferenceHelper(context)
+            val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
             requestKeyHelper.reward_amount = rewardAmount
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
@@ -121,7 +128,8 @@ class AvailableOfferRepository {
             val preferenceHelper = PreferenceHelper(context)
             val authorizationToken = preferenceHelper.getJwtToken()
             api.checkVersion(authorizationToken).enqueue(object : Callback<CheckAppVersionModel> {
-                override fun onResponse(call: Call<CheckAppVersionModel>, response: Response<CheckAppVersionModel>) {
+                override fun onResponse(call: Call<CheckAppVersionModel>,
+                    response: Response<CheckAppVersionModel>) {
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())
                     checkAppVersionModel = gson?.fromJson(json, CheckAppVersionModel::class.java)
@@ -139,28 +147,25 @@ class AvailableOfferRepository {
         return mutableLiveData
     }
 
-    fun getIPAddress(context: Context?, api: API): MutableLiveData<IpAddressModel> {
-        val mutableLiveData: MutableLiveData<IpAddressModel> = MutableLiveData()
-        if (DefaultHelper.isOnline()) {
-            val url = "https://api.ipify.org/?format=json"
-            api.getIPAddress(url).enqueue(object : Callback<IpAddressModel> {
-                override fun onResponse(call: Call<IpAddressModel>, response: Response<IpAddressModel>) {
-                    gson = gsonBuilder.create()
-                    val json = Gson().toJson(response.body())
-                    ipAddressModel = gson?.fromJson(json, IpAddressModel::class.java)
-                    // println("TAG : $json")
-                    mutableLiveData.value = ipAddressModel
-                }
+    fun getIPAddress(context: Context?, api: API): MutableLiveData<IpApiModel> {
+        val mutableLiveData: MutableLiveData<IpApiModel> = MutableLiveData()
+        val url = "http://ip-api.com/json/"
+        api.getIPAddress(url).enqueue(object : Callback<IpApiModel> {
+            override fun onResponse(call: Call<IpApiModel>, response: Response<IpApiModel>) {
+                /*gson = gsonBuilder.create()
+                val json = Gson().toJson(response.body())
+                ipAddressModel = gson?.fromJson(json, IPAPIModel::class.java)*/
+                if (response.body() != null && response.isSuccessful && response.code() == 200) {
+                    Log.d("ipaidd", "onResponse: ${response.body()}")
+                    mutableLiveData.value = response.body()
+                } else mutableLiveData.value = null
+            }
 
-                override fun onFailure(call: Call<IpAddressModel>, t: Throwable) {
-                    println("TAG : ${t.printStackTrace()}")
-                    mutableLiveData.value = null
-                }
-            })
-        } else {
-            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
-            mutableLiveData.value = null
-        }
+            override fun onFailure(call: Call<IpApiModel>, t: Throwable) {
+                println("TAG : ${t.printStackTrace()}")
+                mutableLiveData.value = null
+            }
+        })
         return mutableLiveData
     }
 

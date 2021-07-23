@@ -12,8 +12,11 @@ import com.app.just_money.R
 import com.app.just_money.available.AvailableOfferViewModel
 import com.app.just_money.available.model.IpAddressModel
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.common_helper.DefaultKeyHelper.failureCode
+import com.app.just_money.common_helper.DefaultKeyHelper.successCode
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -69,11 +72,11 @@ class RegisterFragment : Fragment() {
         if (!viewModel.isValidPassword(context, password, confirmPassword)) return
         if (!viewModel.isValidRefCode(context, refCode)) return
 
-        getIPAddress(firstName, lastName, emailId, password, refCode)
+        onRegister(firstName, lastName, emailId, password, refCode)
 
     }
 
-    private fun getIPAddress(firstName: String, lastName: String, emailId: String, password: String,
+    /*private fun getIPAddress(firstName: String, lastName: String, emailId: String, password: String,
         refCode: String) {
         viewModelAO.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
             if (ipAddressModel != null) {
@@ -87,7 +90,7 @@ class RegisterFragment : Fragment() {
                 }
             }
         })
-    }
+    }*/
 
     private fun onRegister(firstName: String, lastName: String, emailId: String, password: String, refCode: String) {
         showLoader()
@@ -96,15 +99,15 @@ class RegisterFragment : Fragment() {
                 hideLoader()
                 if (registerUserModel != null) {
                     when (registerUserModel.status) {
-                        DefaultKeyHelper.successCode -> {
+                        successCode -> {
                             activity?.supportFragmentManager?.popBackStack()
-                            showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
+                            showToast(mContext, decrypt(registerUserModel.message.toString()))
                         }
-                        DefaultKeyHelper.failureCode -> {
-                            showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
+                        failureCode -> {
+                            showToast(mContext, decrypt(registerUserModel.message.toString()))
                         }
                         else -> {
-                            showToast(mContext, DefaultHelper.decrypt(registerUserModel.message.toString()))
+                            showToast(mContext, decrypt(registerUserModel.message.toString()))
                         }
                     }
                 }

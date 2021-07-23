@@ -13,8 +13,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.MainActivity
 import com.app.just_money.R
+import com.app.just_money.available.AvailableOfferViewModel
+import com.app.just_money.available.model.IpApiModel
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.getCarrierName
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.common_helper.DefaultKeyHelper.failureCode
+import com.app.just_money.common_helper.DefaultKeyHelper.successCode
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -34,6 +41,7 @@ class LoginFragment : Fragment() {
     private var fm: FragmentManager? = null
     private lateinit var mBinding: FragmentLoginBinding
     private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModelAO: AvailableOfferViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
@@ -44,11 +52,13 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         manageClickEvent()
+        getIPAddress()
     }
 
     private fun init() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModelAO = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         fm = activity?.supportFragmentManager
         /* mBinding.edtEmailId.setText("test897@gmail.com")
          mBinding.edtPassword.setText("123456")*/
@@ -103,26 +113,38 @@ class LoginFragment : Fragment() {
         onLogin(email, password)
     }
 
-
+    private fun getIPAddress() {
+        viewModelAO.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpApiModel?) {
+            if (ipAddressModel != null) {
+                if (ipAddressModel.query !== null && ipAddressModel.query != "") {
+                    val preferenceHelper = PreferenceHelper(context)
+                    preferenceHelper.setIpAddress(ipAddressModel.query)
+                } else {
+                    showToast(context, getString(R.string.somethingWentWrong))
+                    activity?.finish()
+                }
+            }
+        })
+    }
     private fun onLogin(email: String, password: String) {
         showLoader()
-        viewModel.login(activity!!, api, email, password, DefaultHelper.getCarrierName(context))
+        viewModel.login(activity!!, api, email, password, getCarrierName(context))
             .observe(viewLifecycleOwner, { loginModel ->
                 hideLoader()
                 if (loginModel != null) {
                     when (loginModel.status) {
-                        DefaultKeyHelper.successCode -> {
-                            DefaultHelper.showToast(context, DefaultHelper.decrypt(loginModel.message.toString()))
+                        successCode -> {
+                            showToast(context, decrypt(loginModel.message.toString()))
                             setLoginData(loginModel)
                         }
-                        DefaultKeyHelper.failureCode -> {
-                            DefaultHelper.showToast(context, DefaultHelper.decrypt(loginModel.message.toString()))
+                        failureCode -> {
+                            showToast(context, decrypt(loginModel.message.toString()))
                         }
                         else -> {
-                            DefaultHelper.showToast(context, DefaultHelper.decrypt(loginModel.message.toString()))
+                            showToast(context, decrypt(loginModel.message.toString()))
                         }
                     }
-                } else DefaultHelper.showToast(context, getString(R.string.somethingWentWrong))
+                } else showToast(context, getString(R.string.somethingWentWrong))
             })
     }
 
@@ -142,13 +164,13 @@ class LoginFragment : Fragment() {
             if (forgotPasswordModel != null) {
                 when (forgotPasswordModel.status) {
                     DefaultKeyHelper.successCode -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(forgotPasswordModel.message))
+                        showToast(context!!, decrypt(forgotPasswordModel.message))
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(forgotPasswordModel.message))
+                        showToast(context!!, decrypt(forgotPasswordModel.message))
                     }
                     else -> {
-                        DefaultHelper.showToast(context!!, DefaultHelper.decrypt(forgotPasswordModel.message))
+                        showToast(context!!, decrypt(forgotPasswordModel.message))
                     }
                 }
             }

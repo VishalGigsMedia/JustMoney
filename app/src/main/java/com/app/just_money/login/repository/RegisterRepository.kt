@@ -1,7 +1,9 @@
 package com.app.just_money.login.repository
 
 import android.content.Context
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
+import com.app.just_money.BuildConfig
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.encrypt
@@ -35,6 +37,15 @@ class RegisterRepository {
             requestKeyHelper.device_id = encrypt(getDeviceId(context!!))
             requestKeyHelper.invite_code = encrypt(refCode)
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
+            requestKeyHelper.android_version = encrypt(Build.VERSION.RELEASE)
+            requestKeyHelper.cpu = encrypt(Build.CPU_ABI)
+            requestKeyHelper.version_name = encrypt(BuildConfig.VERSION_NAME)
+            requestKeyHelper.version_code = encrypt(BuildConfig.VERSION_CODE.toString())
+            requestKeyHelper.device_type = encrypt("phone")
+            requestKeyHelper.display = encrypt(Build.DISPLAY)
+            requestKeyHelper.device_manufacturer = encrypt(Build.MANUFACTURER)
+            requestKeyHelper.device_brand = encrypt(Build.BRAND)
+            requestKeyHelper.device_model = encrypt(Build.MODEL)
             api.register(requestKeyHelper).enqueue(object : Callback<RegisterUserModel> {
                 override fun onResponse(call: Call<RegisterUserModel>, response: Response<RegisterUserModel>) {
                     gson = gsonBuilder.create()

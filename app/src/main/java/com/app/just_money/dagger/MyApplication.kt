@@ -1,12 +1,13 @@
 package com.app.just_money.dagger
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultKeyHelper.TR_DEV_KEY
 import com.trackier.sdk.TrackierSDK
 import com.trackier.sdk.TrackierSDKConfig
 
-class MyApplication : Application() {
+class MyApplication : MultiDexApplication() {
 
 
     init {
@@ -33,9 +34,9 @@ class MyApplication : Application() {
             .apiModule(ApiModule(getString(R.string.server_url))).build()
         mApiComponent?.inject(this)
 
-        //trackier
+       /* //trackier
         val sdkConfig = TrackierSDKConfig(this, TR_DEV_KEY, "development")
-        TrackierSDK.initialize(sdkConfig)
+        TrackierSDK.initialize(sdkConfig)*/
 
     }
 

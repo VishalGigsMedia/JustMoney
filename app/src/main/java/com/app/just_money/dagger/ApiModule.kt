@@ -56,7 +56,7 @@ class ApiModule(val mBaseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson?, okHttpClient: OkHttpClient?): Retrofit {
+    fun provideRetrofit(gson: Gson?, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(mBaseUrl).client(okHttpClient).build()
     }

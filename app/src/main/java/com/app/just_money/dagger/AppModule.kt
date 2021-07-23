@@ -23,7 +23,7 @@ class AppModule(var mApplication: MyApplication) {
     }
 
     @Provides
-    fun provideApiInterface(retrofit: Retrofit): API {
+    fun provideRWRDApiInterface(retrofit: Retrofit): API {
         return retrofit.create(API::class.java)
     }
 }

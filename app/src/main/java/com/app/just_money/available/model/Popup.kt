@@ -22,7 +22,7 @@ data class Popup(
     val short_description: String?,
     @SerializedName("download_start_date")
     val download_start_date: String?,
-    @SerializedName("download_end_date")
+    @SerializedName("end_date_time")
     val download_end_date: String?,
     @SerializedName("description")
     val description: String?,
@@ -38,8 +38,8 @@ data class Popup(
     val url: String?,
     @SerializedName("time_remaining")
     val time_remaining: String?,
-    @SerializedName("actual_coins")
+    @SerializedName("actual_points")
     val actual_coins: String?,
-    @SerializedName("offer_coins")
+    @SerializedName("offer_points")
     val offer_coins: String?
 )

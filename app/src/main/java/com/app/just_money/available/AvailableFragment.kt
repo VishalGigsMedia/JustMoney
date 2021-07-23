@@ -16,13 +16,19 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
+import com.android.volley.Request.Method.GET
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.R.string.hour_left
 import com.app.just_money.R.string.hours_left
 import com.app.just_money.available.adapter.PopularDealsAdapter
 import com.app.just_money.available.adapter.QuickDealsAdapter
-import com.app.just_money.available.model.*
+import com.app.just_money.available.model.AvailableOffer
+import com.app.just_money.available.model.FlashOffer
+import com.app.just_money.available.model.Popup
+import com.app.just_money.available.model.RewardRemainingTime
 import com.app.just_money.common_helper.*
 import com.app.just_money.common_helper.BundleHelper.displayId
 import com.app.just_money.common_helper.BundleHelper.offerId
@@ -41,6 +47,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.layout_popup_offer.view.*
 import kotlinx.android.synthetic.main.update_verstion_dialog.*
+import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -159,7 +166,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     override fun onResume() {
-        super.onResume();checkVersion()
+        super.onResume();//checkVersion()
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
@@ -395,11 +402,17 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    private fun getIPAddress() {
-        viewModel.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipAddressModel: IpAddressModel?) {
-            if (ipAddressModel != null) {
-                if (ipAddressModel.ip !== null && ipAddressModel.ip != "") {
-                    preferenceHelper.setIpAddress(ipAddressModel.ip)
+    /*private fun getIPAddress() {
+        viewModel.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipApiModel: IPAPIModel?) {
+            if (ipApiModel != null) {
+                if (ipApiModel.query !== null && ipApiModel.query != "") {
+                    Log.d("seevluess", ipApiModel.countryCode)
+                    preferenceHelper.setIpAddress(ipApiModel.query)
+                    preferenceHelper.setUserCountry(ipApiModel.country)
+                    preferenceHelper.setUserCountryCode(ipApiModel.countryCode)
+                    preferenceHelper.setUserState(ipApiModel.regionName)
+                    preferenceHelper.setUserStateCode(ipApiModel.region)
+                    preferenceHelper.setUserCity(ipApiModel.city)
                     getOffers()
                 } else {
                     showToast(context, getString(R.string.somethingWentWrong))
@@ -407,6 +420,30 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                 }
             }
         })
+    }*/
+    private fun getIPAddress() {
+        // Instantiate the RequestQueue.
+        val queue = Volley.newRequestQueue(context)
+        val url = "http://ip-api.com/json/"
+
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(GET, url, { response ->
+            // Display the first 500 characters of the response string.
+            val finalResponse = JSONObject(response)
+            preferenceHelper.setIpAddress(finalResponse.getString("query"))
+            preferenceHelper.setUserCountry(finalResponse.getString("country"))
+            preferenceHelper.setUserCountryCode(finalResponse.getString("countryCode"))
+            preferenceHelper.setUserState(finalResponse.getString("regionName"))
+            preferenceHelper.setUserStateCode(finalResponse.getString("region"))
+            preferenceHelper.setUserCity(finalResponse.getString("city"))
+            getOffers()
+        }, {
+            showToast(context, getString(R.string.somethingWentWrong))
+            activity?.finish()
+        })
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest)
     }
 
     private fun updateApplicationDialog(updtVar: Long, appVar: Long, title: String, message: String, url: String) {

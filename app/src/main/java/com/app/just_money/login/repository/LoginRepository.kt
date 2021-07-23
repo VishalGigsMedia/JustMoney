@@ -8,6 +8,7 @@ import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.encrypt
 import com.app.just_money.common_helper.DefaultHelper.getDeviceId
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
@@ -67,7 +68,7 @@ class LoginRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
@@ -77,6 +78,7 @@ class LoginRepository {
         val mutableLiveData: MutableLiveData<LoginModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val requestKeyHelper = RequestKeyHelper()
+            val preferenceHelper = PreferenceHelper(context)
             requestKeyHelper.email = encrypt(email)
             requestKeyHelper.password = encrypt(password)
             requestKeyHelper.device_brand = encrypt(Build.BRAND)
@@ -90,6 +92,7 @@ class LoginRepository {
             requestKeyHelper.device_id = encrypt(getDeviceId(context))
             requestKeyHelper.carrier_name = encrypt(carrierName)
             requestKeyHelper.device_manufacturer = encrypt(Build.MANUFACTURER)
+            requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.login(requestKeyHelper).enqueue(object : Callback<LoginModel> {
                 override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
                     val header = response.headers()["Authorization"].toString()

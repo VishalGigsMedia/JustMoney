@@ -1,7 +1,7 @@
 package com.app.just_money.dagger
 
 import com.app.just_money.available.model.AvailableOfferModel
-import com.app.just_money.available.model.IpAddressModel
+import com.app.just_money.available.model.IpApiModel
 import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.login.model.login.LoginModel
@@ -26,13 +26,13 @@ interface API {
     @POST("login")
     fun login(@Body requestKeyHelper: RequestKeyHelper): Call<LoginModel>
 
-    @POST("forget_password")
+    @POST("forget-password")
     fun forgotPassword(@Body requestKeyHelper: RequestKeyHelper): Call<ForgotPasswordModel>
 
     @POST("signup")
     fun register(@Body requestKeyHelper: RequestKeyHelper): Call<RegisterUserModel>
 
-    @POST("get_offers")
+    @POST("get-offers")
     fun getOffers(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<AvailableOfferModel>
 
     @POST("get_faq")
@@ -77,7 +77,7 @@ interface API {
     fun getUserProfileData(@Header("Authorization") authorizationToken: String): Call<GetUserProfileModel>
 
     @Multipart
-    @POST("update_profile")
+    @POST("update-user-profile")
     fun updateProfile(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
         @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?,
         @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?, @Part("mobile") mobile: RequestBody?): Call<UpdatedProfileModel>
@@ -98,7 +98,7 @@ interface API {
         @Body requestKeyHelper: RequestKeyHelper): Call<PayoutModel>
 
     @GET//getIPAddress
-    fun getIPAddress(@Url url: String): Call<IpAddressModel>
+    fun getIPAddress(@Url url: String): Call<IpApiModel>
 
     @POST("leadership")//leader board
     fun getLeaderBoard(@Header("Authorization") authorizationToken: String): Call<LeaderBoardModel>

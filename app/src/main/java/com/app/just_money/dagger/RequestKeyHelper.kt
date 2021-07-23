@@ -21,6 +21,7 @@ class RequestKeyHelper {
     var device_id: String? = null
     var trackier_user_id: String? = null
     var state: String? = null
+    var state_code: String? = null
     var city: String? = null
     var country: String? = null
     var display_id: String? = null

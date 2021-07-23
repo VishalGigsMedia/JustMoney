@@ -32,14 +32,16 @@ class  QuickDealsAdapter(private val context: FragmentActivity?, private val qui
         val id = quickDealsList[position].id.toString()
         val title = decrypt(quickDealsList[position].name.toString())
         val imageUrl = decrypt(quickDealsList[position].image.toString())
-        val buttonText = decrypt(quickDealsList[position].buttonText.toString())
+        val buttonText = context?.getString(R.string.button_text_q_d)
         val url = decrypt(quickDealsList[position].url.toString())
 
         if (title.isNotEmpty()) {
             holder.mBinding?.txtTitle?.text = title
         }
-        if (buttonText.isNotEmpty()) {
-            holder.mBinding?.txtTakeActionMessage?.text = buttonText
+        if (buttonText != null) {
+            if (buttonText.isNotEmpty()) {
+                holder.mBinding?.txtTakeActionMessage?.text = buttonText
+            }
         }
 
         if (imageUrl.isNotEmpty() && context != null) {

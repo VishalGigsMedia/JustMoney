@@ -10,12 +10,12 @@ object DefaultKeyHelper {
     const val playStoreLink = "https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
 
     //used for encryption and decryption
-    const val secretKey = "KEY51E0678457D96"
-    const val initializeVectorKey = "!kQm*fF3pXe1Kbm%"
+    const val secretKey = "KEY61E0671477E96"
+    const val initializeVectorKey = "!gIm*fF3pUe3Kbm%"
 
     //server response code
-    const val successCode: Int = 200
-    const val failureCode: Int = 500
+    const val successCode: Int = 1
+    const val failureCode: Int = 0
     const val forceLogoutCode: Int = 100
 
     const val xApiKey = "5e020255c70c3bde6bcf1f1c1275e020255c7151"
