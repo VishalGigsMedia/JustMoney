@@ -14,9 +14,9 @@ class OfferDetailsViewModel : ViewModel() {
     private var offerDetailModel: LiveData<OfferDetailsModel>? = null
     private var claimOfferModel: LiveData<ClaimOfferModel>? = null
 
-    fun getOfferDetails(context: Context?, api: API, offerId: String): LiveData<OfferDetailsModel> {
+    fun getOfferDetails(context: Context?, api: API, offer_trackier_id: String): LiveData<OfferDetailsModel> {
         if (offerDetailModel == null || offerDetailModel != null) {
-            offerDetailModel = offerDetailRepository.getOfferDetails(context, api, offerId)
+            offerDetailModel = offerDetailRepository.getOfferDetails(context, api, offer_trackier_id)
         }
         return offerDetailModel as LiveData<OfferDetailsModel>
     }

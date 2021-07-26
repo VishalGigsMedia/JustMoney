@@ -46,6 +46,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             holder.mBindingPopularDeals?.data = eachListData
 
             val offerId = availableOfferList[position].id.toString()
+            val offer_trackier_id = availableOfferList[position].offer_trackier_id.toString()
             val title = availableOfferList[position].name.toString()
             val description = availableOfferList[position].shortDescription.toString()
             val imageUrl = availableOfferList[position].image.toString()
@@ -81,7 +82,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
                 bundle.putString(BundleHelper.offerId, offerId)
-                bundle.putString(BundleHelper.displayId, offerId)
+                bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
                     ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
@@ -102,6 +103,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             holder.mBindingPopularDealsSecond?.data = eachListData
 
             val offerId = availableOfferList[position].id.toString()
+            val offer_trackier_id = availableOfferList[position].offer_trackier_id.toString()
             val title = availableOfferList[position].name.toString()
             val description = availableOfferList[position].shortDescription.toString()
             val imageUrl = availableOfferList[position].image.toString()
@@ -133,7 +135,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
                 bundle.putString(BundleHelper.offerId, offerId)
-                bundle.putString(BundleHelper.displayId, offerId)
+                bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
                     ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
@@ -149,7 +151,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
 
     interface OnClickedPopularDeals {
         fun claimOffers(appId: String, url: String)
-        fun showOfferDetails(offerId: String, displayId: String)
+        fun showOfferDetails(offerId: String,offer_trackier_id:String)
     }
 
     override fun getItemId(position: Int): Long = position.toLong()

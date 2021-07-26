@@ -41,6 +41,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             holder.mBindingInProgressBinding?.data = eachListData
 
             val offerId = inProgressList[position].id.toString()
+            val offer_trackier_id = inProgressList[position].offer_trackier_id.toString()
             val title = inProgressList[position].name.toString()
             val description = inProgressList[position].shortDescription.toString()
             val imageUrl = inProgressList[position].image.toString()
@@ -74,7 +75,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
                 bundle.putString(BundleHelper.offerId, offerId)
-                bundle.putString(BundleHelper.displayId, offerId)
+                bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
@@ -99,6 +100,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             holder.mBindingInProgressTypeSecondBinding?.data = eachListData
 
             val offerId = inProgressList[position].id.toString()
+            val offer_trackier_id = inProgressList[position].offer_trackier_id.toString()
             val title = inProgressList[position].name.toString()
             val description = inProgressList[position].shortDescription.toString()
             val imageUrl = inProgressList[position].image.toString()
@@ -133,7 +135,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
                 bundle.putString(BundleHelper.offerId, offerId)
-                bundle.putString(BundleHelper.displayId, offerId)
+                bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)

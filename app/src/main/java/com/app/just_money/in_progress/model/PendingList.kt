@@ -4,7 +4,7 @@ package com.app.just_money.in_progress.model
 import com.google.gson.annotations.SerializedName
 
 data class PendingList(
-    @SerializedName("actual_coins")
+    @SerializedName("actual_points")
     val actualCoins: String?,
     @SerializedName("button_text")
     val buttonText: String?,
@@ -22,7 +22,7 @@ data class PendingList(
     val isPopular: String?,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("offer_coins")
+    @SerializedName("offer_points")
     val offerCoins: String?,
     @SerializedName("url")
     val url: String?,
@@ -34,8 +34,8 @@ data class PendingList(
     val points: String?,
     @SerializedName("short_description")
     val shortDescription: String?,
-    @SerializedName("trackier_offer_id")
-    val trackierOfferId: String?,
+    @SerializedName("offer_trackier_id")
+    val offer_trackier_id: String?,
     @SerializedName("type")
     val type: String?,
     @SerializedName("created_at")

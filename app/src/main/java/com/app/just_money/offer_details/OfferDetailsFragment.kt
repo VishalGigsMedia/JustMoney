@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ class OfferDetailsFragment : Fragment() {
     lateinit var api: API
 
     private var offerId: String = ""
+    private var offer_trackier_id: String = ""
     private var source: String = ""
     private var steps: String = ""
     private lateinit var stepsDescription: ArrayList<String>
@@ -56,8 +58,9 @@ class OfferDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(OfferDetailsViewModel::class.java)
         viewModelAO = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         offerId = arguments?.getString(BundleHelper.offerId).toString()
+        offer_trackier_id = arguments?.getString(BundleHelper.offer_trackier_id).toString()
         source = arguments?.getString(BundleHelper.source).toString()
-        //displayId = bundle.getString(BundleHelper.offerId).toString()
+        Log.d("jgvdhjbjkn", "offer_id: $offerId , trackier_id: $offer_trackier_id")
 
         getOfferDetails()
         setOnClickListener()
@@ -76,8 +79,8 @@ class OfferDetailsFragment : Fragment() {
         }
     }
 
-    private fun claimOffer(appId: String, url: String) {
-        viewModelAO.claimOffer(context!!, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
+    private fun claimOffer(offer_id: String, url: String) {
+        viewModelAO.claimOffer(context!!, api, offer_id).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
                 if (claimOfferModel.status == DefaultKeyHelper.successCode) {
                     val intent = Intent(Intent.ACTION_VIEW)
@@ -105,7 +108,7 @@ class OfferDetailsFragment : Fragment() {
 
     private fun getOfferDetails() {
         mBinding.shimmer.startShimmer()
-        viewModel.getOfferDetails(context, api, offerId).observe(viewLifecycleOwner, { offerDetails ->
+        viewModel.getOfferDetails(context, api, offer_trackier_id).observe(viewLifecycleOwner, { offerDetails ->
             mBinding.shimmer.stopShimmer()
             mBinding.shimmer.visibility = GONE
             mBinding.nsv.visibility = VISIBLE
@@ -132,8 +135,8 @@ class OfferDetailsFragment : Fragment() {
         val description = decrypt(offerDetailsData.short_description)
         val imageUrl = decrypt(offerDetailsData.image)
         val note = decrypt(offerDetailsData.note)
-        val actualCoins = decrypt(offerDetailsData.actual_coins)
-        val offerCoins = decrypt(offerDetailsData.offer_coins)
+        val actualCoins = decrypt(offerDetailsData.actual_points)
+        val offerCoins = decrypt(offerDetailsData.offer_points)
         val saveCoins = offerCoins.toInt() - actualCoins.toInt()
         val saveCoinsValue = "Earn Extra $saveCoins"
 

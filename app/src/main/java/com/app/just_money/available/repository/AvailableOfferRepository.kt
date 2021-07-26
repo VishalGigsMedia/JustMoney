@@ -65,12 +65,12 @@ class AvailableOfferRepository {
     }
 
 
-    fun claimOffer(context: Context?, api: API, appId: String): MutableLiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context?, api: API, offer_id: String): MutableLiveData<ClaimOfferModel> {
         val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.appId = appId
+            requestKeyHelper.offer_id = offer_id
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.claimOffer(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {
@@ -80,7 +80,7 @@ class AvailableOfferRepository {
                         claimOfferModel = gson?.fromJson(json, ClaimOfferModel::class.java)
                         println("$tag : $json")
                         mutableLiveData.value = claimOfferModel
-                        trackOfferEarned(appId)
+                        trackOfferEarned(offer_id)
                     }
 
                     override fun onFailure(call: Call<ClaimOfferModel>, t: Throwable) {
@@ -98,7 +98,7 @@ class AvailableOfferRepository {
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.reward_amount = rewardAmount
+            requestKeyHelper.reward_points = rewardAmount
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.claimReward(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {

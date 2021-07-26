@@ -134,8 +134,8 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
         }
     }
 
-    override fun getOffers(appId: String, url: String) {
-        claimOffer(appId, url)
+    override fun getOffers(offer_id: String, url: String) {
+        claimOffer(offer_id, url)
     }
 
 

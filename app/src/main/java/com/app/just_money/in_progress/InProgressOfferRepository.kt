@@ -15,7 +15,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class InProgressOfferRepository {
-    private val TAG = javaClass.simpleName
     private var inProgressModel: InProgressModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
@@ -24,10 +23,7 @@ class InProgressOfferRepository {
         val mutableLiveData: MutableLiveData<InProgressModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            val requestHelper = RequestKeyHelper()
-            requestHelper.state = preferenceHelper.getUserState()
-            requestHelper.city = preferenceHelper.getUserCity()
-            api.getInProgressOffers(preferenceHelper.getJwtToken(), requestHelper)
+            api.getInProgressOffers(preferenceHelper.getJwtToken())
                 .enqueue(object : Callback<InProgressModel> {
                     override fun onResponse(call: Call<InProgressModel>, response: Response<InProgressModel>) {
                         gson = gsonBuilder.create()

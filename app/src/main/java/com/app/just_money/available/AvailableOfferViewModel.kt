@@ -25,9 +25,9 @@ class AvailableOfferViewModel : ViewModel() {
         return availableOfferModel as LiveData<AvailableOfferModel>
     }
 
-    fun claimOffer(context: Context?, api: API, appId: String): LiveData<ClaimOfferModel> {
+    fun claimOffer(context: Context?, api: API, offer_id: String): LiveData<ClaimOfferModel> {
         if (claimOfferModel != null || claimOfferModel == null) {
-            claimOfferModel = availableOfferRepository.claimOffer(context, api, appId)
+            claimOfferModel = availableOfferRepository.claimOffer(context, api, offer_id)
         }
         return claimOfferModel as LiveData<ClaimOfferModel>
     }

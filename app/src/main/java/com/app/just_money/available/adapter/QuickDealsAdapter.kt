@@ -65,6 +65,6 @@ class  QuickDealsAdapter(private val context: FragmentActivity?, private val qui
     }
 
     interface OnClickedQuickDeals {
-        fun getOffers(appId: String, url: String)
+        fun getOffers(offer_id: String, url: String)
     }
 }

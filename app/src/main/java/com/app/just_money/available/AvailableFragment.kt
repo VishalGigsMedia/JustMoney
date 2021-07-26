@@ -32,6 +32,7 @@ import com.app.just_money.available.model.RewardRemainingTime
 import com.app.just_money.common_helper.*
 import com.app.just_money.common_helper.BundleHelper.displayId
 import com.app.just_money.common_helper.BundleHelper.offerId
+import com.app.just_money.common_helper.BundleHelper.offer_trackier_id
 import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.common_helper.DefaultHelper.playCustomSound
 import com.app.just_money.common_helper.DefaultHelper.showToast
@@ -321,19 +322,19 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         }
     }
 
-    override fun claimOffers(appId: String, url: String) {
-        claimOffer(appId, url)
+    override fun claimOffers(offer_id: String, url: String) {
+        claimOffer(offer_id, url)
     }
 
-    override fun getOffers(appId: String, url: String) {
-        claimOffer(appId, url)
+    override fun getOffers(offer_id: String, url: String) {
+        claimOffer(offer_id, url)
     }
 
-    override fun showOfferDetails(offerId: String, displayId: String) {
+    override fun showOfferDetails(offerId: String,offer_trackier_id:String) {
         val offerDetailFragment = OfferDetailsFragment()
         val bundle = Bundle()
         bundle.putString(BundleHelper.offerId, offerId)
-        bundle.putString(BundleHelper.displayId, displayId)
+        bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
         offerDetailFragment.arguments = bundle
         openFragment(offerDetailFragment)
     }
@@ -349,8 +350,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         }
     }
 
-    private fun claimOffer(appId: String, url: String) {
-        viewModel.claimOffer(context, api, appId).observe(viewLifecycleOwner, { claimOfferModel ->
+    private fun claimOffer(offer_id: String, url: String) {
+        viewModel.claimOffer(context, api, offer_id).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
                 if (claimOfferModel.status == DefaultKeyHelper.successCode && url != "") {
                     val intent = Intent(Intent.ACTION_VIEW)
@@ -516,7 +517,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             val offerDetails = OfferDetailsFragment()
             val bundle = Bundle()
             bundle.putString(offerId, popup.id.toString())
-            bundle.putString(displayId, popup.id.toString())
+            bundle.putString(offer_trackier_id, popup.offer_trackier_id.toString())
             offerDetails.arguments = bundle
 
             activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)

@@ -10,8 +10,8 @@ data class Popup(
     val name: String?,
     @SerializedName("points")
     val points: String?,
-    @SerializedName("trackier_offer_id")
-    val trackier_offer_id: String?,
+    @SerializedName("offer_trackier_id")
+    val offer_trackier_id: String?,
     @SerializedName("offer_type")
     val offer_type: String?,
     @SerializedName("original_track_link")

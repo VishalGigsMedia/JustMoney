@@ -8,15 +8,15 @@ data class FaqData(
     val createdAt: String?,
     @SerializedName("created_by")
     val createdBy: String?,
-    @SerializedName("faq_answer")
+    @SerializedName("answer")
     val faqAnswer: String?,
-    @SerializedName("faq_id")
+    @SerializedName("id")
     val faqId: String?,
-    @SerializedName("faq_question")
+    @SerializedName("question")
     val faqQuestion: String?,
     @SerializedName("faq_status")
     val faqStatus: String?,
-    @SerializedName("lang_code")
+    @SerializedName("language_code")
     val langCode: String?,
     @SerializedName("updated_at")
     val updatedAt: String?,

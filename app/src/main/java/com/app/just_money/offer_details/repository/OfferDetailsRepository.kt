@@ -24,19 +24,13 @@ class OfferDetailsRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getOfferDetails(context: Context?, api: API, offerId: String): MutableLiveData<OfferDetailsModel> {
+    fun getOfferDetails(context: Context?, api: API, offer_trackier_id: String): MutableLiveData<OfferDetailsModel> {
         val mutableLiveData: MutableLiveData<OfferDetailsModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.offer_id = offerId
-            requestKeyHelper.display_id = encrypt("1234")
-            /*println(
-                "RequestHelper :" +
-                        " ${requestKeyHelper.state} :" +
-                        " ${requestKeyHelper.city} " +
-                        ": ${requestKeyHelper.display_id}"
-            )*/
+            requestKeyHelper.offer_trackier_id = offer_trackier_id
+
             api.getOfferDetails(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<OfferDetailsModel> {
                     override fun onResponse(call: Call<OfferDetailsModel>, response: Response<OfferDetailsModel>) {

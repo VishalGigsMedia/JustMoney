@@ -26,7 +26,8 @@ class RequestKeyHelper {
     var country: String? = null
     var display_id: String? = null
     var offer_id: String? = null
-    var reward_amount : String? = null
+    var offer_trackier_id: String? = null
+    var reward_points : String? = null
 
     //trackier
     var name: String? = null

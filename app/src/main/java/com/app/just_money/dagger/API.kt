@@ -35,10 +35,10 @@ interface API {
     @POST("get-offers")
     fun getOffers(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<AvailableOfferModel>
 
-    @POST("get_faq")
+    @GET("faqs")
     fun getFaq(@Header("Authorization") authorizationToken: String): Call<FaqModel>
 
-    @POST("get_offer_details")
+    @POST("get-offer-details")
     fun getOfferDetails(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<OfferDetailsModel>
 
@@ -52,19 +52,18 @@ interface API {
     fun trackLogin(@HeaderMap header: HashMap<String, String>, @Body requestKeyHelper: RequestKeyHelper): Call<LoginTrackier>
 
 
-    @POST("claim_offer")
+    @POST("claim-offer")
     fun claimOffer(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>
 
-    @POST("claim_reward")
+    @POST("get-daily-reward")
     fun claimReward(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>
 
     @POST("get_completed_offers")
     fun getCompletedOffers(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<CompletedOfferModel>
 
-    @POST("get_pending_offers")
-    fun getInProgressOffers(@Header("Authorization") authorizationToken: String,
-        @Body requestKeyHelper: RequestKeyHelper): Call<InProgressModel>
+    @POST("get-pending-offers")
+    fun getInProgressOffers(@Header("Authorization") authorizationToken: String): Call<InProgressModel>
 
     @Multipart
     @POST("help_form")
