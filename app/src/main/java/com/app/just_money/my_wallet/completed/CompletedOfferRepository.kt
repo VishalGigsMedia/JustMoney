@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.encrypt
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
@@ -21,13 +22,14 @@ class CompletedOfferRepository {
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
 
-    fun getCompletedOffers(context: Context?, api: API): MutableLiveData<CompletedOfferModel> {
+    fun getCompletedOffers(context: Context?, api: API, scroll_offset: Int, scroll_limit: Int): MutableLiveData<CompletedOfferModel> {
         val mutableLiveData: MutableLiveData<CompletedOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
-            val requestHelper = RequestKeyHelper()
-            requestHelper.state = preferenceHelper.getUserState()
-            api.getCompletedOffers(preferenceHelper.getJwtToken(), requestHelper)
+            val requestKeyHelper = RequestKeyHelper()
+            requestKeyHelper.scroll_offset = encrypt(scroll_offset.toString())
+            requestKeyHelper.scroll_limit = encrypt(scroll_limit.toString())
+            api.getCompletedOffers(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<CompletedOfferModel> {
                     override fun onResponse(call: Call<CompletedOfferModel>,
                         response: Response<CompletedOfferModel>) {

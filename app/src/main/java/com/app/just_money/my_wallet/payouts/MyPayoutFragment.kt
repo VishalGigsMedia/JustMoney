@@ -14,8 +14,12 @@ import com.app.just_money.MainActivity
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.forceLogout
 import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.common_helper.DefaultKeyHelper.failureCode
+import com.app.just_money.common_helper.DefaultKeyHelper.forceLogoutCode
+import com.app.just_money.common_helper.DefaultKeyHelper.successCode
 import com.app.just_money.common_helper.OnCurrentFragmentVisibleListener
 import com.app.just_money.common_helper.PaginationScrollListener
 import com.app.just_money.dagger.API
@@ -77,15 +81,11 @@ class MyPayoutFragment : Fragment() {
             .observe(viewLifecycleOwner, { payoutHistoryModel ->
                hideProgress()
                 if (payoutHistoryModel != null) when (payoutHistoryModel.status) {
-                    DefaultKeyHelper.successCode -> {
+                    successCode -> {
                         if (decrypt(payoutHistoryModel.data?.total_coins.toString()).isNotEmpty()) {
                             mBinding.txtBalanceValue.text =
                                 decrypt(payoutHistoryModel.data?.total_coins.toString())
                         } else mBinding.txtBalanceValue.text = "NA"
-
-                        /*if (payoutHistoryModel.data != null) mBinding.rvPayoutHistory.adapter =
-                            HistoryAdapter(activity, payoutHistoryModel.data.payouts)
-                        else showErrorScreen()*/
 
                         if (payoutHistoryModel.data?.payouts?.isNotEmpty()!!) {
                             this.offset = 10
@@ -93,12 +93,12 @@ class MyPayoutFragment : Fragment() {
                             adapter?.addData(list)
                         }
                     }
-                    DefaultKeyHelper.failureCode -> {
+                    failureCode -> {
                         showToast(context, decrypt(payoutHistoryModel.message))
                         showErrorScreen()
                     }
-                    DefaultKeyHelper.forceLogoutCode -> {
-                        DefaultHelper.forceLogout(activity)
+                    forceLogoutCode -> {
+                        forceLogout(activity)
                     }
                 } else showErrorScreen()
             })
@@ -110,19 +110,15 @@ class MyPayoutFragment : Fragment() {
             if (payoutHistoryModel != null) {
                 try {
                     when (payoutHistoryModel.status) {
-                        DefaultKeyHelper.successCode -> {
+                        successCode -> {
                             if (payoutHistoryModel.data?.payouts?.isNotEmpty()!!) {
                                 isLoading = false
                                 this.offset += 10
                                 adapter?.addData(payoutHistoryModel.data.payouts as ArrayList<Payout>)
                             }
                         }
-                        DefaultKeyHelper.failureCode -> {
-                            showToast(context, decrypt(payoutHistoryModel.message))
-                        }
-                        DefaultKeyHelper.forceLogoutCode -> {
-                            DefaultHelper.forceLogout(activity)
-                        }
+                        failureCode -> {}
+                        forceLogoutCode -> forceLogout(activity)
                     }
 
                 } catch (e: Exception) {

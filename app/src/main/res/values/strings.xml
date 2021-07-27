@@ -191,7 +191,7 @@
     <string name="shareTo">Share via</string>
     <string name="yourRefCode">Your referral code</string>
     <string name="referString">Refer your friend &amp; get up to \n <b>100</b> referral coins!</string>
-    <string name="somethingWentWrong">Something went wrong !</string>
+    <string name="somethingWentWrong">No Internet Connection !</string>
     <string name="referralError">Please login again to refer</string>
     <string name="textCopied">Copied !</string>
     <string name="shareAPP">Share the app</string>

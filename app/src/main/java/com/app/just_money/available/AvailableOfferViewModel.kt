@@ -9,12 +9,14 @@ import com.app.just_money.available.repository.AvailableOfferRepository
 import com.app.just_money.dagger.API
 import com.app.just_money.login.model.ClaimOfferModel
 import com.app.just_money.model.CheckAppVersionModel
+import com.app.just_money.my_wallet.EarningsModel
 
 class AvailableOfferViewModel : ViewModel() {
 
     private val availableOfferRepository: AvailableOfferRepository = AvailableOfferRepository()
     private var availableOfferModel: LiveData<AvailableOfferModel>? = null
     private var claimOfferModel: LiveData<ClaimOfferModel>? = null
+    private var earningsModel: LiveData<EarningsModel>? = null
     private var versionModel: LiveData<CheckAppVersionModel>? = null
     private var ipAddressModel: LiveData<IpApiModel>? = null
 
@@ -34,6 +36,10 @@ class AvailableOfferViewModel : ViewModel() {
     fun claimReward(context: Context?, api: API, rewardAmount: String): LiveData<ClaimOfferModel> {
         claimOfferModel = availableOfferRepository.claimReward(context, api, rewardAmount)
         return claimOfferModel as LiveData<ClaimOfferModel>
+    }
+    fun getEarnings(context: Context?, api: API): LiveData<EarningsModel> {
+        earningsModel = availableOfferRepository.getEarnings(context, api)
+        return earningsModel as LiveData<EarningsModel>
     }
 
 

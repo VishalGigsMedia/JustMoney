@@ -3,7 +3,7 @@ package com.app.just_money.my_wallet.completed.model
 import com.google.gson.annotations.SerializedName
 
 data class CompletedList(
-    @SerializedName("actual_coins")
+    @SerializedName("actual_points")
     val actualCoins: String?,
     @SerializedName("button_text")
     val buttonText: String?,
@@ -21,7 +21,7 @@ data class CompletedList(
     val isPopular: String?,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("offer_coins")
+    @SerializedName("offer_points")
     val offerCoins: String?,
     @SerializedName("offer_type")
     val offerType: Any?,

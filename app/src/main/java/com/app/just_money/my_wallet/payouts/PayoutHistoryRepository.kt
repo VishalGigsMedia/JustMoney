@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.encrypt
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
@@ -42,7 +43,7 @@ class PayoutHistoryRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+            showToast(context, context?.getString(R.string.no_internet))
             mutableLiveData.value = null
         }
         return mutableLiveData

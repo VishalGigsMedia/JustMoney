@@ -10,9 +10,9 @@ class CompletedOfferViewModel : ViewModel() {
     private val completedOfferRepository: CompletedOfferRepository = CompletedOfferRepository()
     private var completedOfferModel: LiveData<CompletedOfferModel>? = null
 
-    fun getCompletedOffers(context: Context?, api: API): LiveData<CompletedOfferModel> {
+    fun getCompletedOffers(context: Context?, api: API, scroll_offset: Int, scroll_limit: Int): LiveData<CompletedOfferModel> {
         if (completedOfferModel != null || completedOfferModel == null) {
-            completedOfferModel = completedOfferRepository.getCompletedOffers(context, api)
+            completedOfferModel = completedOfferRepository.getCompletedOffers(context, api,scroll_offset,scroll_limit)
         }
         return completedOfferModel as LiveData<CompletedOfferModel>
     }

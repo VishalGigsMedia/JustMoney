@@ -6,6 +6,7 @@ import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.model.CheckAppVersionModel
+import com.app.just_money.my_wallet.EarningsModel
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
 import com.app.just_money.my_wallet.leaderborard.model.LeaderBoardModel
@@ -58,7 +59,10 @@ interface API {
     @POST("get-daily-reward")
     fun claimReward(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>
 
-    @POST("get_completed_offers")
+    @POST("earnings")
+    fun getEarnings(@Header("Authorization") authorizationToken: String): Call<EarningsModel>
+
+    @POST("get-completed-offers")
     fun getCompletedOffers(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<CompletedOfferModel>
 
@@ -92,13 +96,13 @@ interface API {
     fun checkVersion(@Header("Authorization") authorizationToken: String): Call<CheckAppVersionModel>
     //fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CheckAppVersionModel>
 
-    @POST("payout")
+    @POST("payout-history")
     fun getPayoutHistory(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<PayoutModel>
 
     @GET//getIPAddress
     fun getIPAddress(@Url url: String): Call<IpApiModel>
 
-    @POST("leadership")//leader board
+    @POST("leaderboard")//leader board
     fun getLeaderBoard(@Header("Authorization") authorizationToken: String): Call<LeaderBoardModel>
 }

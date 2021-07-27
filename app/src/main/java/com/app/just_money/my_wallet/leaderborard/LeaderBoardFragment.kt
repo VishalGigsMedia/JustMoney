@@ -55,6 +55,7 @@ class LeaderBoardFragment : Fragment() {
     }
 
     private fun getLeaderBoardData(type: String) {
+        if (context==null)return
         showShimmer()
         viewModel.getLeaderBoard(context!!, api, type).observe(viewLifecycleOwner, { leaderBoardModel ->
             stopShimmer()

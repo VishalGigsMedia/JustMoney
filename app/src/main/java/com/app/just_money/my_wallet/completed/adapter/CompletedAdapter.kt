@@ -11,11 +11,12 @@ import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.databinding.RowItemCompletedPinkBgBinding
 import com.app.just_money.databinding.RowItemCompletedWhiteBgBinding
 import com.app.just_money.my_wallet.completed.model.CompletedList
+import com.app.just_money.my_wallet.payouts.model.Payout
 import com.bumptech.glide.Glide
 
 class CompletedAdapter(
     private val context: FragmentActivity,
-    private val completedOfferData: List<CompletedList>,
+    private val completedOfferData: ArrayList<CompletedList>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -120,7 +121,10 @@ class CompletedAdapter(
             }*/
         }
     }
-
+    fun addData(list: List<CompletedList>?) {
+        this.completedOfferData.addAll(list!!)
+        notifyDataSetChanged()
+    }
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getItemViewType(position: Int): Int = if (position % 2 == 0) first else second

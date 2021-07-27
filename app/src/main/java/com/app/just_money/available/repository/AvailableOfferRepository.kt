@@ -8,12 +8,14 @@ import com.app.just_money.available.model.AvailableOfferModel
 import com.app.just_money.available.model.IpApiModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.encrypt
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.common_helper.TrackingEvents.trackOfferEarned
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.login.model.ClaimOfferModel
 import com.app.just_money.model.CheckAppVersionModel
+import com.app.just_money.my_wallet.EarningsModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
@@ -24,6 +26,7 @@ class AvailableOfferRepository {
     private val tag = javaClass.simpleName
     private var availableOfferModel: AvailableOfferModel? = null
     private var claimOfferModel: ClaimOfferModel? = null
+    private var earningsModel: EarningsModel? = null
     private var checkAppVersionModel: CheckAppVersionModel? = null
     private var ipAddressModel: IpApiModel? = null
     private val gsonBuilder = GsonBuilder()
@@ -58,7 +61,7 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+            showToast(context, context?.getString(R.string.no_internet))
             mutableLiveData.value = null
         }
         return mutableLiveData
@@ -88,7 +91,7 @@ class AvailableOfferRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+            showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
@@ -117,7 +120,31 @@ class AvailableOfferRepository {
                 })
         } else {
             mutableLiveData.value = null
-            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+            showToast(context, context?.getString(R.string.no_internet))
+        }
+        return mutableLiveData
+    }
+    fun getEarnings(context: Context?, api: API): MutableLiveData<EarningsModel> {
+        val mutableLiveData: MutableLiveData<EarningsModel> = MutableLiveData()
+        if (DefaultHelper.isOnline()) {
+            val preferenceHelper = PreferenceHelper(context)
+            api.getEarnings(preferenceHelper.getJwtToken())
+                .enqueue(object : Callback<EarningsModel> {
+                    override fun onResponse(call: Call<EarningsModel>, response: Response<EarningsModel>) {
+                        gson = gsonBuilder.create()
+                        val json = Gson().toJson(response.body())
+                        earningsModel = gson?.fromJson(json, EarningsModel::class.java)
+                        println("$tag : $json")
+                        mutableLiveData.value = earningsModel
+                    }
+                    override fun onFailure(call: Call<EarningsModel>, t: Throwable) {
+                        mutableLiveData.value = null
+                        println("TAG : ${t.printStackTrace()}")
+                    }
+                })
+        } else {
+            mutableLiveData.value = null
+            showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
@@ -142,7 +169,7 @@ class AvailableOfferRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context?.getString(R.string.no_internet))
+            showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
