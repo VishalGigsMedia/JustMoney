@@ -30,12 +30,17 @@ import com.app.just_money.available.model.FlashOffer
 import com.app.just_money.available.model.Popup
 import com.app.just_money.available.model.RewardRemainingTime
 import com.app.just_money.common_helper.*
-import com.app.just_money.common_helper.BundleHelper.displayId
 import com.app.just_money.common_helper.BundleHelper.offerId
 import com.app.just_money.common_helper.BundleHelper.offer_trackier_id
 import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.forceLogout
+import com.app.just_money.common_helper.DefaultHelper.getVersionCode
 import com.app.just_money.common_helper.DefaultHelper.playCustomSound
 import com.app.just_money.common_helper.DefaultHelper.showToast
+import com.app.just_money.common_helper.DefaultKeyHelper.failureCode
+import com.app.just_money.common_helper.DefaultKeyHelper.forceLogoutCode
+import com.app.just_money.common_helper.DefaultKeyHelper.playStoreLink
+import com.app.just_money.common_helper.DefaultKeyHelper.successCode
 import com.app.just_money.common_helper.TrackingEvents.trackDailyReward
 import com.app.just_money.common_helper.TrackingEvents.trackOfferList
 import com.app.just_money.dagger.API
@@ -68,7 +73,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private var onClicked: PopularDealsAdapter.OnClickedPopularDeals? = null
     private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
     private lateinit var preferenceHelper: PreferenceHelper
-
+    private var appVersion: Long = -1
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
         return mBinding.root
@@ -108,7 +113,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             run {
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
-                        DefaultKeyHelper.successCode -> {
+                        successCode -> {
                             trackOfferList()
                             val offerData = availableOfferModel.availableOfferData
                             val dailyReward = offerData?.dailyRewards.toString()
@@ -148,13 +153,20 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
                             //if no offer available among three types, just showing error screen
                             if (mBinding.clBestDeal.visibility == GONE && mBinding.rvPopular.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
+
+                            //version
+                            if(availableOfferModel.availableOfferData?.app_version != null) {
+                                appVersion = decrypt(availableOfferModel.availableOfferData.app_version).toLong()
+                                checkUpdate()
+                            }
+
                         }
-                        DefaultKeyHelper.failureCode -> {
+                        failureCode -> {
                             showToast(context, decrypt(availableOfferModel.message.toString()))
                             showErrorScreen()
                         }
-                        DefaultKeyHelper.forceLogoutCode -> {
-                            DefaultHelper.forceLogout(activity)
+                        forceLogoutCode -> {
+                            forceLogout(activity)
                         }
                         else -> {
                             showToast(context, decrypt(availableOfferModel.message.toString()))
@@ -167,7 +179,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     override fun onResume() {
-        super.onResume();//checkVersion()
+        super.onResume()
+        checkUpdate()
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
@@ -263,11 +276,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             val flashOfferName = decrypt(flashOffer[0].name.toString())
             val description = decrypt(flashOffer[0].shortDescription.toString())
             val endDate = decrypt(flashOffer[0].downloadEndDate.toString())
-            /*val startDate = DefaultHelper.decrypt(flashOffer[0].downloadStartDate.toString())*/
-            /*val offerId = DefaultHelper.decrypt(flashOffer[0].offerId.toString())*/
-            /*val offerType = DefaultHelper.decrypt(flashOffer[0].offerType.toString())*/
-            /*val url = DefaultHelper.decrypt(flashOffer[0].url.toString())*/
-            /*val trackingLink = DefaultHelper.decrypt(flashOffer[0].originalTrackLink.toString())*/
             val image = decrypt(flashOffer[0].image.toString())
             val actualCoins = decrypt(flashOffer[0].actualCoins.toString())
             val offerCoins = decrypt(flashOffer[0].offerCoins.toString())
@@ -322,8 +330,8 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         }
     }
 
-    override fun claimOffers(offer_id: String, url: String) {
-        claimOffer(offer_id, url)
+    override fun claimOffers(offerId: String, url: String) {
+        claimOffer(offerId, url)
     }
 
     override fun getOffers(offer_id: String, url: String) {
@@ -353,7 +361,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private fun claimOffer(offer_id: String, url: String) {
         viewModel.claimOffer(context, api, offer_id).observe(viewLifecycleOwner, { claimOfferModel ->
             if (claimOfferModel != null) {
-                if (claimOfferModel.status == DefaultKeyHelper.successCode && url != "") {
+                if (claimOfferModel.status == successCode && url != "") {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
@@ -362,40 +370,17 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    private fun checkVersion() {
-        viewModel.checkVersion(context, api).observe(viewLifecycleOwner, { versionModel ->
-            if (versionModel != null) {
-                when (versionModel.status) {
-                    DefaultKeyHelper.successCode -> {
-                        var updateVersion: Long = 0
-                        val title = decrypt(versionModel.title.toString())
-                        val playStoreUrl = decrypt(versionModel.data?.url.toString())
-                        if (versionModel.data?.version != null) {
-                            updateVersion = (decrypt(versionModel.data.version.toString())).toLong()
-                        }
-                        val applicationVersion = DefaultHelper.getVersionCode()
-                        val msg = decrypt(versionModel.message.toString())
-                        updateApplicationDialog(updateVersion, applicationVersion, title, msg, playStoreUrl)
-                    }
-                    DefaultKeyHelper.failureCode -> {
-                        showToast(context, decrypt(versionModel.message.toString()))
-                    }
-                }
-            }
-        })
-    }
-
     private fun claimReward(rewardAmount: String) {
         viewModel.claimReward(context, api, rewardAmount).observe(viewLifecycleOwner, { model ->
             if (model != null) {
                 when (model.status) {
-                    DefaultKeyHelper.successCode -> {
+                    successCode -> {
                         showToast(context, decrypt(model.message.toString()))
                         playCustomSound(context, R.raw.reward)
                         showCoinAnimation(mBinding.coinAnimation)
                         trackDailyReward(rewardAmount)
                     }
-                    DefaultKeyHelper.failureCode -> {
+                    failureCode -> {
                         showToast(context, decrypt(model.message.toString()))
                     }
                 }
@@ -403,25 +388,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         })
     }
 
-    /*private fun getIPAddress() {
-        viewModel.getIPAddress(context, api).observe(viewLifecycleOwner, fun(ipApiModel: IPAPIModel?) {
-            if (ipApiModel != null) {
-                if (ipApiModel.query !== null && ipApiModel.query != "") {
-                    Log.d("seevluess", ipApiModel.countryCode)
-                    preferenceHelper.setIpAddress(ipApiModel.query)
-                    preferenceHelper.setUserCountry(ipApiModel.country)
-                    preferenceHelper.setUserCountryCode(ipApiModel.countryCode)
-                    preferenceHelper.setUserState(ipApiModel.regionName)
-                    preferenceHelper.setUserStateCode(ipApiModel.region)
-                    preferenceHelper.setUserCity(ipApiModel.city)
-                    getOffers()
-                } else {
-                    showToast(context, getString(R.string.somethingWentWrong))
-                    activity?.finish()
-                }
-            }
-        })
-    }*/
     private fun getIPAddress() {
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(context)
@@ -447,33 +413,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         queue.add(stringRequest)
     }
 
-    private fun updateApplicationDialog(updtVar: Long, appVar: Long, title: String, message: String, url: String) {
-        if (appVar < updtVar) showDialog(title, message, url)
-    }
 
-    private fun showDialog(title: String, message: String, url: String) {
-        if (context != null) {
-            val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
-            dialog.setCancelable(false)
-            dialog.setContentView(R.layout.update_verstion_dialog)
-            dialog.window?.setGravity(Gravity.BOTTOM)
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.WRAP_CONTENT
-            dialog.window?.setLayout(width, height)
-
-            if (title.isNotEmpty()) dialog.txtTitle.text = title
-            if (message.isNotEmpty()) dialog.txtMessage.text = message
-
-            dialog.txtUpdateApplication.setOnClickListener {
-                //  startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.dne.rewardapp&reviewId")))
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                dialog.dismiss()
-            }
-            dialog.show()
-        }
-    }
 
     private fun showCoinAnimation(view: LottieAnimationView) {
         view.visibility = VISIBLE
@@ -536,6 +476,30 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.shimmerViewContainer.visibility = VISIBLE
         mBinding.nsv.visibility = GONE
         mBinding.shimmerViewContainer.startShimmer()
+    }
+
+    private fun checkUpdate() {
+        if (appVersion == -1L || context == null) return
+        if (getVersionCode() < appVersion) {
+            val dialog = BottomSheetDialog(context!!, R.style.AppBottomSheetDialogTheme)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.update_verstion_dialog)
+            dialog.window?.setGravity(Gravity.BOTTOM)
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.WRAP_CONTENT
+            dialog.window?.setLayout(width, height)
+
+            dialog.txtTitle.text = getString(R.string.update_available)
+            dialog.txtMessage.text = getString(R.string.older_version_text)
+
+            dialog.txtUpdateApplication.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(playStoreLink))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
     }
 
 

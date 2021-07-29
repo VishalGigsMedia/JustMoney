@@ -18,6 +18,7 @@ import com.app.just_money.available.model.IpApiModel
 import com.app.just_money.common_helper.DefaultHelper
 import com.app.just_money.common_helper.DefaultHelper.decrypt
 import com.app.just_money.common_helper.DefaultHelper.getCarrierName
+import com.app.just_money.common_helper.DefaultHelper.openFragment
 import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.common_helper.DefaultKeyHelper.failureCode
@@ -72,10 +73,10 @@ class LoginFragment : Fragment() {
 
     private fun manageClickEvent() {
         mBinding.clRegisterWithUs.setOnClickListener {
-            DefaultHelper.openFragment(this.fm, RegisterFragment(), true)
+            openFragment(this.fm, RegisterFragment(), true)
         }
         mBinding.clTermsCondition.setOnClickListener {
-            DefaultHelper.openFragment(this.fm, TermsConditionFragment(), true)
+            openFragment(this.fm, TermsConditionFragment(), true)
         }
         mBinding.clLogin.setOnClickListener {
             isValid()

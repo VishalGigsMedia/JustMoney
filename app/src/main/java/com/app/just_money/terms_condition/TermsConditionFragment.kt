@@ -1,18 +1,24 @@
 package com.app.just_money.terms_condition
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.R
+import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultKeyHelper
+import com.app.just_money.dagger.API
+import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentTermsConditionBinding
+import javax.inject.Inject
 
 class TermsConditionFragment : Fragment() {
+    @Inject
+    lateinit var api: API
+    private lateinit var viewModel: TCModel
     private lateinit var mBinding: FragmentTermsConditionBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -21,23 +27,41 @@ class TermsConditionFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                view?.loadUrl(url.toString())
-                return true
-            }
-        }
-
-        mBinding.webView.settings.javaScriptEnabled = true
-        mBinding.webView.settings.allowContentAccess = true
-        mBinding.webView.settings.javaScriptCanOpenWindowsAutomatically = true
-
-        val termsConditionUrl = getString(R.string.terms_condition_url)
-        mBinding.webView.loadUrl(termsConditionUrl)
+        MyApplication.instance.getNetComponent()?.inject(this)
+        viewModel = ViewModelProvider(this).get(TCModel::class.java)
+        getTermsConditions()
     }
 
+    private fun getTermsConditions() {
+        mBinding.shimmer.startShimmer()
+        viewModel.getTC(context!!, api).observe(viewLifecycleOwner, { faqDetails ->
+            mBinding.shimmer.stopShimmer()
+            mBinding.shimmer.visibility = View.GONE
+            mBinding.nsv.visibility = View.VISIBLE
+            if (faqDetails != null) {
+                when (faqDetails.status) {
+                    DefaultKeyHelper.successCode -> {
+                        mBinding.tvData.text
+                    }
+                    DefaultKeyHelper.failureCode -> {
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
+                        activity?.onBackPressed()
+                    }
+                    DefaultKeyHelper.forceLogoutCode -> {
+                        DefaultHelper.forceLogout(activity!!)
+                    }
+                    else -> {
+                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
+                        activity?.onBackPressed()
+                    }
+                }
+            } else {
+                DefaultHelper.showToast(context, "Something went Wrong!!")
+                activity?.onBackPressed()
+            }
+        })
+    }
 
 }

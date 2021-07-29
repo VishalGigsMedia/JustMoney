@@ -10,7 +10,9 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.*
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.*
 import androidx.core.animation.doOnEnd
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -38,6 +40,7 @@ class MyWalletFragment : Fragment() {
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentMyWalletBinding
     private lateinit var viewModel: AvailableOfferViewModel
+    private lateinit var preferenceHelper: PreferenceHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_wallet, container, false)
@@ -48,14 +51,15 @@ class MyWalletFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         callback?.onShowHideBottomNav(true)
 
-        MyApplication.instance.getNetComponent()?.inject(this)
-        viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
+        init()
+        getEarnings()
         manageClickEvents()
     }
 
-    override fun onResume() {
-        super.onResume()
-        getEarnings()
+    private fun init() {
+        MyApplication.instance.getNetComponent()?.inject(this)
+        viewModel = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
+        preferenceHelper = PreferenceHelper(context)
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
@@ -63,6 +67,7 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun getEarnings() {
+        mBinding.txtRequestPayout.isEnabled = false
         val animator = ValueAnimator()
         animator.setObjectValues(2000, 4000)
         animator.addUpdateListener { animation ->
@@ -70,13 +75,14 @@ class MyWalletFragment : Fragment() {
             mBinding.txtCompletedCoinsValue.text = animation.animatedValue.toString()
             mBinding.txtWithdrawnValue.text = animation.animatedValue.toString()
         }
-        animator.duration = 2000 // here you set the duration of the anim
+        animator.duration = 500 // here you set the duration of the anim
         animator.start()
 
         viewModel.getEarnings(context, api).observe(viewLifecycleOwner, { model ->
             if (model != null) {
                 when (model.status) {
                     DefaultKeyHelper.successCode -> {
+                        mBinding.txtRequestPayout.isEnabled = true
                         animator.doOnEnd {
                             mBinding.txtCurrentBalanceValue.text = decrypt(model.data.current_balance)
                             mBinding.txtCompletedCoinsValue.text = decrypt(model.data.completed)
@@ -121,7 +127,9 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun onClickRequestPayout() {
-        showCollectAmountDialog()
+        if (preferenceHelper.getMobile() == "") {
+            Toast.makeText(context, getString(R.string.complete_profile_error), Toast.LENGTH_SHORT).show();
+        } else showCollectAmountDialog()
     }
 
     private fun onClickPayout() {
@@ -157,28 +165,76 @@ class MyWalletFragment : Fragment() {
 
     private fun showCollectAmountDialog() {
         val dialog = context?.let { Dialog(it) }
-        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog?.setCancelable(true)
         dialog?.setContentView(R.layout.dialog_request_payout)
         dialog?.window?.setGravity(Gravity.CENTER)
         val width = ViewGroup.LayoutParams.MATCH_PARENT
         val height = ViewGroup.LayoutParams.WRAP_CONTENT
         dialog?.window?.setLayout(width, height)
-        val clOkay = dialog?.findViewById<ConstraintLayout>(R.id.clOkay)
-        clOkay?.setOnClickListener {
-            vibrateDevice()
-            dialog.dismiss()
+        val btnContinue = dialog?.findViewById<TextView>(R.id.btnContinue)
+        val tvMobileNumber = dialog?.findViewById<TextView>(R.id.tvMobileNumber)
+        val etAmount = dialog?.findViewById<EditText>(R.id.etAmount)
+        val pbRequestPayout = dialog?.findViewById<ProgressBar>(R.id.pbRequestPayout)
+        val tvClickText = dialog?.findViewById<TextView>(R.id.tvClickText)
+        val ivFootLogo = dialog?.findViewById<ImageView>(R.id.ivFootLogo)
+        tvMobileNumber?.text = preferenceHelper.getMobile()
+        btnContinue?.setOnClickListener {
+            if (etAmount?.text.toString() == "") {
+                showToast(context, getString(R.string.error_paytm_input2))
+                return@setOnClickListener
+            }
+            if (Integer.parseInt(etAmount?.text.toString()) > Integer.parseInt(
+                    mBinding.txtCurrentBalanceValue.text.toString())
+            ) {
+                showToast(context, getString(R.string.error_paytm_input))
+                return@setOnClickListener
+            }
+            //else
+            requestPayout(etAmount?.text.toString(), dialog, pbRequestPayout)
+        }
+        tvClickText?.setOnClickListener{
+            openAstroPay()
+        }
+        ivFootLogo?.setOnClickListener{
+            openAstroPay()
         }
         dialog?.show()
+    }
+
+    private fun openAstroPay() {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.astropaycard.android"))
+        startActivity(browserIntent)
+    }
+
+    private fun requestPayout(amt: String, dialog: Dialog, pbRequestPayout: ProgressBar?) {
+        pbRequestPayout?.visibility = VISIBLE
+        viewModel.requestPayout(context, api, amt).observe(viewLifecycleOwner, { model ->
+            pbRequestPayout?.visibility = GONE
+            if (model != null) {
+                when (model.status) {
+                    DefaultKeyHelper.successCode -> {
+                        showToast(context, getString(R.string.req_success))
+                        dialog.dismiss()
+                        getEarnings()
+                        vibrateDevice()
+                    }
+
+                    DefaultKeyHelper.failureCode -> {
+                        showToast(context, decrypt(model.message))
+                    }
+                }
+            } else {
+                showToast(context, getString(R.string.somethingWentWrong))
+            }
+        })
     }
 
     private fun vibrateDevice() {
         val v = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v?.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+            v?.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
-            @Suppress("DEPRECATION") v?.vibrate(500)
+            @Suppress("DEPRECATION") v?.vibrate(200)
         }
     }
 

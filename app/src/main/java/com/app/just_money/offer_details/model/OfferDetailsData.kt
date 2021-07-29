@@ -15,7 +15,7 @@ data class OfferDetailsData(
     val package_name: String,
     val points: String,
     val short_description: String,
-    val steps_description: List<String>,
+    val steps_description: List<String>?,
     val steps_to_earn: String,
     val trackier_offer_id: String,
     val type: String,

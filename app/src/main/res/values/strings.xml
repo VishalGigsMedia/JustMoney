@@ -179,13 +179,12 @@
     <string name="mandatory_confirm_password">Confirm Password<font fgcolor='#D92249'>*</font></string>
 
     <string name="update">update</string>
-    <string name="okay">okay</string>
+    <string name="continue_text">continue</string>
     <string name="send">Send</string>
 
     <string name="forgot_pwd_msg">"Click 'Send' button to receive update password link on your entered email address:"</string>
     <string name="error_completed">Start and complete one of the available reward to make it appear on this screen</string>
     <string name="error_payout">Request a payout to make it appear in this list</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="referEarn">Refer &amp; Earn</string>
     <string name="shareTo">Share via</string>
@@ -208,6 +207,18 @@
     <string name="referral2">and get coins as bonus on completing the offers.\n\nWin exciting rewards with Just Money by performing following tasks:\n\n1) Installing Apps\n2) Completing Surveys\n3)Referring Your friends\n\nInstall Now!!"</string>
     <string name="mobile">Mobile*</string>
     <string name="button_text_q_d">Get Offer</string>
+    <string name="update_available">Update Available !</string>
+    <string name="older_version_text">You are using an older Version of Cent4free,\n Kindly update the application and Enjoy our new Services !</string>
+    <string name="complete_profile_error">Please complete your profile before requesting payout!</string>
+    <string name="astropay_note">Please Enter Amount To Redeem In Your Astropay Wallet</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="ent_amt">Enter Amount*</string>
+    <string name="footnote_req_payout">Note : Please SignUp/Login to AstropPay before requesting payout to get your money easily.</string>
+    <string name="click_astro">Click here to open</string>
+    <string name="error_paytm_input2">Please enter amount</string>
+    <string name="error_paytm_input">Entered amount should be less than available amount.</string>
+    <string name="req_success">Request Successful</string>
+    <string name="tnc">T &amp; C</string>
 
 
 </resources>

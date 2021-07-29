@@ -14,6 +14,8 @@ import com.app.just_money.my_wallet.setting.HelpUsFragment
 import com.app.just_money.my_wallet.setting.MyProfileFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
 import com.app.just_money.offer_details.OfferDetailsFragment
+import com.app.just_money.privacy_policy.PrivacyPolicyFragment
+import com.app.just_money.terms_condition.TermsConditionFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -37,5 +39,6 @@ interface ApiComponent {
     fun inject(myPayoutFragment: MyPayoutFragment)
     fun inject(leaderBoardFragment: LeaderBoardFragment)
     fun inject(myWalletFragment: MyWalletFragment)
-
+    fun inject(termsConditionFragment: TermsConditionFragment)
+    fun inject(privacyPolicyFragment: PrivacyPolicyFragment)
 }

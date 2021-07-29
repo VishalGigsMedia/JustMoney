@@ -1,4 +1,4 @@
-package com.app.just_money.my_wallet
+package com.app.just_money.my_wallet.model
 
 data class EarningsModel(
     val `data`: Data,

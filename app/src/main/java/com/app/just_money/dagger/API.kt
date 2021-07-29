@@ -6,10 +6,10 @@ import com.app.just_money.in_progress.model.InProgressModel
 import com.app.just_money.login.model.*
 import com.app.just_money.login.model.login.LoginModel
 import com.app.just_money.model.CheckAppVersionModel
-import com.app.just_money.my_wallet.EarningsModel
 import com.app.just_money.my_wallet.completed.model.CompletedOfferModel
 import com.app.just_money.my_wallet.faq.model.FaqModel
 import com.app.just_money.my_wallet.leaderborard.model.LeaderBoardModel
+import com.app.just_money.my_wallet.model.EarningsModel
 import com.app.just_money.my_wallet.payouts.model.PayoutModel
 import com.app.just_money.my_wallet.setting.model.*
 import com.app.just_money.offer_details.model.OfferDetailsModel
@@ -39,6 +39,12 @@ interface API {
     @GET("faqs")
     fun getFaq(@Header("Authorization") authorizationToken: String): Call<FaqModel>
 
+    @GET("terms-and-conditions")
+    fun getTC(@Header("Authorization") authorizationToken: String): Call<FaqModel>
+
+    @GET("privacy-policy")
+    fun getPP(@Header("Authorization") authorizationToken: String): Call<FaqModel>
+
     @POST("get-offer-details")
     fun getOfferDetails(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<OfferDetailsModel>
@@ -62,6 +68,10 @@ interface API {
     @POST("earnings")
     fun getEarnings(@Header("Authorization") authorizationToken: String): Call<EarningsModel>
 
+    @POST("request-payout")
+    fun requestPayout(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<EarningsModel>
+
     @POST("get-completed-offers")
     fun getCompletedOffers(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<CompletedOfferModel>
@@ -83,7 +93,8 @@ interface API {
     @POST("update-user-profile")
     fun updateProfile(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
         @Part("first_name") firstName: RequestBody?, @Part("last_name") lastName: RequestBody?,
-        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?, @Part("mobile") mobile: RequestBody?): Call<UpdatedProfileModel>
+        @Part("gender") gender: RequestBody?, @Part("dob") dob: RequestBody?, @Part("email") email: RequestBody?,
+        @Part("mobile") mobile: RequestBody?): Call<UpdatedProfileModel>
 
     @POST("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>

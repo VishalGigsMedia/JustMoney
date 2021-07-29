@@ -41,7 +41,7 @@ class SettingsNewFragment : Fragment() {
     private lateinit var viewModel: SettingViewModel
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var mBinding: FragmentSettingsNewBinding
-    private lateinit var preferenceHelper : PreferenceHelper
+    private lateinit var preferenceHelper: PreferenceHelper
 
     /*lateinit var manager: ReviewManager
     var reviewInfo: ReviewInfo? = null*/
@@ -117,7 +117,19 @@ class SettingsNewFragment : Fragment() {
         viewModel.logout(context, api).observe(viewLifecycleOwner, { logoutModule ->
             if (logoutModule != null) {
                 when (logoutModule.status) {
-                    DefaultKeyHelper.successCode -> forceLogout(activity)
+                    DefaultKeyHelper.successCode -> {
+                        forceLogout(activity)
+                        preferenceHelper.setUserId("")
+                        preferenceHelper.setFirstName("")
+                        preferenceHelper.setLastName("")
+                        preferenceHelper.setEmail("")
+                        preferenceHelper.setMobile("")
+                        preferenceHelper.setDob("")
+                        preferenceHelper.setGender("")
+                        preferenceHelper.setProfilePic("")
+                        preferenceHelper.setReferralCode("")
+                        preferenceHelper.setUserLoggedIn(false)
+                    }
                     DefaultKeyHelper.failureCode -> showToast(context, decrypt(logoutModule.message.toString()))
                 }
             } else showToast(context, getString(R.string.somethingWentWrong))

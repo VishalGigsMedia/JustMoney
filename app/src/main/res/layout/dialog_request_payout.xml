@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/_10sdp"
@@ -9,67 +10,170 @@
 
     <ImageView
         android:id="@+id/ivRequestPayment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_180sdp"
-        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:src="@drawable/request_payout"
+        android:src="@drawable/logo_astropay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </ImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtDescription"
+        android:id="@+id/tvNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_30sdp"
         android:fontFamily="@font/metropolis_medium"
-        android:text="Collect 3,500,000 for your first \n PayPal payout. You get US$5.00\n (or the equivalent in INR) transferred \n to your PayPal account"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_12ssp"
         android:gravity="center"
+        android:text="@string/astropay_note"
+        android:textColor="@color/gray_800"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivRequestPayment">
+        app:layout_constraintTop_toBottomOf="@+id/ivRequestPayment" />
 
-    </TextView>
+    <TextView
+        android:id="@+id/tvMobileNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/metropolis_regular"
+        android:text="@string/mobile_number"
+        android:textColor="@color/gray_800"
+        android:textSize="@dimen/_11sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNote" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clOkay"
+    <TextView
+        android:id="@+id/tvMobileNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:fontFamily="@font/metropolis_bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMobileNumberText"
+        tools:text="7208316599" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etAmountContainer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:hint="@string/ent_amt"
+        android:textColorHint="@color/black"
+        app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+        app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+        app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+        app:boxCornerRadiusTopStart="@dimen/_20sdp"
+        app:boxStrokeWidth="@dimen/material_edt_box_stroke_width_size"
+        app:boxStrokeWidthFocused="@dimen/material_edt_box_stroke_width_size"
+        app:hintTextColor="@color/gray_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMobileNumber">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/metropolis_medium"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="0dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:maxLength="5"
+            android:text="@null"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/btnContinue"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_35sdp"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:layout_marginBottom="@dimen/_60sdp"
+        android:layout_marginTop="@dimen/_25sdp"
         android:background="@drawable/curve_pink_600"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/metropolis_bold"
+        android:gravity="center"
+        android:text="@string/continue_text"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+        app:layout_constraintTop_toBottomOf="@id/etAmountContainer" />
 
-        <TextView
-            android:id="@+id/txtOkay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/metropolis_bold"
-            android:gravity="center"
-            android:text="@string/okay"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_10ssp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ProgressBar
+        android:id="@+id/pbRequestPayout"
+        android:layout_width="@dimen/_17sdp"
+        android:layout_height="@dimen/_17sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/btnContinue"
+        app:layout_constraintEnd_toEndOf="@id/btnContinue"
+        app:layout_constraintTop_toTopOf="@id/btnContinue" />
 
-        </TextView>
+    <TextView
+        android:id="@+id/footnote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:fontFamily="@font/metropolis_regular"
+        android:gravity="center"
+        android:text="@string/footnote_req_payout"
+        android:textColor="@color/gray_600"
+        android:textSize="@dimen/_9sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnContinue" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvClickText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:gravity="center_vertical"
+        android:text="@string/click_astro"
+        android:textColor="@color/gray_800"
+        app:layout_constraintBottom_toBottomOf="@id/ivFootLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/footnote" />
 
+    <ImageView
+        android:id="@+id/ivFootLogo"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:src="@drawable/logo_astropay"
+        app:layout_constraintStart_toEndOf="@id/tvClickText"
+        app:layout_constraintTop_toTopOf="@id/tvClickText"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_30sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivFootLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

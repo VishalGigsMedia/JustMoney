@@ -150,7 +150,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
     }
 
     interface OnClickedPopularDeals {
-        fun claimOffers(appId: String, url: String)
+        fun claimOffers(offerId: String, url: String)
         fun showOfferDetails(offerId: String,offer_trackier_id:String)
     }
 

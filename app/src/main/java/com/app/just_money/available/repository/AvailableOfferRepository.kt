@@ -15,7 +15,7 @@ import com.app.just_money.dagger.API
 import com.app.just_money.dagger.RequestKeyHelper
 import com.app.just_money.login.model.ClaimOfferModel
 import com.app.just_money.model.CheckAppVersionModel
-import com.app.just_money.my_wallet.EarningsModel
+import com.app.just_money.my_wallet.model.EarningsModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
@@ -129,6 +129,33 @@ class AvailableOfferRepository {
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             api.getEarnings(preferenceHelper.getJwtToken())
+                .enqueue(object : Callback<EarningsModel> {
+                    override fun onResponse(call: Call<EarningsModel>, response: Response<EarningsModel>) {
+                        gson = gsonBuilder.create()
+                        val json = Gson().toJson(response.body())
+                        earningsModel = gson?.fromJson(json, EarningsModel::class.java)
+                        println("$tag : $json")
+                        mutableLiveData.value = earningsModel
+                    }
+                    override fun onFailure(call: Call<EarningsModel>, t: Throwable) {
+                        mutableLiveData.value = null
+                        println("TAG : ${t.printStackTrace()}")
+                    }
+                })
+        } else {
+            mutableLiveData.value = null
+            showToast(context, context?.getString(R.string.no_internet))
+        }
+        return mutableLiveData
+    }
+    fun requestPayout(context: Context?, api: API,amt:String): MutableLiveData<EarningsModel> {
+        val mutableLiveData: MutableLiveData<EarningsModel> = MutableLiveData()
+        if (DefaultHelper.isOnline()) {
+            val preferenceHelper = PreferenceHelper(context)
+            val requestKeyHelper = RequestKeyHelper()
+            requestKeyHelper.points = encrypt(amt)
+            requestKeyHelper.phone = encrypt(preferenceHelper.getMobile())
+            api.requestPayout(preferenceHelper.getJwtToken(),requestKeyHelper)
                 .enqueue(object : Callback<EarningsModel> {
                     override fun onResponse(call: Call<EarningsModel>, response: Response<EarningsModel>) {
                         gson = gsonBuilder.create()

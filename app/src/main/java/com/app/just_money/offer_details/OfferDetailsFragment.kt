@@ -39,10 +39,10 @@ class OfferDetailsFragment : Fragment() {
     lateinit var api: API
 
     private var offerId: String = ""
-    private var offer_trackier_id: String = ""
+    private var offerTrackierId: String = ""
     private var source: String = ""
     private var steps: String = ""
-    private lateinit var stepsDescription: ArrayList<String>
+    private var stepsDescription: ArrayList<String>? = null
     private lateinit var viewModel: OfferDetailsViewModel
     private lateinit var viewModelAO: AvailableOfferViewModel
     private lateinit var mBinding: FragmentOfferDetailsBinding
@@ -58,9 +58,9 @@ class OfferDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(OfferDetailsViewModel::class.java)
         viewModelAO = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         offerId = arguments?.getString(BundleHelper.offerId).toString()
-        offer_trackier_id = arguments?.getString(BundleHelper.offer_trackier_id).toString()
+        offerTrackierId = arguments?.getString(BundleHelper.offer_trackier_id).toString()
         source = arguments?.getString(BundleHelper.source).toString()
-        Log.d("jgvdhjbjkn", "offer_id: $offerId , trackier_id: $offer_trackier_id")
+        Log.d("jgvdhjbjkn", "offer_id: $offerId , trackier_id: $offerTrackierId")
 
         getOfferDetails()
         setOnClickListener()
@@ -102,13 +102,13 @@ class OfferDetailsFragment : Fragment() {
         val height = ViewGroup.LayoutParams.WRAP_CONTENT
         dialog.window?.setLayout(width, height)
         dialog.txtStepToEarnValue.text = steps
-        dialog.rvSteps.adapter = StepsAdapter(context, stepsDescription)
+        dialog.rvSteps.adapter = stepsDescription?.let { StepsAdapter(context, it) }
         dialog.show()
     }
 
     private fun getOfferDetails() {
         mBinding.shimmer.startShimmer()
-        viewModel.getOfferDetails(context, api, offer_trackier_id).observe(viewLifecycleOwner, { offerDetails ->
+        viewModel.getOfferDetails(context, api, offerTrackierId).observe(viewLifecycleOwner, { offerDetails ->
             mBinding.shimmer.stopShimmer()
             mBinding.shimmer.visibility = GONE
             mBinding.nsv.visibility = VISIBLE
@@ -131,7 +131,10 @@ class OfferDetailsFragment : Fragment() {
         val url = decrypt(offerDetailsData.url)
         val title = decrypt(offerDetailsData.name)
         steps = decrypt(offerDetailsData.description)
-        stepsDescription = offerDetailsData.steps_description as ArrayList<String>
+        if (offerDetailsData.steps_description != null) {
+            stepsDescription = offerDetailsData.steps_description as ArrayList<String>
+            mBinding.clStepToAvailOffer.visibility = VISIBLE
+        } else mBinding.clStepToAvailOffer.visibility = GONE
         val description = decrypt(offerDetailsData.short_description)
         val imageUrl = decrypt(offerDetailsData.image)
         val note = decrypt(offerDetailsData.note)
