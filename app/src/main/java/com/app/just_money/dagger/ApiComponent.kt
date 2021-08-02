@@ -10,7 +10,7 @@ import com.app.just_money.my_wallet.faq.FaqFragment
 import com.app.just_money.my_wallet.leaderborard.LeaderBoardFragment
 import com.app.just_money.my_wallet.payouts.MyPayoutFragment
 import com.app.just_money.my_wallet.setting.EditProfileFragment
-import com.app.just_money.my_wallet.setting.HelpUsFragment
+import com.app.just_money.my_wallet.setting.help.HelpUsFragment
 import com.app.just_money.my_wallet.setting.MyProfileFragment
 import com.app.just_money.my_wallet.setting.SettingsNewFragment
 import com.app.just_money.offer_details.OfferDetailsFragment

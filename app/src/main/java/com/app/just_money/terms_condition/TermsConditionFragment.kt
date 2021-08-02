@@ -1,6 +1,8 @@
 package com.app.just_money.terms_condition
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.just_money.R
 import com.app.just_money.common_helper.DefaultHelper
+import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.forceLogout
+import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.common_helper.DefaultKeyHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentTermsConditionBinding
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
 class TermsConditionFragment : Fragment() {
     @Inject
@@ -31,34 +38,46 @@ class TermsConditionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(TCModel::class.java)
-        getTermsConditions()
+
+        manageClicks()
+
+        mBinding.shimmer.startShimmer()
+        Handler(Looper.getMainLooper()).postDelayed({
+            getTermsConditions()
+        }, 1000)
+
+    }
+
+    private fun manageClicks() {
+        mBinding.tvTitle.setOnClickListener{
+            activity?.onBackPressed()
+        }
     }
 
     private fun getTermsConditions() {
-        mBinding.shimmer.startShimmer()
-        viewModel.getTC(context!!, api).observe(viewLifecycleOwner, { faqDetails ->
+        viewModel.getTC(context!!, api).observe(viewLifecycleOwner, { model ->
             mBinding.shimmer.stopShimmer()
             mBinding.shimmer.visibility = View.GONE
             mBinding.nsv.visibility = View.VISIBLE
-            if (faqDetails != null) {
-                when (faqDetails.status) {
+            if (model != null) {
+                when (model.status) {
                     DefaultKeyHelper.successCode -> {
-                        mBinding.tvData.text
+                        mBinding.tvData.text = decrypt(model.data.content)
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
+                        showToast(context, decrypt(model.message))
                         activity?.onBackPressed()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
-                        DefaultHelper.forceLogout(activity!!)
+                        forceLogout(activity!!)
                     }
                     else -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
+                        showToast(context, decrypt(model.message))
                         activity?.onBackPressed()
                     }
                 }
             } else {
-                DefaultHelper.showToast(context, "Something went Wrong!!")
+                showToast(context, "Something went Wrong!!")
                 activity?.onBackPressed()
             }
         })

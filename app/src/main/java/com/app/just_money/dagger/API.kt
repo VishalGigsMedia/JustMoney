@@ -13,6 +13,7 @@ import com.app.just_money.my_wallet.model.EarningsModel
 import com.app.just_money.my_wallet.payouts.model.PayoutModel
 import com.app.just_money.my_wallet.setting.model.*
 import com.app.just_money.offer_details.model.OfferDetailsModel
+import com.app.just_money.terms_condition.TnCModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -40,10 +41,10 @@ interface API {
     fun getFaq(@Header("Authorization") authorizationToken: String): Call<FaqModel>
 
     @GET("terms-and-conditions")
-    fun getTC(@Header("Authorization") authorizationToken: String): Call<FaqModel>
+    fun getTC(@Header("Authorization") authorizationToken: String): Call<TnCModel>
 
     @GET("privacy-policy")
-    fun getPP(@Header("Authorization") authorizationToken: String): Call<FaqModel>
+    fun getPP(@Header("Authorization") authorizationToken: String): Call<TnCModel>
 
     @POST("get-offer-details")
     fun getOfferDetails(@Header("Authorization") authorizationToken: String,
@@ -80,10 +81,10 @@ interface API {
     fun getInProgressOffers(@Header("Authorization") authorizationToken: String): Call<InProgressModel>
 
     @Multipart
-    @POST("help_form")
-    fun sendFeedback(@Header("Authorization") authKey: String?, @Part fileImage: MultipartBody.Part?,
-        @Part("name") firstname: RequestBody?, @Part("email") mobile: RequestBody?,
-        @Part("subject") lastname: RequestBody?, @Part("message") email: RequestBody?): Call<SendFeedbackModel>
+    @POST("feedback")
+    fun sendFeedback(@Header("Authorization") authKey: String?, @Part("name") name: RequestBody?,
+        @Part("email") email: RequestBody?, @Part("subject") subject: RequestBody?,
+        @Part("description") description: RequestBody?, @Part file: List<MultipartBody.Part>): Call<SendFeedbackModel>
 
 
     @GET("get_user_data")

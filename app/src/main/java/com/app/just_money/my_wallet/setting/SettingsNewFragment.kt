@@ -30,6 +30,7 @@ import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentSettingsNewBinding
 import com.app.just_money.my_wallet.faq.FaqFragment
+import com.app.just_money.my_wallet.setting.help.HelpUsFragment
 import com.app.just_money.my_wallet.setting.view_model.SettingViewModel
 import com.app.just_money.privacy_policy.PrivacyPolicyFragment
 import com.app.just_money.terms_condition.TermsConditionFragment

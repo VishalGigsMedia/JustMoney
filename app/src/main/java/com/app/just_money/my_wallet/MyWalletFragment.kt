@@ -22,6 +22,7 @@ import com.app.just_money.R
 import com.app.just_money.available.AvailableOfferViewModel
 import com.app.just_money.common_helper.*
 import com.app.just_money.common_helper.DefaultHelper.decrypt
+import com.app.just_money.common_helper.DefaultHelper.openFacebookPage
 import com.app.just_money.common_helper.DefaultHelper.showToast
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
@@ -147,7 +148,7 @@ class MyWalletFragment : Fragment() {
     private fun onClickTryEnjoy() {}
 
     private fun onClickFacebook() {
-        DefaultHelper.openFacebookPage(context)
+        openFacebookPage(context)
         TrackingEvents.trackFBLikeClicked("Wallet")
     }
 

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.media.RingtoneManager
@@ -29,9 +31,14 @@ import com.app.just_money.common_helper.DefaultKeyHelper.FACEBOOK
 import com.app.just_money.dagger.MyApplication
 import com.bumptech.glide.Glide
 import org.apache.commons.codec.binary.Base64
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -230,5 +237,66 @@ object DefaultHelper {
         i.putExtra(Intent.EXTRA_SUBJECT, context?.getString(R.string.app_name))
         i.putExtra(Intent.EXTRA_TEXT, sharingText)
         context?.startActivity(Intent.createChooser(i, "${context.getString(R.string.app_name)} Share"))
+    }
+
+    @SuppressLint("ConstantLocale")
+    private val SDF: SimpleDateFormat = SimpleDateFormat("yyyymmddhhmmss", Locale.getDefault())
+
+    @Throws(IOException::class)
+    fun getCompressed(context: Context?, path: String?, i: Int): File {
+        if (context == null) throw NullPointerException("Context must not be null.")
+        //getting device external cache directory, might not be available on some devices,
+        // so our code fall back to internal storage cache directory, which is always available but in smaller quantity
+        var cacheDir: File? = context.externalCacheDir
+        if (cacheDir == null) //fall back
+            cacheDir = context.cacheDir
+        val rootDir: String = cacheDir?.absolutePath.toString() + "/ImageCompressor"
+        val root = File(rootDir)
+
+        //Create ImageCompressor folder if it doesnt already exists.
+        if (!root.exists()) root.mkdirs()
+
+        //decode and resize the original bitmap from @param path.
+        val bitmap: Bitmap =
+            decodeImageFromFiles(path,  /* your desired width*/300,  /*your desired height*/300)!!
+
+        //create placeholder for the compressed image file
+        val compressed = File(root, SDF.format(Date()).toString() + i+ ".jpg")
+
+        //convert the decoded bitmap to stream
+        val byteArrayOutputStream = ByteArrayOutputStream()
+
+        /*compress bitmap into byteArrayOutputStream
+            Bitmap.compress(Format, Quality, OutputStream)
+            Where Quality ranges from 1 - 100.
+         */bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+
+        /*
+        Right now, we have our bitmap inside byteArrayOutputStream Object, all we need next is to write it to the compressed file we created earlier,
+        java.io.FileOutputStream can help us do just That!
+         */
+        val fileOutputStream = FileOutputStream(compressed)
+        fileOutputStream.write(byteArrayOutputStream.toByteArray())
+        fileOutputStream.flush()
+        fileOutputStream.close()
+
+        //File written, return to the caller. Done!
+        return compressed
+    }
+
+    private fun decodeImageFromFiles(path: String?, width: Int, height: Int): Bitmap? {
+        val scaleOptions = BitmapFactory.Options()
+        scaleOptions.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(path, scaleOptions)
+        var scale = 1
+        while (scaleOptions.outWidth / scale / 2 >= width
+            && scaleOptions.outHeight / scale / 2 >= height
+        ) {
+            scale *= 2
+        }
+        // decode with the sample size
+        val outOptions = BitmapFactory.Options()
+        outOptions.inSampleSize = scale
+        return BitmapFactory.decodeFile(path, outOptions)
     }
 }

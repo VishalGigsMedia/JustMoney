@@ -1,4 +1,4 @@
-package com.app.just_money.my_wallet.setting
+package com.app.just_money.my_wallet.setting.help
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,7 +7,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.os.Build
@@ -33,6 +32,7 @@ import com.app.just_money.common_helper.PreferenceHelper
 import com.app.just_money.dagger.API
 import com.app.just_money.dagger.MyApplication
 import com.app.just_money.databinding.FragmentHelpUsBinding
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -49,6 +49,8 @@ class HelpUsFragment : Fragment() {
     private var fileProfile: File? = null
     private var fileIsSelected: Boolean = false
     private var picturePath = ""
+    private var files: ArrayList<File> = ArrayList()
+    lateinit var adapter: ImageAdapter
 
     private lateinit var viewModel: HelpViewModel
     private lateinit var mBinding: FragmentHelpUsBinding
@@ -69,11 +71,17 @@ class HelpUsFragment : Fragment() {
         val preferenceHelper = PreferenceHelper(context)
         mBinding.edtName.setText("${preferenceHelper.getFirstName()} ${preferenceHelper.getLastName()}")
         mBinding.edtEmail.setText(preferenceHelper.getEmail())
+        adapter = ImageAdapter(context!!, files, this)
+        mBinding.rvImages.adapter = adapter
     }
 
     private fun manageClickEvent() {
         mBinding.ivUploadImage.clipToOutline = true
-        mBinding.ivUploadImage.setOnClickListener { onRequestPermission() }
+        mBinding.ivUploadImage.setOnClickListener {
+            if (files.size < 3) {
+                onRequestPermission()
+            } else showToast(context, getString(R.string.max_three))
+        }
         mBinding.txtSendFeedback.setOnClickListener { if (validate()) sendFeedback() }
         mBinding.txtHelpUs.setOnClickListener { activity?.onBackPressed() }
     }
@@ -121,7 +129,7 @@ class HelpUsFragment : Fragment() {
     }
 
     private fun selectImage() {
-        if (context == null) return
+        /*if (context == null) return
         val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
         val builder = AlertDialog.Builder(context!!)
         builder.setItems(options) { dialog: DialogInterface, item: Int ->
@@ -152,7 +160,10 @@ class HelpUsFragment : Fragment() {
                 }
             }
         }
-        builder.show()
+        builder.show()*/
+
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, 2)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -160,9 +171,11 @@ class HelpUsFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
                 if (fileProfile != null) {
-                    val myBitmap = BitmapFactory.decodeFile(fileProfile?.absolutePath)
+                    /*val myBitmap = BitmapFactory.decodeFile(fileProfile?.absolutePath)
                     val bitmap = modifyOrientation(myBitmap, fileProfile?.absolutePath)
-                    mBinding.ivUploadImage.setImageBitmap(bitmap)
+                    mBinding.ivUploadImage.setImageBitmap(bitmap)*/
+                    files.add(fileProfile!!)
+                    adapter.notifyDataSetChanged()
                     fileIsSelected = true
                 }
             } else if (requestCode == 2) {
@@ -177,10 +190,9 @@ class HelpUsFragment : Fragment() {
                 // val myBitmap = BitmapFactory.decodeFile(picturePath)
 
                 fileProfile = File(picturePath)
-                val myBitmap = BitmapFactory.decodeFile(fileProfile?.absolutePath)
-                val bitmap = modifyOrientation(myBitmap, picturePath)
-                mBinding.ivUploadImage.setImageBitmap(bitmap)
                 mBinding.ivUploadImage.buildLayer()
+                files.add(fileProfile!!)
+                adapter.notifyDataSetChanged()
                 fileIsSelected = true
                 //rotateImage(mBinding.ivEditImage)
             }
@@ -220,7 +232,7 @@ class HelpUsFragment : Fragment() {
         val email = mBinding.edtEmail.text.toString()
         val subject = mBinding.edtSubject.text.toString()
         val message = mBinding.edtDescription.text.toString()
-        viewModel.sendFeedback(context!!, api, name, email, subject, message, fileProfile)
+        viewModel.sendFeedback(context!!, api, name, email, subject, message, files)
             .observe(viewLifecycleOwner, { sendFeedbackModel ->
                 mBinding.txtSendFeedback.isEnabled = true
                 mBinding.progress.visibility = GONE
@@ -256,6 +268,13 @@ class HelpUsFragment : Fragment() {
         val mCurrentPhotoPath = image.absolutePath
         //println("mCurrentPhotoPath: $mCurrentPhotoPath")
         return image
+    }
+
+    fun removeImage(position: Int) {
+        if (files.size > 1) {
+            files.removeAt(position)
+            adapter.notifyDataSetChanged()
+        } else showToast(context, getString(R.string.min_one))
     }
 
 

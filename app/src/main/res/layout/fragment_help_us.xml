@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="viewModel"
-            type="com.app.just_money.my_wallet.faq.FaqViewModel" />
     </data>
 
 
@@ -280,6 +277,32 @@
                 android:src="@drawable/upload_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImages"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/ivUploadImage"
+                app:layout_constraintBottom_toBottomOf="@id/ivUploadImage"
+                app:layout_constraintStart_toEndOf="@id/ivUploadImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/icon_feedback"
+                android:orientation="horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/ivUploadImage"
+                app:layout_constraintTop_toBottomOf="@id/ivUploadImage"
+                android:text="@string/ss_note"
+                android:fontFamily="@font/metropolis_thin_italic"
+                android:textSize="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:textColor="@color/pink_600"/>
+
 
             <TextView
                 android:id="@+id/txtSendFeedback"

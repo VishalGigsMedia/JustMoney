@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:duration="800"
             tools:visibility="gone"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:fillViewport="true"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +106,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ivLogo"
-                    tools:text="lorel ipsum lorel ipsum"
+                    tools:text="lorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsum"
+                    android:letterSpacing="0.1"
+                    android:lineSpacingExtra="1dp"
+                    android:textSize="@dimen/_14sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:fontFamily="@font/metropolis_regular"

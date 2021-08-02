@@ -10,19 +10,19 @@ import com.app.just_money.my_wallet.faq.repository.FaqRepository
 class TCModel : ViewModel() {
 
     private val faqRepository: TCRepository = TCRepository()
-    private var faqDetails: LiveData<FaqModel>? = null
+    private var data: LiveData<TnCModel>? = null
 
-    fun getTC(context: Context, api: API): LiveData<FaqModel> {
-        if (faqDetails == null || faqDetails != null) {
-            faqDetails = faqRepository.getTC(context, api)
+    fun getTC(context: Context, api: API): LiveData<TnCModel> {
+        if (data == null || data != null) {
+            data = faqRepository.getTC(context, api)
         }
-        return faqDetails as LiveData<FaqModel>
+        return data as LiveData<TnCModel>
     }
-        fun getPP(context: Context, api: API): LiveData<FaqModel> {
-        if (faqDetails == null || faqDetails != null) {
-            faqDetails = faqRepository.getPP(context, api)
+        fun getPP(context: Context, api: API): LiveData<TnCModel> {
+        if (data == null || data != null) {
+            data = faqRepository.getPP(context, api)
         }
-        return faqDetails as LiveData<FaqModel>
+        return data as LiveData<TnCModel>
     }
 
 
