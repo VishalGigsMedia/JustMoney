@@ -146,7 +146,7 @@ class OfferDetailsFragment : Fragment() {
         if (title.isNotEmpty()) mBinding.txtTitle.text = "  $title"
         if (description.isNotEmpty()) mBinding.txtDescription.text = description
         if (imageUrl.isNotEmpty()) {
-            Glide.with(context!!).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
+            Glide.with(context!!).load(imageUrl).placeholder(R.drawable.logo_without_text).error(R.drawable.logo_without_text)
                 .into(mBinding.ivOfferImage)
         }
         if (actualCoins.isNotEmpty()) mBinding.txtActualCoins.text = actualCoins

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dev Just Money</string>
+    <string name="app_name">Dev Cent4Free</string>
     <string name="server_url">http://65.0.151.206/cent4free-dev/public/api/v1/</string>
     <string name="tracking_url">https://api.trackier.com/v2/</string>
     <string name="terms_condition_url">http://65.0.151.206/dev/public/terms-and-conditions</string>

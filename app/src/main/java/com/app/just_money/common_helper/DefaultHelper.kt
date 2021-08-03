@@ -208,8 +208,8 @@ object DefaultHelper {
     }
 
     fun loadImage(context: Context?, imageUrl: String, imageView: ImageView,
-        placeholder: Drawable? = ContextCompat.getDrawable(context!!, R.drawable.ic_logo),
-        error: Drawable? = ContextCompat.getDrawable(context!!, R.drawable.ic_logo)) {
+        placeholder: Drawable? = ContextCompat.getDrawable(context!!, R.drawable.logo_without_text),
+        error: Drawable? = ContextCompat.getDrawable(context!!, R.drawable.logo_without_text)) {
         context?.let {
             Glide.with(it).load(imageUrl).placeholder(placeholder).error(error).into(imageView)
         }

@@ -175,7 +175,7 @@
             android:layout_height="@dimen/_75sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:src="@mipmap/ic_sample"
+            android:src="@drawable/logo_without_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

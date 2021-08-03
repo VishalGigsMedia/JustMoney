@@ -55,27 +55,27 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             val url = decrypt(availableOfferList[position].url.toString())
 
             if (title.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtTitle?.text = DefaultHelper.decrypt(title)
+                holder.mBindingPopularDeals?.txtTitle?.text = decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtDescription?.text = DefaultHelper.decrypt(description)
+                holder.mBindingPopularDeals?.txtDescription?.text = decrypt(description)
             }
 
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
                 if (context != null) {
-                    Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo).into(holder.mBindingPopularDeals?.ivLogo!!)
+                    Glide.with(context).load(decrypt(imageUrl)).placeholder(R.drawable.logo_without_text).error(R.drawable.logo_without_text).into(holder.mBindingPopularDeals?.ivLogo!!)
                 }
                 // holder.mBindingPopularDeals?.ivLogo!!.load(imageUrl)
             }
 
 
             if (actualCoins.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtDealActualAmount?.text = DefaultHelper.decrypt(actualCoins)
+                holder.mBindingPopularDeals?.txtDealActualAmount?.text = decrypt(actualCoins)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingPopularDeals?.txtDealOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
-                holder.mBindingPopularDeals?.txtRedeemOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
+                holder.mBindingPopularDeals?.txtDealOfferAmount?.text = decrypt(offerCoins)
+                holder.mBindingPopularDeals?.txtRedeemOfferAmount?.text = decrypt(offerCoins)
             }
 
             holder.mBindingPopularDeals?.clBestDeal?.setOnClickListener {
@@ -111,24 +111,24 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             val offerCoins = availableOfferList[position].offerCoins.toString()
 
             if (title.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtTitle?.text = DefaultHelper.decrypt(title)
+                holder.mBindingPopularDealsSecond?.txtTitle?.text = decrypt(title)
             }
             if (description.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtDescription?.text = DefaultHelper.decrypt(description)
+                holder.mBindingPopularDealsSecond?.txtDescription?.text = decrypt(description)
             }
 
             if (imageUrl.isNotEmpty()) {
                 if (context != null) {
-                    Glide.with(context).load(DefaultHelper.decrypt(imageUrl)).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo).into(holder.mBindingPopularDealsSecond?.ivLogo!!)
+                    Glide.with(context).load(decrypt(imageUrl)).placeholder(R.drawable.logo_without_text).error(R.drawable.logo_without_text).into(holder.mBindingPopularDealsSecond?.ivLogo!!)
                 }
             }
 
             if (actualCoins.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtDealActualAmount?.text = DefaultHelper.decrypt(actualCoins)
+                holder.mBindingPopularDealsSecond?.txtDealActualAmount?.text = decrypt(actualCoins)
             }
             if (offerCoins.isNotEmpty()) {
-                holder.mBindingPopularDealsSecond?.txtDealOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
-                holder.mBindingPopularDealsSecond?.txtRedeemOfferAmount?.text = DefaultHelper.decrypt(offerCoins)
+                holder.mBindingPopularDealsSecond?.txtDealOfferAmount?.text = decrypt(offerCoins)
+                holder.mBindingPopularDealsSecond?.txtRedeemOfferAmount?.text = decrypt(offerCoins)
             }
 
             holder.mBindingPopularDealsSecond?.clBestDeal?.setOnClickListener {

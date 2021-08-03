@@ -45,7 +45,7 @@ class  QuickDealsAdapter(private val context: FragmentActivity?, private val qui
         }
 
         if (imageUrl.isNotEmpty() && context != null) {
-            Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo).into(holder.mBinding?.ivLogo!!)
+            Glide.with(context).load(imageUrl).placeholder(R.drawable.logo_without_text).error(R.drawable.logo_without_text).into(holder.mBinding?.ivLogo!!)
         }
         holder.mBinding?.txtTakeActionMessage?.setOnClickListener {
             onClickedQuickDeals?.getOffers(id, url)

@@ -58,7 +58,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
 
             if (imageUrl.isNotEmpty()) {
                 if (context != null) {
-                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
+                    Glide.with(context).load(imageUrl).placeholder(R.drawable.logo_without_text).error(R.drawable.logo_without_text)
                         .into(holder.mBindingInProgressBinding?.ivLogo!!)
                 }
             }
@@ -118,7 +118,7 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             /* val imageUrl = "https://media1.tenor.com/images/16126ff481c2d349b972d26816915964/tenor.gif?itemid=15268410"*/
             if (imageUrl.isNotEmpty()) {
                 if (context != null) {
-                    Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo)
+                    Glide.with(context).load(imageUrl).placeholder(R.drawable.logo_without_text).error(R.drawable.logo_without_text)
                         .into(holder.mBindingInProgressTypeSecondBinding?.ivLogo!!)
                 }
             }

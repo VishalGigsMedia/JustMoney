@@ -49,7 +49,7 @@
     <string name="welcome_to">Welcome To</string>
     <string name="phone_number">Phone Number</string>
     <string name="country">Country</string>
-    <string name="agree_to_terms_condition">I agree to JustMoney’s</string>
+    <string name="agree_to_terms_condition">I agree to Cent4Free’s</string>
     <string name="terms_condition">Terms and Conditions</string>
     <string name="by_tapping">By tapping Verify Phone Number an SMS may be sent.</string>
     <string name="we_have_sent_phone_number">We have sent you an SMS with a code to the</string>
@@ -74,7 +74,7 @@
     <string name="need">Need Permission</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
-    <string name="dialogMessage">Just Money needs permission to use location for giving you nearby offers</string>
+    <string name="dialogMessage">Cent4Free needs permission to use location for giving you nearby offers</string>
 
     <string name="send_us_feedback">SEND US YOUR FEEDBACK!</string>
     <string name="do_you_have_suggestion">Do you have a suggestion or found some bug?</string>
@@ -203,12 +203,12 @@
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="name1">Name</string>
-    <string name="referral1">Install Just Money from Play Store Using my Referral code</string>
-    <string name="referral2">and get coins as bonus on completing the offers.\n\nWin exciting rewards with Just Money by performing following tasks:\n\n1) Installing Apps\n2) Completing Surveys\n3)Referring Your friends\n\nInstall Now!!"</string>
+    <string name="referral1">Install Cent4Free from Play Store Using my Referral code</string>
+    <string name="referral2">and get coins as bonus on completing the offers.\n\nWin exciting rewards with Cent4Free by performing following tasks:\n\n1) Installing Apps\n2) Completing Surveys\n3)Referring Your friends\n\nInstall Now!!"</string>
     <string name="mobile">Mobile*</string>
     <string name="button_text_q_d">Get Offer</string>
     <string name="update_available">Update Available !</string>
-    <string name="older_version_text">You are using an older Version of Cent4free,\n Kindly update the application and Enjoy our new Services !</string>
+    <string name="older_version_text">You are using an older Version of Cent4Free,\n Kindly update the application and Enjoy our new Services !</string>
     <string name="complete_profile_error">Please complete your profile before requesting payout!</string>
     <string name="astropay_note">Please Enter Amount To Redeem In Your Astropay Wallet</string>
     <string name="mobile_number">Mobile Number</string>

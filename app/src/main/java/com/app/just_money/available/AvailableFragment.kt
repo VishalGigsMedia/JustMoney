@@ -444,7 +444,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         //setting  values
         DefaultHelper.loadImage(context, decrypt(popup.image.toString()), popupOfferView.ivOfferImage,
             ContextCompat.getDrawable(context!!, R.drawable.ic_love_app),
-            ContextCompat.getDrawable(context!!, R.drawable.ic_logo))
+            ContextCompat.getDrawable(context!!, R.drawable.logo_without_text))
         val offerCoins = decrypt(popup.offer_coins.toString())
         val actualCoins = decrypt(popup.actual_coins.toString())
         popupOfferView.txtOfferCoins.text = offerCoins
