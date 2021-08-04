@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "832717899257",
-    "project_id": "just-money-a3d66",
-    "storage_bucket": "just-money-a3d66.appspot.com"
+    "project_number": "403778887684",
+    "project_id": "cent4free-1628056256582",
+    "storage_bucket": "cent4free-1628056256582.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:832717899257:android:457f00210418e69fd7a928",
+        "mobilesdk_app_id": "1:403778887684:android:88fd389ef2a99742d59551",
         "android_client_info": {
-          "package_name": "com.app.justmoney"
+          "package_name": "com.app.cent4free"
         }
       },
       "oauth_client": [
         {
-          "client_id": "832717899257-3joutdh570fo26397grlmsabt74bj6at.apps.googleusercontent.com",
+          "client_id": "403778887684-al5fsk2lh46fumc8qmu75qbctovlkhgb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.cent4free",
+            "certificate_hash": "9d5c93b78f8bbcaebde8b3d5b30d4f2b59ae49b8"
+          }
+        },
+        {
+          "client_id": "403778887684-fkop2cskg6caf7n3t11bjrvgsqolefbf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC19-fh11avoBsBsqPw3ryqTvy_S2emTfo"
+          "current_key": "AIzaSyDpz0ty0i6i6NP8vrvG-TG_Iz8otDcBaHU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "832717899257-3joutdh570fo26397grlmsabt74bj6at.apps.googleusercontent.com",
+              "client_id": "403778887684-fkop2cskg6caf7n3t11bjrvgsqolefbf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.app.just_money.login.view_model.LoginViewModel" />
+            type="com.app.cent4free.login.view_model.LoginViewModel" />
 
     </data>
 

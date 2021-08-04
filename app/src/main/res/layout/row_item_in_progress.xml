@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.app.just_money.in_progress.model.PendingList" />
+            type="com.app.cent4free.in_progress.model.PendingList" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

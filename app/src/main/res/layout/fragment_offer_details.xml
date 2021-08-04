@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.app.just_money.offer_details.OfferDetailsViewModel" />
+            type="com.app.cent4free.offer_details.OfferDetailsViewModel" />
 
     </data>
 

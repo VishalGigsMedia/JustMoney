@@ -1,3 +1,0 @@
-package com.app.just_money.login.model
-
-data class RegisterData(val appVersion: String?, val avatar: String?, val countryCode: String?, val createdAt: String?, val deviceId: String?, val email: String?, val firstname: String?, val gender: String?, val id: String?, val inviteCode: String?, val lastname: String?, val referralCode: String?, val status: String?, val type: String?, val updatedAt: String?, val userId: String?, val userMode: String?)

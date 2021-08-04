@@ -11,16 +11,16 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     signingConfigs {
-        justmoney {
-            storeFile file('justmoney.jks')
-            storePassword 'JustMoney@123'
-            keyAlias 'justmoney'
-            keyPassword 'JustMoney@123'
+        cent4free {
+            storeFile file('keystore.jks')
+            storePassword 'cent4free@123'
+            keyAlias 'cent4free'
+            keyPassword 'cent4free@123'
         }
     }
     defaultConfig {
-        applicationId 'com.app.justmoney'
-        signingConfig signingConfigs.justmoney
+        applicationId 'com.app.cent4free'
+        signingConfig signingConfigs.cent4free
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -78,7 +78,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
-
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
@@ -109,10 +108,6 @@ dependencies {
 
     //for Base64 encryption/decryption
     implementation 'commons-codec:commons-codec:1.10'
-
-    //location
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
-    implementation 'com.google.android.gms:play-services-places:17.0.0'
 
     def lottieVersion = "3.4.1"
     implementation "com.airbnb.android:lottie:$lottieVersion"
@@ -145,5 +140,8 @@ dependencies {
 
     //volley
     implementation("com.android.volley:volley:1.2.0")
+
+    //auth
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 }
 

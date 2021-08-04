@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.app.just_money.available.AvailableOfferViewModel" />
+            type="com.app.cent4free.available.AvailableOfferViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

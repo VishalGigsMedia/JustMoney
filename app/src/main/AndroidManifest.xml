@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.just_money">
+    package="com.app.cent4free">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,12 +20,10 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.app.just_money.dagger.MyApplication"
+        android:name="com.app.cent4free.dagger.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo_without_text"
@@ -33,7 +31,7 @@
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@drawable/logo_without_text"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme.Base"
         android:usesCleartextTraffic="true"
@@ -41,7 +39,7 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name="com.app.just_money.SplashActivity"
+            android:name="com.app.cent4free.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme.Base">
             <intent-filter>
@@ -52,7 +50,7 @@
         </activity>
 
         <activity
-            android:name="com.app.just_money.LoginActivity"
+            android:name="com.app.cent4free.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme.Base">
 
@@ -66,7 +64,7 @@
             android:value="true" />
 
         <activity
-            android:name="com.app.just_money.MainActivity"
+            android:name="com.app.cent4free.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme.Base">
 
@@ -84,7 +82,7 @@
 
 
         <service
-            android:name="com.app.just_money.firebase.MyFirebaseMessagingService"
+            android:name="com.app.cent4free.firebase.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
