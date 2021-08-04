@@ -103,6 +103,7 @@ class LoginRepository {
             api.login(requestKeyHelper).enqueue(object : Callback<LoginModel> {
                 override fun onResponse(call: Call<LoginModel>, response: Response<LoginModel>) {
                     val header = response.headers()["Authorization"].toString()
+                    preferenceHelper.setJwtToken("Bearer $header")
                     gson = gsonBuilder.create()
                     val json = Gson().toJson(response.body())
                     loginModel = gson?.fromJson(json, LoginModel::class.java)
@@ -116,7 +117,7 @@ class LoginRepository {
             })
         } else {
             mutableLiveData.value = null
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
@@ -150,7 +151,7 @@ class LoginRepository {
                     }
                 })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
@@ -202,7 +203,7 @@ class LoginRepository {
                 }
             })
         } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
+            showToast(context, context.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
