@@ -27,9 +27,6 @@ object DefaultKeyHelper {
     const val male = "1"
     const val female = "2"
 
-    //trackier
-    const val TR_DEV_KEY = "7a6fc85c-f35a-42d8-8612-20e8bd950962"
-
     //fragments
     const val availableFragment = "AVAILABLE_FRAGMENT"
     const val inProgressFragment = "IN_PROGRESS_FRAGMENT"

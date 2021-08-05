@@ -104,6 +104,7 @@
             </TextView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clEarn"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"

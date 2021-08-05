@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -363,6 +364,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             if (claimOfferModel != null) {
                 if (claimOfferModel.status == successCode && url != "") {
                     val intent = Intent(Intent.ACTION_VIEW)
+                    Log.d("url", "claimOffer: $url")
                     intent.data = Uri.parse(url)
                     startActivity(intent)
                 } else showToast(context, decrypt(claimOfferModel.message.toString()))

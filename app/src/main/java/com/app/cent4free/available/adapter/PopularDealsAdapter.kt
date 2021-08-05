@@ -108,7 +108,7 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             val imageUrl = availableOfferList[position].image.toString()
             val actualCoins = availableOfferList[position].actualCoins.toString()
             val offerCoins = availableOfferList[position].offerCoins.toString()
-
+            val url = decrypt(availableOfferList[position].url.toString())
             if (title.isNotEmpty()) {
                 holder.mBindingPopularDealsSecond?.txtTitle?.text = decrypt(title)
             }
@@ -138,6 +138,10 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
                     ?.addToBackStack(MainActivity::class.java.simpleName)?.commit()
+            }
+
+            holder.mBindingPopularDealsSecond?.clEarn?.setOnClickListener {
+                onClicked?.claimOffers(offerId, url)
             }
 
             val itemWidth = screenWidth / 1.5

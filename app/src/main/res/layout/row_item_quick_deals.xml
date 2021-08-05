@@ -32,7 +32,7 @@
                 android:id="@+id/ivLogo"
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
-                tools:src="@mipmap/ic_sample"
+                tools:src="@drawable/logo_without_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 

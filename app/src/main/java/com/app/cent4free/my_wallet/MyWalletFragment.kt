@@ -70,13 +70,13 @@ class MyWalletFragment : Fragment() {
     private fun getEarnings() {
         mBinding.txtRequestPayout.isEnabled = false
         val animator = ValueAnimator()
-        animator.setObjectValues(2000, 4000)
+        animator.setObjectValues(2000, 4000,0)
         animator.addUpdateListener { animation ->
             mBinding.txtCurrentBalanceValue.text = animation.animatedValue.toString()
             mBinding.txtCompletedCoinsValue.text = animation.animatedValue.toString()
             mBinding.txtWithdrawnValue.text = animation.animatedValue.toString()
         }
-        animator.duration = 500 // here you set the duration of the anim
+        animator.duration = 1000 // here you set the duration of the anim
         animator.start()
 
         viewModel.getEarnings(context, api).observe(viewLifecycleOwner, { model ->

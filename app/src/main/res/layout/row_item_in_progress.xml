@@ -189,7 +189,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivLogo"
             android:layout_width="@dimen/_75sdp"
             android:layout_height="@dimen/_75sdp"
@@ -198,9 +198,7 @@
             android:elevation="@dimen/_5sdp"
             android:src="@drawable/logo_without_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </ImageView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
