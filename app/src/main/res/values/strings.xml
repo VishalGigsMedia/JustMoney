@@ -218,7 +218,7 @@
     <string name="error_paytm_input2">Please enter amount</string>
     <string name="error_paytm_input">Entered amount should be less than available amount.</string>
     <string name="req_success">Request Successful</string>
-    <string name="tnc">T &amp; C</string>
+    <string name="tnc">Terms &amp; Conditions</string>
     <string name="max_three">Maximum 3 images are allowed</string>
     <string name="min_one">Minimum 1 image is mandatory</string>
     <string name="ss_note">Please attach Screenshots for reference.</string>

@@ -2,6 +2,8 @@ package com.app.cent4free.available
 
 import android.animation.Animator
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -36,6 +38,7 @@ import com.app.cent4free.common_helper.BundleHelper.offer_trackier_id
 import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.forceLogout
 import com.app.cent4free.common_helper.DefaultHelper.getVersionCode
+import com.app.cent4free.common_helper.DefaultHelper.loadImage
 import com.app.cent4free.common_helper.DefaultHelper.playCustomSound
 import com.app.cent4free.common_helper.DefaultHelper.showToast
 import com.app.cent4free.common_helper.DefaultKeyHelper.failureCode
@@ -439,12 +442,13 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
         val alert = popupOfferBuilder.show()//can use this instance for dismissing
         val window: Window = alert.window!!
-        window.setLayout(550, WindowManager.LayoutParams.WRAP_CONTENT)
+        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         window.setGravity(Gravity.CENTER)
         alert.show()
+        alert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         (activity as MainActivity).popup = 1
         //setting  values
-        DefaultHelper.loadImage(context, decrypt(popup.image.toString()), popupOfferView.ivOfferImage,
+        loadImage(context, decrypt(popup.image.toString()), popupOfferView.ivOfferImage,
             ContextCompat.getDrawable(context!!, R.drawable.ic_love_app),
             ContextCompat.getDrawable(context!!, R.drawable.logo_without_text))
         val offerCoins = decrypt(popup.offer_coins.toString())

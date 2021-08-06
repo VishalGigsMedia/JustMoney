@@ -17,12 +17,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:duration="800"
-            tools:visibility="gone"
-            android:visibility="visible">
+            tools:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,22 +50,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:fontFamily="@font/metropolis_medium_italic"
-                    android:gravity="start"
-                    android:letterSpacing="0.02"
-                    android:text="@string/tnc"
-                    android:textColor="@color/color_primary"
-                    android:textSize="@dimen/_20ssp"
-                    app:drawableStartCompat="@drawable/ic_arrow_back_black"
-                    app:layout_constraintEnd_toStartOf="@+id/clClose"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/ivLogo"
@@ -100,20 +84,37 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:fontFamily="@font/metropolis_medium_italic"
+                    android:gravity="start"
+                    android:letterSpacing="0.02"
+                    android:text="@string/tnc"
+                    android:textColor="@color/color_primary"
+                    android:textSize="@dimen/_20ssp"
+                    app:drawableStartCompat="@drawable/ic_arrow_back_black"
+                    app:layout_constraintEnd_toStartOf="@+id/clClose"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
                     android:id="@+id/tvData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivLogo"
-                    tools:text="lorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsum"
+                    android:fontFamily="@font/metropolis_regular"
                     android:letterSpacing="0.1"
                     android:lineSpacingExtra="1dp"
-                    android:textSize="@dimen/_14sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
-                    android:fontFamily="@font/metropolis_regular"
-                    android:paddingBottom="@dimen/_20sdp"/>
+                    android:paddingBottom="@dimen/_20sdp"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivLogo"
+                    tools:text="lorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsumlorel ipsum lorel ipsum" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

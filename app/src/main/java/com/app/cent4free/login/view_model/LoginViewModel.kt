@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.app.cent4free.R
 import com.app.cent4free.common_helper.DefaultHelper
+import com.app.cent4free.common_helper.DefaultHelper.showToast
 import com.app.cent4free.dagger.API
 import com.app.cent4free.login.model.ForgotPasswordModel
 import com.app.cent4free.login.model.GetOtpModel
@@ -86,7 +87,7 @@ class LoginViewModel : ViewModel() {
 
     fun isValidTnc(context: Context?, boolean: Boolean): Boolean {
         if (!boolean) {
-            DefaultHelper.showToast(context, context?.getString(R.string.kindly_agree_tnc))
+            showToast(context, context?.getString(R.string.kindly_agree_tnc))
             return false
         }
         return true

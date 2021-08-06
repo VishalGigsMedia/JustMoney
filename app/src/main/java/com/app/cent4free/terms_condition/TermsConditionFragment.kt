@@ -14,6 +14,9 @@ import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.forceLogout
 import com.app.cent4free.common_helper.DefaultHelper.showToast
 import com.app.cent4free.common_helper.DefaultKeyHelper
+import com.app.cent4free.common_helper.DefaultKeyHelper.failureCode
+import com.app.cent4free.common_helper.DefaultKeyHelper.forceLogoutCode
+import com.app.cent4free.common_helper.DefaultKeyHelper.successCode
 import com.app.cent4free.dagger.API
 import com.app.cent4free.dagger.MyApplication
 import com.app.cent4free.databinding.FragmentTermsConditionBinding
@@ -36,7 +39,7 @@ class TermsConditionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(TCModel::class.java)
-
+        mBinding.tvTitle.textSize = 19F
         manageClicks()
 
         mBinding.shimmer.startShimmer()
@@ -59,14 +62,14 @@ class TermsConditionFragment : Fragment() {
             mBinding.nsv.visibility = View.VISIBLE
             if (model != null) {
                 when (model.status) {
-                    DefaultKeyHelper.successCode -> {
+                    successCode -> {
                         mBinding.tvData.text = decrypt(model.data.content)
                     }
-                    DefaultKeyHelper.failureCode -> {
+                    failureCode -> {
                         showToast(context, decrypt(model.message))
                         activity?.onBackPressed()
                     }
-                    DefaultKeyHelper.forceLogoutCode -> {
+                    forceLogoutCode -> {
                         forceLogout(activity!!)
                     }
                     else -> {

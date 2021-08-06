@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -20,7 +22,6 @@ import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.getCarrierName
 import com.app.cent4free.common_helper.DefaultHelper.openFragment
 import com.app.cent4free.common_helper.DefaultHelper.showToast
-import com.app.cent4free.common_helper.DefaultKeyHelper
 import com.app.cent4free.common_helper.DefaultKeyHelper.APP_LOGIN
 import com.app.cent4free.common_helper.DefaultKeyHelper.GOOGLE_LOGIN
 import com.app.cent4free.common_helper.DefaultKeyHelper.failureCode
@@ -116,6 +117,7 @@ class LoginFragment : Fragment() {
             isValidEmailId()
         }
         mBinding.ivGoogle.setOnClickListener {
+            if (!viewModel.isValidTnc(context, mBinding.checkbox.isChecked)) return@setOnClickListener
             val signInIntent: Intent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
@@ -187,39 +189,33 @@ class LoginFragment : Fragment() {
     private fun forgotPassword(emailId: String, progressBar: ProgressBar, txtOkay: TextView,
         dialog: BottomSheetDialog) {
         dialog.setCancelable(false)
-        txtOkay.visibility = View.GONE
-        progressBar.visibility = View.VISIBLE
+        txtOkay.visibility = GONE
+        progressBar.visibility = VISIBLE
         //api call
         viewModel.forgotPassword(activity!!, api, emailId).observe(viewLifecycleOwner, { forgotPasswordModel ->
-            progressBar.visibility = View.GONE
-            txtOkay.visibility = View.VISIBLE
+            progressBar.visibility = GONE
+            txtOkay.visibility = VISIBLE
             if (dialog.isShowing) {
                 dialog.setCancelable(true)
                 dialog.dismiss()
             }
             if (forgotPasswordModel != null) {
                 when (forgotPasswordModel.status) {
-                    DefaultKeyHelper.successCode -> {
-                        showToast(context!!, decrypt(forgotPasswordModel.message))
-                    }
-                    DefaultKeyHelper.failureCode -> {
-                        showToast(context!!, decrypt(forgotPasswordModel.message))
-                    }
-                    else -> {
-                        showToast(context!!, decrypt(forgotPasswordModel.message))
-                    }
+                    successCode -> showToast(context!!, decrypt(forgotPasswordModel.message))
+                    failureCode -> showToast(context!!, decrypt(forgotPasswordModel.message))
+                    else -> showToast(context!!, decrypt(forgotPasswordModel.message))
                 }
             }
         })
     }
 
     private fun showLoader() {
-        mBinding.progressCircular.visibility = View.VISIBLE
+        mBinding.progressCircular.visibility = VISIBLE
         mBinding.clLogin.isEnabled = false
     }
 
     private fun hideLoader() {
-        mBinding.progressCircular.visibility = View.GONE
+        mBinding.progressCircular.visibility = GONE
         mBinding.clLogin.isEnabled = true
     }
 

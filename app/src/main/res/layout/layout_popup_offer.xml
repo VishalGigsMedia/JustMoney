@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/light_curve_white_with_stroke"
     android:padding="@dimen/_15sdp">
 
     <ImageView
@@ -16,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/splash" />
+        tools:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/txtEarn"

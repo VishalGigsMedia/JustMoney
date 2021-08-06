@@ -9,7 +9,7 @@ data class IpApiModel(
     val lat: Double,
     val lon: Double,
     val org: String,
-    val query: String,
+    val query: String?,
     val region: String,
     val regionName: String,
     val status: String,
