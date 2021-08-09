@@ -29,52 +29,10 @@ import retrofit2.Response
 import java.util.*
 
 class LoginRepository {
-
-    private val TAG = javaClass.simpleName
-    private var getOtpModel: GetOtpModel? = null
     private var loginModel: LoginModel? = null
     private var forgotPasswordModel: ForgotPasswordModel? = null
     private val gsonBuilder = GsonBuilder()
     private var gson: Gson? = null
-
-    var signUpTrackier: SignUpTrackier? = null
-    var loginTrackier: LoginTrackier? = null
-    val Hash_file_maps2 = HashMap<String, String>()
-    val hashFileMapsContentType = HashMap<String, String>()
-    val hashFileMapsAuthorization = HashMap<String, String>()
-
-
-    fun forgotPassword(context: Context, api: API, mobile: String, countryCode: String): MutableLiveData<GetOtpModel> {
-        val mutableLiveData: MutableLiveData<GetOtpModel> = MutableLiveData()
-        if (DefaultHelper.isOnline()) {
-            val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.mobile = encrypt(mobile)
-            requestKeyHelper.package_id = DefaultHelper.getPackageId(context)
-            requestKeyHelper.country_code = encrypt(countryCode)
-            /*println(
-                "RequestHelper :" +
-                        " ${requestKeyHelper.mobile} :" +
-                        " ${requestKeyHelper.package_id} " +
-                        ": ${requestKeyHelper.country_code}"
-            )*/
-            api.getOTP(requestKeyHelper).enqueue(object : Callback<GetOtpModel> {
-                override fun onResponse(call: Call<GetOtpModel>, response: Response<GetOtpModel>) {
-                    gson = gsonBuilder.create()
-                    val json = Gson().toJson(response.body())
-                    getOtpModel = gson?.fromJson(json, GetOtpModel::class.java)
-                    mutableLiveData.value = getOtpModel
-                }
-
-                override fun onFailure(call: Call<GetOtpModel>, t: Throwable) {
-                    println("TAG : ${t.printStackTrace()}")
-                }
-            })
-        } else {
-            showToast(context, context.getString(R.string.no_internet))
-        }
-        return mutableLiveData
-    }
-
 
     fun login(context: Context, api: API, login_type: String, email: String, password_or_id: String,
         carrierName: String): MutableLiveData<LoginModel> {
@@ -121,68 +79,6 @@ class LoginRepository {
         }
         return mutableLiveData
     }
-
-
-    fun trackSignUp(context: Context, name: String, email: String, password: String, phone: String, status: String): MutableLiveData<SignUpTrackier> {
-        val mutableLiveData: MutableLiveData<SignUpTrackier> = MutableLiveData()
-        if (DefaultHelper.isOnline()) {
-            hashFileMapsContentType.put("Content-Type", "application/json")
-            hashFileMapsAuthorization.put("X-Api-Key", DefaultKeyHelper.xApiKey)
-
-            val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.name = name
-            requestKeyHelper.email = email
-            requestKeyHelper.password = password
-            requestKeyHelper.phone = phone
-            requestKeyHelper.status = status
-            val apiInterface: API? = ApiClient.getClient(context)?.create(API::class.java)
-            apiInterface?.trackSignUp(hashFileMapsContentType, hashFileMapsAuthorization, requestKeyHelper)
-                ?.enqueue(object : Callback<SignUpTrackier> {
-                    override fun onResponse(call: Call<SignUpTrackier>, response: Response<SignUpTrackier>) {
-                        gson = gsonBuilder.create()
-                        val json = Gson().toJson(response.body())
-                        signUpTrackier = gson?.fromJson(json, SignUpTrackier::class.java)
-                        println("$TAG : $json")
-                        mutableLiveData.value = signUpTrackier
-                    }
-
-                    override fun onFailure(call: Call<SignUpTrackier>, t: Throwable) {
-                        println("TAG : ${t.printStackTrace()}")
-                    }
-                })
-        } else {
-            showToast(context, context.getString(R.string.no_internet))
-        }
-        return mutableLiveData
-    }
-
-    fun trackLogin(context: Context, email: String, password: String): MutableLiveData<LoginTrackier> {
-        val mutableLiveData: MutableLiveData<LoginTrackier> = MutableLiveData()
-        //val loginRequest1 = UserModel(phonenumber, phonenumber, UtilsDefault.GIGSNATIVEURL)
-        hashFileMapsContentType.put("Content-Type", "application/json")
-
-        val requestKeyHelper = RequestKeyHelper()
-        requestKeyHelper.email = email
-        requestKeyHelper.password = password
-        requestKeyHelper.networkUrl = DefaultKeyHelper.GIGS_NATIVE_URL
-        val apiInterface: API? = ApiClient.getClient(context)?.create(API::class.java)
-        val call: Call<LoginTrackier>? = apiInterface?.trackLogin(Hash_file_maps2, requestKeyHelper)
-        call!!.enqueue(object : Callback<LoginTrackier?> {
-            override fun onResponse(call: Call<LoginTrackier?>?, response: Response<LoginTrackier?>) {
-                gson = gsonBuilder.create()
-                val json = Gson().toJson(response.body())
-                loginTrackier = gson?.fromJson(json, LoginTrackier::class.java)
-                println("$TAG : $json")
-                mutableLiveData.value = loginTrackier
-            }
-
-            override fun onFailure(call: Call<LoginTrackier?>, t: Throwable) {
-                //   t.printStackTrace()
-            }
-        })
-        return mutableLiveData
-    }
-
 
     fun forgotPassword(context: Context, api: API, emailId: String): MutableLiveData<ForgotPasswordModel> {
 

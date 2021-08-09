@@ -22,9 +22,6 @@ import java.util.*
 
 interface API {
 
-    @POST("get_otp")
-    fun getOTP(@Body requestKeyHelper: RequestKeyHelper): Call<GetOtpModel>
-
     @POST("login")
     fun login(@Body requestKeyHelper: RequestKeyHelper): Call<LoginModel>
 
@@ -49,16 +46,6 @@ interface API {
     @POST("get-offer-details")
     fun getOfferDetails(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<OfferDetailsModel>
-
-
-    @POST("publishers")
-    fun trackSignUp(@HeaderMap header: HashMap<String, String>, @HeaderMap header1: HashMap<String, String>,
-        @Body requestKeyHelper: RequestKeyHelper): Call<SignUpTrackier>
-
-
-    @POST("login")
-    fun trackLogin(@HeaderMap header: HashMap<String, String>, @Body requestKeyHelper: RequestKeyHelper): Call<LoginTrackier>
-
 
     @POST("claim-offer")
     fun claimOffer(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<ClaimOfferModel>

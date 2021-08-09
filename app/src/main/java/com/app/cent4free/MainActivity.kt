@@ -1,5 +1,6 @@
 package com.app.cent4free
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View.GONE
@@ -30,7 +31,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import java.util.*
 
-class MainActivity : AppCompatActivity(),OnCurrentFragmentVisibleListener {
+class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
 
     private lateinit var mBinding: ActivityMainBinding
 
@@ -39,14 +40,50 @@ class MainActivity : AppCompatActivity(),OnCurrentFragmentVisibleListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        subscribeToTopic()
         getToken()
         manageClickEvents()
         playCustomSound(this, R.raw.load_dashboard)
-        //open available fragment
-        openFragment(AvailableFragment(), false, availableFragment)
+        getIntentData()
     }
 
+    private fun getIntentData() {
+        if (intent != null) {
+            val notificationType = intent.getStringExtra("notification_type").toString()
+            println("notificationType : $notificationType")
+            /*0 : Listing
+            1 : Offer Detail
+            2 : Earnings
+            3 : My profile
+            4 : PlayStore
+            5 : Invite*/
+            when (notificationType) {
+                "0" -> {
+                    openFragment(AvailableFragment(), false, availableFragment)
+                }
+                "1" -> {
+                    intent = Intent(this, MainActivity::class.java)
+                }
+                "2" -> {
+                    intent = Intent(this, MainActivity::class.java)
+                }
+                "3" -> {
+                    intent = Intent(this, MainActivity::class.java)
+                }
+                "4" -> {
+                    intent = Intent(this, MainActivity::class.java)
+                }
+                "5" -> {
+                    intent = Intent(this, MainActivity::class.java)
+                }
+                else -> {
+                    intent = Intent(this, MainActivity::class.java)
+                }
+            }
+        } else {
+            //open available fragment
+            openFragment(AvailableFragment(), false, availableFragment)
+        }
+    }
 
     private fun getToken() {
         Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
@@ -82,19 +119,6 @@ class MainActivity : AppCompatActivity(),OnCurrentFragmentVisibleListener {
         } else {
             super.onBackPressed()
         }
-    }
-
-    private fun subscribeToTopic() {
-        // [START subscribe_topics]
-        Firebase.messaging.unsubscribeFromTopic("GENERAL").addOnCompleteListener { task ->
-            var msg = getString(R.string.msg_subscribed)
-            if (!task.isSuccessful) {
-                msg = getString(R.string.msg_subscribe_failed)
-            }
-            Log.d("subscribe", msg)
-            //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        }
-        // [END subscribe_topics]
     }
 
     private fun manageClickEvents() {

@@ -127,7 +127,6 @@ class OfferDetailsFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setData(offerDetailsData: OfferDetailsData) {
-        //val offerId = DefaultHelper.decrypt(offerDetailsData.id.toString())
         val url = decrypt(offerDetailsData.url)
         val title = decrypt(offerDetailsData.name)
         steps = decrypt(offerDetailsData.description)
@@ -142,6 +141,7 @@ class OfferDetailsFragment : Fragment() {
         val offerCoins = decrypt(offerDetailsData.offer_points)
         val saveCoins = offerCoins.toInt() - actualCoins.toInt()
         val saveCoinsValue = "Earn Extra $saveCoins"
+        offerId = offerDetailsData.id
 
         if (title.isNotEmpty()) mBinding.txtTitle.text = "  $title"
         if (description.isNotEmpty()) mBinding.txtDescription.text = description
@@ -159,13 +159,6 @@ class OfferDetailsFragment : Fragment() {
         if (note.isNotEmpty()) mBinding.txtNoteValue.text = note
 
         mBinding.clOfferAmount.setOnClickListener {
-            /*if (source == BundleHelper.inProgress) {
-                if (url.contains("http")) {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
-            } else claimOffer(offerId, url)*/
             if (!mBinding.txtOfferAmount.text.contains("EARN")) {
                 if (url.contains("http")) {
                     val intent = Intent(Intent.ACTION_VIEW)

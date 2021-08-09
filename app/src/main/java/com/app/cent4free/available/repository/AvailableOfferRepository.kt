@@ -96,12 +96,11 @@ class AvailableOfferRepository {
         return mutableLiveData
     }
 
-    fun claimReward(context: Context?, api: API, rewardAmount: String): MutableLiveData<ClaimOfferModel> {
+    fun claimReward(context: Context?, api: API): MutableLiveData<ClaimOfferModel> {
         val mutableLiveData: MutableLiveData<ClaimOfferModel> = MutableLiveData()
         if (DefaultHelper.isOnline()) {
             val preferenceHelper = PreferenceHelper(context)
             val requestKeyHelper = RequestKeyHelper()
-            requestKeyHelper.reward_points = rewardAmount
             requestKeyHelper.user_click_ip = encrypt(preferenceHelper.getIpAddress())
             api.claimReward(preferenceHelper.getJwtToken(), requestKeyHelper)
                 .enqueue(object : Callback<ClaimOfferModel> {

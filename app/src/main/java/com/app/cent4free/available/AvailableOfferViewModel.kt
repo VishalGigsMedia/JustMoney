@@ -33,8 +33,8 @@ class AvailableOfferViewModel : ViewModel() {
         }
         return claimOfferModel as LiveData<ClaimOfferModel>
     }
-    fun claimReward(context: Context?, api: API, rewardAmount: String): LiveData<ClaimOfferModel> {
-        claimOfferModel = availableOfferRepository.claimReward(context, api, rewardAmount)
+    fun claimReward(context: Context?, api: API): LiveData<ClaimOfferModel> {
+        claimOfferModel = availableOfferRepository.claimReward(context, api)
         return claimOfferModel as LiveData<ClaimOfferModel>
     }
     fun getEarnings(context: Context?, api: API): LiveData<EarningsModel> {
@@ -44,14 +44,6 @@ class AvailableOfferViewModel : ViewModel() {
     fun requestPayout(context: Context?, api: API, amt:String): LiveData<EarningsModel> {
         earningsModel = availableOfferRepository.requestPayout(context, api,amt)
         return earningsModel as LiveData<EarningsModel>
-    }
-
-
-    fun checkVersion(context: Context?, api: API): LiveData<CheckAppVersionModel> {
-        if (versionModel != null || versionModel == null) {
-            versionModel = availableOfferRepository.checkVersion(context, api)
-        }
-        return versionModel as LiveData<CheckAppVersionModel>
     }
 
     fun getIPAddress(context: Context?, api: API): LiveData<IpApiModel> {

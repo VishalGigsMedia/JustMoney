@@ -36,6 +36,7 @@ import com.app.cent4free.common_helper.*
 import com.app.cent4free.common_helper.BundleHelper.offerId
 import com.app.cent4free.common_helper.BundleHelper.offer_trackier_id
 import com.app.cent4free.common_helper.DefaultHelper.decrypt
+import com.app.cent4free.common_helper.DefaultHelper.encrypt
 import com.app.cent4free.common_helper.DefaultHelper.forceLogout
 import com.app.cent4free.common_helper.DefaultHelper.getVersionCode
 import com.app.cent4free.common_helper.DefaultHelper.loadImage
@@ -95,7 +96,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun setListeners() {
         mBinding.clDailyRewardValue.setOnClickListener {
-            claimReward(DefaultHelper.encrypt(mBinding.txtDailyRewardValue.text.toString()))
+            claimReward(encrypt(mBinding.txtDailyRewardValue.text.toString()))
         }
     }
 
@@ -376,7 +377,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun claimReward(rewardAmount: String) {
-        viewModel.claimReward(context, api, rewardAmount).observe(viewLifecycleOwner, { model ->
+        viewModel.claimReward(context, api).observe(viewLifecycleOwner, { model ->
             if (model != null) {
                 when (model.status) {
                     successCode -> {

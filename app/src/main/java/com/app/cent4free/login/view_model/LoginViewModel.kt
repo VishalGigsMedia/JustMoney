@@ -17,23 +17,14 @@ import com.app.cent4free.login.repository.LoginRepository
 class LoginViewModel : ViewModel() {
 
     private var loginRepository: LoginRepository = LoginRepository()
-    private var getOtpModel: LiveData<GetOtpModel>? = null
     private var loginModel: LiveData<LoginModel>? = null
     private var forgotPasswordModel: LiveData<ForgotPasswordModel>? = null
-    private var mutableLiveDataSignUpTrackier: LiveData<SignUpTrackier>? = null
-    private var mutableLiveDataLoginTrackier: LiveData<LoginTrackier>? = null
-    private var isValidPassword: LiveData<Boolean>? = null
 
-    fun getOTP(activity: Context, api: API, mobile: String, countryCode: String): LiveData<GetOtpModel> {
-        if (getOtpModel == null || getOtpModel != null) {
-            getOtpModel = loginRepository.forgotPassword(activity, api, mobile, countryCode)
-        }
-        return getOtpModel as LiveData<GetOtpModel>
-    }
 
-    fun login(activity: Context, api: API, login_type: String, email: String, password_or_id: String, carrierName: String): LiveData<LoginModel> {
+    fun login(activity: Context, api: API, login_type: String, email: String, password_or_id: String,
+        carrierName: String): LiveData<LoginModel> {
         if (loginModel == null || loginModel != null) {
-            loginModel = loginRepository.login(activity, api,login_type, email, password_or_id, carrierName)
+            loginModel = loginRepository.login(activity, api, login_type, email, password_or_id, carrierName)
         }
         return loginModel as LiveData<LoginModel>
     }
@@ -46,29 +37,12 @@ class LoginViewModel : ViewModel() {
     }
 
 
-    fun trackSignUp(activity: Context, name: String, email: String, password: String, phone: String,
-        status: String): LiveData<SignUpTrackier> {
-        if (mutableLiveDataSignUpTrackier == null) {
-            mutableLiveDataSignUpTrackier =
-                loginRepository.trackSignUp(activity, name, email, password, phone, status)
-        }
-        return mutableLiveDataSignUpTrackier!!
-    }
-
-    fun trackLogin(context: Context, email: String, password: String): LiveData<LoginTrackier> {
-        if (mutableLiveDataLoginTrackier == null) {
-            mutableLiveDataLoginTrackier = loginRepository.trackLogin(context, email, password)
-        }
-        return mutableLiveDataLoginTrackier as LiveData<LoginTrackier>
-    }
-
-
     fun isValidEmail(context: Context?, emailId: String): Boolean {
         if (emailId.isEmpty()) {
-            DefaultHelper.showToast(context, context?.getString(R.string.ent_email))
+            showToast(context, context?.getString(R.string.ent_email))
             return false
         } else if (!DefaultHelper.isValidEmailId(emailId)) {
-            DefaultHelper.showToast(context, context?.getString(R.string.invalid_email))
+            showToast(context, context?.getString(R.string.invalid_email))
             return false
         }
         return true
@@ -76,10 +50,10 @@ class LoginViewModel : ViewModel() {
 
     fun isValidPassword(context: Context?, pwd: String): Boolean {
         if (pwd.isEmpty()) {
-            DefaultHelper.showToast(context, context?.getString(R.string.ent_password))
+            showToast(context, context?.getString(R.string.ent_password))
             return false
         } else if (pwd.length < 6) {
-            DefaultHelper.showToast(context, context?.getString(R.string.invalid_pwd_length))
+            showToast(context, context?.getString(R.string.invalid_pwd_length))
             return false
         }
         return true
