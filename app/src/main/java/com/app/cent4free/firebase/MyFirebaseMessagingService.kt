@@ -64,7 +64,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             if (remoteMessage.data.containsKey("image")) {
                 if (remoteMessage.data.getValue("image").isNotEmpty()) {
                     image = remoteMessage.data.getValue("image")
-                    //val notificationType = "0"
                     bitmap = getBitmapFromUrl(decrypt(image))
                 }
             }
@@ -83,8 +82,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.d("MyFirebase", "image - $image")
             Log.d("MyFirebase", "offer id - $offerId")
 
-            if (bitmap != null) showImageNotification(bitmap, title, description, notificationType)
-            else sendNotification(title, description, notificationType)
+            if (bitmap != null) showImageNotification(bitmap, title, description)
+            else sendNotification(title, description)
         }
     }
 
@@ -92,12 +91,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d("notification", "Refreshed token: $token")
     }
 
-    private fun showImageNotification(bitmap: Bitmap?, title: String, message: String, type: String) {
+    private fun showImageNotification(bitmap: Bitmap?, title: String, message: String) {
         var intent: Intent? = null
         // println("notificationType : $notificationType")
         intent = Intent(this, MainActivity::class.java)
         intent.putExtra("notification_type", notificationType)
-        intent.putExtra("offer_id", notificationType)
+        intent.putExtra("offer_id", offerId)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT) //PendingIntent.FLAG_ONE_SHOT
@@ -132,13 +131,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(notificationID, mBuilder.build())
     }
 
-    private fun sendNotification(title: String, description: String, notificationType: String) {
+    private fun sendNotification(title: String, description: String) {
 
         var intent: Intent? = null
         //println("notificationType : $notificationType")
         intent = Intent(this, MainActivity::class.java)
         intent.putExtra("notification_type", notificationType)
-        intent.putExtra("offer_id", notificationType)
+        intent.putExtra("offer_id", offerId)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT) //PendingIntent.FLAG_ONE_SHOT

@@ -1,7 +1,9 @@
 package com.app.cent4free
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -12,9 +14,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.app.cent4free.available.AvailableFragment
+import com.app.cent4free.common_helper.BundleHelper.offer_trackier_id
+import com.app.cent4free.common_helper.DefaultHelper.encrypt
 import com.app.cent4free.common_helper.DefaultHelper.playCustomSound
 import com.app.cent4free.common_helper.DefaultKeyHelper.availableFragment
 import com.app.cent4free.common_helper.DefaultKeyHelper.inProgressFragment
+import com.app.cent4free.common_helper.DefaultKeyHelper.playStoreLink
+import com.app.cent4free.common_helper.DefaultKeyHelper.profileFragment
+import com.app.cent4free.common_helper.DefaultKeyHelper.referAndEarn
 import com.app.cent4free.common_helper.DefaultKeyHelper.walletFragment
 import com.app.cent4free.common_helper.OnCurrentFragmentVisibleListener
 import com.app.cent4free.common_helper.PreferenceHelper
@@ -25,7 +32,10 @@ import com.app.cent4free.my_wallet.completed.CompletedFragment
 import com.app.cent4free.my_wallet.faq.FaqFragment
 import com.app.cent4free.my_wallet.leaderborard.LeaderBoardFragment
 import com.app.cent4free.my_wallet.payouts.MyPayoutFragment
+import com.app.cent4free.my_wallet.setting.MyProfileFragment
+import com.app.cent4free.my_wallet.setting.ReferEarnFragment
 import com.app.cent4free.my_wallet.setting.SettingsNewFragment
+import com.app.cent4free.offer_details.OfferDetailsFragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -43,10 +53,16 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
         getToken()
         manageClickEvents()
         playCustomSound(this, R.raw.load_dashboard)
-        getIntentData()
+        /*Handler(mainLooper).postDelayed({
+            getIntentData()
+        }, 1000)*/
+
+        //open available fragment
+        openFragment(AvailableFragment(), false, availableFragment)
+
     }
 
-    private fun getIntentData() {
+    public fun getIntentData() {
         if (intent != null) {
             val notificationType = intent.getStringExtra("notification_type").toString()
             println("notificationType : $notificationType")
@@ -58,30 +74,36 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
             5 : Invite*/
             when (notificationType) {
                 "0" -> {
-                    openFragment(AvailableFragment(), false, availableFragment)
                 }
                 "1" -> {
-                    intent = Intent(this, MainActivity::class.java)
+                    val offerDetails = OfferDetailsFragment()
+                    val bundle = Bundle()
+                    bundle.putString(offer_trackier_id, encrypt(intent.getStringExtra("offer_id").toString()))
+                    offerDetails.arguments = bundle
+                    supportFragmentManager.beginTransaction().replace(R.id.flMain, offerDetails)
+                        .addToBackStack(MainActivity::class.java.simpleName).commit()
                 }
                 "2" -> {
-                    intent = Intent(this, MainActivity::class.java)
+                    onClickMyWallet()
                 }
                 "3" -> {
-                    intent = Intent(this, MainActivity::class.java)
+                    openFragment(MyProfileFragment(), true, profileFragment)
                 }
                 "4" -> {
-                    intent = Intent(this, MainActivity::class.java)
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(playStoreLink))
+                    startActivity(browserIntent)
                 }
                 "5" -> {
-                    intent = Intent(this, MainActivity::class.java)
+                    openFragment(ReferEarnFragment(), true, referAndEarn)
                 }
                 else -> {
-                    intent = Intent(this, MainActivity::class.java)
+                    //open available fragment
+                    //openFragment(AvailableFragment(), false, availableFragment)
                 }
             }
         } else {
             //open available fragment
-            openFragment(AvailableFragment(), false, availableFragment)
+            //openFragment(AvailableFragment(), false, availableFragment)
         }
     }
 
@@ -124,9 +146,7 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
     private fun manageClickEvents() {
         mBinding.txtAvailable.setOnClickListener { onClickAvailable() }
         mBinding.txtInProgress.setOnClickListener { onClickInProgress() }
-        mBinding.txtMyWallet.setOnClickListener {
-            onClickMyWallet()
-        }
+        mBinding.txtMyWallet.setOnClickListener { onClickMyWallet() }
     }
 
     private fun onClickAvailable() {

@@ -31,6 +31,8 @@ object DefaultKeyHelper {
     const val availableFragment = "AVAILABLE_FRAGMENT"
     const val inProgressFragment = "IN_PROGRESS_FRAGMENT"
     const val walletFragment = "WALLET_FRAGMENT"
+    const val profileFragment = "PROFILE_FRAGMENT"
+    const val referAndEarn = "REFER_AND_EARN"
 
     //social platforms package id
     const val FACEBOOK = "com.facebook.katana"

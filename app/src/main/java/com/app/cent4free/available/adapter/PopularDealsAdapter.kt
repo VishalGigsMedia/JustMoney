@@ -80,7 +80,6 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             holder.mBindingPopularDeals?.clBestDeal?.setOnClickListener {
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
-                bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)
@@ -133,7 +132,6 @@ class PopularDealsAdapter(private val context: FragmentActivity?,
             holder.mBindingPopularDealsSecond?.clBestDeal?.setOnClickListener {
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
-                bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 offerDetails.arguments = bundle
                 context?.supportFragmentManager?.beginTransaction()?.replace(R.id.flMain, offerDetails)

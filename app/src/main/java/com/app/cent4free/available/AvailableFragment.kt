@@ -33,7 +33,6 @@ import com.app.cent4free.available.model.FlashOffer
 import com.app.cent4free.available.model.Popup
 import com.app.cent4free.available.model.RewardRemainingTime
 import com.app.cent4free.common_helper.*
-import com.app.cent4free.common_helper.BundleHelper.offerId
 import com.app.cent4free.common_helper.BundleHelper.offer_trackier_id
 import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.encrypt
@@ -79,6 +78,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private var onClickedQuickDeals: QuickDealsAdapter.OnClickedQuickDeals? = null
     private lateinit var preferenceHelper: PreferenceHelper
     private var appVersion: Long = -1
+    var intentVerified = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
         return mBinding.root
@@ -163,6 +163,12 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             if(availableOfferModel.availableOfferData?.app_version != null) {
                                 appVersion = decrypt(availableOfferModel.availableOfferData.app_version).toLong()
                                 checkUpdate()
+                            }
+
+                            //check intent in main activity
+                            if(!intentVerified) {
+                                (activity as MainActivity).getIntentData()
+                                intentVerified=true
                             }
 
                         }
@@ -346,7 +352,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     override fun showOfferDetails(offerId: String,offer_trackier_id:String) {
         val offerDetailFragment = OfferDetailsFragment()
         val bundle = Bundle()
-        bundle.putString(BundleHelper.offerId, offerId)
         bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
         offerDetailFragment.arguments = bundle
         openFragment(offerDetailFragment)
@@ -463,7 +468,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         popupOfferView.tvSeeOfferDetails.setOnClickListener {
             val offerDetails = OfferDetailsFragment()
             val bundle = Bundle()
-            bundle.putString(offerId, popup.id.toString())
             bundle.putString(offer_trackier_id, popup.offer_trackier_id.toString())
             offerDetails.arguments = bundle
 

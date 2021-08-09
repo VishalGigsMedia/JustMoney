@@ -1,7 +1,6 @@
 package com.app.cent4free.common_helper
 
 object BundleHelper {
-    const val offerId: String = "offerId"
     const val offer_trackier_id: String = "offer_trackier_id"
     const val displayId: String = "displayId"
     const val name: String = "name"

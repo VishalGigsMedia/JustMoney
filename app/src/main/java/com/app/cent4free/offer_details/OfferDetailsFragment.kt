@@ -57,7 +57,6 @@ class OfferDetailsFragment : Fragment() {
         MyApplication.instance.getNetComponent()?.inject(this)
         viewModel = ViewModelProvider(this).get(OfferDetailsViewModel::class.java)
         viewModelAO = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
-        offerId = arguments?.getString(BundleHelper.offerId).toString()
         offerTrackierId = arguments?.getString(BundleHelper.offer_trackier_id).toString()
         source = arguments?.getString(BundleHelper.source).toString()
         Log.d("jgvdhjbjkn", "offer_id: $offerId , trackier_id: $offerTrackierId")

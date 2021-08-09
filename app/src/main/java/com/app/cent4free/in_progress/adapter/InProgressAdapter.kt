@@ -74,7 +74,6 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             holder.mBindingInProgressBinding?.clBestDeal?.setOnClickListener {
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
-                bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
@@ -134,7 +133,6 @@ class InProgressAdapter(private val context: FragmentActivity?, private val inPr
             holder.mBindingInProgressTypeSecondBinding?.clBestDeal?.setOnClickListener {
                 val offerDetails = OfferDetailsFragment()
                 val bundle = Bundle()
-                bundle.putString(BundleHelper.offerId, offerId)
                 bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
                 bundle.putString(BundleHelper.source, BundleHelper.inProgress)
                 offerDetails.arguments = bundle
