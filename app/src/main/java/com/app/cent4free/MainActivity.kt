@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
     public fun getIntentData() {
         if (intent != null) {
             val notificationType = intent.getStringExtra("notification_type").toString()
-            println("notificationType : $notificationType")
+            println("MyFirebasenotificationType : $notificationType")
             /*0 : Listing
             1 : Offer Detail
             2 : Earnings
