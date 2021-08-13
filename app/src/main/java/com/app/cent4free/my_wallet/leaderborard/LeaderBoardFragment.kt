@@ -52,9 +52,18 @@ class LeaderBoardFragment : Fragment() {
 
         getLeaderBoardData(weekly)
         manageClicks()
+
+        mBinding.swipe.setOnRefreshListener {
+            getLeaderBoardData(weekly)
+            mBinding.tvWeekly.background = ContextCompat.getDrawable(context!!, R.drawable.curve_yellow)
+            mBinding.tvMonthly.background = null
+        }
     }
 
     private fun getLeaderBoardData(type: String) {
+        if (mBinding.swipe.isRefreshing) {
+            mBinding.swipe.isRefreshing = false
+        }
         if (context==null)return
         showShimmer()
         viewModel.getLeaderBoard(context!!, api, type).observe(viewLifecycleOwner, { leaderBoardModel ->
@@ -62,6 +71,7 @@ class LeaderBoardFragment : Fragment() {
             if (leaderBoardModel != null) {
                 when (leaderBoardModel.status) {
                     DefaultKeyHelper.successCode -> {
+                        showDataScreen()
                         currentUserWeekly = leaderBoardModel.curr_user_rank_weekly
                         currentUserMonthly = leaderBoardModel.curr_user_rank_monthly
                         weeklyList = leaderBoardModel.data.leadership_weekly
@@ -82,7 +92,7 @@ class LeaderBoardFragment : Fragment() {
                     }
                 }
             } else {
-                showToast(context, "Something went Wrong!!")
+                showToast(context, getString(R.string.no_internet))
                 showErrorScreen()
             }
         })
@@ -116,6 +126,10 @@ class LeaderBoardFragment : Fragment() {
     private fun showErrorScreen() {
         mBinding.clData.visibility = GONE
         mBinding.llError.visibility = VISIBLE
+    }
+    private fun showDataScreen() {
+        mBinding.clData.visibility = VISIBLE
+        mBinding.llError.visibility = GONE
     }
 
     private fun showShimmer() {

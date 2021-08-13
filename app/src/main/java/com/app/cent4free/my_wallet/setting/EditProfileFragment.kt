@@ -21,6 +21,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -103,6 +104,11 @@ class EditProfileFragment : Fragment() {
         }
         //mobile
         mBinding.edtMobile.setText(preferenceHelper.getMobile())
+        if (preferenceHelper.getMobile()!=""){
+            mBinding.edtMobile.isEnabled = false
+            mBinding.edtMobile.isClickable = false
+            mBinding.edtLastName.imeOptions = EditorInfo.IME_ACTION_DONE
+        }
 
         //Set Email & Image
         mBinding.txtEmail.text = preferenceHelper.getEmail()

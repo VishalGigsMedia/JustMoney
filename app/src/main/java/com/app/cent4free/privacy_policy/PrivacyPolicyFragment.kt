@@ -78,7 +78,7 @@ class PrivacyPolicyFragment : Fragment() {
                     }
                 }
             } else {
-                showToast(context, "Something went Wrong!!")
+                showToast(context, getString(R.string.no_internet))
                 activity?.onBackPressed()
             }
         })

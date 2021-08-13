@@ -55,23 +55,23 @@ class ReferEarnFragment : Fragment() {
             showToast(context, getString(R.string.textCopied))
         }
         mBinding.ivFacebook.setOnClickListener {
-            share(referText, context, FACEBOOK)
+            share(referText, activity!!, FACEBOOK)
             trackReferred(FACEBOOK)
         }
         mBinding.ivTwitter.setOnClickListener {
-            share(referText, context, TWITTER)
+            share(referText, activity!!, TWITTER)
             trackReferred(TWITTER)
         }
         mBinding.ivGMail.setOnClickListener {
-            share(referText, context, GMAIL)
+            share(referText, activity!!, GMAIL)
             trackReferred(GMAIL)
         }
         mBinding.ivWhatsApp.setOnClickListener {
-            share(referText, context, WHATSAPP)
+            share(referText, activity!!, WHATSAPP)
             trackReferred(WHATSAPP)
         }
         mBinding.ivMore.setOnClickListener {
-            share(referText, context, "")
+            share(referText, activity!!, "")
             trackReferred("MORE")
         }
         mBinding.tvHeading.setOnClickListener {

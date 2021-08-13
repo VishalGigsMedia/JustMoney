@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.app.cent4free.common_helper.DefaultHelper.getVersionName
 import com.app.cent4free.common_helper.PreferenceHelper
 import com.app.cent4free.databinding.ActivitySplashBinding
 import java.util.*
@@ -15,6 +16,10 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+
+        //version
+        mBinding.tvVersion.text = "${getString(R.string.app_name)} -  ${getVersionName()}"
+
         Timer().schedule(2500) {
             openMainScreen()
         }

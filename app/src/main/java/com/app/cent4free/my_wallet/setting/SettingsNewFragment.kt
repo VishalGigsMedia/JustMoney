@@ -18,6 +18,7 @@ import com.app.cent4free.common_helper.DefaultHelper
 import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.forceLogout
 import com.app.cent4free.common_helper.DefaultHelper.loadImage
+import com.app.cent4free.common_helper.DefaultHelper.share
 import com.app.cent4free.common_helper.DefaultHelper.showToast
 import com.app.cent4free.common_helper.DefaultKeyHelper
 import com.app.cent4free.common_helper.DefaultKeyHelper.playStoreLink
@@ -79,7 +80,7 @@ class SettingsNewFragment : Fragment() {
         }
         mBinding.txtShareApp.setOnClickListener {
             val appSharingText = "${getString(shareAppText)} \n\n $playStoreLink"
-            DefaultHelper.share(appSharingText, context, "")
+            share(appSharingText, context!!, "")
             trackAppShared()
         }
         mBinding.txtTermsCondition.setOnClickListener {
@@ -89,7 +90,7 @@ class SettingsNewFragment : Fragment() {
             openFragment(PrivacyPolicyFragment())
         }
         mBinding.clFacebook.setOnClickListener {
-            DefaultHelper.openFacebookPage(context)
+            DefaultHelper.openFacebookPage(context!!)
             trackFBLikeClicked("Settings")
         }
         mBinding.clTelegram.setOnClickListener {

@@ -53,6 +53,8 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
         viewModelAvailable = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         onClickedQuickDeals = this
         getInProgressOffers()
+
+        mBinding.swipe.setOnRefreshListener { getInProgressOffers() }
     }
 
     fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
@@ -60,6 +62,9 @@ class InProgressFragment : Fragment(), QuickDealsAdapter.OnClickedQuickDeals {
     }
 
     private fun getInProgressOffers() {
+        if (mBinding.swipe.isRefreshing) {
+            mBinding.swipe.isRefreshing = false
+        }
         mBinding.shimmerViewContainer.startShimmer()
         viewModel.getInProgressOffers(context!!, api)
             .observe(viewLifecycleOwner, { inProgressOffers ->

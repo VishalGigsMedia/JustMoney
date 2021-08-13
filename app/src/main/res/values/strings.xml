@@ -223,6 +223,10 @@
     <string name="min_one">Minimum 1 image is mandatory</string>
     <string name="ss_note">Please attach Screenshots for reference.</string>
     <string name="error_social_login">Unable to login with Google!</string>
+    <string name="no_internet_warning">No Internet Connection Found \n Please Check Your Internet Connection!</string>
+    <string name="try_again">Try Again</string>
+    <string name="somethingWentWrong1">Something Went Wrong !</string>
+    <string name="unable_faq">Unable to load FAQ!</string>
 
 
 </resources>

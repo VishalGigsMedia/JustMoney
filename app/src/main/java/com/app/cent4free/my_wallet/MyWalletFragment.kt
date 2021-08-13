@@ -55,6 +55,8 @@ class MyWalletFragment : Fragment() {
         init()
         getEarnings()
         manageClickEvents()
+
+        mBinding.swipe.setOnRefreshListener { getEarnings() }
     }
 
     private fun init() {
@@ -68,9 +70,13 @@ class MyWalletFragment : Fragment() {
     }
 
     private fun getEarnings() {
+        if (mBinding.swipe.isRefreshing) {
+            mBinding.swipe.isRefreshing = false
+        }
+
         mBinding.txtRequestPayout.isEnabled = false
         val animator = ValueAnimator()
-        animator.setObjectValues(2000, 4000,0)
+        animator.setObjectValues(2000, 4000, 0)
         animator.addUpdateListener { animation ->
             mBinding.txtCurrentBalanceValue.text = animation.animatedValue.toString()
             mBinding.txtCompletedCoinsValue.text = animation.animatedValue.toString()
@@ -80,10 +86,10 @@ class MyWalletFragment : Fragment() {
         animator.start()
 
         viewModel.getEarnings(context, api).observe(viewLifecycleOwner, { model ->
+            mBinding.txtRequestPayout.isEnabled = true
             if (model != null) {
                 when (model.status) {
                     DefaultKeyHelper.successCode -> {
-                        mBinding.txtRequestPayout.isEnabled = true
                         animator.doOnEnd {
                             mBinding.txtCurrentBalanceValue.text = decrypt(model.data.current_balance)
                             mBinding.txtCompletedCoinsValue.text = decrypt(model.data.completed)
@@ -148,7 +154,7 @@ class MyWalletFragment : Fragment() {
     private fun onClickTryEnjoy() {}
 
     private fun onClickFacebook() {
-        openFacebookPage(context)
+        openFacebookPage(context!!)
         TrackingEvents.trackFBLikeClicked("Wallet")
     }
 
@@ -184,7 +190,13 @@ class MyWalletFragment : Fragment() {
                 showToast(context, getString(R.string.error_paytm_input2))
                 return@setOnClickListener
             }
-            if (Integer.parseInt(etAmount?.text.toString()) > Integer.parseInt(
+
+            if (mBinding.txtCurrentBalanceValue.text.toString() == "-") {
+                showToast(context, getString(R.string.somethingWentWrong1))
+                dialog.dismiss()
+                getEarnings()
+                return@setOnClickListener
+            } else if (Integer.parseInt(etAmount?.text.toString()) > Integer.parseInt(
                     mBinding.txtCurrentBalanceValue.text.toString())
             ) {
                 showToast(context, getString(R.string.error_paytm_input))
@@ -193,17 +205,18 @@ class MyWalletFragment : Fragment() {
             //else
             requestPayout(etAmount?.text.toString(), dialog, pbRequestPayout)
         }
-        tvClickText?.setOnClickListener{
+        tvClickText?.setOnClickListener {
             openAstroPay()
         }
-        ivFootLogo?.setOnClickListener{
+        ivFootLogo?.setOnClickListener {
             openAstroPay()
         }
         dialog?.show()
     }
 
     private fun openAstroPay() {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.astropaycard.android"))
+        val browserIntent = Intent(Intent.ACTION_VIEW,
+            Uri.parse("https://play.google.com/store/apps/details?id=com.astropaycard.android"))
         startActivity(browserIntent)
     }
 

@@ -16,6 +16,7 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.widget.ImageView
 import android.widget.Toast
@@ -43,6 +44,7 @@ import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import kotlin.math.log
 
 object DefaultHelper {
 
@@ -178,23 +180,22 @@ object DefaultHelper {
         return !TextUtils.isEmpty(emailId) && Patterns.EMAIL_ADDRESS.matcher(emailId).matches()
     }
 
-    fun openFacebookPage(context: Context?) {
+    fun openFacebookPage(context: Context) {
         if (isPackageInstalled(context, FACEBOOK)) {
-            context?.startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
+            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
         } else {
-            context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.facebookPageUrl)))
+            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.facebookPageUrl)))
         }
     }
 
-    private fun isPackageInstalled(c: Context?, targetPackage: String): Boolean {
-        val pm = c?.packageManager
-        try {
-            val info = pm?.getPackageInfo(targetPackage, PackageManager.GET_META_DATA)
+    private fun isPackageInstalled(c: Context, targetPackage: String): Boolean {
+        val pm: PackageManager = c.packageManager
+        return try {
+            pm.getPackageInfo(targetPackage, 0)
+            true
         } catch (e: PackageManager.NameNotFoundException) {
-            return false
+            false
         }
-        return true
     }
 
     fun openFragment(supportFragmentManager: FragmentManager?, fragment: Fragment, addToBackStack: Boolean) {
@@ -230,13 +231,18 @@ object DefaultHelper {
         mediaPlayer.start()
     }
 
-    fun share(sharingText: String?, context: Context?, appPackage: String) {
+    fun share(sharingText: String?, context: Context, appPackage: String) {
         val i = Intent(Intent.ACTION_SEND)
         if (isPackageInstalled(context, appPackage)) i.setPackage(appPackage)
         i.type = "text/plain"
         i.putExtra(Intent.EXTRA_SUBJECT, context?.getString(R.string.app_name))
         i.putExtra(Intent.EXTRA_TEXT, sharingText)
-        context?.startActivity(Intent.createChooser(i, "${context.getString(R.string.app_name)} Share"))
+        context.startActivity(
+            Intent.createChooser(
+                i,
+                "${context.getString(R.string.app_name)} Share"
+            )
+        )
     }
 
     @SuppressLint("ConstantLocale")

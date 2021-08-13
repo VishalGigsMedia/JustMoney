@@ -55,6 +55,13 @@ class MyPayoutFragment : Fragment() {
         setAdapter()
         addScrollListener()
         getPayoutHistory(offset, nextLimit)
+
+        mBinding.swipe.setOnRefreshListener {
+            offset = 0
+            nextLimit = 10
+            adapter?.clear()
+            getPayoutHistory(offset, nextLimit)
+        }
     }
 
     private fun manageClicks() {
@@ -74,12 +81,16 @@ class MyPayoutFragment : Fragment() {
     }
 
     private fun getPayoutHistory(offset: Int, nextLimit: Int) {
+        if (mBinding.swipe.isRefreshing) {
+            mBinding.swipe.isRefreshing = false
+        }
         showProgress()
         viewModel.getPayoutHistory(context, api, offset, nextLimit)
             .observe(viewLifecycleOwner, { payoutHistoryModel ->
-               hideProgress()
+                hideProgress()
                 if (payoutHistoryModel != null) when (payoutHistoryModel.status) {
                     successCode -> {
+                        showDataScreen()
                         if (decrypt(payoutHistoryModel.data?.total_coins.toString()).isNotEmpty()) {
                             mBinding.txtBalanceValue.text =
                                 decrypt(payoutHistoryModel.data?.total_coins.toString())
@@ -89,7 +100,7 @@ class MyPayoutFragment : Fragment() {
                             this.offset = 10
                             this.list = payoutHistoryModel.data.payouts as ArrayList<Payout>
                             adapter?.addData(list)
-                        }
+                        } else showErrorScreen()
                     }
                     failureCode -> {
                         showToast(context, decrypt(payoutHistoryModel.message))
@@ -101,29 +112,32 @@ class MyPayoutFragment : Fragment() {
                 } else showErrorScreen()
             })
     }
+
     private fun getMoreData(offset: Int, nextLimit: Int) {
         //showProgress()
-        viewModel.getPayoutHistory(activity, api, offset, nextLimit).observe(viewLifecycleOwner, { payoutHistoryModel ->
-            //hideProgress()
-            if (payoutHistoryModel != null) {
-                try {
-                    when (payoutHistoryModel.status) {
-                        successCode -> {
-                            if (payoutHistoryModel.data?.payouts?.isNotEmpty()!!) {
-                                isLoading = false
-                                this.offset += 10
-                                adapter?.addData(payoutHistoryModel.data.payouts as ArrayList<Payout>)
+        viewModel.getPayoutHistory(activity, api, offset, nextLimit)
+            .observe(viewLifecycleOwner, { payoutHistoryModel ->
+                //hideProgress()
+                if (payoutHistoryModel != null) {
+                    try {
+                        when (payoutHistoryModel.status) {
+                            successCode -> {
+                                if (payoutHistoryModel.data?.payouts?.isNotEmpty()!!) {
+                                    isLoading = false
+                                    this.offset += 10
+                                    adapter?.addData(payoutHistoryModel.data.payouts as ArrayList<Payout>)
+                                }
                             }
+                            failureCode -> {
+                            }
+                            forceLogoutCode -> forceLogout(activity)
                         }
-                        failureCode -> {}
-                        forceLogoutCode -> forceLogout(activity)
-                    }
 
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
-            }
-        })
+            })
     }
 
 
@@ -146,6 +160,7 @@ class MyPayoutFragment : Fragment() {
         mBinding.rvPayoutHistory.adapter = adapter
         adapter?.notifyDataSetChanged()
     }
+
     private fun addScrollListener() {
         mBinding.rvPayoutHistory.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
             override fun isLastPage(): Boolean {
@@ -167,5 +182,9 @@ class MyPayoutFragment : Fragment() {
     private fun showErrorScreen() {
         mBinding.clData.visibility = GONE
         mBinding.llError.visibility = VISIBLE
+    }
+    private fun showDataScreen() {
+        mBinding.clData.visibility = VISIBLE
+        mBinding.llError.visibility = GONE
     }
 }

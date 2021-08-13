@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.cent4free.MainActivity
 import com.app.cent4free.R
 import com.app.cent4free.common_helper.DefaultHelper
+import com.app.cent4free.common_helper.DefaultHelper.decrypt
+import com.app.cent4free.common_helper.DefaultHelper.showToast
 import com.app.cent4free.common_helper.DefaultKeyHelper
 import com.app.cent4free.common_helper.OnCurrentFragmentVisibleListener
 import com.app.cent4free.dagger.API
@@ -54,9 +56,7 @@ class FaqFragment : Fragment() {
     private fun getFaq() {
         mBinding.shimmer.startShimmer()
         viewModel.getFaq(context!!, api).observe(viewLifecycleOwner, { faqDetails ->
-            mBinding.shimmer.stopShimmer()
-            mBinding.shimmer.visibility = GONE
-            mBinding.nsv.visibility = VISIBLE
+
             if (faqDetails != null) {
                 when (faqDetails.status) {
                     DefaultKeyHelper.successCode -> {
@@ -64,22 +64,31 @@ class FaqFragment : Fragment() {
                         setAdapter(faqDetails.faqData)
                     }
                     DefaultKeyHelper.failureCode -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
-                        activity?.onBackPressed()
+                        showToast(context, decrypt(faqDetails.message.toString()))
+                        showErrorScreen()
                     }
                     DefaultKeyHelper.forceLogoutCode -> {
                         DefaultHelper.forceLogout(activity!!)
                     }
                     else -> {
-                        DefaultHelper.showToast(context, DefaultHelper.decrypt(faqDetails.message.toString()))
-                        activity?.onBackPressed()
+                        showToast(context, decrypt(faqDetails.message.toString()))
+                        showErrorScreen()
                     }
                 }
             } else {
-                DefaultHelper.showToast(context, "Something went Wrong!!")
-                activity?.onBackPressed()
+                showToast(context, getString(R.string.no_internet))
+                showErrorScreen()
             }
         })
+    }
+
+    private fun showErrorScreen() {
+        mBinding.shimmer.stopShimmer()
+        mBinding.shimmer.visibility = GONE
+        mBinding.txtFaq.visibility = GONE
+        mBinding.view.visibility = GONE
+        mBinding.rvFaq.visibility = GONE
+        mBinding.llError.visibility = VISIBLE
     }
 
     private fun setAdapter(faqData: List<FaqData>?) {
@@ -88,7 +97,7 @@ class FaqFragment : Fragment() {
             mBinding.rvFaq.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             mBinding.rvFaq.adapter = faqAdapter
         } else {
-            DefaultHelper.showToast(context, "Something went Wrong!!")
+            showToast(context, "Something went Wrong!!")
             activity?.onBackPressed()
         }
     }

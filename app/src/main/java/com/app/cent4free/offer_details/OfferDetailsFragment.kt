@@ -22,6 +22,7 @@ import com.app.cent4free.common_helper.DefaultHelper
 import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.showToast
 import com.app.cent4free.common_helper.DefaultKeyHelper
+import com.app.cent4free.common_helper.OnCurrentFragmentVisibleListener
 import com.app.cent4free.dagger.API
 import com.app.cent4free.dagger.MyApplication
 import com.app.cent4free.databinding.FragmentOfferDetailsBinding
@@ -46,6 +47,7 @@ class OfferDetailsFragment : Fragment() {
     private lateinit var viewModel: OfferDetailsViewModel
     private lateinit var viewModelAO: AvailableOfferViewModel
     private lateinit var mBinding: FragmentOfferDetailsBinding
+    private var callback: OnCurrentFragmentVisibleListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_offer_details, container, false)
@@ -59,6 +61,7 @@ class OfferDetailsFragment : Fragment() {
         viewModelAO = ViewModelProvider(this).get(AvailableOfferViewModel::class.java)
         offerTrackierId = arguments?.getString(BundleHelper.offer_trackier_id).toString()
         source = arguments?.getString(BundleHelper.source).toString()
+        callback?.onShowHideBottomNav(false)
         Log.d("jgvdhjbjkn", "offer_id: $offerId , trackier_id: $offerTrackierId")
 
         getOfferDetails()
@@ -173,6 +176,10 @@ class OfferDetailsFragment : Fragment() {
     private fun showErrorScreen() {
         mBinding.clData.visibility = GONE
         mBinding.llError.visibility = VISIBLE
+    }
+
+    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
+        callback = activity
     }
 
 

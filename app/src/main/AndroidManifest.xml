@@ -22,6 +22,19 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.facebook.orca" />
+        <package android:name="com.twitter.android" />
+        <package android:name="com.google.android.gm" />
+
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+
+            <data android:mimeType="image/jpeg" />
+        </intent>
+    </queries>
+
     <application
         android:name="com.app.cent4free.dagger.MyApplication"
         android:allowBackup="true"

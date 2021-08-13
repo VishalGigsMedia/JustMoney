@@ -143,7 +143,6 @@ class AvailableOfferRepository {
                 })
         } else {
             mutableLiveData.value = null
-            showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
@@ -170,35 +169,10 @@ class AvailableOfferRepository {
                 })
         } else {
             mutableLiveData.value = null
-            showToast(context, context?.getString(R.string.no_internet))
         }
         return mutableLiveData
     }
 
-    fun checkVersion(context: Context?, api: API): MutableLiveData<CheckAppVersionModel> {
-        val mutableLiveData: MutableLiveData<CheckAppVersionModel> = MutableLiveData()
-        if (DefaultHelper.isOnline()) {
-            val preferenceHelper = PreferenceHelper(context)
-            val authorizationToken = preferenceHelper.getJwtToken()
-            api.checkVersion(authorizationToken).enqueue(object : Callback<CheckAppVersionModel> {
-                override fun onResponse(call: Call<CheckAppVersionModel>,
-                    response: Response<CheckAppVersionModel>) {
-                    gson = gsonBuilder.create()
-                    val json = Gson().toJson(response.body())
-                    checkAppVersionModel = gson?.fromJson(json, CheckAppVersionModel::class.java)
-                    // println("TAG : $json")
-                    mutableLiveData.value = checkAppVersionModel
-                }
-
-                override fun onFailure(call: Call<CheckAppVersionModel>, t: Throwable) {
-                    println("TAG : ${t.printStackTrace()}")
-                }
-            })
-        } else {
-            showToast(context, context?.getString(R.string.no_internet))
-        }
-        return mutableLiveData
-    }
 
     fun getIPAddress(context: Context?, api: API): MutableLiveData<IpApiModel> {
         val mutableLiveData: MutableLiveData<IpApiModel> = MutableLiveData()

@@ -35,11 +35,10 @@ class FaqRepository {
 
                 override fun onFailure(call: Call<FaqModel>, t: Throwable) {
                     println("TAG : ${t.printStackTrace()}")
+                    mutableLiveData.value = null
                 }
             })
-        } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
-        }
+        } else mutableLiveData.value = null
         return mutableLiveData
     }
 

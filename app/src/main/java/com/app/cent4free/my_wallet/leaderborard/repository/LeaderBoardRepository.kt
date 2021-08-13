@@ -39,10 +39,7 @@ class LeaderBoardRepository {
                         mutableLiveData.value = null
                     }
                 })
-        } else {
-            DefaultHelper.showToast(context, context.getString(R.string.no_internet))
-            mutableLiveData.value = null
-        }
+        } else mutableLiveData.value = null
         return mutableLiveData
     }
 

@@ -35,7 +35,7 @@ object DefaultKeyHelper {
     const val referAndEarn = "REFER_AND_EARN"
 
     //social platforms package id
-    const val FACEBOOK = "com.facebook.katana"
+    const val FACEBOOK = "com.facebook.orca"
     const val TWITTER = "com.twitter.android"
     const val GMAIL = "com.google.android.gm"
     const val WHATSAPP = "com.whatsapp"

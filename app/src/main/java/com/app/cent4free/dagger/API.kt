@@ -91,10 +91,6 @@ interface API {
     fun verifyEmailOtp(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<VerifyEmailOtpModel>
 
-    @POST("appCurrentVersion") //check_version
-    fun checkVersion(@Header("Authorization") authorizationToken: String): Call<CheckAppVersionModel>
-    //fun checkVersion(@Header("Authorization") authorizationToken: String, @Body requestKeyHelper: RequestKeyHelper): Call<CheckAppVersionModel>
-
     @POST("payout-history")
     fun getPayoutHistory(@Header("Authorization") authorizationToken: String,
         @Body requestKeyHelper: RequestKeyHelper): Call<PayoutModel>

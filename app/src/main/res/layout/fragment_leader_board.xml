@@ -5,295 +5,301 @@
 
     <data />
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:duration="800">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/shimmer_placeholder_available_offer" />
-
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/llLeaderBoard"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray_100">
+            android:orientation="vertical">
 
-            <View
-                android:id="@+id/viewCurve"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_120sdp"
-                android:background="@drawable/profile_background_indigo_600"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvHeading"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:fontFamily="@font/metropolis_medium_italic"
-                android:gravity="start"
-                android:letterSpacing="0.02"
-                android:text="@string/leaderBoard"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_20ssp"
-                app:drawableStartCompat="@drawable/ic_arrow_back_white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivProfileImage"
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_90sdp"
-                android:layout_marginTop="@dimen/_70sdp"
-                android:elevation="0.5dp"
-                android:src="@drawable/ic_user_place_holder"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:duration="800">
 
-            <LinearLayout
-                android:id="@+id/llError"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/_10sdp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewCurve">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/metropolis_medium"
-                    android:gravity="center"
-                    android:text="@string/error_leader_board"
-                    android:textColor="@color/black" />
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:contentDescription="TODO"
-                    android:src="@drawable/error_screen" />
-            </LinearLayout>
+                    <include layout="@layout/shimmer_placeholder_available_offer" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clData"
+                android:id="@+id/llLeaderBoard"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:visibility="visible"
-                android:background="@color/gray_100"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewCurve">
+                android:layout_height="match_parent"
+                android:background="@color/gray_100">
 
-                <TextView
-                    android:id="@+id/txtRank"
+                <View
+                    android:id="@+id/viewCurve"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:fontFamily="@font/metropolis_medium"
-                    android:gravity="center"
-                    android:text="@string/rank"
-                    android:textSize="@dimen/_11sdp"
-                    app:layout_constraintEnd_toStartOf="@id/txtCoins"
+                    android:layout_height="@dimen/_120sdp"
+                    android:background="@drawable/profile_background_indigo_600"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/txtCoins"
-                    android:layout_width="0dp"
+                    android:id="@+id/tvHeading"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/metropolis_medium"
-                    android:gravity="center"
-                    android:text="@string/coins"
-                    android:textSize="@dimen/_11sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/txtRank"
-                    app:layout_constraintTop_toTopOf="@id/txtRank" />
-
-                <TextView
-                    android:id="@+id/tvRank"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/metropolis_thin"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_22sdp"
-                    app:layout_constraintEnd_toStartOf="@id/tvCoins"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:fontFamily="@font/metropolis_medium_italic"
+                    android:gravity="start"
+                    android:letterSpacing="0.02"
+                    android:text="@string/leaderBoard"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    app:drawableStartCompat="@drawable/ic_arrow_back_white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtRank"
-                    tools:text="8th" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvCoins"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/metropolis_thin"
-                    android:gravity="center"
-                    android:textColor="@color/pink_600"
-                    android:textSize="@dimen/_22sdp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_marginTop="@dimen/_70sdp"
+                    android:elevation="0.5dp"
+                    android:src="@drawable/ic_user_place_holder"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvRank"
-                    app:layout_constraintTop_toTopOf="@id/tvRank"
-                    tools:text="2500" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/llError"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewCurve">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:fontFamily="@font/metropolis_medium"
+                        android:gravity="center"
+                        android:text="@string/error_leader_board"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_300sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:contentDescription="TODO"
+                        android:src="@drawable/error_screen" />
+                </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/llName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:background="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvRank">
+                    android:id="@+id/clData"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/gray_100"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewCurve">
 
                     <TextView
-                        android:id="@+id/tvName"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txtRank"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:fontFamily="@font/metropolis_medium"
+                        android:gravity="center"
+                        android:text="@string/rank"
+                        android:textSize="@dimen/_11sdp"
+                        app:layout_constraintEnd_toStartOf="@id/txtCoins"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtCoins"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_medium"
-                        android:textSize="@dimen/_15sdp"
-                        android:textColor="#666666"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Pravin Kadam" />
-
-                    <LinearLayout
-                        android:id="@+id/llType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        android:background="@drawable/curve_gray"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvName">
-
-                        <TextView
-                            android:id="@+id/tvWeekly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="-30dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/curve_yellow"
-                            android:fontFamily="@font/metropolis_regular"
-                            android:paddingStart="@dimen/_50sdp"
-                            android:paddingTop="@dimen/_6sdp"
-                            android:paddingEnd="@dimen/_50sdp"
-                            android:paddingBottom="@dimen/_6sdp"
-                            android:text="@string/weekly"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
-
-                        <TextView
-                            android:id="@+id/tvMonthly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/metropolis_regular"
-                            android:paddingStart="@dimen/_50sdp"
-                            android:paddingTop="@dimen/_6sdp"
-                            android:paddingEnd="@dimen/_50sdp"
-                            android:paddingBottom="@dimen/_6sdp"
-                            android:text="@string/monthly"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txtRankList"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        android:fontFamily="@font/metropolis_thin"
-                        android:paddingStart="@dimen/_13sdp"
-                        android:paddingEnd="0dp"
-                        android:text="@string/rank"
-                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:text="@string/coins"
                         android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toStartOf="@id/txtNameList"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/llType" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txtRank"
+                        app:layout_constraintTop_toTopOf="@id/txtRank" />
 
                     <TextView
-                        android:id="@+id/txtNameList"
+                        android:id="@+id/tvRank"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/metropolis_thin"
-                        android:text="@string/name1"
                         android:gravity="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
-                        app:layout_constraintEnd_toStartOf="@id/txtCoinsList"
-                        app:layout_constraintStart_toEndOf="@id/txtRankList"
-                        app:layout_constraintTop_toTopOf="@id/txtRankList" />
+                        android:textSize="@dimen/_22sdp"
+                        app:layout_constraintEnd_toStartOf="@id/tvCoins"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtRank"
+                        tools:text="8th" />
 
                     <TextView
-                        android:id="@+id/txtCoinsList"
+                        android:id="@+id/tvCoins"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_thin"
-                        android:gravity="end"
-                        android:paddingStart="0dp"
-                        android:paddingEnd="@dimen/_13sdp"
-                        android:text="@string/coins"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
+                        android:gravity="center"
+                        android:textColor="@color/pink_600"
+                        android:textSize="@dimen/_22sdp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/txtNameList"
-                        app:layout_constraintTop_toTopOf="@id/txtRankList" />
+                        app:layout_constraintStart_toEndOf="@id/tvRank"
+                        app:layout_constraintTop_toTopOf="@id/tvRank"
+                        tools:text="2500" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/llName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvRank">
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:fontFamily="@font/metropolis_medium"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/_15sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Pravin Kadam" />
+
+                        <LinearLayout
+                            android:id="@+id/llType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:background="@drawable/curve_gray"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvName">
+
+                            <TextView
+                                android:id="@+id/tvWeekly"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="-30dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/curve_yellow"
+                                android:fontFamily="@font/metropolis_regular"
+                                android:paddingStart="@dimen/_50sdp"
+                                android:paddingTop="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_50sdp"
+                                android:paddingBottom="@dimen/_6sdp"
+                                android:text="@string/weekly"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <TextView
+                                android:id="@+id/tvMonthly"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/metropolis_regular"
+                                android:paddingStart="@dimen/_50sdp"
+                                android:paddingTop="@dimen/_6sdp"
+                                android:paddingEnd="@dimen/_50sdp"
+                                android:paddingBottom="@dimen/_6sdp"
+                                android:text="@string/monthly"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtRankList"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:fontFamily="@font/metropolis_thin"
+                            android:paddingStart="@dimen/_13sdp"
+                            android:paddingEnd="0dp"
+                            android:text="@string/rank"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toStartOf="@id/txtNameList"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/llType" />
+
+                        <TextView
+                            android:id="@+id/txtNameList"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/metropolis_thin"
+                            android:gravity="center"
+                            android:text="@string/name1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toStartOf="@id/txtCoinsList"
+                            app:layout_constraintStart_toEndOf="@id/txtRankList"
+                            app:layout_constraintTop_toTopOf="@id/txtRankList" />
+
+                        <TextView
+                            android:id="@+id/txtCoinsList"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/metropolis_thin"
+                            android:gravity="end"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/_13sdp"
+                            android:text="@string/coins"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/txtNameList"
+                            app:layout_constraintTop_toTopOf="@id/txtRankList" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLeaderBoard"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/white"
+                        android:paddingTop="@dimen/_7sdp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/llName"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_leader_board" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:id="@+id/rvLeaderBoard"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:listitem="@layout/item_leader_board"
-                    android:paddingTop="@dimen/_7sdp"
-                    tools:itemCount="3"
-                    android:background="@color/white"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/llName" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </layout>

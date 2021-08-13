@@ -53,19 +53,19 @@ class MyProfileFragment : Fragment() {
         //Set DOB
         if (preferenceHelper.getDob().contains("0000")) {
             //it means dob not set yet
-            mBinding.txtBirthDateValue.text = "N/A"
+            mBinding.txtBirthDateValue.text = ""
         } else mBinding.txtBirthDateValue.text = preferenceHelper.getDob()
 
 
         //Set mobile
         if (preferenceHelper.getMobile() == "") {
             //it means mobile not set yet
-            mBinding.txtMobileValue.text = "N/A"
+            mBinding.txtMobileValue.text = ""
         } else mBinding.txtMobileValue.text = preferenceHelper.getMobile()
 
         //Set Gender
         when (preferenceHelper.getGender()) {
-            "0" -> mBinding.txtGenderValue.text = "N/A"
+            "0" -> mBinding.txtGenderValue.text = ""
             DefaultKeyHelper.male -> mBinding.txtGenderValue.text = "Male"
             DefaultKeyHelper.female -> mBinding.txtGenderValue.text = "Female"
         }

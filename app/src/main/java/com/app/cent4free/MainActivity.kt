@@ -212,6 +212,7 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
         if (fragment is MyPayoutFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is SettingsNewFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is LeaderBoardFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is OfferDetailsFragment) fragment.setOnCurrentFragmentVisibleListener(this)
     }
 
     override fun onShowHideBottomNav(show: Boolean) =

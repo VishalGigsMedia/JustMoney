@@ -26,13 +26,14 @@ import com.app.cent4free.MainActivity
 import com.app.cent4free.R
 import com.app.cent4free.R.string.hour_left
 import com.app.cent4free.R.string.hours_left
+import com.app.cent4free.SplashActivity
 import com.app.cent4free.available.adapter.PopularDealsAdapter
 import com.app.cent4free.available.adapter.QuickDealsAdapter
 import com.app.cent4free.available.model.AvailableOffer
 import com.app.cent4free.available.model.FlashOffer
 import com.app.cent4free.available.model.Popup
 import com.app.cent4free.available.model.RewardRemainingTime
-import com.app.cent4free.common_helper.*
+import com.app.cent4free.common_helper.BundleHelper
 import com.app.cent4free.common_helper.BundleHelper.offer_trackier_id
 import com.app.cent4free.common_helper.DefaultHelper.decrypt
 import com.app.cent4free.common_helper.DefaultHelper.encrypt
@@ -45,6 +46,8 @@ import com.app.cent4free.common_helper.DefaultKeyHelper.failureCode
 import com.app.cent4free.common_helper.DefaultKeyHelper.forceLogoutCode
 import com.app.cent4free.common_helper.DefaultKeyHelper.playStoreLink
 import com.app.cent4free.common_helper.DefaultKeyHelper.successCode
+import com.app.cent4free.common_helper.OnCurrentFragmentVisibleListener
+import com.app.cent4free.common_helper.PreferenceHelper
 import com.app.cent4free.common_helper.TrackingEvents.trackDailyReward
 import com.app.cent4free.common_helper.TrackingEvents.trackOfferList
 import com.app.cent4free.dagger.API
@@ -98,6 +101,11 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.clDailyRewardValue.setOnClickListener {
             claimReward(encrypt(mBinding.txtDailyRewardValue.text.toString()))
         }
+
+        mBinding.tvTryAgain.setOnClickListener {
+            activity?.finishAffinity()
+            startActivity(Intent(activity, SplashActivity::class.java))
+        }
     }
 
     private fun init() {
@@ -110,11 +118,11 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun getOffers() {
         showShimmer()
+        if (mBinding.swipe.isRefreshing) {
+            mBinding.swipe.isRefreshing = false
+        }
         viewModel.getOffers(context, api).observe(viewLifecycleOwner, { availableOfferModel ->
             hideShimmer()
-            if (mBinding.swipe.isRefreshing) {
-                mBinding.swipe.isRefreshing = false
-            }
             run {
                 if (availableOfferModel != null) {
                     when (availableOfferModel.status) {
@@ -160,15 +168,15 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             if (mBinding.clBestDeal.visibility == GONE && mBinding.rvPopular.visibility == GONE && mBinding.rvQuickDeals.visibility == GONE) showErrorScreen()
 
                             //version
-                            if(availableOfferModel.availableOfferData?.app_version != null) {
+                            if (availableOfferModel.availableOfferData?.app_version != null) {
                                 appVersion = decrypt(availableOfferModel.availableOfferData.app_version).toLong()
                                 checkUpdate()
                             }
 
                             //check intent in main activity
-                            if(!intentVerified) {
+                            if (!intentVerified) {
                                 (activity as MainActivity).getIntentData()
-                                intentVerified=true
+                                intentVerified = true
                             }
 
                         }
@@ -349,7 +357,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         claimOffer(offer_id, url)
     }
 
-    override fun showOfferDetails(offerId: String,offer_trackier_id:String) {
+    override fun showOfferDetails(offerId: String, offer_trackier_id: String) {
         val offerDetailFragment = OfferDetailsFragment()
         val bundle = Bundle()
         bundle.putString(BundleHelper.offer_trackier_id, offer_trackier_id)
@@ -416,14 +424,14 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
             preferenceHelper.setUserCity(finalResponse.getString("city"))
             getOffers()
         }, {
-            showToast(context, getString(R.string.somethingWentWrong))
-            activity?.finish()
+            mBinding.shimmerViewContainer.stopShimmer()
+            mBinding.shimmerViewContainer.visibility = GONE
+            mBinding.llNoInternet.visibility = VISIBLE
         })
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
     }
-
 
 
     private fun showCoinAnimation(view: LottieAnimationView) {

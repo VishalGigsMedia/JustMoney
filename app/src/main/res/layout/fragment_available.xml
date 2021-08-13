@@ -496,7 +496,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                shimmer:src="@mipmap/ic_sample" />
+                                shimmer:src="@drawable/logo_without_text" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -615,6 +615,54 @@
                 app:lottie_speed="1"
                 app:lottie_loop="false"
                 app:lottie_rawRes="@raw/coin_animation" />
+            <LinearLayout
+                android:id="@+id/llNoInternet"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                shimmer:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/no_internet_warning" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/error_screen"
+                    shimmer:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tvTryAgain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/curve_pink_600"
+                    android:fontFamily="@font/metropolis_bold"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_50sdp"
+                    android:paddingEnd="@dimen/_50sdp"
+                    android:text="@string/try_again"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

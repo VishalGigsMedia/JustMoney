@@ -5,5 +5,6 @@ data class Payout(
     val points: String?,
     val status: String?,
     val time: String?,
+    val datetime: String?,
     val title: String?
 )

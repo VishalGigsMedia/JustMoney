@@ -7,186 +7,193 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray_100">
+        android:layout_height="match_parent">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:duration="800"
-            tools:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/shimmer_placeholder_available_offer" />
-
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nsv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:background="@color/gray_100">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:duration="800"
+                tools:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/shimmer_placeholder_available_offer" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clClose"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_160sdp"
-                    android:background="@drawable/curve_top_left_bottom_left_indigo_600"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/ivClose"
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:src="@drawable/ic_close"
-                        android:visibility="gone"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clClose"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_160sdp"
+                        android:background="@drawable/curve_top_left_bottom_left_indigo_600"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                    </ImageView>
+                        <ImageView
+                            android:id="@+id/ivClose"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:src="@drawable/ic_close"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        </ImageView>
 
-                <TextView
-                    android:id="@+id/txtInProgress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_40sdp"
-                    android:fontFamily="@font/metropolis_extra_bold_italic"
-                    android:gravity="start"
-                    android:text="@string/in_progress"
-                    android:textAllCaps="true"
-                    android:textColor="@color/color_primary"
-                    android:textSize="@dimen/_22ssp"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </TextView>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtInProgress">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvInProgressDeals"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:overScrollMode="never"
-                        android:visibility="visible"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/row_item_in_progress">
-
-                    </androidx.recyclerview.widget.RecyclerView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/txtQuickDeals"
+                        android:id="@+id/txtInProgress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:fontFamily="@font/metropolis_bold_italic"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:fontFamily="@font/metropolis_extra_bold_italic"
                         android:gravity="start"
-                        android:text="@string/quick_deals"
+                        android:text="@string/in_progress"
                         android:textAllCaps="true"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
+                        android:textColor="@color/color_primary"
+                        android:textSize="@dimen/_22ssp"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rvInProgressDeals">
+                        app:layout_constraintTop_toTopOf="parent">
 
                     </TextView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvQuickDeals"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:clipToPadding="false"
-                        android:paddingBottom="@dimen/_20sdp"
                         android:visibility="visible"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtQuickDeals"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/row_item_quick_deals">
+                        app:layout_constraintTop_toBottomOf="@+id/txtInProgress">
 
-                    </androidx.recyclerview.widget.RecyclerView>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvInProgressDeals"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:overScrollMode="never"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/row_item_in_progress">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <TextView
+                            android:id="@+id/txtQuickDeals"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:fontFamily="@font/metropolis_bold_italic"
+                            android:gravity="start"
+                            android:text="@string/quick_deals"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rvInProgressDeals">
+
+                        </TextView>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvQuickDeals"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:clipToPadding="false"
+                            android:paddingBottom="@dimen/_20sdp"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtQuickDeals"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/row_item_quick_deals">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llError"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/clClose">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:fontFamily="@font/metropolis_medium"
+                            android:gravity="center"
+                            android:text="@string/error_in_progress"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_300sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:src="@drawable/error_screen" />
+                    </LinearLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
-                    android:id="@+id/llError"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clClose"
-                    app:layout_constraintBottom_toBottomOf="parent">
+            </androidx.core.widget.NestedScrollView>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/metropolis_medium"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:text="@string/error_in_progress" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_300sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:src="@drawable/error_screen" />
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>
