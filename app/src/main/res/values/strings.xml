@@ -126,7 +126,7 @@
     <string name="msg_subscribed">Subscribed to weather topic</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
 
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_id" translatable="false">com.app.cent4free</string>
     <!--
         This is the name that users will see when interacting with this channel.
         It should describe the category of notifications that will be sent through this channel
@@ -227,6 +227,7 @@
     <string name="try_again">Try Again</string>
     <string name="somethingWentWrong1">Something Went Wrong !</string>
     <string name="unable_faq">Unable to load FAQ!</string>
+    <string name="hour">hr</string>
 
 
 </resources>

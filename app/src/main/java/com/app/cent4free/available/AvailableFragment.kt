@@ -61,17 +61,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.layout_popup_offer.view.*
 import kotlinx.android.synthetic.main.update_verstion_dialog.*
 import org.json.JSONObject
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
-
-private var timer: CountDownTimer? = null
 
 class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     QuickDealsAdapter.OnClickedQuickDeals {
 
     @Inject
     lateinit var api: API
+    private var timer: CountDownTimer? = null
     private var callback: OnCurrentFragmentVisibleListener? = null
     private lateinit var quickDealsAdapter: QuickDealsAdapter
     private lateinit var popularDealsAdapter: PopularDealsAdapter
@@ -82,6 +81,12 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     private lateinit var preferenceHelper: PreferenceHelper
     private var appVersion: Long = -1
     var intentVerified = false
+    private val calendar: Calendar = Calendar.getInstance()
+    private val current =
+        TimeUnit.HOURS.toMillis(calendar.get(Calendar.HOUR_OF_DAY).toLong()) + TimeUnit.MINUTES.toMillis(
+            calendar.get(Calendar.MINUTE).toLong()) + TimeUnit.SECONDS.toMillis(
+            calendar.get(Calendar.SECOND).toLong())
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_available, container, false)
         return mBinding.root
@@ -94,7 +99,10 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         init()
         setListeners()
 
-        mBinding.swipe.setOnRefreshListener { getIPAddress() }
+        mBinding.swipe.setOnRefreshListener {
+            activity?.finish()
+            startActivity(Intent(context,MainActivity::class.java))
+        }
     }
 
     private fun setListeners() {
@@ -137,11 +145,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                             //Daily Reward
                             setDailyReward(dailyReward, rewardRemainingTime, totalCoins, withdrawn, completed)
 
-                            //popup offer
-                            if (offerData?.popup != null && (activity as MainActivity).popup == 0) {
-                                showPopupOffer(offerData.popup)
-                            }
-
                             //flash offer
                             if (offerData?.flashOffer != null) {
                                 mBinding.clBestDeal.visibility = VISIBLE
@@ -179,14 +182,18 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                                 intentVerified = true
                             }
 
+                            //popup offer
+                            if (offerData?.popup != null && (activity as MainActivity).popup == 0) {
+                                showPopupOffer(offerData.popup)
+                            }
+
+
                         }
                         failureCode -> {
                             showToast(context, decrypt(availableOfferModel.message.toString()))
                             showErrorScreen()
                         }
-                        forceLogoutCode -> {
-                            forceLogout(activity)
-                        }
+                        forceLogoutCode -> forceLogout(activity)
                         else -> {
                             showToast(context, decrypt(availableOfferModel.message.toString()))
                             showErrorScreen()
@@ -222,11 +229,20 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun updateTimerUI(milliseconds: Long) {
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-        val seconds = milliseconds / 1000 % 60
 
-        mBinding.txtMinute.text = if (minutes < 10) "0$minutes" else minutes.toString()
-        mBinding.txtSeconds.text = if (seconds < 10) "0$seconds" else seconds.toString()
+        if (milliseconds > current) {
+            val leftMilliSeconds = milliseconds - current
+            val hours = leftMilliSeconds / (1000 * 60 * 60) % 24
+            val minutes = leftMilliSeconds / (1000 * 60) % 60
+            val seconds = leftMilliSeconds / 1000 % 60
+
+            mBinding.txtHour.text = if (hours < 10) "0$hours" else hours.toString()
+            mBinding.txtMinute.text = if (minutes < 10) "0$minutes" else minutes.toString()
+            mBinding.txtSeconds.text = if (seconds < 10) "0$seconds" else seconds.toString()
+        } else {
+            mBinding.clBestDeal.visibility = GONE
+            (timer as CountDownTimer).cancel()
+        }
     }
 
     override fun onDestroy() {
@@ -304,8 +320,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
             mBinding.txtTitle.text = flashOfferName
             mBinding.txtDescription.text = description
-            mBinding.txtMinute.text = timeValue[0]
-            mBinding.txtSeconds.text = timeValue[1]
+            mBinding.txtHour.text = timeValue[0]
+            mBinding.txtMinute.text = timeValue[1]
+            mBinding.txtSeconds.text = timeValue[2]
             mBinding.txtDealActualAmount.text = actualCoins
             mBinding.txtDealOfferAmount.text = offerCoins
             mBinding.txtRedeemOfferAmount.text = offerCoins
@@ -315,13 +332,17 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                     .into(mBinding.ivLogo)
             }
 
+            val hour = timeValue[0].toLong()
             val minute = timeValue[1].toLong()
             val second = timeValue[2].toLong()
+            val convertHours = TimeUnit.HOURS.toMillis(hour) //hour.toLong() * 60000
             val convertMinute = TimeUnit.MINUTES.toMillis(minute) //minute.toLong() * 60000
             val convertSecond = TimeUnit.SECONDS.toMillis(second)//second.toLong() * 1000
-            val time = convertMinute + convertSecond
+            val time = convertHours + convertMinute + convertSecond
             //println("timeTotal : $time")
-            if (timer == null) setTimer(time)
+            if (time > current) {
+                if (timer == null) setTimer(time)
+            } else mBinding.clBestDeal.visibility = GONE
 
             mBinding.txtRedeemOfferAmount.setOnClickListener {
                 claimOffer(flashOffer[0].id.toString(), decrypt(flashOffer[0].url.toString()))

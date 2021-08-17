@@ -232,6 +232,64 @@
                                     app:layout_constraintTop_toTopOf="parent">
 
                                     <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/clHour"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginEnd="@dimen/_5sdp"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:background="@drawable/light_curve_white"
+                                        android:paddingStart="@dimen/_8sdp"
+                                        android:paddingTop="@dimen/_5sdp"
+                                        android:paddingEnd="@dimen/_8sdp"
+                                        android:paddingBottom="@dimen/_5sdp"
+                                        app:layout_constraintEnd_toStartOf="@id/txtColumn0"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:id="@+id/txtHour"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/metropolis_bold"
+                                            android:gravity="center"
+                                            android:text="@null"
+                                            android:textAllCaps="false"
+                                            android:textColor="@color/blue_grey_900"
+                                            android:textSize="@dimen/_10ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/metropolis_medium"
+                                            android:gravity="center"
+                                            android:text="@string/hour"
+                                            android:textAllCaps="false"
+                                            android:textColor="@color/blue_grey_900"
+                                            android:textSize="@dimen/_8ssp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/txtHour" />
+
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                    <TextView
+                                        android:id="@+id/txtColumn0"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginEnd="@dimen/_5sdp"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/semi_column"
+                                        android:textAllCaps="false"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/_10ssp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/clMinute"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
                                         android:id="@+id/clMinute"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -243,7 +301,7 @@
                                         android:paddingTop="@dimen/_5sdp"
                                         android:paddingEnd="@dimen/_8sdp"
                                         android:paddingBottom="@dimen/_5sdp"
-                                        app:layout_constraintEnd_toStartOf="@+id/txtColumn"
+                                        app:layout_constraintEnd_toStartOf="@id/txtColumn"
                                         app:layout_constraintTop_toTopOf="parent">
 
                                         <TextView

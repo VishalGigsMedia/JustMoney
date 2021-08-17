@@ -3,7 +3,6 @@ package com.app.cent4free
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -14,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.app.cent4free.available.AvailableFragment
+import com.app.cent4free.common_helper.BundleHelper
 import com.app.cent4free.common_helper.BundleHelper.offer_trackier_id
 import com.app.cent4free.common_helper.DefaultHelper.encrypt
 import com.app.cent4free.common_helper.DefaultHelper.playCustomSound
@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
     private lateinit var mBinding: ActivityMainBinding
 
     var popup: Int = 0
+    private var notificationType: String? = null
+    var offerId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,19 +55,18 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
         getToken()
         manageClickEvents()
         playCustomSound(this, R.raw.load_dashboard)
-        /*Handler(mainLooper).postDelayed({
-            getIntentData()
-        }, 1000)*/
+        notificationType = intent.getStringExtra("notification_type").toString()
+        offerId = intent.getStringExtra("offer_id").toString()
+        if (notificationType != "null") popup = 1
+        println("MyFirebase1NotificationType : $notificationType")
 
         //open available fragment
         openFragment(AvailableFragment(), false, availableFragment)
 
     }
 
-    public fun getIntentData() {
+    fun getIntentData() {
         if (intent != null) {
-            val notificationType = intent.getStringExtra("notification_type").toString()
-            println("MyFirebasenotificationType : $notificationType")
             /*0 : Listing
             1 : Offer Detail
             2 : Earnings
@@ -87,7 +88,11 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
                     onClickMyWallet()
                 }
                 "3" -> {
-                    openFragment(MyProfileFragment(), true, profileFragment)
+                    val offerDetailFragment = OfferDetailsFragment()
+                    val bundle = Bundle()
+                    bundle.putString(offer_trackier_id, offerId)
+                    offerDetailFragment.arguments = bundle
+                    openFragment(offerDetailFragment,true,profileFragment)
                 }
                 "4" -> {
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(playStoreLink))
@@ -101,9 +106,6 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
                     //openFragment(AvailableFragment(), false, availableFragment)
                 }
             }
-        } else {
-            //open available fragment
-            //openFragment(AvailableFragment(), false, availableFragment)
         }
     }
 
@@ -211,6 +213,7 @@ class MainActivity : AppCompatActivity(), OnCurrentFragmentVisibleListener {
         if (fragment is FaqFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is MyPayoutFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is SettingsNewFragment) fragment.setOnCurrentFragmentVisibleListener(this)
+        if (fragment is ReferEarnFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is LeaderBoardFragment) fragment.setOnCurrentFragmentVisibleListener(this)
         if (fragment is OfferDetailsFragment) fragment.setOnCurrentFragmentVisibleListener(this)
     }

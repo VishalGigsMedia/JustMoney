@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.app.cent4free.MainActivity
 import com.app.cent4free.R
 import com.app.cent4free.common_helper.DefaultHelper.share
 import com.app.cent4free.common_helper.DefaultHelper.showToast
@@ -18,6 +19,7 @@ import com.app.cent4free.common_helper.DefaultKeyHelper.GMAIL
 import com.app.cent4free.common_helper.DefaultKeyHelper.TWITTER
 import com.app.cent4free.common_helper.DefaultKeyHelper.WHATSAPP
 import com.app.cent4free.common_helper.DefaultKeyHelper.playStoreLink
+import com.app.cent4free.common_helper.OnCurrentFragmentVisibleListener
 import com.app.cent4free.common_helper.PreferenceHelper
 import com.app.cent4free.common_helper.TrackingEvents.trackReferred
 import com.app.cent4free.databinding.FragmentReferEarnBinding
@@ -27,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_refer_earn.*
 class ReferEarnFragment : Fragment() {
     private lateinit var mBinding: FragmentReferEarnBinding
     private var referText = ""
+    private var callback: OnCurrentFragmentVisibleListener? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_refer_earn, container, false)
         return mBinding.root
@@ -41,6 +44,7 @@ class ReferEarnFragment : Fragment() {
     private fun setData() {
         val preferenceHelper = PreferenceHelper(context)
         mBinding.tvReferral.text = preferenceHelper.getReferralCode()
+        callback?.onShowHideBottomNav(false)
         referText = "${getString(R.string.referral1)}  ${preferenceHelper.getReferralCode()}  ${
             getString(R.string.referral2)
         } \n\n$playStoreLink"
@@ -77,5 +81,8 @@ class ReferEarnFragment : Fragment() {
         mBinding.tvHeading.setOnClickListener {
             activity?.onBackPressed()
         }
+    }
+    fun setOnCurrentFragmentVisibleListener(activity: MainActivity) {
+        callback = activity
     }
 }

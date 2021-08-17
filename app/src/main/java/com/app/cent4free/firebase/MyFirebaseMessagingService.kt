@@ -76,11 +76,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 offerId = "0"
             }
 
-            Log.d("MyFirebase", "titile - $title")
-            Log.d("MyFirebase", "description - $description")
-            Log.d("MyFirebase", "notificationType - $notificationType")
-            Log.d("MyFirebase", "image - $image")
-            Log.d("MyFirebase", "offer id - $offerId")
+            Log.d("MyFirebase1", "titile - $title")
+            Log.d("MyFirebase1", "description - $description")
+            Log.d("MyFirebase1", "notificationType - $notificationType")
+            Log.d("MyFirebase1", "image - $image")
+            Log.d("MyFirebase1", "offer id - $offerId")
 
             if (bitmap != null) showImageNotification(bitmap, title, description)
             else sendNotification(title, description)
@@ -131,13 +131,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(notificationID, mBuilder.build())
     }
 
-    private fun sendNotification(title: String, description: String) {
+    private fun sendNotification(title: String, message: String) {
 
         var intent: Intent? = null
         //println("notificationType : $notificationType")
         intent = Intent(this, MainActivity::class.java)
         intent.putExtra("notification_type", notificationType)
         intent.putExtra("offer_id", offerId)
+        Log.d("MyFirebase1", "innn: $notificationType")
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT) //PendingIntent.FLAG_ONE_SHOT
@@ -147,9 +148,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         //val notificationBuilder = NotificationCompat.Builder(this, channelId).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(DefaultHelper.decrypt(title)).setContentText(DefaultHelper.decrypt(description)).setAutoCancel(true).setSound(defaultSoundUri).setContentIntent(pendingIntent)
         val notificationBuilder =
-            NotificationCompat.Builder(this, channelId).setSmallIcon(R.drawable.logo).setContentTitle(title)
-                .setContentText(description).setAutoCancel(true).setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent)
+            NotificationCompat.Builder(this, channelId).setTicker(title).setWhen(0).setAutoCancel(true)
+                .setContentTitle(title).setContentText(message).setContentIntent(pendingIntent)
+                .setSound(defaultSoundUri)
+                .setColor(resources.getColor(R.color.color_primary))
+                .setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
+                .setSmallIcon(R.drawable.logo).setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.logo))
+                .setContentText(message)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -157,9 +162,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
+            notificationBuilder.setChannelId(channelId)
         }
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+        val notificationID = (Date().time / 1000L % Int.MAX_VALUE).toInt()
+        notificationManager.notify(notificationID /* ID of notification */, notificationBuilder.build())
     }
 
     private fun getBitmapFromUrl(imageUrl: String): Bitmap? {
