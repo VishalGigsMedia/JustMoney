@@ -30,6 +30,7 @@ import com.app.cent4free.common_helper.TrackingEvents.trackJoinTelegramClicked
 import com.app.cent4free.dagger.API
 import com.app.cent4free.dagger.MyApplication
 import com.app.cent4free.databinding.FragmentSettingsNewBinding
+import com.app.cent4free.my_wallet.change_password.ChangePasswordFragment
 import com.app.cent4free.my_wallet.faq.FaqFragment
 import com.app.cent4free.my_wallet.setting.help.HelpUsFragment
 import com.app.cent4free.my_wallet.setting.view_model.SettingViewModel
@@ -89,6 +90,9 @@ class SettingsNewFragment : Fragment() {
         mBinding.txtPrivacyPolicy.setOnClickListener {
             openFragment(PrivacyPolicyFragment())
         }
+        mBinding.txtChangePassword.setOnClickListener {
+            openFragment(ChangePasswordFragment())
+        }
         mBinding.clFacebook.setOnClickListener {
             DefaultHelper.openFacebookPage(context!!)
             trackFBLikeClicked("Settings")
@@ -102,7 +106,8 @@ class SettingsNewFragment : Fragment() {
                 val builder = AlertDialog.Builder(context!!)
                 builder.setMessage("Are you sure you want to Logout?").setCancelable(true)
                     .setPositiveButton("Yes") { _, _ ->
-                        logout()
+                        DefaultHelper.logout(viewModel, context, api, viewLifecycleOwner, activity,
+                            preferenceHelper)
                     }.setNegativeButton("No") { dialog, _ ->
                         dialog.dismiss()
                     }
@@ -113,29 +118,6 @@ class SettingsNewFragment : Fragment() {
         mBinding.txtSetting.setOnClickListener {
             activity?.onBackPressed()
         }
-    }
-
-    private fun logout() {
-        viewModel.logout(context, api).observe(viewLifecycleOwner, { logoutModule ->
-            if (logoutModule != null) {
-                when (logoutModule.status) {
-                    DefaultKeyHelper.successCode -> {
-                        forceLogout(activity)
-                        preferenceHelper.setUserId("")
-                        preferenceHelper.setFirstName("")
-                        preferenceHelper.setLastName("")
-                        preferenceHelper.setEmail("")
-                        preferenceHelper.setMobile("")
-                        preferenceHelper.setDob("")
-                        preferenceHelper.setGender("")
-                        preferenceHelper.setProfilePic("")
-                        preferenceHelper.setReferralCode("")
-                        preferenceHelper.setUserLoggedIn(false)
-                    }
-                    DefaultKeyHelper.failureCode -> showToast(context, decrypt(logoutModule.message.toString()))
-                }
-            } else showToast(context, getString(R.string.somethingWentWrong))
-        })
     }
 
     private fun setData() {

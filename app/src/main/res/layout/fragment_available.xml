@@ -148,22 +148,20 @@
                                     android:id="@+id/tvTimeLeft"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:fontFamily="@font/metropolis_medium"
                                     android:paddingStart="@dimen/_20sdp"
                                     android:paddingTop="@dimen/_5sdp"
                                     android:paddingEnd="@dimen/_20sdp"
                                     android:paddingBottom="@dimen/_5sdp"
-                                    android:fontFamily="@font/metropolis_medium"
                                     android:textColor="@color/pink_600"
-                                    shimmer:text="2 hours 20 min left"
-                                    />
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    shimmer:text="2 hours 20 min left" />
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:id="@+id/clDailyRewardValue"
                                     android:layout_width="0dp"
-                                    shimmer:visibility="gone"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/curve_pink_600"
                                     android:paddingStart="@dimen/_20sdp"
@@ -172,7 +170,8 @@
                                     android:paddingBottom="@dimen/_5sdp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    shimmer:visibility="gone">
 
                                     <TextView
                                         android:id="@+id/txtDailyRewardValue"
@@ -205,7 +204,8 @@
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:elevation="@dimen/_5sdp"
-                            android:visibility="visible"
+                            android:visibility="gone"
+                            shimmer:visibility="visible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cvDailyRewards">
@@ -637,7 +637,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/clClose">
+                        app:layout_constraintTop_toBottomOf="@+id/clClose"
+                        shimmer:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -659,20 +660,22 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
+
             <com.airbnb.lottie.LottieAnimationView
-                android:visibility="gone"
                 android:id="@+id/coinAnimation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="12dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
-                android:elevation="12dp"
-                app:lottie_speed="1"
                 app:lottie_loop="false"
-                app:lottie_rawRes="@raw/coin_animation" />
+                app:lottie_rawRes="@raw/coin_animation"
+                app:lottie_speed="1" />
+
             <LinearLayout
                 android:id="@+id/llNoInternet"
                 android:layout_width="match_parent"
@@ -681,20 +684,22 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10sdp"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
+                shimmer:visibility="gone"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 shimmer:ignore="UseCompoundDrawables">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/metropolis_medium"
-                    android:textColor="@color/black"
-                    android:gravity="center"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:text="@string/no_internet_warning" />
+                    android:fontFamily="@font/metropolis_medium"
+                    android:gravity="center"
+                    android:text="@string/no_internet_warning"
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -717,6 +722,67 @@
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llUnderMtnc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp"
+                android:visibility="gone"
+                shimmer:visibility="gone"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                shimmer:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/under_mtnc_title"
+                    android:textColor="@color/indigo_900"
+                    android:fontFamily="@font/metropolis_bold"
+                    android:textSize="@dimen/_23sdp"/>
+
+                <ImageView
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_160sdp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_under_mtnc"
+                    shimmer:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:gravity="center"
+                    android:textSize="@dimen/_13sdp"
+                    android:text="@string/under_mtnc_text"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvExit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/curve_pink_600"
+                    android:fontFamily="@font/metropolis_bold"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_50sdp"
+                    android:paddingEnd="@dimen/_50sdp"
+                    android:text="@string/exit"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

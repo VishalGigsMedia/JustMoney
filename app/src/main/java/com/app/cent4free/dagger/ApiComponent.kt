@@ -5,6 +5,7 @@ import com.app.cent4free.in_progress.InProgressFragment
 import com.app.cent4free.login.LoginFragment
 import com.app.cent4free.login.RegisterFragment
 import com.app.cent4free.my_wallet.MyWalletFragment
+import com.app.cent4free.my_wallet.change_password.ChangePasswordFragment
 import com.app.cent4free.my_wallet.completed.CompletedFragment
 import com.app.cent4free.my_wallet.faq.FaqFragment
 import com.app.cent4free.my_wallet.leaderborard.LeaderBoardFragment
@@ -41,4 +42,7 @@ interface ApiComponent {
     fun inject(myWalletFragment: MyWalletFragment)
     fun inject(termsConditionFragment: TermsConditionFragment)
     fun inject(privacyPolicyFragment: PrivacyPolicyFragment)
+    fun inject(changePasswordFragment: ChangePasswordFragment) {
+
+    }
 }

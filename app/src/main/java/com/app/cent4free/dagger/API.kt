@@ -3,9 +3,10 @@ package com.app.cent4free.dagger
 import com.app.cent4free.available.model.AvailableOfferModel
 import com.app.cent4free.available.model.IpApiModel
 import com.app.cent4free.in_progress.model.InProgressModel
-import com.app.cent4free.login.model.*
+import com.app.cent4free.login.model.ClaimOfferModel
+import com.app.cent4free.login.model.ForgotPasswordModel
+import com.app.cent4free.login.model.RegisterUserModel
 import com.app.cent4free.login.model.login.LoginModel
-import com.app.cent4free.model.CheckAppVersionModel
 import com.app.cent4free.my_wallet.completed.model.CompletedOfferModel
 import com.app.cent4free.my_wallet.faq.model.FaqModel
 import com.app.cent4free.my_wallet.leaderborard.model.LeaderBoardModel
@@ -18,7 +19,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.util.*
 
 interface API {
 
@@ -86,6 +86,10 @@ interface API {
 
     @POST("logout")
     fun logout(@Header("Authorization") authorizationToken: String): Call<LogoutModel>
+
+    @POST("change-password")
+    fun changePassword(@Header("Authorization") authorizationToken: String,
+        @Body requestKeyHelper: RequestKeyHelper): Call<LogoutModel>
 
     @POST("verify_email_otp")
     fun verifyEmailOtp(@Header("Authorization") authorizationToken: String,

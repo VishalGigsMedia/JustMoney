@@ -10,5 +10,6 @@ data class AvailableOfferData(
     @SerializedName("flash_offer") val flashOffer: List<FlashOffer>?,
     @SerializedName("popup") val popup: Popup?,
     @SerializedName("reward_remaining_time") val reward_remaining_time: RewardRemainingTime?,
-    @SerializedName("app_version") val app_version: String
+    @SerializedName("app_version") val app_version: String,
+    @SerializedName("under_maintenance") val under_maintenance: String
     )

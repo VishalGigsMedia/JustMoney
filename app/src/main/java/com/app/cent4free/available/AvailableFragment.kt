@@ -61,6 +61,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.layout_popup_offer.view.*
 import kotlinx.android.synthetic.main.update_verstion_dialog.*
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -101,7 +102,7 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
         mBinding.swipe.setOnRefreshListener {
             activity?.finish()
-            startActivity(Intent(context,MainActivity::class.java))
+            startActivity(Intent(context, MainActivity::class.java))
         }
     }
 
@@ -113,6 +114,9 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
         mBinding.tvTryAgain.setOnClickListener {
             activity?.finishAffinity()
             startActivity(Intent(activity, SplashActivity::class.java))
+        }
+        mBinding.tvExit.setOnClickListener {
+            activity?.finishAffinity()
         }
     }
 
@@ -137,6 +141,15 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
                         successCode -> {
                             trackOfferList()
                             val offerData = availableOfferModel.availableOfferData
+
+                            //if under maintenance
+                            if (decrypt(offerData?.under_maintenance.toString()) == "1") {
+                                mBinding.nsv.visibility = GONE
+                                mBinding.llUnderMtnc.visibility = VISIBLE
+                                callback?.onShowHideBottomNav(false)
+                                return@run
+                            }
+
                             val dailyReward = offerData?.dailyRewards.toString()
                             val rewardRemainingTime = offerData?.reward_remaining_time
                             val totalCoins = availableOfferModel.totalCoins.toString()
@@ -147,7 +160,6 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
                             //flash offer
                             if (offerData?.flashOffer != null) {
-                                mBinding.clBestDeal.visibility = VISIBLE
                                 setFlashOffer(offerData.flashOffer)
                             } else mBinding.clBestDeal.visibility = GONE
 
@@ -305,12 +317,24 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
     }
 
     private fun setFlashOffer(flashOffer: List<FlashOffer>?) {
+
+
         if (flashOffer != null && flashOffer.isNotEmpty()) {
+            val endDate = decrypt(flashOffer[0].downloadEndDate.toString())
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val currentDate: Date? = sdf.parse((sdf.format(Date())).toString())
+            val offerExpiryDate: Date? = sdf.parse(decrypt(endDate))
+
+            if (currentDate != null) {
+                if (currentDate > offerExpiryDate) return
+                //this means flash offer is already expired hence not going ahead
+            }
+
             mBinding.clBestDeal.visibility = VISIBLE
 
             val flashOfferName = decrypt(flashOffer[0].name.toString())
             val description = decrypt(flashOffer[0].shortDescription.toString())
-            val endDate = decrypt(flashOffer[0].downloadEndDate.toString())
+
             val image = decrypt(flashOffer[0].image.toString())
             val actualCoins = decrypt(flashOffer[0].actualCoins.toString())
             val offerCoins = decrypt(flashOffer[0].offerCoins.toString())
@@ -472,6 +496,15 @@ class AvailableFragment : Fragment(), PopularDealsAdapter.OnClickedPopularDeals,
 
     private fun showPopupOffer(popup: Popup) {
         if (context == null) return
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val currentDate: Date? = sdf.parse((sdf.format(Date())).toString())
+        val offerExpiryDate: Date? = sdf.parse(decrypt(popup.download_end_date.toString()))
+
+        if (currentDate != null) {
+            if (currentDate > offerExpiryDate) return
+            //this means popup offer is already expired hence not going ahead
+        }
+
         val popupOfferView = LayoutInflater.from(activity).inflate(R.layout.layout_popup_offer, null)
         val popupOfferBuilder = AlertDialog.Builder(context!!).setView(popupOfferView)
 

@@ -16,7 +16,6 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import android.widget.ImageView
 import android.widget.Toast
@@ -24,12 +23,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import com.app.cent4free.BuildConfig
 import com.app.cent4free.LoginActivity
 import com.app.cent4free.MainActivity
 import com.app.cent4free.R
 import com.app.cent4free.common_helper.DefaultKeyHelper.FACEBOOK
+import com.app.cent4free.dagger.API
 import com.app.cent4free.dagger.MyApplication
+import com.app.cent4free.my_wallet.setting.view_model.SettingViewModel
 import com.bumptech.glide.Glide
 import org.apache.commons.codec.binary.Base64
 import java.io.ByteArrayOutputStream
@@ -44,7 +46,6 @@ import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import kotlin.math.log
 
 object DefaultHelper {
 
@@ -182,7 +183,8 @@ object DefaultHelper {
 
     fun openFacebookPage(context: Context) {
         if (isPackageInstalled(context, FACEBOOK)) {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
+            context.startActivity(
+                Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/${DefaultKeyHelper.facebookPageId}")))
         } else {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DefaultKeyHelper.facebookPageUrl)))
         }
@@ -237,12 +239,7 @@ object DefaultHelper {
         i.type = "text/plain"
         i.putExtra(Intent.EXTRA_SUBJECT, context?.getString(R.string.app_name))
         i.putExtra(Intent.EXTRA_TEXT, sharingText)
-        context.startActivity(
-            Intent.createChooser(
-                i,
-                "${context.getString(R.string.app_name)} Share"
-            )
-        )
+        context.startActivity(Intent.createChooser(i, "${context.getString(R.string.app_name)} Share"))
     }
 
     @SuppressLint("ConstantLocale")
@@ -263,11 +260,10 @@ object DefaultHelper {
         if (!root.exists()) root.mkdirs()
 
         //decode and resize the original bitmap from @param path.
-        val bitmap: Bitmap =
-            decodeImageFromFiles(path,  /* your desired width*/300,  /*your desired height*/300)!!
+        val bitmap: Bitmap = decodeImageFromFiles(path,  /* your desired width*/300,  /*your desired height*/300)!!
 
         //create placeholder for the compressed image file
-        val compressed = File(root, SDF.format(Date()).toString() + i+ ".jpg")
+        val compressed = File(root, SDF.format(Date()).toString() + i + ".jpg")
 
         //convert the decoded bitmap to stream
         val byteArrayOutputStream = ByteArrayOutputStream()
@@ -295,14 +291,36 @@ object DefaultHelper {
         scaleOptions.inJustDecodeBounds = true
         BitmapFactory.decodeFile(path, scaleOptions)
         var scale = 1
-        while (scaleOptions.outWidth / scale / 2 >= width
-            && scaleOptions.outHeight / scale / 2 >= height
-        ) {
+        while (scaleOptions.outWidth / scale / 2 >= width && scaleOptions.outHeight / scale / 2 >= height) {
             scale *= 2
         }
         // decode with the sample size
         val outOptions = BitmapFactory.Options()
         outOptions.inSampleSize = scale
         return BitmapFactory.decodeFile(path, outOptions)
+    }
+
+    fun logout(viewModel: SettingViewModel, context: Context?, api: API, viewLifecycleOwner: LifecycleOwner,
+        activity: FragmentActivity?, preferenceHelper: PreferenceHelper) {
+        viewModel.logout(context, api).observe(viewLifecycleOwner, { logoutModule ->
+            if (logoutModule != null) {
+                when (logoutModule.status) {
+                    DefaultKeyHelper.successCode -> {
+                        forceLogout(activity)
+                        preferenceHelper.setUserId("")
+                        preferenceHelper.setFirstName("")
+                        preferenceHelper.setLastName("")
+                        preferenceHelper.setEmail("")
+                        preferenceHelper.setMobile("")
+                        preferenceHelper.setDob("")
+                        preferenceHelper.setGender("")
+                        preferenceHelper.setProfilePic("")
+                        preferenceHelper.setReferralCode("")
+                        preferenceHelper.setUserLoggedIn(false)
+                    }
+                    DefaultKeyHelper.failureCode -> showToast(context, decrypt(logoutModule.message.toString()))
+                }
+            } else showToast(context, context?.getString(R.string.somethingWentWrong))
+        })
     }
 }

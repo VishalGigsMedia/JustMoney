@@ -53,4 +53,6 @@ class RequestKeyHelper {
     var invite_code: String? = null
     var scroll_limit: String? = null
     var scroll_offset: String? = null
+    var old_password: String? = null
+    var new_password: String? = null
 }
